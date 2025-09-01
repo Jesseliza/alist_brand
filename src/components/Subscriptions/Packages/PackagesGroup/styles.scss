@@ -1,0 +1,129 @@
+.ts-tab-link {
+  font-size: 18px !important;
+  padding-inline: 12px !important;
+  @media (max-width: 430px) {
+    font-size: 16px !important;
+    padding-inline: 10px !important;
+  }
+  @media (max-width: 991px) {
+    &__duration {
+      font-size: 11px;
+      line-height: 90%;
+    }
+  }
+}
+.ts-modal-title {
+  @media (max-width: 991px) {
+    font-size: 1.3125rem;
+  }
+}
+.ts-free-trial-container {
+  background-color: #656565;
+  padding-block: 1rem;
+}
+.ts-package-cards-group {
+  display: grid;
+  gap: 0.625rem;
+
+  @media (min-width: 992px) {
+    gap: 1rem;
+    grid-template-columns: repeat(3, calc(33.33% - 0.6666666666666667rem));
+  }
+}
+.ts-packages-wrapper {
+  &__outer {
+    padding: 2.625rem 2.5rem 0 2.625rem;
+  }
+  &__inner {
+    max-width: 1196px;
+    margin-inline: auto;
+  }
+  // margin-bottom: clamp(70px, 8vw, 102px);
+}
+.ts-addon-card-group {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  @media (max-width: 767px) {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 12px;
+  }
+}
+
+.ts-nav-wrapper {
+  -webkit-box-shadow: inset 0 0 5px 0px rgba(0, 0, 0, 0.16);
+  -moz-box-shadow: inset 0 0 5px 0px rgba(0, 0, 0, 0.16);
+  box-shadow: inset 0 0 5px 0px rgba(0, 0, 0, 0.16);
+  // @media (min-width: 1201px) {
+  // }
+}
+.ts-tabs-subgroup {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.nav {
+  padding: 6px;
+  @media (max-width: 767px) {
+    padding: 2px;
+  }
+  &-tabs {
+    border: 0;
+
+    // @media (min-width: 1201px) {
+    //   -webkit-box-shadow: inset 0 0 5px 0px rgba(0, 0, 0, 0.16);
+    //   -moz-box-shadow: inset 0 0 5px 0px rgba(0, 0, 0, 0.16);
+    //   box-shadow: inset 0 0 5px 0px rgba(0, 0, 0, 0.16);
+    // }
+  }
+  &-link {
+    padding: 0.4375rem 1rem;
+    // font-size: clamp(0.9375rem, 4vw, 1.5rem);
+    font-size: 15px;
+    font-weight: bold;
+    color: #989898;
+    &:hover {
+      background: #00a4b6 !important;
+      color: white !important;
+    }
+
+    &.active {
+      background: #00a4b6 !important;
+      color: white !important;
+      // font-weight: bold !important;
+    }
+  }
+}
+
+.ts-nav-campaign-details {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 6px;
+  @media (max-width: 767px) {
+    padding: 2px;
+  }
+}
+.ts-nav-tabs-plans {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 6px;
+  @media (max-width: 767px) {
+    padding: 2px;
+  }
+}
+.ts-tabs-subgroup {
+  // width: 100% !important;
+  @media (max-width: 1200px) {
+    -webkit-box-shadow: inset 0 0 5px 0px rgba(0, 0, 0, 0.16);
+    -moz-box-shadow: inset 0 0 5px 0px rgba(0, 0, 0, 0.16);
+    box-shadow: inset 0 0 5px 0px rgba(0, 0, 0, 0.16);
+    border-radius: 50rem;
+    padding: 0.5rem;
+  }
+}
+
+.ts-pricing-card {
+  &:empty {
+    display: none;
+  }
+}

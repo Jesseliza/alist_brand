@@ -1,0 +1,20 @@
+:root {
+  --toastify-color-light: #fff !important;
+  --toastify-color-dark: #121212 !important;
+  --toastify-color-info: #3498db !important;
+  --toastify-color-success: #00a4b6 !important;
+  --toastify-color-warning: #f1c40f !important;
+  --toastify-color-error: #d76262 !important;
+}
+
+.Toastify__toast {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1), 0 2px 3px 0 rgba(0, 0, 0, 0.05) !important;
+  .Toastify__toast-body {
+    font-size: 14px;
+  }
+  .Toastify__close-button {
+    svg {
+      width: 10px !important;
+    }
+  }
+}

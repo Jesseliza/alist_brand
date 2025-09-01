@@ -1,0 +1,151 @@
+/*.ts-navbar {
+  // Your styles here
+
+  &__main {
+    // Your styles here
+  }
+}
+*/
+.d-flex {
+  display: flex;
+}
+
+.margin-right-20 {
+  margin-right: 20px;
+}
+
+.margin-0-20 {
+  margin: 0 20px;
+}
+
+.margin-left-auto {
+  margin-left: auto;
+}
+.padding-10-0 {
+  padding: 11px 0;
+}
+.align-items-center {
+  align-items: center;
+}
+/*
+.ts-font-heading {
+  // Your styles here
+}
+*/
+.dropdown-toggle {
+  &::after {
+    display: none;
+  }
+}
+
+// Additional styles as needed
+/* 991px to 1200px */
+@media (min-width: 1201px) {
+  .d-LG-none {
+    display: none;
+  }
+}
+
+/* Notification dropdown */
+
+.border-bottom {
+  border-bottom: 1px solid #ededed;
+}
+
+.border-top {
+  border-top: 1px solid #ededed;
+}
+.custom-dropdown-menu {
+  border-radius: 17.5px; /* Adjust the value as needed */
+  padding: 10px 0 0 0;
+}
+.notifications-title {
+  font-size: 15px;
+  margin: 0 20px;
+  padding-bottom: 10px;
+  width: 100%;
+}
+
+.notification-primary-text {
+  font-size: 13px;
+}
+
+.notification-secondary-text {
+  font-size: 9px;
+}
+
+.width-notification {
+  min-width: 275px;
+}
+
+.notification-dropdown-item-padding {
+  padding: 7px 20px;
+}
+.brand-dropdown-item-padding {
+  padding: 5px 20px;
+}
+.notification-dropdown-item-padding:last-child {
+  padding-bottom: 18px;
+}
+.notification-dropdown-item {
+  cursor: pointer;
+  width: 100%;
+}
+
+.notification-dropdown-item:hover,
+.notification-dropdown-item:focus {
+  background-color: #eceaea;
+}
+
+.notification-dropdown-item:last-child {
+  border-bottom-left-radius: 17.5px;
+  border-bottom-right-radius: 17.5px;
+}
+
+.notification-dropdown-item:hover,
+.notification-dropdown-item:focus {
+  background-color: #eceaea;
+}
+
+/* brands switching */
+
+.active-brand-border {
+  border: 2px solid #00a4b6;
+  border-radius: 50%;
+}
+
+.non-active-brand-border {
+  border: 2px solid transparent;
+  border-radius: 50%;
+}
+
+@media (max-width: 992px) {
+  .brandChange-title-sidebar {
+    font-size: 18px;
+    width: 90%;
+    min-width: none;
+
+    margin: 0 20px;
+    padding-bottom: 10px;
+  }
+  .margin-right-20 {
+    margin: 0 5px;
+  }
+  .padding-b-t-10 {
+    padding-top: 10px;
+    padding-top: 10px;
+  }
+  .notification-dropdown-item-padding {
+    padding: 7px 30px;
+  }
+  .notification-primary-text {
+    font-size: 18px;
+    color: #383838;
+  }
+  .notification-secondary-text {
+    font-size: 12px;
+    color: #6c6c6c;
+  }
+}
+
+/* notification modal */

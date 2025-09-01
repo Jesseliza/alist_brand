@@ -1,0 +1,18 @@
+.ts-addons-row {
+  display: grid;
+  grid-template-columns: 46% auto;
+  gap: 44px;
+}
+
+.ts-addons-card {
+  background-color: #fcfcfc;
+  padding: 2rem;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.16);
+  -webkit-box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.16);
+  -moz-box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.16);
+  border-radius: 7px;
+}
+
+.ts-addone-modal-container {
+  padding: 2.625rem 2.5rem;
+}

@@ -1,0 +1,5 @@
+@media (min-width: 768px) {
+  .responsive-creator-grid {
+    --min-col-width: 200px;
+  }
+}

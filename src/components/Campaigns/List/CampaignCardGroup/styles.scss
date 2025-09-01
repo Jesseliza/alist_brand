@@ -1,0 +1,12 @@
+.ts-campaign-card-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 575px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

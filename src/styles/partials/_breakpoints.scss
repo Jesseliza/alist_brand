@@ -1,0 +1,73 @@
+// ========================
+// === Breakpoints ========
+// ========================
+// Small tablets and large smartphones (landscape view)
+$screen-sm-up: 576px;
+$screen-sm-down: 575px;
+
+// Small tablets (portrait view)
+$screen-md-up: 768px;
+$screen-md-down: 767px;
+
+// Tablets and small desktops
+$screen-lg-up: 992px;
+$screen-lg-down: 991px;
+
+// Large tablets and desktops
+$screen-xl-up: 1200px;
+$screen-xl-down: 1199px;
+// Extra Large and desktops
+$screen-xl-up: 1400px;
+$screen-xl-down: 1399px;
+
+// Small devices
+@mixin sm-up {
+    @media (min-width: #{$screen-sm-up}) {
+        @content;
+    }
+}
+
+@mixin sm-down {
+    @media (max-width: #{$screen-sm-down}) {
+        @content;
+    }
+}
+
+// Medium devices
+@mixin md-up {
+    @media (min-width: #{$screen-md-up}) {
+        @content;
+    }
+}
+
+@mixin md-down {
+    @media (max-width: #{$screen-md-down}) {
+        @content;
+    }
+}
+
+// Large devices
+@mixin lg-up {
+    @media (min-width: #{$screen-lg-up}) {
+        @content;
+    }
+}
+
+@mixin lg-down {
+    @media (max-width: #{$screen-lg-down}) {
+        @content;
+    }
+}
+
+// Extra large devices
+@mixin xl-up {
+    @media (min-width: #{$screen-xl-up}) {
+        @content;
+    }
+}
+
+@mixin xl-down {
+    @media (max-width: #{$screen-xl-down}) {
+        @content;
+    }
+}

@@ -1,0 +1,34 @@
+.custom-fullscreen-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  background-color: white;
+  z-index: 1050; /* Ensure it's above other content */
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+}
+
+.custom-modal-body {
+  flex: 1;
+}
+
+.custom-modal-header h5 {
+  margin: 0;
+}
+
+/* modal content */
+
+.notifications-modal-main-title {
+  font-size: 24px;
+  font-weight: 500;
+  color: #383838;
+}
