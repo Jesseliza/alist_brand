@@ -9,7 +9,7 @@ interface PostsProps {
   campaign: Campaign;
 }
 
-export default function Posts({ campaign }: PostsProps) {
+export default function Posts({ }: PostsProps) {
   // Get campaign posts from the external data file
   const campaignPosts = CampaignPostsData;
 
@@ -25,7 +25,7 @@ export default function Posts({ campaign }: PostsProps) {
         authorName: "Unknown Creator",
         instagramUsername: "unknown",
         stats: { followers: "0", reach: "0", engagement: "0%" },
-        postImages: post.postImages,
+        postImages: post.imageUrls,
       };
     }
 
@@ -49,7 +49,7 @@ export default function Posts({ campaign }: PostsProps) {
         reach: "6.5K", // This could be calculated from creator data if available
         engagement: `${creator.engagementRate.toFixed(2)}%`,
       },
-      postImages: post.postImages,
+      postImages: post.imageUrls,
     };
   });
 

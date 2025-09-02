@@ -2,7 +2,7 @@
 
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Campaign } from "@/types/entities";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
@@ -18,13 +18,13 @@ export default function CampaignDetails({ campaign }: { campaign: Campaign }) {
   const [selectedIndex, setSelectedIndex] = useState(1); // Default to Overview (index 1)
 
   // Get tab from URL or default to Overview
-  const getTabFromURL = () => {
+  const getTabFromURL = useCallback(() => {
     const tab = searchParams.get("tab");
     if (tab && tabs.includes(tab)) {
       return tabs.indexOf(tab);
     }
     return 1; // Default to Overview
-  };
+  }, [searchParams]);
 
   // Update URL when tab changes
   const handleTabChange = (index: number) => {
@@ -37,7 +37,7 @@ export default function CampaignDetails({ campaign }: { campaign: Campaign }) {
   // Update selected index when URL changes
   useEffect(() => {
     setSelectedIndex(getTabFromURL());
-  }, [searchParams]);
+  }, [searchParams, getTabFromURL]);
 
   return (
     <div>

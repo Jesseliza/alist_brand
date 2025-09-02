@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { Creator } from "@/types/entities";
-import instagramIcon from "@/assets/icons/creator-socials/instagram.svg";
-import tiktokIcon from "@/assets/icons/creator-socials/tiktok.svg";
-import snapchatIcon from "@/assets/icons/creator-socials/snapchat.svg";
-import twitchIcon from "@/assets/icons/creator-socials/twitch.svg";
-import youtubeIcon from "@/assets/icons/creator-socials/youtube.svg";
-import diamondIcon from "@/assets/icons/creator-socials/special.svg";
-import verifiedIcon from "@/assets/icons/general/check.svg";
-import menuIcon from "@/assets/icons/general/menu-dots.svg";
+const instagramIcon = "/icons/creator-socials/instagram.svg";
+const tiktokIcon = "/icons/creator-socials/tiktok.svg";
+const snapchatIcon = "/icons/creator-socials/snapchat.svg";
+const twitchIcon = "/icons/creator-socials/twitch.svg";
+const youtubeIcon = "/icons/creator-socials/youtube.svg";
+const diamondIcon = "/icons/creator-socials/special.svg";
+const verifiedIcon = "/icons/common/check.svg";
+const menuIcon = "/icons/common/menu-dots.svg";
 
 export default function CreatorMobileCard({ creator }: { creator: Creator }) {
   return (

@@ -207,7 +207,7 @@ export default function CreatorInsights1({ creator }: { creator: Creator }) {
           dotsMarginTop="42px"
           mobileDotsMarginTop="22px"
         >
-          {creatorPostCards.map((post, index) => (
+          {creatorPostCards.map((post) => (
             <CreatorPostCard
               key={post.externalPostId}
               post={post}

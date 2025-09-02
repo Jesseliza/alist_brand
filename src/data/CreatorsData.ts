@@ -6005,22 +6005,11 @@ const rawCreatorsData = [
 // Function to build similar creators with dynamic data
 const buildSimilarCreators = (
   creatorIds: string[],
-  allCreators: any[]
-): any[] => {
+  allCreators: Creator[]
+): Creator[] => {
   return creatorIds
-    .map((creatorId) => {
-      const creator = allCreators.find((c) => c.creatorId === creatorId);
-      if (!creator) return null;
-
-      return {
-        creatorId: creator.creatorId,
-        name: creator.fullName,
-        followerCount: creator.followerCount,
-        isVerified: creator.verifiedPlatforms.length > 0,
-        avatarUrl: creator.avatarUrl,
-      };
-    })
-    .filter(Boolean);
+    .map((creatorId) => allCreators.find((c) => c.creatorId === creatorId))
+    .filter((creator): creator is Creator => creator !== null);
 };
 
 // Build the final creators data with dynamic similar creators
@@ -6028,17 +6017,23 @@ export const CreatorsData: Creator[] = rawCreatorsData.map((creator) => {
   // If creator has insights with similar creators, build them dynamically
   if (creator.insights?.similarCreators) {
     const dynamicSimilarCreators = buildSimilarCreators(
-      creator.insights.similarCreators,
-      rawCreatorsData
+      creator.insights.similarCreators as string[],
+      rawCreatorsData as unknown as Creator[]
     );
     return {
       ...creator,
       insights: {
         ...creator.insights,
-        similarCreators: dynamicSimilarCreators,
+        similarCreators: dynamicSimilarCreators.map(c => ({
+          creatorId: c.creatorId,
+          name: c.fullName,
+          followerCount: c.followerCount,
+          isVerified: c.verifiedPlatforms.length > 0,
+          avatarUrl: c.avatarUrl,
+        })),
       },
     };
   }
 
   return creator;
-});
+}) as Creator[];

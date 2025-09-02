@@ -1,3 +1,5 @@
+import { CampaignPost } from './campaignPost';
+
 // Campaign type enums
 export type CampaignType = "WalkIn" | "Delivery" | "Online" | "Exclusive";
 export type OfferType = "Barter" | "Paid" | "BarterAndPaid";
@@ -27,7 +29,7 @@ export type PaymentArrangement = {
 // Channel configuration type
 export type ChannelConfig = {
   type: ChannelType;
-  config: Record<string, any>; // Flexible config object
+  config: Record<string, unknown>; // Flexible config object
   url: string;
 };
 
@@ -90,12 +92,7 @@ export type CampaignPlan = {
   cardEnding: string;
 };
 
-// Campaign post type
-export type CampaignPost = {
-  postId: string;
-  creatorId: string; // Foreign key to Creator
-  postImages: string[];
-};
+// Campaign post type - moved to ./campaignPost.ts to avoid naming conflict
 
 // Main Campaign type - Expanded version
 export type Campaign = {

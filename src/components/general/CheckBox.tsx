@@ -6,7 +6,7 @@ interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
 }
 
-export default forwardRef<HTMLInputElement, CheckboxProps>(
+const CheckBox = forwardRef<HTMLInputElement, CheckboxProps>(
   ({ checked, onChange, className = "", ...props }, ref) => {
     return (
       <input
@@ -33,3 +33,7 @@ export default forwardRef<HTMLInputElement, CheckboxProps>(
     );
   }
 );
+
+CheckBox.displayName = "CheckBox";
+
+export default CheckBox;

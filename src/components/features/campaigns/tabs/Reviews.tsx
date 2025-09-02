@@ -9,7 +9,7 @@ interface ReviewsProps {
   campaign: Campaign;
 }
 
-export default function Reviews({ campaign }: ReviewsProps) {
+export default function Reviews({ }: ReviewsProps) {
   // Get reviews from the external data file
   const reviews = PublicReviewsData;
 

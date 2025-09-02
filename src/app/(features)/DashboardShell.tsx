@@ -1,7 +1,7 @@
 "use client";
 
-import Sidebar from "@/components/layout/Sidebar";
-import Nav from "@/components/layout/Nav";
+import Sidebar from "@/components/Layout/Sidebar";
+import Nav from "@/components/Layout/Nav";
 import SearchInput from "@/components/general/SearchInput";
 import Image from "next/image";
 import { useState, useEffect, Suspense, useCallback } from "react";

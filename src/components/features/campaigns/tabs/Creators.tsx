@@ -11,7 +11,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
   );
 
   // Map creator data to match CampaignCreatorCard props
-  const mappedCreators = campaignCreators.map((creator, index) => ({
+  const mappedCreators = campaignCreators.map((creator) => ({
     id: creator.creatorId,
     image: creator.avatarUrl,
     name: creator.fullName,

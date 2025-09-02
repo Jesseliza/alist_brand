@@ -71,10 +71,10 @@ export default function Swiper({
   const effRowGap = rowGap ?? gap;
   const effColGap = columnGap ?? gap;
   const getRowGap = () => (isMobile && mobileRowGap ? mobileRowGap : effRowGap);
-  const getColGap = () =>
-    isMobile && mobileColumnGap ? mobileColumnGap : effColGap;
-  const getCardW = () =>
-    isMobile && mobileMaxCardWidth ? mobileMaxCardWidth : maxCardWidth;
+  const getColGap = useCallback(() =>
+    isMobile && mobileColumnGap ? mobileColumnGap : effColGap, [isMobile, mobileColumnGap, effColGap]);
+  const getCardW = useCallback(() =>
+    isMobile && mobileMaxCardWidth ? mobileMaxCardWidth : maxCardWidth, [isMobile, mobileMaxCardWidth, maxCardWidth]);
   const getDotsMT = () =>
     isMobile && mobileDotsMarginTop ? mobileDotsMarginTop : dotsMarginTop;
 

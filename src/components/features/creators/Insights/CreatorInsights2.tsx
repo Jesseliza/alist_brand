@@ -4,23 +4,6 @@ import Image from "next/image";
 import styles from "./CreatorInsights2.module.css";
 import { Creator } from "@/types/entities";
 
-// Color mapping for follower types
-const getFollowerTypeColor = (type: string): string => {
-  const colorMap: { [key: string]: string } = {
-    Real: "#00A4B6",
-    Suspicious: "#E97500",
-    "Mass followers": "#15A1FF",
-    Influencers: "#999999",
-    Fake: "#FF6B6B",
-    Bots: "#FFD93D",
-    Inactive: "#6C757D",
-    Engaged: "#28A745",
-    "High-value": "#FFC107",
-    "Low-value": "#DC3545",
-  };
-  return colorMap[type] || "#999999"; // Default gray for unknown types
-};
-
 export default function CreatorInsights2({ creator }: { creator: Creator }) {
   // Get follower types data from creator insights
   const followerTypesData =

@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import menuIcon from "@/assets/icons/general/menu-dots.svg";
+const menuIcon = "/icons/common/menu-dots.svg";
 
 interface UserCardProps {
   name: string;

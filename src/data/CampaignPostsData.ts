@@ -2,29 +2,50 @@ import { CampaignPost } from "@/types/entities";
 
 export const CampaignPostsData: CampaignPost[] = [
   {
-    postId: "post_1",
+    campaignPostId: "post_1",
+    campaignId: "campaign_1",
     creatorId: "1",
-    postImages: [
+    postedAt: new Date("2024-01-15"),
+    imageUrls: [
       "/images/campaign-details/posts/post1.png",
       "/images/campaign-details/posts/post2.png",
       "/images/campaign-details/posts/post3.png",
     ],
+    likes: 150,
+    comments: 25,
+    status: "published",
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-01-15"),
   },
   {
-    postId: "post_2",
+    campaignPostId: "post_2",
+    campaignId: "campaign_1",
     creatorId: "2",
-    postImages: [
+    postedAt: new Date("2024-01-16"),
+    imageUrls: [
       "/images/campaign-details/posts/post1.png",
       "/images/campaign-details/posts/post2.png",
     ],
+    likes: 89,
+    comments: 12,
+    status: "published",
+    createdAt: new Date("2024-01-16"),
+    updatedAt: new Date("2024-01-16"),
   },
   {
-    postId: "post_3",
+    campaignPostId: "post_3",
+    campaignId: "campaign_1",
     creatorId: "3",
-    postImages: [
-      "/images/campaign-details/posts/post1.png",
+    postedAt: new Date("2024-01-17"),
+    imageUrls: [
       "/images/campaign-details/posts/post2.png",
       "/images/campaign-details/posts/post3.png",
+      "/images/campaign-details/posts/post1.png",
     ],
+    likes: 203,
+    comments: 34,
+    status: "published",
+    createdAt: new Date("2024-01-17"),
+    updatedAt: new Date("2024-01-17"),
   },
 ];

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import UnifiedTabs from "@/components/general/UnifiedTabs";
-import menuIcon from "@/assets/icons/general/menu-dots.svg";
+const menuIcon = "/icons/common/menu-dots.svg";
 
 interface CreatorHeaderProps {
   name: string;

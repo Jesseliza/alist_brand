@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { CreatorHistoryOffer as CreatorHistoryOfferType } from "@/types/entities";
 
-interface CreatorHistoryOfferProps extends CreatorHistoryOfferType {}
+type CreatorHistoryOfferProps = CreatorHistoryOfferType;
 
 export default function CreatorHistoryOffer({
   imageSrc,
@@ -11,15 +11,6 @@ export default function CreatorHistoryOffer({
   price,
   walkType,
   dateText,
-  // Extended properties (not used in this component but available for overview)
-  status,
-  endDate,
-  voucherCode,
-  redemptionStatus,
-  claimedDate,
-  redeemedDate,
-  description,
-  infoItems,
 }: CreatorHistoryOfferProps) {
   return (
     <article className="p-[5px] bg-grey rounded-[13px] flex justify-between md:gap-5 gap-5">
