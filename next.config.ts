@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/",
-        destination: "/dashboard",
+        destination: "/login",
         permanent: false, // Set to true if you want it to be a 301 redirect
       },
     ];
