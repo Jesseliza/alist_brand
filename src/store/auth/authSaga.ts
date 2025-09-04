@@ -13,7 +13,7 @@ import CryptoJS from 'crypto-js';
 function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
   const { phoneNumber } = action.payload;
   try {
-    const response: { msg: string } = yield call(sendOtpData, '/send-otp', { phoneNumber });
+    const response: { msg: string } = yield call(sendOtpData, '/api/send-otp', { phone: phoneNumber });
     if (response.msg === 'success') {
       yield put(sendOtpSuccess(phoneNumber));
     } else {
@@ -27,7 +27,7 @@ function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
 function* handleLogin(action: ReturnType<typeof loginRequest>) {
     const { phoneNumber, otp } = action.payload;
   try {
-    const response: { msg: string, result?: { token: string, user: any } } = yield call(loginData, '/login', { phoneNumber, otp });
+    const response: { msg: string, result?: { token: string, user: any } } = yield call(loginData, '/api/verify-otp', { phone: phoneNumber, otp });
     if (response.msg === 'success' && response.result?.token) {
       const secretPass = 'j123@nglez678$one';
       const encryptedToken = CryptoJS.AES.encrypt(JSON.stringify(response.result.token), secretPass).toString();
