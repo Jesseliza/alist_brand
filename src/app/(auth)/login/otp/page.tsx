@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/store/store';
-import { login } from '@/store/auth/authActions';
+import { loginRequest } from '@/store/auth/authSlice';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -16,7 +16,7 @@ export default function OtpPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (phoneNumber) {
-      dispatch(login({ phoneNumber, otp, router }));
+      dispatch(loginRequest({ phoneNumber, otp, router }));
     } else {
       // Handle case where phone number is not available (e.g., user navigated directly to this page)
       // You might want to redirect them back to the login page
