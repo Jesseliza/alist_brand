@@ -4,11 +4,13 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const isAuthenticated = request.cookies.get("isAuthenticated")?.value === "true";
 
-  if (!isAuthenticated && request.nextUrl.pathname !== "/login") {
+  const authRoutes = ["/login", "/login/otp"];
+
+  if (!isAuthenticated && !authRoutes.includes(request.nextUrl.pathname)) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (isAuthenticated && request.nextUrl.pathname === "/login") {
+  if (isAuthenticated && authRoutes.includes(request.nextUrl.pathname)) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
@@ -16,5 +18,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|login).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

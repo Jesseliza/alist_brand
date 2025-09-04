@@ -3,20 +3,25 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/store/store';
-import { sendOtp } from '@/store/auth/authActions'; // This action will be created in the next step
+import { login } from '@/store/auth/authActions';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-export default function LoginPage() {
-  const [phoneNumber, setPhoneNumber] = useState('');
+export default function OtpPage() {
+  const [otp, setOtp] = useState('');
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, error } = useSelector((state: RootState) => state.auth);
+  const { loading, error, phoneNumber } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In the next step, we'll make this action navigate to the OTP page on success
-    dispatch(sendOtp({ phoneNumber, router }));
+    if (phoneNumber) {
+      dispatch(login({ phoneNumber, otp, router }));
+    } else {
+      // Handle case where phone number is not available (e.g., user navigated directly to this page)
+      // You might want to redirect them back to the login page
+      router.push('/login');
+    }
   };
 
   return (
@@ -33,20 +38,21 @@ export default function LoginPage() {
           </div>
         </div>
         <form className="w-full flex flex-col gap-[11px]" onSubmit={handleSubmit}>
+          <p className="text-center text-gray-600">Enter the OTP sent to {phoneNumber}</p>
           <input
-            type="text"
-            placeholder="Phone Number"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            type="password"
+            placeholder="OTP"
+            value={otp}
+            onChange={(e) => setOtp(e.target.value)}
             className="rounded-[11px] bg-gray-100 px-5 py-[11px] text-[15px] outline-none focus:ring-2 focus:ring-[#00A4B6] transition placeholder:text-[#6E6E6E]"
-            autoComplete="tel"
+            autoComplete="one-time-code"
           />
           <button
             type="submit"
             className="mt-[11px] rounded-[11px] bg-[#00A4B6] text-white font-semibold py-[11px] text-[15px] hover:bg-[#0090a6] transition"
             disabled={loading}
           >
-            {loading ? 'Sending OTP...' : 'Send OTP'}
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </form>
