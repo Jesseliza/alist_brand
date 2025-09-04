@@ -1,23 +1,19 @@
-import axios from 'axios';
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+import axiosInstance from './apiHelper';
 
 export const loginData = async (endpoint: string, payload: any) => {
     try {
-      const response = await axios.post(`${BASE_URL}${endpoint}`, payload);
+      const response = await axiosInstance.post(endpoint, payload);
       return { result: response.data, msg: "success" };
-    } catch (error) {
-      return { msg: "Invalid Credentials" };
+    } catch (error: any) {
+      return { msg: error.response?.data?.message || "Invalid Credentials" };
     }
   };
 
 export const sendOtpData = async (endpoint: string, payload: any) => {
     try {
-      // In a real app, this would call the API to send the OTP
-      console.log('Sending OTP to:', payload.phoneNumber);
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-      return { msg: "success" };
-    } catch (error) {
-      return { msg: "Failed to send OTP" };
+        const response = await axiosInstance.post(endpoint, payload);
+        return { msg: "success" };
+    } catch (error: any) {
+      return { msg: error.response?.data?.message || "Failed to send OTP" };
     }
 }
