@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/store/store';
 import { loginRequest } from '@/store/auth/authSlice';
@@ -10,13 +10,19 @@ import { useRouter } from 'next/navigation';
 export default function OtpPage() {
   const [otp, setOtp] = useState('');
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, error, phoneNumber } = useSelector((state: RootState) => state.auth);
+  const { loading, error, phoneNumber, isAuthenticated } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push('/dashboard');
+    }
+  }, [isAuthenticated, router]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (phoneNumber) {
-      dispatch(loginRequest({ phoneNumber, otp, router }));
+      dispatch(loginRequest({ phoneNumber, otp }));
     } else {
       // Handle case where phone number is not available (e.g., user navigated directly to this page)
       // You might want to redirect them back to the login page

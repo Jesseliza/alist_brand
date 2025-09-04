@@ -1,21 +1,31 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/store/store';
-import { sendOtpRequest } from '@/store/auth/authSlice';
+import { sendOtpRequest, resetOtpSent } from '@/store/auth/authSlice';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, error } = useSelector((state: RootState) => state.auth);
+  const { loading, error, otpSent } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
+
+  useEffect(() => {
+    if (otpSent) {
+      router.push('/login/otp');
+    }
+    // Cleanup function to reset the otpSent flag when the component unmounts
+    return () => {
+        dispatch(resetOtpSent());
+    }
+  }, [otpSent, router, dispatch]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(sendOtpRequest({ phoneNumber, router }));
+    dispatch(sendOtpRequest({ phoneNumber }));
   };
 
   return (
