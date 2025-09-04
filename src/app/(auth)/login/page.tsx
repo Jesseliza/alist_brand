@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/store/store';
-import { sendOtp } from '@/store/auth/authActions'; // This action will be created in the next step
+import { sendOtpRequest } from '@/store/auth/authSlice';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -15,8 +15,7 @@ export default function LoginPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In the next step, we'll make this action navigate to the OTP page on success
-    dispatch(sendOtp({ phoneNumber, router }));
+    dispatch(sendOtpRequest({ phoneNumber, router }));
   };
 
   return (

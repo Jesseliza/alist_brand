@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { sendOtp, login } from './authActions';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -21,6 +21,32 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    sendOtpRequest(state, action: PayloadAction<{ phoneNumber: string, router: AppRouterInstance }>) {
+      state.loading = true;
+      state.error = null;
+    },
+    sendOtpSuccess(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.phoneNumber = action.payload;
+    },
+    sendOtpFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    loginRequest(state, action: PayloadAction<{ phoneNumber: string, otp: string, router: AppRouterInstance }>) {
+        state.loading = true;
+        state.error = null;
+    },
+    loginSuccess(state, action: PayloadAction<any>) {
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.user = action.payload;
+      state.phoneNumber = null;
+    },
+    loginFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
+    },
     logout(state) {
       state.isAuthenticated = false;
       state.user = null;
@@ -29,37 +55,16 @@ const authSlice = createSlice({
       document.cookie = "isAuthenticated=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     },
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(sendOtp.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(sendOtp.fulfilled, (state, action: PayloadAction<string>) => {
-        state.loading = false;
-        state.phoneNumber = action.payload;
-      })
-      .addCase(sendOtp.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      })
-      .addCase(login.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(login.fulfilled, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.isAuthenticated = true;
-        state.user = action.payload;
-        state.phoneNumber = null;
-      })
-      .addCase(login.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
-  },
 });
 
-export const { logout } = authSlice.actions;
+export const {
+    sendOtpRequest,
+    sendOtpSuccess,
+    sendOtpFailure,
+    loginRequest,
+    loginSuccess,
+    loginFailure,
+    logout
+} = authSlice.actions;
 
 export default authSlice.reducer;
