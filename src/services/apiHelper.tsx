@@ -2,7 +2,7 @@ import axios from 'axios';
 import CryptoJS from 'crypto-js';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const secretPass = 'j123@nglez678$one';
+const secretPass = 'al123@st678$ven';
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,

@@ -29,19 +29,15 @@ function DashboardContent({
 }) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { isAuthenticated, isAuthLoading } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!isAuthLoading && !isAuthenticated) {
+    if (!isAuthenticated) {
       router.replace('/login');
     }
-  }, [isAuthenticated, isAuthLoading, router]);
-
-  if (isAuthLoading) {
-    return <div>Loading...</div>; // Or a proper spinner component
-  }
+  }, [isAuthenticated, router]);
   const searchParams = useSearchParams();
   const fullPath = `${pathname}${
     searchParams.toString() ? `?${searchParams.toString()}` : ""
