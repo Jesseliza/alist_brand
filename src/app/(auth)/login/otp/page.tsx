@@ -32,7 +32,7 @@ export default function OtpPage() {
 
   return (
     <div className="m-auto px-2">
-      <div className="bg-white rounded-[28px] shadow-[0_0_4px_rgba(0,0,0,0.16)] px-[22px] py-[52px] w-full max-w-[358px]">
+      <div className="bg-white rounded-[28px] shadow-[0_0_4px_rgba(0,0,0,0.16)] px-[22px] py-[52px] w-full max-w-sm sm:max-w-lg">
         <div className="mb-[47px]">
           <div className="flex flex-col items-center">
             <Image
