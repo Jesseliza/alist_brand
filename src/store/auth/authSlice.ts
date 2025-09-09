@@ -25,7 +25,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    sendOtpRequest(state, action: PayloadAction<{ phoneNumber: string }>) {
+    sendOtpRequest(state, _action: PayloadAction<{ phoneNumber: string }>) {
       state.loading = true;
       state.error = null;
       state.otpSent = false;
@@ -40,7 +40,7 @@ const authSlice = createSlice({
       state.error = action.payload;
       state.otpSent = false;
     },
-    loginRequest(state, action: PayloadAction<{ phoneNumber: string, otp: string }>) {
+    loginRequest(state, _action: PayloadAction<{ phoneNumber: string, otp: string }>) {
         state.loading = true;
         state.error = null;
     },
