@@ -6,6 +6,8 @@ import SearchInput from "@/components/general/SearchInput";
 import Image from "next/image";
 import { useState, useEffect, Suspense, useCallback } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { logout } from "@/store/auth/authSlice";
 
 function DashboardContent({
   children,
@@ -24,6 +26,8 @@ function DashboardContent({
   isOverlayMode: boolean;
   isMounted: boolean;
 }) {
+  const dispatch = useDispatch();
+  const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const fullPath = `${pathname}${
@@ -115,12 +119,29 @@ function DashboardContent({
                 width={29.36}
                 height={29.36}
               />
-              <Image
-                src="/icons/navbar/profile7.png"
-                alt="profile"
-                width={42}
-                height={42}
-              />
+              <div className="relative">
+                <Image
+                  src="/icons/navbar/profile7.png"
+                  alt="profile"
+                  width={42}
+                  height={42}
+                  onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
+                  className="cursor-pointer"
+                />
+                {isProfileMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                    <button
+                      onClick={() => {
+                        dispatch(logout());
+                        setProfileMenuOpen(false);
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </Nav>
