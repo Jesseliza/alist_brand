@@ -9,6 +9,7 @@ import {
   loginFailure
 } from './authSlice';
 import { setAuthToken } from '@/services/apiHelper';
+import { AuthResponse } from '@/types/auth';
 
 function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
   const { phoneNumber } = action.payload;
@@ -19,23 +20,25 @@ function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
     } else {
       yield put(sendOtpFailure(response.msg || 'Failed to send OTP'));
     }
-  } catch (error: any) {
-    yield put(sendOtpFailure(error.message || 'An unknown error occurred'));
+  } catch (error) {
+    const err = error as Error;
+    yield put(sendOtpFailure(err.message || 'An unknown error occurred'));
   }
 }
 
 function* handleLogin(action: ReturnType<typeof loginRequest>) {
     const { phoneNumber, otp } = action.payload;
   try {
-    const response: { msg: string, result?: { token: string, user: any } } = yield call(loginData, '/api/verify-otp', { phone: phoneNumber, otp });
+    const response: AuthResponse = yield call(loginData, '/api/verify-otp', { phone: phoneNumber, otp });
     if (response.msg === 'success' && response.result?.token) {
       setAuthToken(response.result.token);
       yield put(loginSuccess(response.result.user));
     } else {
       yield put(loginFailure(response.msg || 'Login failed'));
     }
-  } catch (error: any) {
-    yield put(loginFailure(error.message || 'An unknown error occurred'));
+  } catch (error) {
+    const err = error as Error;
+    yield put(loginFailure(err.message || 'An unknown error occurred'));
   }
 }
 

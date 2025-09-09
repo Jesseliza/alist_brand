@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Account } from '@/types/entities';
 
 interface AuthState {
   isAuthenticated: boolean;
-  user: any; // Replace 'any' with a proper user type
+  user: Account | null;
   phoneNumber: string | null;
   loading: boolean;
   error: string | null;
@@ -43,7 +44,7 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
     },
-    loginSuccess(state, action: PayloadAction<any>) {
+    loginSuccess(state, action: PayloadAction<Account>) {
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload;
