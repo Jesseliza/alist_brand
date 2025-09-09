@@ -23,12 +23,9 @@ axiosInstance.interceptors.request.use((config) => {
         const token = JSON.parse(detoken);
 
         if (token) {
-            const headers = {
-              Authorization: `Bearer ${token}`,
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            };
-            config.headers = { ...config.headers, ...headers };
+            config.headers.set('Authorization', `Bearer ${token}`);
+            config.headers.set('Accept', 'application/json');
+            config.headers.set('Content-Type', 'application/json');
         }
       } catch (e) {
         console.error("Failed to decrypt token", e)
