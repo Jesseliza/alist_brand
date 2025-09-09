@@ -5,9 +5,10 @@ import Nav from "@/components/Layout/Nav";
 import SearchInput from "@/components/general/SearchInput";
 import Image from "next/image";
 import { useState, useEffect, Suspense, useCallback } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/auth/authSlice";
+import { RootState } from "@/store/store";
 
 function DashboardContent({
   children,
@@ -27,8 +28,20 @@ function DashboardContent({
   isMounted: boolean;
 }) {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const { isAuthenticated, isAuthLoading } = useSelector((state: RootState) => state.auth);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    if (!isAuthLoading && !isAuthenticated) {
+      router.replace('/login');
+    }
+  }, [isAuthenticated, isAuthLoading, router]);
+
+  if (isAuthLoading) {
+    return <div>Loading...</div>; // Or a proper spinner component
+  }
   const searchParams = useSearchParams();
   const fullPath = `${pathname}${
     searchParams.toString() ? `?${searchParams.toString()}` : ""
@@ -134,6 +147,7 @@ function DashboardContent({
                       onClick={() => {
                         dispatch(logout());
                         setProfileMenuOpen(false);
+                        router.replace('/login');
                       }}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
