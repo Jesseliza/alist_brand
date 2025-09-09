@@ -27,7 +27,7 @@ export const sidebarConfig: SidebarSection[] = [
           height: 24.12,
         },
         label: "Dashboard",
-        href: "/",
+        href: "/dashboard",
       },
     ],
   },
