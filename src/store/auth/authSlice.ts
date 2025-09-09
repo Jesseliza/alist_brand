@@ -7,6 +7,7 @@ interface AuthState {
   loading: boolean;
   error: string | null;
   otpSent: boolean;
+  isAuthLoading: boolean;
 }
 
 const initialState: AuthState = {
@@ -16,6 +17,7 @@ const initialState: AuthState = {
   loading: false,
   error: null,
   otpSent: false,
+  isAuthLoading: true,
 };
 
 const authSlice = createSlice({
@@ -62,6 +64,10 @@ const authSlice = createSlice({
     },
     resetOtpSent(state) {
       state.otpSent = false;
+    },
+    authCheckCompleted(state, action: PayloadAction<{ isAuthenticated: boolean }>) {
+      state.isAuthenticated = action.payload.isAuthenticated;
+      state.isAuthLoading = false;
     }
   },
 });
@@ -74,7 +80,8 @@ export const {
     loginSuccess,
     loginFailure,
     logout,
-    resetOtpSent
+    resetOtpSent,
+    authCheckCompleted,
 } = authSlice.actions;
 
 export default authSlice.reducer;
