@@ -8,7 +8,7 @@ import {
   loginSuccess,
   loginFailure
 } from './authSlice';
-import CryptoJS from 'crypto-js';
+import { setAuthToken } from '@/services/apiHelper';
 
 function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
   const { phoneNumber } = action.payload;
@@ -29,13 +29,7 @@ function* handleLogin(action: ReturnType<typeof loginRequest>) {
   try {
     const response: { msg: string, result?: { token: string, user: any } } = yield call(loginData, '/api/verify-otp', { phone: phoneNumber, otp });
     if (response.msg === 'success' && response.result?.token) {
-      const secretPass = 'j123@nglez678$one';
-      const encryptedToken = CryptoJS.AES.encrypt(JSON.stringify(response.result.token), secretPass).toString();
-
-      // Set token in both localStorage and a cookie for robustness
-      localStorage.setItem('token', encryptedToken);
-      document.cookie = `token=${encryptedToken}; path=/; max-age=86400`; // Set token as a cookie
-
+      setAuthToken(response.result.token);
       yield put(loginSuccess(response.result.user));
     } else {
       yield put(loginFailure(response.msg || 'Login failed'));
