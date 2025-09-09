@@ -31,8 +31,11 @@ function* handleLogin(action: ReturnType<typeof loginRequest>) {
     if (response.msg === 'success' && response.result?.token) {
       const secretPass = 'j123@nglez678$one';
       const encryptedToken = CryptoJS.AES.encrypt(JSON.stringify(response.result.token), secretPass).toString();
+
+      // Set token in both localStorage and a cookie for robustness
       localStorage.setItem('token', encryptedToken);
-      document.cookie = "isAuthenticated=true; path=/";
+      document.cookie = `token=${encryptedToken}; path=/; max-age=86400`; // Set token as a cookie
+
       yield put(loginSuccess(response.result.user));
     } else {
       yield put(loginFailure(response.msg || 'Login failed'));

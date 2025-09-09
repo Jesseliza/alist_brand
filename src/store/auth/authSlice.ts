@@ -58,7 +58,7 @@ const authSlice = createSlice({
       state.phoneNumber = null;
       state.otpSent = false;
       localStorage.removeItem('token');
-      document.cookie = "isAuthenticated=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     },
     resetOtpSent(state) {
       state.otpSent = false;

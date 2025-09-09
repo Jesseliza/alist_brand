@@ -2,15 +2,16 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const isAuthenticated = request.cookies.get("isAuthenticated")?.value === "true";
+  const token = request.cookies.get("token")?.value;
 
   const authRoutes = ["/login", "/login/otp"];
+  const isAuthRoute = authRoutes.includes(request.nextUrl.pathname);
 
-  if (!isAuthenticated && !authRoutes.includes(request.nextUrl.pathname)) {
+  if (!token && !isAuthRoute) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (isAuthenticated && authRoutes.includes(request.nextUrl.pathname)) {
+  if (token && isAuthRoute) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
