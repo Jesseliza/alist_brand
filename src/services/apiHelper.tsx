@@ -2,16 +2,22 @@ import axios from 'axios';
 import CryptoJS from 'crypto-js';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const secretPass = 'j123@nglez678$one';
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
 });
 
+export const setAuthToken = (token: string) => {
+  const encryptedToken = CryptoJS.AES.encrypt(JSON.stringify(token), secretPass).toString();
+  localStorage.setItem('token', encryptedToken);
+  document.cookie = `token=${encryptedToken}; path=/; max-age=86400`; // Set token as a cookie
+};
+
 axiosInstance.interceptors.request.use((config) => {
   if (typeof window !== 'undefined') {
     const sttoken = localStorage.getItem('token');
     if (sttoken) {
-      const secretPass = 'j123@nglez678$one';
       try {
         const detoken = CryptoJS.AES.decrypt(sttoken, secretPass).toString(CryptoJS.enc.Utf8);
         const token = JSON.parse(detoken);
