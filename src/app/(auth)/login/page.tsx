@@ -3,29 +3,41 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/store/store';
-import { sendOtpRequest, resetOtpSent } from '@/store/auth/authSlice';
+import { sendOtpRequest, loginRequest, resetOtpSent } from '@/store/auth/authSlice';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import SlideCaptcha from '@/components/general/SlideCaptcha';
 
 export default function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [otp, setOtp] = useState('');
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, error, otpSent } = useSelector((state: RootState) => state.auth);
+  const { loading, error, otpSent, isAuthenticated } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
 
   useEffect(() => {
-    if (otpSent) {
-      router.push('/login/otp');
+    if (isAuthenticated) {
+      router.push('/dashboard');
     }
     // Cleanup function to reset the otpSent flag when the component unmounts
     return () => {
         dispatch(resetOtpSent());
     }
-  }, [otpSent, router, dispatch]);
+  }, [isAuthenticated, router, dispatch]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(sendOtpRequest({ phoneNumber }));
+  };
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    dispatch(loginRequest({ phoneNumber, otp }));
+  };
+
+  const handleCaptchaSuccess = () => {
+    setIsCaptchaVerified(true);
   };
 
   return (
@@ -41,24 +53,49 @@ export default function LoginPage() {
             />
           </div>
         </div>
-        <form className="w-full flex flex-col gap-[11px]" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Phone Number"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            className="rounded-[11px] bg-gray-100 px-5 py-[11px] text-[15px] outline-none focus:ring-2 focus:ring-[#00A4B6] transition placeholder:text-[#6E6E6E]"
-            autoComplete="tel"
-          />
-          <button
-            type="submit"
-            className="mt-[11px] rounded-[11px] bg-[#00A4B6] text-white font-semibold py-[11px] text-[15px] hover:bg-[#0090a6] transition"
-            disabled={loading}
-          >
-            {loading ? 'Sending OTP...' : 'Send OTP'}
-          </button>
-          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-        </form>
+        {!otpSent ? (
+          <form className="w-full flex flex-col gap-[11px]" onSubmit={handleSendOtp}>
+            <input
+              type="text"
+              placeholder="Phone Number"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              className="rounded-[11px] bg-gray-100 px-5 py-[11px] text-[15px] outline-none focus:ring-2 focus:ring-[#00A4B6] transition placeholder:text-[#6E6E6E]"
+              autoComplete="tel"
+            />
+            <button
+              type="submit"
+              className="mt-[11px] rounded-[11px] bg-[#00A4B6] text-white font-semibold py-[11px] text-[15px] hover:bg-[#0090a6] transition"
+              disabled={loading}
+            >
+              {loading ? 'Sending OTP...' : 'Send OTP'}
+            </button>
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+          </form>
+        ) : (
+          <form className="w-full flex flex-col gap-[11px]" onSubmit={handleLogin}>
+            <p className="text-center text-gray-600">Enter the OTP sent to {phoneNumber}</p>
+            <input
+              type="password"
+              placeholder="OTP"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              className="rounded-[11px] bg-gray-100 px-5 py-[11px] text-[15px] outline-none focus:ring-2 focus:ring-[#00A4B6] transition placeholder:text-[#6E6E6E]"
+              autoComplete="one-time-code"
+            />
+            <div className="mt-4">
+              <SlideCaptcha onSuccess={handleCaptchaSuccess} />
+            </div>
+            <button
+              type="submit"
+              className="mt-[11px] rounded-[11px] bg-[#00A4B6] text-white font-semibold py-[11px] text-[15px] hover:bg-[#0090a6] transition disabled:bg-gray-400"
+              disabled={loading || !isCaptchaVerified}
+            >
+              {loading ? 'Signing in...' : 'Sign In'}
+            </button>
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+          </form>
+        )}
       </div>
     </div>
   );
