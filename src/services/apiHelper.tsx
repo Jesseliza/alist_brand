@@ -15,12 +15,15 @@ axiosInstance.interceptors.request.use((config) => {
       try {
         const detoken = CryptoJS.AES.decrypt(sttoken, secretPass).toString(CryptoJS.enc.Utf8);
         const token = JSON.parse(detoken);
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          'Accept': 'application/json',
-          'Content-Type': 'application/json', // Changed to application/json, as multipart/form-data is usually set by axios automatically when needed
-        };
-        config.headers = { ...config.headers, ...headers };
+
+        if (token) {
+            const headers = {
+              Authorization: `Bearer ${token}`,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            };
+            config.headers = { ...config.headers, ...headers };
+        }
       } catch (e) {
         console.error("Failed to decrypt token", e)
       }
