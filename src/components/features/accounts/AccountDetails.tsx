@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Account, AccountType } from "@/types/entities";
+import BrandSearchCombobox from "./BrandSearchCombobox";
 
 interface AccountDetailsProps {
   account: Partial<Account> | null;
@@ -18,6 +19,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
       phoneNumber: "",
       pin: "",
       accountType: AccountType.INDIVIDUAL,
+      brandIds: [],
     }
   );
   const router = useRouter();
@@ -33,6 +35,10 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleBrandChange = (selectedIds: string[]) => {
+    setFormData((prev) => ({ ...prev, brandIds: selectedIds }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -125,6 +131,10 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
               <option value={AccountType.ENTERPRISE}>Enterprise</option>
             </select>
           </div>
+          <BrandSearchCombobox
+            selectedBrandIds={formData.brandIds || []}
+            onChange={handleBrandChange}
+          />
           <div className="flex justify-end gap-4 mt-6">
             <button
               type="button"
