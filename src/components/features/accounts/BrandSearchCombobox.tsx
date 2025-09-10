@@ -78,6 +78,7 @@ export default function BrandSearchCombobox({
           <Combobox.Input
             className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none"
             placeholder="Search for brands..."
+            value={query}
             onChange={(event) => setQuery(event.target.value)}
             autoComplete="off"
           />
