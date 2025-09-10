@@ -27,7 +27,7 @@ export default function AccountPage() {
         lastName: "",
         emailAddress: "",
         phoneNumber: "",
-        affiliation: "",
+        pin: "",
         accountType: AccountType.INDIVIDUAL,
       });
       setIsLoading(false);

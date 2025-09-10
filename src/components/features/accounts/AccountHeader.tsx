@@ -48,9 +48,9 @@ export default function AccountHeader({
                   <h1 className="text-[18px] md:text-[25px] font-semibold ">
                     {`${account?.firstName || ""} ${account?.lastName || ""}`}
                   </h1>
-                  <p className="text-[15px] md:text-[18px] font-medium ">
+                  {/* <p className="text-[15px] md:text-[18px] font-medium ">
                     {account?.affiliation}
-                  </p>
+                  </p> */}
                 </div>
               </>
             )}
