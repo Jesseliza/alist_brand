@@ -7,7 +7,7 @@ import {
   searchBrandsSuccess,
   searchBrandsFailure,
 } from './accountSlice';
-import { createAccount, searchVenues } from '@/services/commonService';
+import { createAccount, fetchData } from '@/services/commonService';
 import { Account, Brand } from '@/types/entities';
 
 function* handleCreateAccount(action: ReturnType<typeof createAccountStart>) {
@@ -32,7 +32,7 @@ function* handleSearchBrands(action: ReturnType<typeof searchBrandsRequest>) {
 
   try {
     // Type the response according to the API documentation
-    const response: { venues: ApiVenue[] } = yield call(searchVenues, action.payload);
+    const response: { venues: ApiVenue[] } = yield call(fetchData, `/api/list/venues?search=${action.payload}`);
 
     // Check if the response and the venues property exist
     if (response && Array.isArray(response.venues)) {

@@ -72,6 +72,7 @@ export default function AccountDetails({
     venues: [],
   });
   const [brandSearchTerm, setBrandSearchTerm] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [originalAccount, setOriginalAccount] = useState<Account | null>(null);
 
   // Handle brand searching
@@ -192,7 +193,7 @@ export default function AccountDetails({
               <option value="enterprise">Enterprise</option>
             </select>
           </div>
-          <div className="mb-5 md:mb-7">
+          <div className="mb-5 md:mb-7 relative">
             <label htmlFor="venues" className="block text-[#4F4F4F] mb-2.5">
               Brands
             </label>
@@ -201,26 +202,33 @@ export default function AccountDetails({
               placeholder="Search brands..."
               value={brandSearchTerm}
               onChange={(e) => setBrandSearchTerm(e.target.value)}
+              onFocus={() => setIsDropdownOpen(true)}
+              onBlur={() => {
+                // Delay hiding the dropdown to allow click events to register
+                setTimeout(() => setIsDropdownOpen(false), 200);
+              }}
               className="w-full p-2 border rounded mb-2"
             />
-            <select
-              id="venues"
-              name="venues"
-              value={formData.venues}
-              onChange={handleVenueChange}
-              multiple
-              className="w-full p-2 border rounded h-40"
-            >
-              {searchedBrandsLoading ? (
-                <option disabled>Loading...</option>
-              ) : (
-                searchedBrands.map((brand) => (
-                  <option key={brand.brandId} value={brand.brandId}>
-                    {brand.name}
-                  </option>
-                ))
-              )}
-            </select>
+            {isDropdownOpen && (
+              <select
+                id="venues"
+                name="venues"
+                value={formData.venues}
+                onChange={handleVenueChange}
+                multiple
+                className="w-full p-2 border rounded h-40 absolute top-full mt-1 bg-white z-10"
+              >
+                {searchedBrandsLoading ? (
+                  <option disabled>Loading...</option>
+                ) : (
+                  searchedBrands.map((brand) => (
+                    <option key={brand.brandId} value={brand.brandId}>
+                      {brand.name}
+                    </option>
+                  ))
+                )}
+              </select>
+            )}
           </div>
           <div className="flex justify-end pt-4">
             <button
