@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import axiosInstance from './apiHelper';
-import { CreateAccountPayload } from '@/types/entities/createAccount';
 
 // Example service functions
 export const fetchData = async (endpoint: string) => {
@@ -59,10 +58,6 @@ export const deleteData = async (endpoint: string) => {
     const axiosError = error as AxiosError<{ response: string }>;
     return { success: false, response: axiosError.response?.data.response };
   }
-};
-
-export const createAccount = async (accountData: CreateAccountPayload) => {
-  return postData('https://dev-partners.alist.ae/api/api/add/account', accountData);
 };
 
 // You can add more functions as needed
