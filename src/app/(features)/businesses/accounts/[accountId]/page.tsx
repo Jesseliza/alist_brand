@@ -41,8 +41,8 @@ export default function AccountPage() {
     }
   }, [searchParams]);
 
-  // Show loading or not found state
-  if (!account) {
+  // Show loading or not found state for edit mode
+  if (!account && accountId !== "create") {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -60,11 +60,13 @@ export default function AccountPage() {
   return (
     <div>
       <div>
-        <AccountHeader
-          account={account}
-          activeTab={activeTab}
-          onTabChange={handleTabChange}
-        />
+        {account && (
+          <AccountHeader
+            account={account}
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
+          />
+        )}
         <AccountTabContent activeTab={activeTab} accountId={accountId} />
       </div>
     </div>
