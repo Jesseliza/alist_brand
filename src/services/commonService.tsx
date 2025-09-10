@@ -65,8 +65,4 @@ export const createAccount = async (accountData: CreateAccountPayload) => {
   return postData('https://dev-partners.alist.ae/api/api/add/account', accountData);
 };
 
-export const searchVenues = async (key: string) => {
-  return fetchData(`/api/list/venues?search=${key}`);
-};
-
 // You can add more functions as needed
