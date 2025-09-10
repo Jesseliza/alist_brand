@@ -8,31 +8,23 @@ const axiosInstance = axios.create({
   baseURL: BASE_URL,
 });
 
-export const setAuthToken = (token: string) => {
-  const encryptedToken = CryptoJS.AES.encrypt(JSON.stringify(token), secretPass).toString();
-  localStorage.setItem('token', encryptedToken);
-  document.cookie = `token=${encryptedToken}; path=/; max-age=86400`; // Set token as a cookie
-};
+export const setAuthToken = (token: string | null) => {
+  if (token) {
+    // Apply the authorization token to every subsequent request
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-axiosInstance.interceptors.request.use((config) => {
-  if (typeof window !== 'undefined') {
-    const sttoken = localStorage.getItem('token');
-    if (sttoken) {
-      try {
-        const detoken = CryptoJS.AES.decrypt(sttoken, secretPass).toString(CryptoJS.enc.Utf8);
-        const token = JSON.parse(detoken);
+    // Encrypt and store the token for persistence
+    const encryptedToken = CryptoJS.AES.encrypt(JSON.stringify(token), secretPass).toString();
+    localStorage.setItem('token', encryptedToken);
+    document.cookie = `token=${encryptedToken}; path=/; max-age=86400`;
+  } else {
+    // Remove the authorization header
+    delete axiosInstance.defaults.headers.common['Authorization'];
 
-        if (token) {
-            config.headers.set('Authorization', `Bearer ${token}`);
-            config.headers.set('Accept', 'application/json');
-            config.headers.set('Content-Type', 'application/json');
-        }
-      } catch (e) {
-        console.error("Failed to decrypt token", e)
-      }
-    }
+    // Clear the stored token
+    localStorage.removeItem('token');
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   }
-  return config;
-});
+};
 
 export default axiosInstance;
