@@ -13,7 +13,7 @@ import { Brand } from '@/types/entities';
 function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
   try {
     const { search } = action.payload;
-    const endpoint = search ? `/api/brands?search=${search}` : '/api/brands';
+    const endpoint = search ? `/api/list/venues?search=${search}` : '/api/list/venues';
     const response: { success: boolean, result: Brand[], response: string } = yield call(fetchData, endpoint);
     if (response.success) {
       yield put(fetchBrandsSuccess(response.result));
@@ -29,7 +29,7 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
 function* handleDeleteBrand(action: ReturnType<typeof deleteBrandRequest>) {
   try {
     const { brandId } = action.payload;
-    const response: { success: boolean, response: string } = yield call(deleteData, `/api/brands/${brandId}`);
+    const response: { success: boolean, response: string } = yield call(deleteData, `/api/list/venues/${brandId}`);
     if (response.success) {
       yield put(deleteBrandSuccess({ brandId }));
     } else {
