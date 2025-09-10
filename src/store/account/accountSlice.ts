@@ -3,13 +3,15 @@ import { Account } from '@/types/entities';
 import { CreateAccountPayload, UpdateAccountPayload } from '@/types/requests';
 
 interface AccountState {
-  account: Account | null;
+  accounts: Account[];
+  selectedAccount: Account | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: AccountState = {
-  account: null,
+  accounts: [],
+  selectedAccount: null,
   loading: false,
   error: null,
 };
@@ -18,13 +20,26 @@ const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {
+    fetchAccountsRequest(state, _action: PayloadAction<{ search?: string }>) {
+      state.loading = true;
+      state.error = null;
+    },
+    fetchAccountsSuccess(state, action: PayloadAction<Account[]>) {
+      state.loading = false;
+      state.accounts = action.payload;
+    },
+    fetchAccountsFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
+    },
     createAccountRequest(state, _action: PayloadAction<CreateAccountPayload>) {
       state.loading = true;
       state.error = null;
     },
     createAccountSuccess(state, action: PayloadAction<Account>) {
       state.loading = false;
-      state.account = action.payload;
+      state.selectedAccount = action.payload;
+      state.accounts.push(action.payload);
     },
     createAccountFailure(state, action: PayloadAction<string>) {
       state.loading = false;
@@ -36,7 +51,11 @@ const accountSlice = createSlice({
     },
     updateAccountSuccess(state, action: PayloadAction<Account>) {
       state.loading = false;
-      state.account = action.payload;
+      state.selectedAccount = action.payload;
+      const index = state.accounts.findIndex(account => account.accountId === action.payload.accountId);
+      if (index !== -1) {
+        state.accounts[index] = action.payload;
+      }
     },
     updateAccountFailure(state, action: PayloadAction<string>) {
       state.loading = false;
@@ -46,9 +65,12 @@ const accountSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    deleteAccountSuccess(state) {
+    deleteAccountSuccess(state, action: PayloadAction<{ accountId: string }>) {
       state.loading = false;
-      state.account = null;
+      state.accounts = state.accounts.filter(account => account.accountId !== action.payload.accountId);
+      if (state.selectedAccount?.accountId === action.payload.accountId) {
+        state.selectedAccount = null;
+      }
     },
     deleteAccountFailure(state, action: PayloadAction<string>) {
       state.loading = false;
@@ -58,6 +80,9 @@ const accountSlice = createSlice({
 });
 
 export const {
+  fetchAccountsRequest,
+  fetchAccountsSuccess,
+  fetchAccountsFailure,
   createAccountRequest,
   createAccountSuccess,
   createAccountFailure,
