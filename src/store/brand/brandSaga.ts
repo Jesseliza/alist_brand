@@ -14,11 +14,15 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
   try {
     const { search } = action.payload;
     const endpoint = search ? `/api/list/venues?search=${search}` : '/api/list/venues';
-    const response: { success: boolean, result: Brand[], response: string } = yield call(fetchData, endpoint);
-    if (response.success) {
-      yield put(fetchBrandsSuccess(response.result));
+    // The API now returns a nested object: { message: string, venues: Brand[] }
+    const response: { message: string, venues: Brand[] } = yield call(fetchData, endpoint);
+    if (response && response.venues) {
+      yield put(fetchBrandsSuccess(response.venues));
     } else {
-      yield put(fetchBrandsFailure(response.response || 'Failed to fetch brands'));
+      // Handle cases where the API returns a success status but the structure is wrong
+      // or when fetchData returns a failure object from commonService
+      const errorMessage = (response as any).response || 'Failed to fetch brands: Invalid API response structure';
+      yield put(fetchBrandsFailure(errorMessage));
     }
   } catch (error) {
     const err = error as Error;
@@ -28,10 +32,10 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
 
 function* handleDeleteBrand(action: ReturnType<typeof deleteBrandRequest>) {
   try {
-    const { brandId } = action.payload;
-    const response: { success: boolean, response: string } = yield call(deleteData, `/api/list/venues/${brandId}`);
+    const { id } = action.payload;
+    const response: { success: boolean, response: string } = yield call(deleteData, `/api/list/venues/${id}`);
     if (response.success) {
-      yield put(deleteBrandSuccess({ brandId }));
+      yield put(deleteBrandSuccess({ id }));
     } else {
       yield put(deleteBrandFailure(response.response || 'Failed to delete brand'));
     }

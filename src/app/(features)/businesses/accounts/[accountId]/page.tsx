@@ -2,23 +2,34 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 import AccountHeader from "@/components/features/accounts/AccountHeader";
 import AccountTabContent from "@/components/features/accounts/AccountTabContent";
-import { AccountsData } from "@/data/AccountsData";
 import { Account, AccountType } from "@/types/entities";
+import { RootState } from "@/store/store";
+import { createAccountRequest, updateAccountRequest, fetchAccountsRequest } from "@/store/account/accountSlice";
+import { CreateAccountPayload, UpdateAccountPayload } from "@/types/requests";
 
 export default function AccountPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const params = useParams();
+  const dispatch = useDispatch();
+
   const accountId = params.accountId as string;
   const isCreateMode = accountId === "create";
 
-  const [activeTab, setActiveTab] = useState(
-    searchParams.get("tab") || "Details"
-  );
+  const { accounts, selectedAccount, loading, error } = useSelector((state: RootState) => state.account);
+
+  const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "Details");
   const [account, setAccount] = useState<Partial<Account> | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch accounts if they are not already in the store
+  useEffect(() => {
+    if (!isCreateMode && accounts.length === 0) {
+      dispatch(fetchAccountsRequest({}));
+    }
+  }, [dispatch, isCreateMode, accounts.length]);
 
   useEffect(() => {
     if (isCreateMode) {
@@ -31,15 +42,21 @@ export default function AccountPage() {
         accountType: AccountType.INDIVIDUAL,
         brandIds: [],
       });
-      setIsLoading(false);
     } else {
-      const foundAccount = AccountsData.find(
-        (acc) => acc.accountId === accountId
-      );
+      const foundAccount = accounts.find((acc) => acc.accountId === accountId);
       setAccount(foundAccount || null);
-      setIsLoading(false);
     }
-  }, [accountId, isCreateMode]);
+  }, [accountId, isCreateMode, accounts]);
+
+  // Handle successful creation
+  useEffect(() => {
+    // If we were in create mode and a selectedAccount appears, it means creation was successful.
+    if (isCreateMode && selectedAccount?.accountId) {
+        alert("Account created successfully!");
+        router.push(`/businesses/accounts/${selectedAccount.accountId}`);
+    }
+  }, [selectedAccount, isCreateMode, router]);
+
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
@@ -50,55 +67,21 @@ export default function AccountPage() {
     }
   };
 
-  useEffect(() => {
-    const tab = searchParams.get("tab");
-    if (tab) {
-      setActiveTab(tab);
-    }
-  }, [searchParams]);
-
   const handleSave = (formData: Partial<Account>) => {
     if (isCreateMode) {
-      const newAccount: Account = {
-        ...formData,
-        accountId: new Date().getTime().toString(),
-        avatarInitials: `${formData.firstName?.[0] || ""}${
-          formData.lastName?.[0] || ""
-        }`.toUpperCase(),
-        avatarBackground:
-          "#" +
-          Math.floor(Math.random() * 16777215)
-            .toString(16)
-            .padStart(6, "0"),
-        signUpDate: new Date(),
-        subscriptionCount: 0,
-        brandsCount: 0,
-        campaignsCount: 0,
-      } as Account;
-      AccountsData.push(newAccount);
-      alert("Account created successfully!");
-      router.push(`/businesses/accounts/${newAccount.accountId}`);
+      // The saga and backend will handle generating the full account object
+      dispatch(createAccountRequest(formData as CreateAccountPayload));
     } else {
-      const accountIndex = AccountsData.findIndex(
-        (acc) => acc.accountId === accountId
-      );
-      if (accountIndex !== -1) {
-        const updatedAccount = {
-          ...AccountsData[accountIndex],
-          ...formData,
-          avatarInitials: `${formData.firstName?.[0] || ""}${
-            formData.lastName?.[0] || ""
-          }`.toUpperCase(),
-        };
-        AccountsData[accountIndex] = updatedAccount;
-        setAccount(updatedAccount);
-        alert("Account updated successfully!");
-        router.refresh();
+      // Ensure we have the accountId for updates
+      if (accountId) {
+        dispatch(updateAccountRequest({ ...formData, accountId } as UpdateAccountPayload));
+        // Optionally show a success message immediately or wait for state change
+        alert("Account update request sent!");
       }
     }
   };
 
-  if (isLoading) {
+  if (loading && !account) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <p>Loading...</p>
@@ -106,7 +89,7 @@ export default function AccountPage() {
     );
   }
 
-  if (!account) {
+  if (!isCreateMode && !account && !loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -123,6 +106,7 @@ export default function AccountPage() {
 
   return (
     <div>
+      {error && <div className="text-red-500 bg-red-100 p-3 rounded-md mb-4">Error: {error}</div>}
       <div>
         <AccountHeader
           account={account}
