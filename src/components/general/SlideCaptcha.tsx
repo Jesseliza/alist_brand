@@ -86,7 +86,7 @@ export default function SlideCaptcha({ onSuccess }: SlideCaptchaProps) {
             <div ref={imageRef} className="relative w-[300px] h-[150px]">
                 <Image src={imageUrl} alt="Captcha" width={300} height={150} key={imageUrl} />
                 <div
-                    className="absolute bg-white border-2 border-dashed border-gray-500"
+                    className="absolute border-2 border-dashed border-gray-500"
                     style={{
                         width: `${PUZZLE_WIDTH}px`,
                         height: `${PUZZLE_HEIGHT}px`,
@@ -95,6 +95,7 @@ export default function SlideCaptcha({ onSuccess }: SlideCaptchaProps) {
                         backgroundColor: 'rgba(255, 255, 255, 0.5)',
                     }}
                 />
+                {/* Puzzle Piece */}
                 <div
                     className="absolute"
                     style={{
@@ -102,11 +103,24 @@ export default function SlideCaptcha({ onSuccess }: SlideCaptchaProps) {
                         height: `${PUZZLE_HEIGHT}px`,
                         top: `${puzzlePosition.y}px`,
                         left: `${puzzlePosition.x}px`,
-                        backgroundImage: `url(${imageUrl})`,
-                        backgroundPosition: `-${targetPosition.x}px -${targetPosition.y}px`,
                         boxShadow: '0 0 10px rgba(0,0,0,0.5)',
+                        overflow: 'hidden',
                     }}
-                />
+                >
+                    <Image
+                        src={imageUrl}
+                        alt="Puzzle Piece"
+                        width={300}
+                        height={150}
+                        style={{
+                            position: 'absolute',
+                            top: `-${targetPosition.y}px`,
+                            left: `-${targetPosition.x}px`,
+                            pointerEvents: 'none',
+                            maxWidth: 'none',
+                        }}
+                    />
+                </div>
             </div>
         )}
 
