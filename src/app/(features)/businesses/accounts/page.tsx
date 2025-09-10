@@ -5,12 +5,14 @@ import AccountCard from "@/components/features/accounts/AccountMobileCard";
 import Pagination from "@/components/general/Pagination";
 import { AccountsData } from "@/data/AccountsData";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import SortDropdown from "@/components/general/dropdowns/SortDropdown";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
 import Image from "next/image";
 
 export default function AccountsPage() {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [search, setSearch] = useState("");
@@ -72,8 +74,16 @@ export default function AccountsPage() {
       </div>
       <div className="py-5.5">
         <div className="max-w-[1428px] mx-auto">
-          <div className="w-[137px] ml-auto mb-5.5 hidden md:block">
-            <ActionDropdown onSelect={handleActionSelect} />
+          <div className="hidden md:flex justify-end items-center mb-5.5 space-x-4">
+            <button
+              onClick={() => router.push("/businesses/accounts/create")}
+              className="px-4 py-2 bg-blue-500 text-white rounded"
+            >
+              Add Account
+            </button>
+            <div className="w-[137px]">
+              <ActionDropdown onSelect={handleActionSelect} />
+            </div>
           </div>
           <div className="md:hidden space-y-[7px]">
             {AccountsData.map((account) => (
