@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AccountsData } from "@/data/AccountsData";
-import { createAccountStart } from "@/store/account/accountSlice";
-import { Account } from "@/types/entities";
+import { createAccountStart, searchBrandsRequest } from "@/store/account/accountSlice";
+import { Account, Brand } from "@/types/entities";
 import { RootState } from "@/store/store";
 import { CreateAccountPayload } from "@/types/entities/createAccount";
 
@@ -59,7 +59,7 @@ export default function AccountDetails({
   accountId?: string;
 }) {
   const dispatch = useDispatch();
-  const { brands } = useSelector((state: RootState) => state.account);
+  const { searchedBrands, searchedBrandsLoading } = useSelector((state: RootState) => state.account);
   const isEditMode = accountId !== "create";
 
   const [formData, setFormData] = useState<Omit<CreateAccountPayload, 'venues' | 'registration_type' | 'status'> & { venues: string[] }>({
@@ -74,10 +74,11 @@ export default function AccountDetails({
   const [brandSearchTerm, setBrandSearchTerm] = useState('');
   const [originalAccount, setOriginalAccount] = useState<Account | null>(null);
 
-  // Fetch brands from Redux store
+  // Handle brand searching
   useEffect(() => {
-    dispatch({ type: 'account/fetchBrands' });
-  }, [dispatch]);
+    // Dispatch search request when search term changes
+    dispatch(searchBrandsRequest(brandSearchTerm));
+  }, [brandSearchTerm, dispatch]);
 
   // Fetch account data for edit mode
   useEffect(() => {
@@ -126,10 +127,6 @@ export default function AccountDetails({
       dispatch(createAccountStart(payload));
     }
   };
-
-  const filteredBrands = brands.filter((brand) =>
-    brand.name.toLowerCase().includes(brandSearchTerm.toLowerCase())
-  );
 
   if (isEditMode && !originalAccount) {
     return (
@@ -181,7 +178,7 @@ export default function AccountDetails({
           />
           <div className="mb-5 md:mb-7">
             <label htmlFor="account_type" className="block text-[#4F4F4F] mb-2.5">
-              Account Type
+              Affiliation
             </label>
             <select
               id="account_type"
@@ -191,12 +188,13 @@ export default function AccountDetails({
               className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] outline-none"
             >
               <option value="individual">Individual</option>
-              <option value="business">Business</option>
+              <option value="agency">Agency</option>
+              <option value="enterprise">Enterprise</option>
             </select>
           </div>
           <div className="mb-5 md:mb-7">
             <label htmlFor="venues" className="block text-[#4F4F4F] mb-2.5">
-              Venues
+              Brands
             </label>
             <input
               type="text"
@@ -213,11 +211,15 @@ export default function AccountDetails({
               multiple
               className="w-full p-2 border rounded h-40"
             >
-              {filteredBrands.map((brand) => (
-                <option key={brand.brandId} value={brand.brandId}>
-                  {brand.name}
-                </option>
-              ))}
+              {searchedBrandsLoading ? (
+                <option disabled>Loading...</option>
+              ) : (
+                searchedBrands.map((brand) => (
+                  <option key={brand.brandId} value={brand.brandId}>
+                    {brand.name}
+                  </option>
+                ))
+              )}
             </select>
           </div>
           <div className="flex justify-end pt-4">

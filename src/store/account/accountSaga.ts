@@ -1,13 +1,14 @@
-import { call, put, takeLatest, all } from 'redux-saga/effects';
+import { call, put, takeLatest, all, delay } from 'redux-saga/effects';
 import {
   createAccountStart,
   createAccountSuccess,
   createAccountFailure,
-  fetchBrandsSuccess,
+  searchBrandsRequest,
+  searchBrandsSuccess,
+  searchBrandsFailure,
 } from './accountSlice';
-import { createAccount } from '@/services/commonService';
-import { Account } from '@/types/entities';
-import { brandsData } from '@/data/BrandsData';
+import { createAccount, searchVenues } from '@/services/commonService';
+import { Account, Brand } from '@/types/entities';
 
 function* handleCreateAccount(action: ReturnType<typeof createAccountStart>) {
   try {
@@ -19,18 +20,21 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountStart>) {
   }
 }
 
-function* handleFetchBrands() {
+function* handleSearchBrands(action: ReturnType<typeof searchBrandsRequest>) {
+  yield delay(500); // Debounce API call
+
   try {
-    // In a real app, you'd fetch this from an API
-    yield put(fetchBrandsSuccess(brandsData));
+    const brands: Brand[] = yield call(searchVenues, action.payload);
+    yield put(searchBrandsSuccess(brands || [])); // Ensure payload is not undefined
   } catch (error) {
-    // Handle error if needed
+    const err = error as Error;
+    yield put(searchBrandsFailure(err.message || 'An unknown error occurred'));
   }
 }
 
 function* watchAccount() {
   yield takeLatest(createAccountStart.type, handleCreateAccount);
-  yield takeLatest('account/fetchBrands', handleFetchBrands); // Using a string action name for simplicity
+  yield takeLatest(searchBrandsRequest.type, handleSearchBrands);
 }
 
 export default function* accountSaga() {

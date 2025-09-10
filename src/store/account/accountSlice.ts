@@ -5,14 +5,16 @@ interface AccountState {
   loading: boolean;
   error: string | null;
   account: Account | null;
-  brands: Brand[];
+  searchedBrands: Brand[];
+  searchedBrandsLoading: boolean;
 }
 
 const initialState: AccountState = {
   loading: false,
   error: null,
   account: null,
-  brands: [],
+  searchedBrands: [],
+  searchedBrandsLoading: false,
 };
 
 const accountSlice = createSlice({
@@ -31,8 +33,16 @@ const accountSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    fetchBrandsSuccess(state, action: PayloadAction<Brand[]>) {
-      state.brands = action.payload;
+    searchBrandsRequest(state, action: PayloadAction<string>) {
+      state.searchedBrandsLoading = true;
+    },
+    searchBrandsSuccess(state, action: PayloadAction<Brand[]>) {
+      state.searchedBrandsLoading = false;
+      state.searchedBrands = action.payload;
+    },
+    searchBrandsFailure(state, action: PayloadAction<string>) {
+      state.searchedBrandsLoading = false;
+      // You might want to handle the error state as well
     },
   },
 });
@@ -41,7 +51,9 @@ export const {
   createAccountStart,
   createAccountSuccess,
   createAccountFailure,
-  fetchBrandsSuccess,
+  searchBrandsRequest,
+  searchBrandsSuccess,
+  searchBrandsFailure,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;
