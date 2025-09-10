@@ -1,57 +1,73 @@
 "use client";
 
 import { Combobox } from "@headlessui/react";
-import { useState } from "react";
-import { brandsData } from "@/data/BrandsData";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Brand } from "@/types/entities";
+import { fetchBrandsRequest } from "@/store/brand/brandSlice";
+import { RootState } from "@/store/store";
 
 interface BrandSearchComboboxProps {
-  selectedBrandIds: string[];
-  onChange: (selectedIds: string[]) => void;
+  // This component now manages its own selected state internally
+  // to simplify integration. The parent can be notified via a callback if needed.
+  onChange: (selectedIds: number[]) => void;
+  initialSelectedBrands?: Brand[]; // Allow parent to provide initial state
 }
 
 export default function BrandSearchCombobox({
-  selectedBrandIds,
   onChange,
+  initialSelectedBrands = [],
 }: BrandSearchComboboxProps) {
+  const dispatch = useDispatch();
+  const { brands: filteredBrands, loading } = useSelector((state: RootState) => state.brand);
   const [query, setQuery] = useState("");
+  const [selectedBrands, setSelectedBrands] = useState<Brand[]>(initialSelectedBrands);
 
-  const selectedBrands = brandsData.filter(
-    (brand) => selectedBrandIds?.includes(brand.brandId)
-  );
+  // Debounce search query
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      if (query.trim() !== "") {
+        dispatch(fetchBrandsRequest({ search: query }));
+      }
+    }, 500); // 500ms delay
 
-  const filteredBrands =
-    query === ""
-      ? []
-      : brandsData.filter((brand) => {
-          return brand.name.toLowerCase().includes(query.toLowerCase()) && !selectedBrandIds?.includes(brand.brandId);
-        });
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [query, dispatch]);
 
-  const handleSelectionChange = (brands: Brand[]) => {
-    const newSelectedIds = brands.map((b) => b.brandId);
-    onChange(newSelectedIds);
+  const handleSelectionChange = (newlySelectedBrands: Brand[]) => {
+    // This component now handles multiple selections
+    setSelectedBrands(newlySelectedBrands);
+    onChange(newlySelectedBrands.map((b) => b.id));
     setQuery(""); // Clear query after selection
   };
 
-  const removeBrand = (brandId: string) => {
-    const newSelectedIds = selectedBrandIds.filter((id) => id !== brandId);
-    onChange(newSelectedIds);
+  const removeBrand = (brandId: number) => {
+    const newSelection = selectedBrands.filter((brand) => brand.id !== brandId);
+    setSelectedBrands(newSelection);
+    onChange(newSelection.map((b) => b.id));
   };
+
+  // Filter out already selected brands from the search results
+  const availableBrands = filteredBrands.filter(
+    (brand) => !selectedBrands.some((selected) => selected.id === brand.id)
+  );
 
   return (
     <div className="mb-5 md:mb-7">
-      <label className="block text-[#4F4F4F] mb-2.5">Associated Brands</label>
-      <div className="flex flex-wrap gap-2 mb-2">
+      <label className="block text-[#4F4F4F] mb-2.5">Associated Brands/Venues</label>
+      <div className="flex flex-wrap gap-2 mb-2 min-h-[30px]">
         {selectedBrands.map((brand) => (
           <div
-            key={brand.brandId}
+            key={brand.id}
             className="flex items-center bg-gray-200 rounded-full px-3 py-1 text-sm font-medium text-gray-700"
           >
-            <span>{brand.name}</span>
+            <span>{brand.venue_title}</span>
             <button
               type="button"
               className="ml-2 -mr-1 text-gray-500 hover:text-gray-700"
-              onClick={() => removeBrand(brand.brandId)}
+              onClick={() => removeBrand(brand.id)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -77,20 +93,24 @@ export default function BrandSearchCombobox({
         <div className="relative mt-1">
           <Combobox.Input
             className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none"
-            placeholder="Search for brands..."
+            placeholder="Search for brands or venues..."
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             autoComplete="off"
           />
           <Combobox.Options className="absolute z-10 w-full bg-white shadow-lg rounded-md max-h-60 overflow-auto bottom-full mb-1">
-            {filteredBrands.length === 0 && query !== "" ? (
+            {loading ? (
+                 <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+                    Loading...
+                 </div>
+            ) : availableBrands.length === 0 && query !== "" ? (
               <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                 Nothing found.
               </div>
             ) : (
-              filteredBrands.map((brand) => (
+              availableBrands.map((brand) => (
                 <Combobox.Option
-                  key={brand.brandId}
+                  key={brand.id}
                   value={brand}
                   className={({ active }) =>
                     `cursor-pointer select-none relative p-2 ${
@@ -104,7 +124,7 @@ export default function BrandSearchCombobox({
                         selected ? "font-medium" : "font-normal"
                       }`}
                     >
-                      {brand.name}
+                      {brand.venue_title}
                     </span>
                   )}
                 </Combobox.Option>

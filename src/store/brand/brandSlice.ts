@@ -29,13 +29,13 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    deleteBrandRequest(state, _action: PayloadAction<{ brandId: string }>) {
+    deleteBrandRequest(state, _action: PayloadAction<{ id: number }>) {
       state.loading = true;
       state.error = null;
     },
-    deleteBrandSuccess(state, action: PayloadAction<{ brandId: string }>) {
+    deleteBrandSuccess(state, action: PayloadAction<{ id: number }>) {
       state.loading = false;
-      state.brands = state.brands.filter(brand => brand.brandId !== action.payload.brandId);
+      state.brands = state.brands.filter(brand => brand.id !== action.payload.id);
     },
     deleteBrandFailure(state, action: PayloadAction<string>) {
       state.loading = false;
