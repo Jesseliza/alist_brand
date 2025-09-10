@@ -39,6 +39,9 @@ export type Account = {
   /** PIN for the account */
   pin: string;
 
+  /** List of associated brand IDs */
+  brandIds?: string[];
+
   /** Account type - Individual or Agency */
   accountType: AccountType;
 

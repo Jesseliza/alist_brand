@@ -29,6 +29,7 @@ export default function AccountPage() {
         phoneNumber: "",
         pin: "",
         accountType: AccountType.INDIVIDUAL,
+        brandIds: [],
       });
       setIsLoading(false);
     } else {
