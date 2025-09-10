@@ -35,7 +35,29 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
 
 function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
   try {
-    const response: { success: boolean, result: Account, response: string } = yield call(postData<CreateAccountPayload>, '/api/add/account', action.payload);
+    const {
+      firstName,
+      lastName,
+      emailAddress,
+      phoneNumber,
+      pin,
+      accountType,
+      brandIds,
+    } = action.payload;
+
+    const apiPayload = {
+      first_name: firstName,
+      last_name: lastName,
+      email: emailAddress,
+      phone: phoneNumber,
+      pin: pin,
+      account_type: accountType,
+      venues: brandIds,
+      registration_type: "accounts", // Static value
+      status: "active", // Static value
+    };
+
+    const response: { success: boolean, result: Account, response: string } = yield call(postData, '/api/add/account', apiPayload);
     if (response.success) {
       yield put(createAccountSuccess(response.result));
     } else {

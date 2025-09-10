@@ -5,6 +5,37 @@ import { useRouter } from "next/navigation";
 import { Account, AccountType } from "@/types/entities";
 import BrandSearchCombobox from "./BrandSearchCombobox";
 
+// Define InputField as a standalone component outside of AccountDetails
+const InputField = ({
+  label,
+  value,
+  name,
+  type = "text",
+  onChange,
+}: {
+  label: string;
+  value: string;
+  name: string;
+  type?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => (
+  <div className="mb-5 md:mb-7">
+    <label htmlFor={name} className="block text-[#4F4F4F] mb-2.5">
+      {label}
+    </label>
+    <div className="relative">
+      <input
+        type={type}
+        id={name}
+        name={name}
+        value={value}
+        onChange={onChange}
+        className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none"
+      />
+    </div>
+  </div>
+);
+
 interface AccountDetailsProps {
   account: Partial<Account> | null;
   onSave: (account: Partial<Account>) => void;
@@ -37,7 +68,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleBrandChange = (selectedIds: string[]) => {
+  const handleBrandChange = (selectedIds: number[]) => {
     setFormData((prev) => ({ ...prev, brandIds: selectedIds }));
   };
 
@@ -50,34 +81,6 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
     onSave(formData);
   };
 
-  const InputField = ({
-    label,
-    value,
-    name,
-    type = "text",
-  }: {
-    label: string;
-    value: string;
-    name: string;
-    type?: string;
-  }) => (
-    <div className="mb-5 md:mb-7">
-      <label htmlFor={name} className="block text-[#4F4F4F] mb-2.5">
-        {label}
-      </label>
-      <div className="relative">
-        <input
-          type={type}
-          id={name}
-          name={name}
-          value={value}
-          onChange={handleChange}
-          className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none"
-        />
-      </div>
-    </div>
-  );
-
   return (
     <form onSubmit={handleSubmit} className="text-[15px] pt-10 md:pt-11">
       <div className="max-w-[559px] mx-auto px-[15px]">
@@ -87,11 +90,13 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
               label="First name"
               value={formData.firstName || ""}
               name="firstName"
+              onChange={handleChange}
             />
             <InputField
               label="Last name"
               value={formData.lastName || ""}
               name="lastName"
+              onChange={handleChange}
             />
           </div>
           <InputField
@@ -99,19 +104,26 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
             value={formData.emailAddress || ""}
             name="emailAddress"
             type="email"
+            onChange={handleChange}
           />
           <InputField
             label="Phone"
             value={formData.phoneNumber || ""}
             name="phoneNumber"
             type="tel"
+            onChange={handleChange}
           />
           {/* <InputField
             label="Affiliation"
             value={formData.affiliation || ""}
             name="affiliation"
           /> */}
-          <InputField label="PIN" value={formData.pin || ""} name="pin" />
+          <InputField
+            label="PIN"
+            value={formData.pin || ""}
+            name="pin"
+            onChange={handleChange}
+          />
           <div className="mb-5 md:mb-7">
             <label
               htmlFor="accountType"
@@ -132,7 +144,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
             </select>
           </div>
           <BrandSearchCombobox
-            selectedBrandIds={formData.brandIds || []}
+            initialSelectedBrands={[]}
             onChange={handleBrandChange}
           />
           <div className="flex justify-end gap-4 mt-6">
