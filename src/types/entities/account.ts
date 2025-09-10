@@ -4,6 +4,7 @@
 export enum AccountType {
   INDIVIDUAL = "individual",
   AGENCY = "agency",
+  ENTERPRISE = "enterprise",
 }
 
 /**
@@ -33,7 +34,10 @@ export type Account = {
   phoneNumber: string;
 
   /** Agency name or "individual" label */
-  affiliation: string;
+  // affiliation: string;
+
+  /** PIN for the account */
+  pin: string;
 
   /** Account type - Individual or Agency */
   accountType: AccountType;

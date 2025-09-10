@@ -16,7 +16,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
       lastName: "",
       emailAddress: "",
       phoneNumber: "",
-      affiliation: "",
+      pin: "",
       accountType: AccountType.INDIVIDUAL,
     }
   );
@@ -100,11 +100,12 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
             name="phoneNumber"
             type="tel"
           />
-          <InputField
+          {/* <InputField
             label="Affiliation"
             value={formData.affiliation || ""}
             name="affiliation"
-          />
+          /> */}
+          <InputField label="PIN" value={formData.pin || ""} name="pin" />
           <div className="mb-5 md:mb-7">
             <label
               htmlFor="accountType"
@@ -121,6 +122,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
             >
               <option value={AccountType.INDIVIDUAL}>Individual</option>
               <option value={AccountType.AGENCY}>Agency</option>
+              <option value={AccountType.ENTERPRISE}>Enterprise</option>
             </select>
           </div>
           <div className="flex justify-end gap-4 mt-6">
