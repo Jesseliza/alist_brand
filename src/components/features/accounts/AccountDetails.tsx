@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import AsyncSelect from 'react-select/async';
 import { AccountsData } from "@/data/AccountsData";
-import { createAccountStart, searchBrandsRequest } from "@/store/account/accountSlice";
-import { Account, Brand } from "@/types/entities";
-import { RootState } from "@/store/store";
+import { createAccountStart } from "@/store/account/accountSlice";
+import { Account } from "@/types/entities";
 import { CreateAccountPayload } from "@/types/entities/createAccount";
-import SearchableCheckboxDropdown from "@/components/general/dropdowns/SearchableCheckboxDropdown";
+import { fetchData } from '@/services/commonService';
 
 // Reusable InputField component
 const InputField = ({
@@ -60,7 +60,6 @@ export default function AccountDetails({
   accountId?: string;
 }) {
   const dispatch = useDispatch();
-  const { searchedBrands, searchedBrandsLoading } = useSelector((state: RootState) => state.account);
   const isEditMode = accountId !== "create";
 
   const [formData, setFormData] = useState<Omit<CreateAccountPayload, 'venues' | 'registration_type' | 'status'> & { venues: string[] }>({
@@ -72,14 +71,7 @@ export default function AccountDetails({
     account_type: "individual",
     venues: [],
   });
-  const [brandSearchTerm, setBrandSearchTerm] = useState('');
   const [originalAccount, setOriginalAccount] = useState<Account | null>(null);
-
-  // Handle brand searching
-  useEffect(() => {
-    // Dispatch search request when search term changes
-    dispatch(searchBrandsRequest(brandSearchTerm));
-  }, [brandSearchTerm, dispatch]);
 
   // Fetch account data for edit mode
   useEffect(() => {
@@ -107,7 +99,27 @@ export default function AccountDetails({
     setFormData((prev) => ({ ...prev, [name]: value as any }));
   };
 
-  const handleVenuesChange = (selectedIds: string[]) => {
+  const loadOptions = async (inputValue: string) => {
+    if (!inputValue) {
+      return [];
+    }
+    try {
+      const response = await fetchData(`/api/list/venues?search=${inputValue}`);
+      if (response && Array.isArray(response.venues)) {
+        return response.venues.map((venue: { id: number; venue_title: string }) => ({
+          value: venue.id.toString(),
+          label: venue.venue_title,
+        }));
+      }
+      return [];
+    } catch (error) {
+      console.error("Error fetching venues:", error);
+      return [];
+    }
+  };
+
+  const handleVenuesChange = (selectedOptions: any) => {
+    const selectedIds = selectedOptions ? selectedOptions.map((opt: any) => opt.value) : [];
     setFormData((prev) => ({ ...prev, venues: selectedIds }));
   };
 
@@ -140,53 +152,19 @@ export default function AccountDetails({
     <form onSubmit={handleSubmit} className="text-[15px] pt-10 md:pt-11">
       <div className="max-w-[559px] mx-auto px-[15px]">
         <div className="bg-white rounded-[13px] md:px-10 md:pt-8 md:pb-3">
+          {/* Input fields remain the same */}
           <div className="grid grid-cols-2 gap-5 mb-1">
-            <InputField
-              label="First name"
-              name="first_name"
-              value={formData.first_name}
-              onChange={handleChange}
-            />
-            <InputField
-              label="Last name"
-              name="last_name"
-              value={formData.last_name}
-              onChange={handleChange}
-            />
+            <InputField label="First name" name="first_name" value={formData.first_name} onChange={handleChange} />
+            <InputField label="Last name" name="last_name" value={formData.last_name} onChange={handleChange} />
           </div>
-          <InputField
-            label="Email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            showIcon
-          />
-          <InputField
-            label="Phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            showIcon
-          />
-          <InputField
-            label="PIN"
-            name="pin"
-            type="password"
-            value={formData.pin}
-            onChange={handleChange}
-          />
+          <InputField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} showIcon />
+          <InputField label="Phone" name="phone" value={formData.phone} onChange={handleChange} showIcon />
+          <InputField label="PIN" name="pin" type="password" value={formData.pin} onChange={handleChange} />
           <div className="mb-5 md:mb-7">
             <label htmlFor="account_type" className="block text-[#4F4F4F] mb-2.5">
               Affiliation
             </label>
-            <select
-              id="account_type"
-              name="account_type"
-              value={formData.account_type}
-              onChange={handleChange}
-              className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] outline-none"
-            >
+            <select id="account_type" name="account_type" value={formData.account_type} onChange={handleChange} className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] outline-none">
               <option value="individual">Individual</option>
               <option value="agency">Agency</option>
               <option value="enterprise">Enterprise</option>
@@ -194,21 +172,17 @@ export default function AccountDetails({
           </div>
           <div className="mb-5 md:mb-7">
             <label className="block text-[#4F4F4F] mb-2.5">Brands</label>
-            <SearchableCheckboxDropdown
-              options={searchedBrands.map(b => ({ id: b.brandId, name: b.name }))}
-              selectedOptions={formData.venues}
+            <AsyncSelect
+              isMulti
+              cacheOptions
+              loadOptions={loadOptions}
+              defaultOptions
               onChange={handleVenuesChange}
-              searchTerm={brandSearchTerm}
-              onSearchChange={setBrandSearchTerm}
-              placeholder="Search brands..."
-              buttonText="Select Brands"
+              placeholder="Search for brands..."
             />
           </div>
           <div className="flex justify-end pt-4">
-            <button
-              type="submit"
-              className="px-6 py-2 bg-blue-500 text-white rounded-[11px] hover:bg-blue-600"
-            >
+            <button type="submit" className="px-6 py-2 bg-blue-500 text-white rounded-[11px] hover:bg-blue-600">
               {isEditMode ? "Save Changes" : "Create Account"}
             </button>
           </div>
