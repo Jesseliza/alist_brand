@@ -1,7 +1,7 @@
 "use client";
 
 import { Combobox } from "@headlessui/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Brand } from "@/types/entities";
 import { fetchBrandsRequest } from "@/store/brand/brandSlice";
@@ -22,6 +22,7 @@ export default function BrandSearchCombobox({
   const { brands: filteredBrands, loading } = useSelector((state: RootState) => state.brand);
   const [query, setQuery] = useState("");
   const [selectedBrands, setSelectedBrands] = useState<Brand[]>(initialSelectedBrands);
+  const inputRef = useRef<HTMLInputElement>(null); // Create a ref for the input
 
   // Debounce search query
   useEffect(() => {
@@ -41,6 +42,7 @@ export default function BrandSearchCombobox({
     setSelectedBrands(newlySelectedBrands);
     onChange(newlySelectedBrands.map((b) => b.id));
     setQuery(""); // Clear query after selection
+    inputRef.current?.blur(); // Blur the input to close the dropdown
   };
 
   const removeBrand = (brandId: number) => {
@@ -92,6 +94,7 @@ export default function BrandSearchCombobox({
       >
         <div className="relative mt-1">
           <Combobox.Input
+            ref={inputRef}
             className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none"
             placeholder="Search for brands or venues..."
             value={query}

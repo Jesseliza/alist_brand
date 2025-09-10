@@ -53,7 +53,7 @@ export default function AccountPage() {
     // If we were in create mode and a selectedAccount appears, it means creation was successful.
     if (isCreateMode && selectedAccount?.accountId) {
         alert("Account created successfully!");
-        router.push(`/businesses/accounts/${selectedAccount.accountId}`);
+        router.push('/businesses/accounts');
     }
   }, [selectedAccount, isCreateMode, router]);
 

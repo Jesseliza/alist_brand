@@ -57,11 +57,54 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
       status: "active", // Static value
     };
 
-    const response: { success: boolean, result: Account, response: string } = yield call(postData, '/api/add/account', apiPayload);
-    if (response.success) {
-      yield put(createAccountSuccess(response.result));
+    // Define the expected raw response type from the API
+    type ApiAccountResponse = {
+      message: string;
+      account: {
+        id: number;
+        first_name: string;
+        last_name: string;
+        email: string;
+        phone: string;
+        pin: string;
+        account_type: AccountType;
+        registration_type: string;
+        status: string;
+        created_at: string;
+        updated_at: string;
+        venues: { id: number; venue_title: string }[];
+      }
+    };
+
+    const response: ApiAccountResponse = yield call(postData, '/api/add/account', apiPayload);
+
+    // Check for a successful response based on the message and presence of the account object
+    if (response && response.account) {
+      const apiAccount = response.account;
+
+      // Transform the snake_case response to the camelCase Account type used in the frontend
+      const feAccount: Account = {
+        accountId: apiAccount.id.toString(),
+        firstName: apiAccount.first_name,
+        lastName: apiAccount.last_name,
+        emailAddress: apiAccount.email,
+        phoneNumber: apiAccount.phone,
+        pin: apiAccount.pin,
+        accountType: apiAccount.account_type,
+        brandIds: apiAccount.venues.map(v => v.id),
+        signUpDate: new Date(apiAccount.created_at),
+        // These fields are not in the response, so we provide defaults
+        avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
+        avatarBackground: "#CCCCCC",
+        subscriptionCount: 0,
+        brandsCount: apiAccount.venues.length,
+        campaignsCount: 0,
+      };
+
+      yield put(createAccountSuccess(feAccount));
     } else {
-      yield put(createAccountFailure(response.response || 'Failed to create account'));
+      const errorMessage = (response as any).response || 'Failed to create account';
+      yield put(createAccountFailure(errorMessage));
     }
   } catch (error) {
     const err = error as Error;
