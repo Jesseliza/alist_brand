@@ -51,6 +51,7 @@ const accountSlice = createSlice({
       status?: string;
       account_type?: string;
       per_page?: number;
+      page?: number;
       url?: string;
     }>) {
       state.loading = true;
