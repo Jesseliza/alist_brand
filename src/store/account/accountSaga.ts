@@ -20,11 +20,24 @@ import { CreateAccountPayload, UpdateAccountPayload } from '@/types/requests';
 
 function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
   try {
-    const { search } = action.payload;
-    const endpoint = search ? `/api/accounts?search=${search}` : '/api/accounts';
+    const params = new URLSearchParams();
+    const { search, status, account_type, per_page } = action.payload;
+
+    if (search) params.append('search', search);
+    if (status) params.append('status', status);
+    if (account_type) params.append('account_type', account_type);
+    if (per_page) params.append('per_page', per_page.toString());
+
+    const queryString = params.toString();
+    const endpoint = `/api/list/accounts${queryString ? `?${queryString}` : ''}`;
+
     const response: { success: boolean, result: Account[], response: string } = yield call(fetchData, endpoint);
+
     if (response.success) {
       yield put(fetchAccountsSuccess(response.result));
+      if (action.payload.search || action.payload.status || action.payload.account_type) {
+        toast.success('Accounts filtered successfully!');
+      }
     } else {
       const errorMessage = response.response || 'Failed to fetch accounts';
       yield put(fetchAccountsFailure(errorMessage));

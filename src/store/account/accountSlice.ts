@@ -20,7 +20,12 @@ const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {
-    fetchAccountsRequest(state, _action: PayloadAction<{ search?: string }>) {
+    fetchAccountsRequest(state, _action: PayloadAction<{
+      search?: string;
+      status?: string;
+      account_type?: string;
+      per_page?: number;
+    }>) {
       state.loading = true;
       state.error = null;
     },
