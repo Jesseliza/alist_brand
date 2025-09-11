@@ -23,8 +23,8 @@ export default function AccountsPage() {
   const [accountType, setAccountType] = useState("");
 
   useEffect(() => {
-    dispatch(fetchAccountsRequest({ search, status, account_type: accountType, per_page: 20, page: 1 }));
-  }, [dispatch, search, status, accountType]);
+    dispatch(fetchAccountsRequest({ per_page: 20, page: 1 }));
+  }, [dispatch]);
 
   const handlePageChange = (url: string) => {
     dispatch(fetchAccountsRequest({ url }));
@@ -50,6 +50,10 @@ export default function AccountsPage() {
     // Add your action logic here
   };
 
+  const handleApplyFilters = () => {
+    dispatch(fetchAccountsRequest({ search, status, account_type: accountType, per_page: pagination.perPage, page: 1 }));
+  };
+
   return (
     <div>
       <div className="py-[13px] bg-white hidden md:block relative">
@@ -58,8 +62,23 @@ export default function AccountsPage() {
           style={{ left: "-100vw", right: "-100vw" }}
         />
         <div className="max-w-[1428px] mx-auto flex items-center justify-between relative z-10">
-          <div className="text-[18px] leading-[27px] w-[147px]">
-            <SortDropdown onSelect={handleSortSelect} />
+          <div className="flex items-center gap-4">
+            <div className="text-[18px] leading-[27px] w-[147px]">
+              <SortDropdown onSelect={handleSortSelect} />
+            </div>
+            <input
+              type="text"
+              value={search}
+              onChange={handleSearchChange}
+              placeholder="Search..."
+              className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm"
+            />
+            <button
+              onClick={handleApplyFilters}
+              className="bg-blue-500 text-white rounded-lg px-4 py-1.5 text-sm"
+            >
+              Apply Filters
+            </button>
           </div>
         </div>
       </div>
@@ -69,6 +88,12 @@ export default function AccountsPage() {
           onChange={handleSearchChange}
           placeholder="Search account"
         />
+        <button
+          onClick={handleApplyFilters}
+          className="bg-blue-500 text-white rounded-lg px-4 py-2 text-sm"
+        >
+          Search
+        </button>
         <div className="bg-white rounded-[11px] w-10 h-10  flex items-center justify-center aspect-square">
           <Image
             src="/icons/general/sort-1-light.svg"
