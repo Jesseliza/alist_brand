@@ -8,10 +8,8 @@ import { fetchBrandsRequest } from "@/store/brand/brandSlice";
 import { RootState } from "@/store/store";
 
 interface BrandSearchComboboxProps {
-  // This component now manages its own selected state internally
-  // to simplify integration. The parent can be notified via a callback if needed.
-  onChange: (selectedIds: number[]) => void;
-  initialSelectedBrands?: Brand[]; // Allow parent to provide initial state
+  onChange: (selectedBrands: Brand[]) => void;
+  initialSelectedBrands?: Brand[];
 }
 
 export default function BrandSearchCombobox({
@@ -38,17 +36,16 @@ export default function BrandSearchCombobox({
   }, [query, dispatch]);
 
   const handleSelectionChange = (newlySelectedBrands: Brand[]) => {
-    // This component now handles multiple selections
     setSelectedBrands(newlySelectedBrands);
-    onChange(newlySelectedBrands.map((b) => b.id));
-    setQuery(""); // Clear query after selection
-    inputRef.current?.blur(); // Blur the input to close the dropdown
+    onChange(newlySelectedBrands);
+    setQuery("");
+    inputRef.current?.blur();
   };
 
   const removeBrand = (brandId: number) => {
     const newSelection = selectedBrands.filter((brand) => brand.id !== brandId);
     setSelectedBrands(newSelection);
-    onChange(newSelection.map((b) => b.id));
+    onChange(newSelection);
   };
 
   // Filter out already selected brands from the search results
