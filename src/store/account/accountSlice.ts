@@ -15,6 +15,7 @@ interface AccountState {
   loading: boolean;
   error: string | null;
   pagination: PaginationState;
+  updateSuccess: boolean;
 }
 
 const initialState: AccountState = {
@@ -28,6 +29,7 @@ const initialState: AccountState = {
     perPage: 10,
     total: 0,
   },
+  updateSuccess: false,
 };
 
 const accountSlice = createSlice({
@@ -69,6 +71,7 @@ const accountSlice = createSlice({
     updateAccountRequest(state, _action: PayloadAction<UpdateAccountPayload>) {
       state.loading = true;
       state.error = null;
+      state.updateSuccess = false;
     },
     updateAccountSuccess(state, action: PayloadAction<Account>) {
       state.loading = false;
@@ -77,6 +80,7 @@ const accountSlice = createSlice({
       if (index !== -1) {
         state.accounts[index] = action.payload;
       }
+      state.updateSuccess = true;
     },
     updateAccountFailure(state, action: PayloadAction<string>) {
       state.loading = false;
@@ -109,6 +113,9 @@ const accountSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    resetUpdateStatus(state) {
+      state.updateSuccess = false;
+    },
   },
 });
 
@@ -128,6 +135,7 @@ export const {
   fetchAccountByIdRequest,
   fetchAccountByIdSuccess,
   fetchAccountByIdFailure,
+  resetUpdateStatus,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;
