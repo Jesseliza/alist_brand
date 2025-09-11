@@ -165,20 +165,43 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
     const { accountId, brands, ...payload } = action.payload;
     const apiPayload = {
       ...payload,
-      venues: brands?.map(b => b.id) || [],
+      venues: brands?.map((b) => b.id) || [],
     };
-    const response: { success: boolean, result: Account, response: string } = yield call(putData, `/api/accounts/${accountId}`, apiPayload);
-    if (response.success) {
-      yield put(updateAccountSuccess(response.result));
-      toast.success('Account updated successfully!');
+    const response: { message: string; account: any } = yield call(
+      postData,
+      `/api/account/${accountId}`,
+      apiPayload
+    );
+    if (response.account) {
+      const apiAccount = response.account;
+      const feAccount: Account = {
+        accountId: apiAccount.id.toString(),
+        firstName: apiAccount.first_name,
+        lastName: apiAccount.last_name,
+        emailAddress: apiAccount.email,
+        phoneNumber: apiAccount.phone,
+        pin: apiAccount.pin,
+        accountType: apiAccount.account_type,
+        brands: apiAccount.venues || [],
+        signUpDate: apiAccount.created_at,
+        avatarInitials: `${apiAccount.first_name?.[0] || ""}${
+          apiAccount.last_name?.[0] || ""
+        }`.toUpperCase(),
+        avatarBackground: generateColorFromString(apiAccount.first_name || ""),
+        subscriptionCount: 0,
+        brandsCount: apiAccount.venues?.length || 0,
+        campaignsCount: 0,
+      };
+      yield put(updateAccountSuccess(feAccount));
+      toast.success(response.message);
     } else {
-      const errorMessage = response.response || 'Failed to update account';
+      const errorMessage = (response as any).message || "Failed to update account";
       yield put(updateAccountFailure(errorMessage));
       toast.error(errorMessage);
     }
   } catch (error) {
     const err = error as Error;
-    const errorMessage = err.message || 'An unknown error occurred';
+    const errorMessage = err.message || "An unknown error occurred";
     yield put(updateAccountFailure(errorMessage));
     toast.error(errorMessage);
   }
