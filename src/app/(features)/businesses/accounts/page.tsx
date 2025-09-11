@@ -1,11 +1,13 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import { fetchAccountsRequest } from "@/store/account/accountSlice";
+import { RootState } from "@/store/store";
 import AccountsTable from "@/components/features/accounts/AccountsTable";
 import AccountCard from "@/components/features/accounts/AccountMobileCard";
 import Pagination from "@/components/general/Pagination";
-import { AccountsData } from "@/data/AccountsData";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import SortDropdown from "@/components/general/dropdowns/SortDropdown";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
@@ -13,21 +15,23 @@ import Image from "next/image";
 
 export default function AccountsPage() {
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
+  const { accounts, pagination, loading, error } = useSelector((state: RootState) => state.account);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentAccounts = AccountsData.slice(indexOfFirstItem, indexOfLastItem);
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("");
+  const [accountType, setAccountType] = useState("");
+
+  useEffect(() => {
+    dispatch(fetchAccountsRequest({ search, status, account_type: accountType, per_page: 20, page: 1 }));
+  }, [dispatch, search, status, accountType]);
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    dispatch(fetchAccountsRequest({ search, status, account_type: accountType, per_page: pagination.perPage, page }));
   };
 
   const handleItemsPerPageChange = (items: number) => {
-    setItemsPerPage(items);
-    setCurrentPage(1);
+    dispatch(fetchAccountsRequest({ search, status, account_type: accountType, per_page: items, page: 1 }));
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,8 +39,10 @@ export default function AccountsPage() {
   };
 
   const handleSortSelect = (value: string) => {
-    console.log("Sort selected:", value);
-    // Add your sort logic here
+    // Assuming the value is in the format "key:direction", e.g., "status:active"
+    const [key, val] = value.split(':');
+    if (key === 'status') setStatus(val);
+    if (key === 'account_type') setAccountType(val);
   };
 
   const handleActionSelect = (value: string) => {
@@ -61,7 +67,7 @@ export default function AccountsPage() {
         <SearchInputMobile
           value={search}
           onChange={handleSearchChange}
-          placeholder="Search brand"
+          placeholder="Search account"
         />
         <div className="bg-white rounded-[11px] w-10 h-10  flex items-center justify-center aspect-square">
           <Image
@@ -85,20 +91,27 @@ export default function AccountsPage() {
               <ActionDropdown onSelect={handleActionSelect} />
             </div>
           </div>
-          <div className="md:hidden space-y-[7px]">
-            {AccountsData.map((account) => (
-              <AccountCard key={account.accountId} account={account} />
-            ))}
-          </div>
-          <div className="hidden md:block">
-            <AccountsTable accounts={currentAccounts} />
-            <Pagination
-              totalItems={AccountsData.length}
-              itemsPerPage={itemsPerPage}
-              onPageChange={handlePageChange}
-              onItemsPerPageChange={handleItemsPerPageChange}
-            />
-          </div>
+          {loading && <p>Loading...</p>}
+          {error && <p className="text-red-500">Error: {error}</p>}
+          {!loading && !error && (
+            <>
+              <div className="md:hidden space-y-[7px]">
+                {accounts.map((account) => (
+                  <AccountCard key={account.accountId} account={account} />
+                ))}
+              </div>
+              <div className="hidden md:block">
+                <AccountsTable accounts={accounts} />
+                <Pagination
+                  totalItems={pagination.total}
+                  itemsPerPage={pagination.perPage}
+                  onPageChange={handlePageChange}
+                  onItemsPerPageChange={handleItemsPerPageChange}
+                  currentPage={pagination.currentPage}
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
