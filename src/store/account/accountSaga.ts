@@ -33,8 +33,26 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
 
     if (response.accounts) {
       const { data, current_page, last_page, per_page, total, links, next_page_url, prev_page_url } = response.accounts;
+
+      const feAccounts: Account[] = data.map((apiAccount: any) => ({
+        accountId: apiAccount.id.toString(),
+        firstName: apiAccount.first_name,
+        lastName: apiAccount.last_name,
+        emailAddress: apiAccount.email,
+        phoneNumber: apiAccount.phone,
+        pin: apiAccount.pin,
+        accountType: apiAccount.account_type,
+        brandIds: apiAccount.venues?.map((v: any) => v.id) || [],
+        signUpDate: apiAccount.created_at ? new Date(apiAccount.created_at) : new Date(),
+        avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
+        avatarBackground: "#CCCCCC",
+        subscriptionCount: 0,
+        brandsCount: apiAccount.venues?.length || 0,
+        campaignsCount: 0,
+      }));
+
       yield put(fetchAccountsSuccess({
-        accounts: data,
+        accounts: feAccounts,
         pagination: {
           currentPage: current_page,
           lastPage: last_page,
