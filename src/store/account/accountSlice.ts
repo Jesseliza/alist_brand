@@ -97,6 +97,18 @@ const accountSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    fetchAccountByIdRequest(state, _action: PayloadAction<{ accountId: string }>) {
+      state.loading = true;
+      state.error = null;
+    },
+    fetchAccountByIdSuccess(state, action: PayloadAction<Account>) {
+      state.loading = false;
+      state.selectedAccount = action.payload;
+    },
+    fetchAccountByIdFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -113,6 +125,9 @@ export const {
   deleteAccountRequest,
   deleteAccountSuccess,
   deleteAccountFailure,
+  fetchAccountByIdRequest,
+  fetchAccountByIdSuccess,
+  fetchAccountByIdFailure,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;

@@ -7,7 +7,7 @@ import AccountHeader from "@/components/features/accounts/AccountHeader";
 import AccountTabContent from "@/components/features/accounts/AccountTabContent";
 import { Account, AccountType } from "@/types/entities";
 import { RootState } from "@/store/store";
-import { createAccountRequest, updateAccountRequest, fetchAccountsRequest } from "@/store/account/accountSlice";
+import { createAccountRequest, updateAccountRequest, fetchAccountsRequest, fetchAccountByIdRequest } from "@/store/account/accountSlice";
 import { CreateAccountPayload, UpdateAccountPayload } from "@/types/requests";
 
 export default function AccountPage() {
@@ -24,13 +24,6 @@ export default function AccountPage() {
   const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "Details");
   const [account, setAccount] = useState<Partial<Account> | null>(null);
 
-  // Fetch accounts if they are not already in the store
-  useEffect(() => {
-    if (!isCreateMode && accounts.length === 0) {
-      dispatch(fetchAccountsRequest({ per_page: 10, page: 1 }));
-    }
-  }, [dispatch, isCreateMode, accounts.length]);
-
   useEffect(() => {
     if (isCreateMode) {
       setAccount({
@@ -42,11 +35,16 @@ export default function AccountPage() {
         accountType: AccountType.INDIVIDUAL,
         brandIds: [],
       });
-    } else {
-      const foundAccount = accounts.find((acc) => acc.accountId === accountId);
-      setAccount(foundAccount || null);
+    } else if (accountId) {
+      dispatch(fetchAccountByIdRequest({ accountId }));
     }
-  }, [accountId, isCreateMode, accounts]);
+  }, [accountId, isCreateMode, dispatch]);
+
+  useEffect(() => {
+    if (selectedAccount && selectedAccount.accountId === accountId) {
+      setAccount(selectedAccount);
+    }
+  }, [selectedAccount, accountId]);
 
   // Handle successful creation
   useEffect(() => {

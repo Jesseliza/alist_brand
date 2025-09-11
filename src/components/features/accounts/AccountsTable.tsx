@@ -1,26 +1,20 @@
 "use client";
 
 import Checkbox from "@/components/general/CheckBox";
-import { useState } from "react";
 import { Account } from "@/types/entities";
 import Link from "next/link";
 
 interface AccountsTableProps {
   accounts: Account[];
+  checkedRows: Set<string>;
+  onCheckboxChange: (accountId: string) => void;
 }
 
-export default function AccountsTable({ accounts }: AccountsTableProps) {
-  const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
-
-  const handleCheckboxChange = (accountId: string) => {
-    const newCheckedRows = new Set(checkedRows);
-    if (newCheckedRows.has(accountId)) {
-      newCheckedRows.delete(accountId);
-    } else {
-      newCheckedRows.add(accountId);
-    }
-    setCheckedRows(newCheckedRows);
-  };
+export default function AccountsTable({
+  accounts,
+  checkedRows,
+  onCheckboxChange,
+}: AccountsTableProps) {
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-GB", {
@@ -99,7 +93,7 @@ export default function AccountsTable({ accounts }: AccountsTableProps) {
                 <div className="flex items-center">
                   <Checkbox
                     checked={checkedRows.has(account.accountId)}
-                    onChange={() => handleCheckboxChange(account.accountId)}
+                    onChange={() => onCheckboxChange(account.accountId)}
                   />
                   <Link href={`/businesses/accounts/${account.accountId}`}>
                     <div className="ml-3 flex items-center cursor-pointer">
