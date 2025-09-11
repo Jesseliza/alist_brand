@@ -24,27 +24,29 @@ export default function AccountsPage() {
   const [accountType, setAccountType] = useState("");
 
   const debouncedSearch = useDebounce(search, 500);
-  const debouncedStatus = useDebounce(status, 500);
-  const debouncedAccountType = useDebounce(accountType, 500);
 
-  const isInitialMount = useRef(true);
-
+  // Effect for initial load
   useEffect(() => {
-    if (isInitialMount.current) {
-      // On initial mount, fetch all accounts without filters
-      dispatch(fetchAccountsRequest({ per_page: 20, page: 1 }));
-      isInitialMount.current = false;
-    } else {
-      // On subsequent renders (when filters change), fetch with debounced filters
-      dispatch(fetchAccountsRequest({
-        search: debouncedSearch,
-        status: debouncedStatus,
-        account_type: debouncedAccountType,
-        per_page: 20,
-        page: 1
-      }));
+    dispatch(fetchAccountsRequest({ per_page: 20, page: 1 }));
+  }, [dispatch]);
+
+  const isInitialSearchMount = useRef(true);
+  useEffect(() => {
+    // Skip the initial mount
+    if (isInitialSearchMount.current) {
+      isInitialSearchMount.current = false;
+      return;
     }
-  }, [dispatch, debouncedSearch, debouncedStatus, debouncedAccountType]);
+
+    // Debounced search effect
+    dispatch(fetchAccountsRequest({
+      search: debouncedSearch,
+      status: status,
+      account_type: accountType,
+      per_page: pagination.perPage || 20,
+      page: 1
+    }));
+  }, [debouncedSearch, dispatch]); // This effect should only run when the debounced search term changes
 
   const handlePageChange = (url: string) => {
     dispatch(fetchAccountsRequest({
@@ -65,10 +67,26 @@ export default function AccountsPage() {
   };
 
   const handleSortSelect = (value: string) => {
-    // Assuming the value is in the format "key:direction", e.g., "status:active"
     const [key, val] = value.split(':');
-    if (key === 'status') setStatus(val);
-    if (key === 'account_type') setAccountType(val);
+    let newStatus = status;
+    let newAccountType = accountType;
+
+    if (key === 'status') {
+      newStatus = val;
+      setStatus(newStatus);
+    }
+    if (key === 'account_type') {
+      newAccountType = val;
+      setAccountType(newAccountType);
+    }
+
+    dispatch(fetchAccountsRequest({
+      search: search,
+      status: newStatus,
+      account_type: newAccountType,
+      per_page: pagination.perPage,
+      page: 1
+    }));
   };
 
   const handleActionSelect = (value: string) => {
