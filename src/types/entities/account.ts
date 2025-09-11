@@ -46,7 +46,7 @@ export type Account = {
   accountType: AccountType;
 
   /** When the account was created */
-  signUpDate: Date;
+  signUpDate: string | null;
 
   /** Timestamp of most recent login (optional) */
   lastLogin?: Date;

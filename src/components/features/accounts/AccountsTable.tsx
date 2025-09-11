@@ -22,8 +22,8 @@ export default function AccountsTable({ accounts }: AccountsTableProps) {
     setCheckedRows(newCheckedRows);
   };
 
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString("en-GB", {
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
@@ -34,7 +34,7 @@ export default function AccountsTable({ accounts }: AccountsTableProps) {
     if (account.accountType === "agency") {
       return account.firstName;
     }
-    return `${account.firstName} ${account.lastName}`.trim();
+    return [account.firstName, account.lastName].filter(Boolean).join(' ');
   };
 
   return (
