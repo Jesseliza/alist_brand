@@ -20,21 +20,13 @@ import { CreateAccountPayload, UpdateAccountPayload } from '@/types/requests';
 
 function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
   try {
-    const params = new URLSearchParams();
-    const { search, status, account_type, per_page } = action.payload;
+    const { url, ...payload } = action.payload;
+    const endpoint = url ? url.split('api')[1] : '/api/list/accounts';
 
-    if (search) params.append('search', search);
-    if (status) params.append('status', status);
-    if (account_type) params.append('account_type', account_type);
-    if (per_page) params.append('per_page', per_page.toString());
-
-    const queryString = params.toString();
-    const endpoint = `/api/list/accounts${queryString ? `?${queryString}` : ''}`;
-
-    const response: { message: string, accounts: { data: Account[], current_page: number, last_page: number, per_page: number, total: number } } = yield call(fetchData, endpoint);
+    const response: { message: string, accounts: { data: Account[], current_page: number, last_page: number, per_page: number, total: number, links: any[], next_page_url: string | null, prev_page_url: string | null } } = yield call(postData, endpoint, payload);
 
     if (response.accounts) {
-      const { data, current_page, last_page, per_page, total } = response.accounts;
+      const { data, current_page, last_page, per_page, total, links, next_page_url, prev_page_url } = response.accounts;
       yield put(fetchAccountsSuccess({
         accounts: data,
         pagination: {
@@ -42,9 +34,12 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
           lastPage: last_page,
           perPage: per_page,
           total: total,
+          links: links,
+          next_page_url: next_page_url,
+          prev_page_url: prev_page_url,
         },
       }));
-      if (action.payload.search || action.payload.status || action.payload.account_type) {
+      if (payload.search || payload.status || payload.account_type) {
         toast.success('Accounts filtered successfully!');
       }
     } else {

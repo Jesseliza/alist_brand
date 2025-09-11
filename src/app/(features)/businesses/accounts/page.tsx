@@ -26,8 +26,8 @@ export default function AccountsPage() {
     dispatch(fetchAccountsRequest({ search, status, account_type: accountType, per_page: 20, page: 1 }));
   }, [dispatch, search, status, accountType]);
 
-  const handlePageChange = (page: number) => {
-    dispatch(fetchAccountsRequest({ search, status, account_type: accountType, per_page: pagination.perPage, page }));
+  const handlePageChange = (url: string) => {
+    dispatch(fetchAccountsRequest({ url }));
   };
 
   const handleItemsPerPageChange = (items: number) => {
@@ -103,11 +103,10 @@ export default function AccountsPage() {
               <div className="hidden md:block">
                 <AccountsTable accounts={accounts} />
                 <Pagination
-                  totalItems={pagination.total}
-                  itemsPerPage={pagination.perPage}
+                  links={pagination.links}
                   onPageChange={handlePageChange}
+                  itemsPerPage={pagination.perPage}
                   onItemsPerPageChange={handleItemsPerPageChange}
-                  currentPage={pagination.currentPage}
                 />
               </div>
             </>
