@@ -25,6 +25,7 @@ export default function AccountsPage() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [accountType, setAccountType] = useState("");
+  const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
 
   const debouncedSearch = useDebounce(search, 500);
   // Effect for initial load
@@ -81,8 +82,23 @@ export default function AccountsPage() {
   };
 
   const handleActionSelect = (value: string) => {
-    console.log("Action selected:", value);
-    // Add your action logic here
+    if (value === "update") {
+      if (checkedRows.size === 1) {
+        const accountId = checkedRows.values().next().value;
+        router.push(`/businesses/accounts/${accountId}`);
+      }
+    }
+    // Add other action logic here
+  };
+
+  const handleCheckboxChange = (accountId: string) => {
+    const newCheckedRows = new Set(checkedRows);
+    if (newCheckedRows.has(accountId)) {
+      newCheckedRows.delete(accountId);
+    } else {
+      newCheckedRows.add(accountId);
+    }
+    setCheckedRows(newCheckedRows);
   };
 
   return (
@@ -123,7 +139,10 @@ export default function AccountsPage() {
               Add Account
             </button>
             <div className="w-[137px]">
-              <ActionDropdown onSelect={handleActionSelect} />
+              <ActionDropdown
+                onSelect={handleActionSelect}
+                updateDisabled={checkedRows.size > 1}
+              />
             </div>
           </div>
           {loading && <p>Loading...</p>}
@@ -136,7 +155,11 @@ export default function AccountsPage() {
                 ))}
               </div>
               <div className="hidden md:block">
-                <AccountsTable accounts={accounts} />
+                <AccountsTable
+                  accounts={accounts}
+                  checkedRows={checkedRows}
+                  onCheckboxChange={handleCheckboxChange}
+                />
                 <Pagination
                   totalItems={pagination.total}
                   itemsPerPage={pagination.perPage}

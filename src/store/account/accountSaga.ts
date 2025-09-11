@@ -15,8 +15,11 @@ import {
   deleteAccountRequest,
   deleteAccountSuccess,
   deleteAccountFailure,
+  fetchAccountByIdRequest,
+  fetchAccountByIdSuccess,
+  fetchAccountByIdFailure,
 } from './accountSlice';
-import { Account } from '@/types/entities';
+import { Account, AccountType } from '@/types/entities';
 import { CreateAccountPayload, UpdateAccountPayload } from '@/types/requests';
 
 function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
@@ -197,11 +200,49 @@ function* handleDeleteAccount(action: ReturnType<typeof deleteAccountRequest>) {
   }
 }
 
+function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdRequest>) {
+  try {
+    const { accountId } = action.payload;
+    const response: { message: string, account: any } = yield call(fetchData, `/api/account/${accountId}`);
+
+    if (response.account) {
+      const apiAccount = response.account;
+      const feAccount: Account = {
+        accountId: apiAccount.id.toString(),
+        firstName: apiAccount.first_name,
+        lastName: apiAccount.last_name,
+        emailAddress: apiAccount.email,
+        phoneNumber: apiAccount.phone,
+        pin: apiAccount.pin,
+        accountType: apiAccount.account_type,
+        brandIds: apiAccount.venues?.map((v: any) => v.id) || [],
+        signUpDate: apiAccount.created_at,
+        avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
+        avatarBackground: generateColorFromString(apiAccount.first_name || ''),
+        subscriptionCount: 0,
+        brandsCount: apiAccount.venues?.length || 0,
+        campaignsCount: 0,
+      };
+      yield put(fetchAccountByIdSuccess(feAccount));
+    } else {
+      const errorMessage = (response as any).response || 'Failed to fetch account';
+      yield put(fetchAccountByIdFailure(errorMessage));
+      toast.error(errorMessage);
+    }
+  } catch (error) {
+    const err = error as Error;
+    const errorMessage = err.message || 'An unknown error occurred';
+    yield put(fetchAccountByIdFailure(errorMessage));
+    toast.error(errorMessage);
+  }
+}
+
 function* watchAccount() {
   yield takeLatest(fetchAccountsRequest.type, handleFetchAccounts);
   yield takeLatest(createAccountRequest.type, handleCreateAccount);
   yield takeLatest(updateAccountRequest.type, handleUpdateAccount);
   yield takeLatest(deleteAccountRequest.type, handleDeleteAccount);
+  yield takeLatest(fetchAccountByIdRequest.type, handleFetchAccountById);
 }
 
 export default function* accountSaga() {
