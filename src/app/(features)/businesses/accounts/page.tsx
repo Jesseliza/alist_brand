@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
 import { fetchAccountsRequest } from "@/store/account/accountSlice";
 import { RootState } from "@/store/store";
@@ -22,9 +23,28 @@ export default function AccountsPage() {
   const [status, setStatus] = useState("");
   const [accountType, setAccountType] = useState("");
 
+  const debouncedSearch = useDebounce(search, 500);
+  const debouncedStatus = useDebounce(status, 500);
+  const debouncedAccountType = useDebounce(accountType, 500);
+
+  const isInitialMount = useRef(true);
+
   useEffect(() => {
-    dispatch(fetchAccountsRequest({ per_page: 20, page: 1 }));
-  }, [dispatch]);
+    if (isInitialMount.current) {
+      // On initial mount, fetch all accounts without filters
+      dispatch(fetchAccountsRequest({ per_page: 20, page: 1 }));
+      isInitialMount.current = false;
+    } else {
+      // On subsequent renders (when filters change), fetch with debounced filters
+      dispatch(fetchAccountsRequest({
+        search: debouncedSearch,
+        status: debouncedStatus,
+        account_type: debouncedAccountType,
+        per_page: 20,
+        page: 1
+      }));
+    }
+  }, [dispatch, debouncedSearch, debouncedStatus, debouncedAccountType]);
 
   const handlePageChange = (url: string) => {
     dispatch(fetchAccountsRequest({ url }));
@@ -50,10 +70,6 @@ export default function AccountsPage() {
     // Add your action logic here
   };
 
-  const handleApplyFilters = () => {
-    dispatch(fetchAccountsRequest({ search, status, account_type: accountType, per_page: pagination.perPage, page: 1 }));
-  };
-
   return (
     <div>
       <div className="py-[13px] bg-white hidden md:block relative">
@@ -62,23 +78,8 @@ export default function AccountsPage() {
           style={{ left: "-100vw", right: "-100vw" }}
         />
         <div className="max-w-[1428px] mx-auto flex items-center justify-between relative z-10">
-          <div className="flex items-center gap-4">
-            <div className="text-[18px] leading-[27px] w-[147px]">
-              <SortDropdown onSelect={handleSortSelect} />
-            </div>
-            <input
-              type="text"
-              value={search}
-              onChange={handleSearchChange}
-              placeholder="Search..."
-              className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm"
-            />
-            <button
-              onClick={handleApplyFilters}
-              className="bg-blue-500 text-white rounded-lg px-4 py-1.5 text-sm"
-            >
-              Apply Filters
-            </button>
+          <div className="text-[18px] leading-[27px] w-[147px]">
+            <SortDropdown onSelect={handleSortSelect} />
           </div>
         </div>
       </div>
@@ -88,12 +89,6 @@ export default function AccountsPage() {
           onChange={handleSearchChange}
           placeholder="Search account"
         />
-        <button
-          onClick={handleApplyFilters}
-          className="bg-blue-500 text-white rounded-lg px-4 py-2 text-sm"
-        >
-          Search
-        </button>
         <div className="bg-white rounded-[11px] w-10 h-10  flex items-center justify-center aspect-square">
           <Image
             src="/icons/general/sort-1-light.svg"
