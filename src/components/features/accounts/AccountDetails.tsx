@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { Account, AccountType } from "@/types/entities";
+import { Account, AccountType, Brand } from "@/types/entities";
 import BrandSearchCombobox from "./BrandSearchCombobox";
 
 // Define InputField as a standalone component outside of AccountDetails
@@ -51,14 +51,14 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
       phoneNumber: "",
       pin: "",
       accountType: AccountType.INDIVIDUAL,
-      brandIds: [],
+      brands: [],
     }
   );
   const router = useRouter();
 
   useEffect(() => {
     if (account) {
-      setFormData(account);
+      setFormData({ ...account, pin: "" });
     }
   }, [account]);
 
@@ -69,8 +69,8 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleBrandChange = (selectedIds: number[]) => {
-    setFormData((prev) => ({ ...prev, brandIds: selectedIds }));
+  const handleBrandChange = (selectedBrands: Brand[]) => {
+    setFormData((prev) => ({ ...prev, brands: selectedBrands }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -123,6 +123,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
             label="PIN"
             value={formData.pin || ""}
             name="pin"
+            type="password"
             onChange={handleChange}
           />
           <div className="mb-5 md:mb-7">
@@ -145,7 +146,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
             </select>
           </div>
           <BrandSearchCombobox
-            initialSelectedBrands={[]}
+            initialSelectedBrands={formData.brands || []}
             onChange={handleBrandChange}
           />
           <div className="flex justify-end gap-4 mt-6">

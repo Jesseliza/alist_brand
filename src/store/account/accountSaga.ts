@@ -43,7 +43,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type,
-        brandIds: apiAccount.venues?.map((v: any) => v.id) || [],
+        brands: apiAccount.venues || [],
         signUpDate: apiAccount.created_at,
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
         avatarBackground: generateColorFromString(apiAccount.first_name || ''),
@@ -86,7 +86,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
       phoneNumber,
       pin,
       accountType,
-      brandIds,
+      brands,
     } = action.payload;
 
     const apiPayload = {
@@ -96,7 +96,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
       phone: phoneNumber,
       pin: pin,
       account_type: accountType,
-      venues: brandIds,
+      venues: brands?.map(b => b.id) || [],
       registration_type: "accounts", // Static value
       status: "active", // Static value
     };
@@ -135,7 +135,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type,
-        brandIds: apiAccount.venues.map(v => v.id),
+        brands: apiAccount.venues,
         signUpDate: apiAccount.created_at,
         // These fields are not in the response, so we provide defaults
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
@@ -162,8 +162,12 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
 
 function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
   try {
-    const { accountId, ...payload } = action.payload;
-    const response: { success: boolean, result: Account, response: string } = yield call(putData<Omit<UpdateAccountPayload, 'accountId'>>, `/api/accounts/${accountId}`, payload);
+    const { accountId, brands, ...payload } = action.payload;
+    const apiPayload = {
+      ...payload,
+      venues: brands?.map(b => b.id) || [],
+    };
+    const response: { success: boolean, result: Account, response: string } = yield call(putData, `/api/accounts/${accountId}`, apiPayload);
     if (response.success) {
       yield put(updateAccountSuccess(response.result));
       toast.success('Account updated successfully!');
@@ -215,7 +219,7 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type,
-        brandIds: apiAccount.venues?.map((v: any) => v.id) || [],
+        brands: apiAccount.venues || [],
         signUpDate: apiAccount.created_at,
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
         avatarBackground: generateColorFromString(apiAccount.first_name || ''),

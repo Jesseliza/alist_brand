@@ -33,7 +33,7 @@ export default function AccountPage() {
         phoneNumber: "",
         pin: "",
         accountType: AccountType.INDIVIDUAL,
-        brandIds: [],
+        brands: [],
       });
     } else if (accountId) {
       dispatch(fetchAccountByIdRequest({ accountId }));
