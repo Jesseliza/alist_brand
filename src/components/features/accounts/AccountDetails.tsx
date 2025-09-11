@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import { Account, AccountType } from "@/types/entities";
 import BrandSearchCombobox from "./BrandSearchCombobox";
 
@@ -75,7 +76,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.firstName || !formData.emailAddress) {
-      alert("First name and email are required.");
+      toast.error("First name and email are required.");
       return;
     }
     onSave(formData);

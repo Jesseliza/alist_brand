@@ -1,4 +1,5 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects';
+import toast from 'react-hot-toast';
 import { postData, putData, deleteData, fetchData } from '@/services/commonService';
 import {
   fetchAccountsRequest,
@@ -25,11 +26,15 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
     if (response.success) {
       yield put(fetchAccountsSuccess(response.result));
     } else {
-      yield put(fetchAccountsFailure(response.response || 'Failed to fetch accounts'));
+      const errorMessage = response.response || 'Failed to fetch accounts';
+      yield put(fetchAccountsFailure(errorMessage));
+      toast.error(errorMessage);
     }
   } catch (error) {
     const err = error as Error;
-    yield put(fetchAccountsFailure(err.message || 'An unknown error occurred'));
+    const errorMessage = err.message || 'An unknown error occurred';
+    yield put(fetchAccountsFailure(errorMessage));
+    toast.error(errorMessage);
   }
 }
 
@@ -102,13 +107,17 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
       };
 
       yield put(createAccountSuccess(feAccount));
+      toast.success('Account created successfully!');
     } else {
       const errorMessage = (response as any).response || 'Failed to create account';
       yield put(createAccountFailure(errorMessage));
+      toast.error(errorMessage);
     }
   } catch (error) {
     const err = error as Error;
-    yield put(createAccountFailure(err.message || 'An unknown error occurred'));
+    const errorMessage = err.message || 'An unknown error occurred';
+    yield put(createAccountFailure(errorMessage));
+    toast.error(errorMessage);
   }
 }
 
@@ -118,12 +127,17 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
     const response: { success: boolean, result: Account, response: string } = yield call(putData<Omit<UpdateAccountPayload, 'accountId'>>, `/api/accounts/${accountId}`, payload);
     if (response.success) {
       yield put(updateAccountSuccess(response.result));
+      toast.success('Account updated successfully!');
     } else {
-      yield put(updateAccountFailure(response.response || 'Failed to update account'));
+      const errorMessage = response.response || 'Failed to update account';
+      yield put(updateAccountFailure(errorMessage));
+      toast.error(errorMessage);
     }
   } catch (error) {
     const err = error as Error;
-    yield put(updateAccountFailure(err.message || 'An unknown error occurred'));
+    const errorMessage = err.message || 'An unknown error occurred';
+    yield put(updateAccountFailure(errorMessage));
+    toast.error(errorMessage);
   }
 }
 
@@ -133,12 +147,17 @@ function* handleDeleteAccount(action: ReturnType<typeof deleteAccountRequest>) {
     const response: { success: boolean, response: string } = yield call(deleteData, `/api/accounts/${accountId}`);
     if (response.success) {
       yield put(deleteAccountSuccess({ accountId }));
+      toast.success('Account deleted successfully!');
     } else {
-      yield put(deleteAccountFailure(response.response || 'Failed to delete account'));
+      const errorMessage = response.response || 'Failed to delete account';
+      yield put(deleteAccountFailure(errorMessage));
+      toast.error(errorMessage);
     }
   } catch (error) {
     const err = error as Error;
-    yield put(deleteAccountFailure(err.message || 'An unknown error occurred'));
+    const errorMessage = err.message || 'An unknown error occurred';
+    yield put(deleteAccountFailure(errorMessage));
+    toast.error(errorMessage);
   }
 }
 

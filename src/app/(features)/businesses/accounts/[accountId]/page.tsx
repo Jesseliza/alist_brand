@@ -52,7 +52,6 @@ export default function AccountPage() {
   useEffect(() => {
     // If we were in create mode and a selectedAccount appears, it means creation was successful.
     if (isCreateMode && selectedAccount?.accountId) {
-        alert("Account created successfully!");
         router.push('/businesses/accounts');
     }
   }, [selectedAccount, isCreateMode, router]);
@@ -75,8 +74,6 @@ export default function AccountPage() {
       // Ensure we have the accountId for updates
       if (accountId) {
         dispatch(updateAccountRequest({ ...formData, accountId } as UpdateAccountPayload));
-        // Optionally show a success message immediately or wait for state change
-        alert("Account update request sent!");
       }
     }
   };
