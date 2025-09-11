@@ -47,7 +47,13 @@ export default function AccountsPage() {
   }, [dispatch, debouncedSearch, debouncedStatus, debouncedAccountType]);
 
   const handlePageChange = (url: string) => {
-    dispatch(fetchAccountsRequest({ url }));
+    dispatch(fetchAccountsRequest({
+      url,
+      search: search,
+      status: status,
+      account_type: accountType,
+      per_page: pagination.perPage
+    }));
   };
 
   const handleItemsPerPageChange = (items: number) => {
