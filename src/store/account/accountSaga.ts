@@ -1,6 +1,7 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects';
 import toast from 'react-hot-toast';
 import { postData, putData, deleteData, fetchData } from '@/services/commonService';
+import { generateColorFromString } from '@/utils/colorGenerator';
 import {
   fetchAccountsRequest,
   fetchAccountsSuccess,
@@ -43,9 +44,9 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
         pin: apiAccount.pin,
         accountType: apiAccount.account_type,
         brandIds: apiAccount.venues?.map((v: any) => v.id) || [],
-        signUpDate: apiAccount.created_at ? new Date(apiAccount.created_at) : new Date(),
+        signUpDate: apiAccount.created_at,
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
-        avatarBackground: "#CCCCCC",
+        avatarBackground: generateColorFromString(apiAccount.first_name || ''),
         subscriptionCount: 0,
         brandsCount: apiAccount.venues?.length || 0,
         campaignsCount: 0,
@@ -138,7 +139,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         pin: apiAccount.pin,
         accountType: apiAccount.account_type,
         brandIds: apiAccount.venues.map(v => v.id),
-        signUpDate: new Date(apiAccount.created_at),
+        signUpDate: apiAccount.created_at,
         // These fields are not in the response, so we provide defaults
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
         avatarBackground: "#CCCCCC",
