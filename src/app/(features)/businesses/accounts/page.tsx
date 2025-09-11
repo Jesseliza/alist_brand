@@ -17,7 +17,7 @@ import Image from "next/image";
 export default function AccountsPage() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { accounts, pagination, loading, error, status } = useSelector((state: RootState) => state.account);
+  const { accounts, pagination, loading, error, status: requestStatus } = useSelector((state: RootState) => state.account);
 
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
@@ -27,10 +27,10 @@ export default function AccountsPage() {
   const isInitialMount = useRef(true);
 
   useEffect(() => {
-    if (status === 'idle') {
+    if (requestStatus === 'idle') {
       dispatch(fetchAccountsRequest({ per_page: 20, page: 1 }));
     }
-  }, [status, dispatch]);
+  }, [requestStatus, dispatch]);
 
   useEffect(() => {
     // This effect now handles all filter changes, debounced.
@@ -125,9 +125,9 @@ export default function AccountsPage() {
               <ActionDropdown onSelect={handleActionSelect} />
             </div>
           </div>
-          {status === 'loading' && <p>Loading...</p>}
-          {status === 'failed' && <p className="text-red-500">Error: {error}</p>}
-          {status === 'succeeded' && (
+          {requestStatus === 'loading' && <p>Loading...</p>}
+          {requestStatus === 'failed' && <p className="text-red-500">Error: {error}</p>}
+          {requestStatus === 'succeeded' && (
             <>
               <div className="md:hidden space-y-[7px]">
                 {accounts.map((account) => (
