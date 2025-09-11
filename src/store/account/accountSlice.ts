@@ -15,7 +15,6 @@ interface AccountState {
   loading: boolean;
   error: string | null;
   pagination: PaginationState;
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
 }
 
 const initialState: AccountState = {
@@ -23,7 +22,6 @@ const initialState: AccountState = {
   selectedAccount: null,
   loading: false,
   error: null,
-  status: 'idle',
   pagination: {
     currentPage: 1,
     lastPage: 1,
@@ -44,18 +42,15 @@ const accountSlice = createSlice({
       page?: number;
     }>) {
       state.loading = true;
-      state.status = 'loading';
       state.error = null;
     },
     fetchAccountsSuccess(state, action: PayloadAction<{ accounts: Account[], pagination: PaginationState }>) {
       state.loading = false;
-      state.status = 'succeeded';
       state.accounts = action.payload.accounts;
       state.pagination = action.payload.pagination;
     },
     fetchAccountsFailure(state, action: PayloadAction<string>) {
       state.loading = false;
-      state.status = 'failed';
       state.error = action.payload;
     },
     createAccountRequest(state, _action: PayloadAction<CreateAccountPayload>) {
