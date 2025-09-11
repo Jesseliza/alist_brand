@@ -17,29 +17,27 @@ import Image from "next/image";
 export default function AccountsPage() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { accounts, pagination, loading, error, status: requestStatus } = useSelector((state: RootState) => state.account);
+  const { accounts, pagination, loading, error } = useSelector((state: RootState) => state.account);
 
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [accountType, setAccountType] = useState("");
 
   const debouncedSearch = useDebounce(search, 500);
-  const isInitialMount = useRef(true);
-
+  // Effect for initial load
   useEffect(() => {
-    if (requestStatus === 'idle') {
-      dispatch(fetchAccountsRequest({ per_page: 20, page: 1 }));
-    }
-  }, [requestStatus, dispatch]);
+    dispatch(fetchAccountsRequest({ per_page: pagination.perPage || 20, page: 1 }));
+  }, [dispatch]);
 
+  const isInitialSearchMount = useRef(true);
   useEffect(() => {
-    // This effect now handles all filter changes, debounced.
-    // We skip the initial mount to avoid a double fetch.
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
+    // Skip the initial mount to prevent a fetch on load
+    if (isInitialSearchMount.current) {
+      isInitialSearchMount.current = false;
       return;
     }
 
+    // Debounced search effect
     dispatch(fetchAccountsRequest({
       search: debouncedSearch,
       status: status,
@@ -47,8 +45,6 @@ export default function AccountsPage() {
       per_page: pagination.perPage || 20,
       page: 1
     }));
-    // Note: `status` and `accountType` are not debounced, so this will fire instantly for them.
-    // This is a reasonable UX for dropdowns.
   }, [debouncedSearch, status, accountType, dispatch]);
 
   const handlePageChange = (page: number) => {
@@ -125,9 +121,9 @@ export default function AccountsPage() {
               <ActionDropdown onSelect={handleActionSelect} />
             </div>
           </div>
-          {requestStatus === 'loading' && <p>Loading...</p>}
-          {requestStatus === 'failed' && <p className="text-red-500">Error: {error}</p>}
-          {requestStatus === 'succeeded' && (
+          {loading && <p>Loading...</p>}
+          {error && <p className="text-red-500">Error: {error}</p>}
+          {!loading && !error && (
             <>
               <div className="md:hidden space-y-[7px]">
                 {accounts.map((account) => (
