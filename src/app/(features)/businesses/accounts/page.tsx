@@ -27,12 +27,12 @@ export default function AccountsPage() {
 
   // Effect for initial load
   useEffect(() => {
-    dispatch(fetchAccountsRequest({ per_page: 20, page: 1 }));
+    dispatch(fetchAccountsRequest({ per_page: pagination.perPage || 20, page: 1 }));
   }, [dispatch]);
 
   const isInitialSearchMount = useRef(true);
   useEffect(() => {
-    // Skip the initial mount
+    // Skip the initial mount to prevent a fetch on load
     if (isInitialSearchMount.current) {
       isInitialSearchMount.current = false;
       return;
@@ -46,7 +46,7 @@ export default function AccountsPage() {
       per_page: pagination.perPage || 20,
       page: 1
     }));
-  }, [debouncedSearch, dispatch]); // This effect should only run when the debounced search term changes
+  }, [debouncedSearch, dispatch]); // Only trigger when debounced search term changes
 
   const handlePageChange = (url: string) => {
     dispatch(fetchAccountsRequest({
