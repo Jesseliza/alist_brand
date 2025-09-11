@@ -17,7 +17,10 @@ import Image from "next/image";
 export default function AccountsPage() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { accounts, pagination, loading, error } = useSelector((state: RootState) => state.account);
+  const accounts = useSelector((state: RootState) => state.account.accounts);
+  const pagination = useSelector((state: RootState) => state.account.pagination);
+  const loading = useSelector((state: RootState) => state.account.loading);
+  const error = useSelector((state: RootState) => state.account.error);
 
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
@@ -26,8 +29,10 @@ export default function AccountsPage() {
   const debouncedSearch = useDebounce(search, 500);
   // Effect for initial load
   useEffect(() => {
-    dispatch(fetchAccountsRequest({ per_page: pagination.perPage || 10, page: 1 }));
-  }, [dispatch, pagination.perPage]);
+    if (accounts.length === 0) {
+        dispatch(fetchAccountsRequest({ per_page: 10, page: 1 }));
+    }
+  }, [dispatch, accounts.length]);
 
   const isInitialSearchMount = useRef(true);
   useEffect(() => {
@@ -42,10 +47,10 @@ export default function AccountsPage() {
       search: debouncedSearch,
       status: status,
       account_type: accountType,
-      per_page: pagination.perPage || 10,
+      per_page: 10,
       page: 1
     }));
-  }, [debouncedSearch, status, accountType, dispatch, pagination.perPage]);
+  }, [debouncedSearch, status, accountType, dispatch]);
 
   const handlePageChange = (page: number) => {
     dispatch(fetchAccountsRequest({
