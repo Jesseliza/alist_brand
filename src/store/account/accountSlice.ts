@@ -25,7 +25,7 @@ const initialState: AccountState = {
   pagination: {
     currentPage: 1,
     lastPage: 1,
-    perPage: 20,
+    perPage: 10,
     total: 0,
   },
 };

@@ -26,8 +26,8 @@ export default function AccountsPage() {
   const debouncedSearch = useDebounce(search, 500);
   // Effect for initial load
   useEffect(() => {
-    dispatch(fetchAccountsRequest({ per_page: pagination.perPage || 20, page: 1 }));
-  }, [dispatch]);
+    dispatch(fetchAccountsRequest({ per_page: pagination.perPage || 10, page: 1 }));
+  }, [dispatch, pagination.perPage]);
 
   const isInitialSearchMount = useRef(true);
   useEffect(() => {
@@ -42,10 +42,10 @@ export default function AccountsPage() {
       search: debouncedSearch,
       status: status,
       account_type: accountType,
-      per_page: pagination.perPage || 20,
+      per_page: pagination.perPage || 10,
       page: 1
     }));
-  }, [debouncedSearch, status, accountType, dispatch]);
+  }, [debouncedSearch, status, accountType, dispatch, pagination.perPage]);
 
   const handlePageChange = (page: number) => {
     dispatch(fetchAccountsRequest({
