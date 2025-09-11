@@ -7,7 +7,12 @@ import AccountHeader from "@/components/features/accounts/AccountHeader";
 import AccountTabContent from "@/components/features/accounts/AccountTabContent";
 import { Account, AccountType } from "@/types/entities";
 import { RootState } from "@/store/store";
-import { createAccountRequest, updateAccountRequest, fetchAccountsRequest, fetchAccountByIdRequest } from "@/store/account/accountSlice";
+import {
+  createAccountRequest,
+  updateAccountRequest,
+  fetchAccountByIdRequest,
+  resetUpdateStatus,
+} from "@/store/account/accountSlice";
 import { CreateAccountPayload, UpdateAccountPayload } from "@/types/requests";
 
 export default function AccountPage() {
@@ -19,7 +24,9 @@ export default function AccountPage() {
   const accountId = params.accountId as string;
   const isCreateMode = accountId === "create";
 
-  const { accounts, selectedAccount, loading, error } = useSelector((state: RootState) => state.account);
+  const { selectedAccount, loading, error, updateSuccess } = useSelector(
+    (state: RootState) => state.account
+  );
 
   const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "Details");
   const [account, setAccount] = useState<Partial<Account> | null>(null);
@@ -46,13 +53,23 @@ export default function AccountPage() {
     }
   }, [selectedAccount, accountId]);
 
-  // Handle successful creation
+  // Handle successful creation or update
   useEffect(() => {
-    // If we were in create mode and a selectedAccount appears, it means creation was successful.
     if (isCreateMode && selectedAccount?.accountId) {
-        router.push('/businesses/accounts');
+      router.push("/businesses/accounts");
     }
-  }, [selectedAccount, isCreateMode, router]);
+
+    if (updateSuccess) {
+      router.push("/businesses/accounts");
+      dispatch(resetUpdateStatus()); // Reset the flag
+    }
+  }, [
+    selectedAccount,
+    isCreateMode,
+    router,
+    updateSuccess,
+    dispatch,
+  ]);
 
 
   const handleTabChange = (tab: string) => {
