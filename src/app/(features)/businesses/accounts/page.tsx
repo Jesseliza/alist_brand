@@ -48,9 +48,9 @@ export default function AccountsPage() {
     }));
   }, [debouncedSearch, dispatch]); // Only trigger when debounced search term changes
 
-  const handlePageChange = (url: string) => {
+  const handlePageChange = (page: number) => {
     dispatch(fetchAccountsRequest({
-      url,
+      page,
       search: search,
       status: status,
       account_type: accountType,
@@ -147,9 +147,10 @@ export default function AccountsPage() {
               <div className="hidden md:block">
                 <AccountsTable accounts={accounts} />
                 <Pagination
-                  links={pagination.links}
-                  onPageChange={handlePageChange}
+                  totalItems={pagination.total}
                   itemsPerPage={pagination.perPage}
+                  currentPage={pagination.currentPage}
+                  onPageChange={handlePageChange}
                   onItemsPerPageChange={handleItemsPerPageChange}
                 />
               </div>
