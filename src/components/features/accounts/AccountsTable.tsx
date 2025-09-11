@@ -144,7 +144,7 @@ export default function AccountsTable({ accounts }: AccountsTableProps) {
                 {account.campaignsCount}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                {formatDate(account.signUpDate)}
+                {account.signUpDate ? formatDate(account.signUpDate) : 'N/A'}
               </td>
             </tr>
           ))}
