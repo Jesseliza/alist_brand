@@ -27,7 +27,7 @@ export default function AccountPage() {
   // Fetch accounts if they are not already in the store
   useEffect(() => {
     if (!isCreateMode && accounts.length === 0) {
-      dispatch(fetchAccountsRequest({}));
+      dispatch(fetchAccountsRequest({ per_page: 10, page: 1 }));
     }
   }, [dispatch, isCreateMode, accounts.length]);
 
