@@ -22,12 +22,16 @@ import { CreateAccountPayload, UpdateAccountPayload } from '@/types/requests';
 function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
   try {
     const { url, page, ...bodyPayload } = action.payload;
-    let endpoint = '/api/list/accounts';
+    let endpoint: string;
 
     if (url) {
       endpoint = url.split('api')[1];
-    } else if (page) {
-      endpoint = `${endpoint}?page=${page}`;
+    } else {
+      // Construct the relative URL for initial/filtered requests
+      endpoint = '/api/list/accounts';
+      if (page) {
+        endpoint = `${endpoint}?page=${page}`;
+      }
     }
 
     const response: { message: string, accounts: { data: Account[], current_page: number, last_page: number, per_page: number, total: number, links: any[], next_page_url: string | null, prev_page_url: string | null } } = yield call(postData, endpoint, bodyPayload);
