@@ -20,10 +20,22 @@ import { CreateAccountPayload, UpdateAccountPayload } from '@/types/requests';
 
 function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
   try {
-    const { url, ...payload } = action.payload;
-    const endpoint = url ? url.split('api')[1] : '/api/list/accounts';
+    const { url, page, per_page, ...filters } = action.payload;
+    let endpoint = '/api/list/accounts';
 
-    const response: { message: string, accounts: { data: Account[], current_page: number, last_page: number, per_page: number, total: number, links: any[], next_page_url: string | null, prev_page_url: string | null } } = yield call(postData, endpoint, payload);
+    if (url) {
+      endpoint = url.split('api')[1];
+    } else {
+      const params = new URLSearchParams();
+      if (page) params.set('page', page.toString());
+      if (per_page) params.set('per_page', per_page.toString());
+      const queryString = params.toString();
+      if (queryString) {
+        endpoint = `${endpoint}?${queryString}`;
+      }
+    }
+
+    const response: { message: string, accounts: { data: Account[], current_page: number, last_page: number, per_page: number, total: number, links: any[], next_page_url: string | null, prev_page_url: string | null } } = yield call(postData, endpoint, filters);
 
     if (response.accounts) {
       const { data, current_page, last_page, per_page, total, links, next_page_url, prev_page_url } = response.accounts;
@@ -39,7 +51,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
           prev_page_url: prev_page_url,
         },
       }));
-      if (payload.search || payload.status || payload.account_type) {
+      if (filters.search || filters.status || filters.account_type) {
         toast.success('Accounts filtered successfully!');
       }
     } else {
