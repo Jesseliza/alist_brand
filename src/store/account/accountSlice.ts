@@ -2,11 +2,19 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Account } from '@/types/entities';
 import { CreateAccountPayload, UpdateAccountPayload } from '@/types/requests';
 
+interface PaginationState {
+  currentPage: number;
+  lastPage: number;
+  perPage: number;
+  total: number;
+}
+
 interface AccountState {
   accounts: Account[];
   selectedAccount: Account | null;
   loading: boolean;
   error: string | null;
+  pagination: PaginationState;
 }
 
 const initialState: AccountState = {
@@ -14,6 +22,12 @@ const initialState: AccountState = {
   selectedAccount: null,
   loading: false,
   error: null,
+  pagination: {
+    currentPage: 1,
+    lastPage: 1,
+    perPage: 20,
+    total: 0,
+  },
 };
 
 const accountSlice = createSlice({
@@ -29,9 +43,10 @@ const accountSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    fetchAccountsSuccess(state, action: PayloadAction<Account[]>) {
+    fetchAccountsSuccess(state, action: PayloadAction<{ accounts: Account[], pagination: PaginationState }>) {
       state.loading = false;
-      state.accounts = action.payload;
+      state.accounts = action.payload.accounts;
+      state.pagination = action.payload.pagination;
     },
     fetchAccountsFailure(state, action: PayloadAction<string>) {
       state.loading = false;

@@ -31,15 +31,24 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
     const queryString = params.toString();
     const endpoint = `/api/list/accounts${queryString ? `?${queryString}` : ''}`;
 
-    const response: { success: boolean, result: Account[], response: string } = yield call(fetchData, endpoint);
+    const response: { message: string, accounts: { data: Account[], current_page: number, last_page: number, per_page: number, total: number } } = yield call(fetchData, endpoint);
 
-    if (response.success) {
-      yield put(fetchAccountsSuccess(response.result));
+    if (response.accounts) {
+      const { data, current_page, last_page, per_page, total } = response.accounts;
+      yield put(fetchAccountsSuccess({
+        accounts: data,
+        pagination: {
+          currentPage: current_page,
+          lastPage: last_page,
+          perPage: per_page,
+          total: total,
+        },
+      }));
       if (action.payload.search || action.payload.status || action.payload.account_type) {
         toast.success('Accounts filtered successfully!');
       }
     } else {
-      const errorMessage = response.response || 'Failed to fetch accounts';
+      const errorMessage = (response as any).response || 'Failed to fetch accounts';
       yield put(fetchAccountsFailure(errorMessage));
       toast.error(errorMessage);
     }
