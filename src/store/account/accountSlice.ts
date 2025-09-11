@@ -2,20 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Account } from '@/types/entities';
 import { CreateAccountPayload, UpdateAccountPayload } from '@/types/requests';
 
-interface Link {
-  url: string | null;
-  label: string;
-  active: boolean;
-}
-
 interface PaginationState {
   currentPage: number;
   lastPage: number;
   perPage: number;
   total: number;
-  links: Link[];
-  next_page_url: string | null;
-  prev_page_url: string | null;
 }
 
 interface AccountState {
@@ -36,9 +27,6 @@ const initialState: AccountState = {
     lastPage: 1,
     perPage: 20,
     total: 0,
-    links: [],
-    next_page_url: null,
-    prev_page_url: null,
   },
 };
 
@@ -52,7 +40,6 @@ const accountSlice = createSlice({
       account_type?: string;
       per_page?: number;
       page?: number;
-      url?: string;
     }>) {
       state.loading = true;
       state.error = null;

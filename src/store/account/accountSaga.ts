@@ -21,23 +21,16 @@ import { CreateAccountPayload, UpdateAccountPayload } from '@/types/requests';
 
 function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
   try {
-    const { url, page, ...bodyPayload } = action.payload;
-    let endpoint: string;
-
-    if (url) {
-      endpoint = url.split('api')[1];
-    } else {
-      // Construct the relative URL for initial/filtered requests
-      endpoint = '/api/list/accounts';
-      if (page) {
-        endpoint = `${endpoint}?page=${page}`;
-      }
+    const { page, ...bodyPayload } = action.payload;
+    let endpoint = '/api/list/accounts';
+    if (page) {
+      endpoint = `${endpoint}?page=${page}`;
     }
 
-    const response: { message: string, accounts: { data: Account[], current_page: number, last_page: number, per_page: number, total: number, links: any[], next_page_url: string | null, prev_page_url: string | null } } = yield call(postData, endpoint, bodyPayload);
+    const response: { message: string, accounts: { data: Account[], current_page: number, last_page: number, per_page: number, total: number } } = yield call(postData, endpoint, bodyPayload);
 
     if (response.accounts) {
-      const { data, current_page, last_page, per_page, total, links, next_page_url, prev_page_url } = response.accounts;
+      const { data, current_page, last_page, per_page, total } = response.accounts;
 
       const feAccounts: Account[] = data.map((apiAccount: any) => ({
         accountId: apiAccount.id.toString(),
@@ -63,9 +56,6 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
           lastPage: last_page,
           perPage: per_page,
           total: total,
-          links: links,
-          next_page_url: next_page_url,
-          prev_page_url: prev_page_url,
         },
       }));
       if (bodyPayload.search || bodyPayload.status || bodyPayload.account_type) {
