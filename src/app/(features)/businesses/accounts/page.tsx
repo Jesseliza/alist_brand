@@ -17,28 +17,29 @@ import Image from "next/image";
 export default function AccountsPage() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { accounts, pagination, loading, error } = useSelector((state: RootState) => state.account);
+  const { accounts, pagination, loading, error, status } = useSelector((state: RootState) => state.account);
 
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [accountType, setAccountType] = useState("");
 
   const debouncedSearch = useDebounce(search, 500);
+  const isInitialMount = useRef(true);
 
-  // Effect for initial load
   useEffect(() => {
-    dispatch(fetchAccountsRequest({ per_page: pagination.perPage || 20, page: 1 }));
-  }, [dispatch]);
+    if (status === 'idle') {
+      dispatch(fetchAccountsRequest({ per_page: 20, page: 1 }));
+    }
+  }, [status, dispatch]);
 
-  const isInitialSearchMount = useRef(true);
   useEffect(() => {
-    // Skip the initial mount to prevent a fetch on load
-    if (isInitialSearchMount.current) {
-      isInitialSearchMount.current = false;
+    // This effect now handles all filter changes, debounced.
+    // We skip the initial mount to avoid a double fetch.
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
       return;
     }
 
-    // Debounced search effect
     dispatch(fetchAccountsRequest({
       search: debouncedSearch,
       status: status,
@@ -46,7 +47,9 @@ export default function AccountsPage() {
       per_page: pagination.perPage || 20,
       page: 1
     }));
-  }, [debouncedSearch, dispatch]); // Only trigger when debounced search term changes
+    // Note: `status` and `accountType` are not debounced, so this will fire instantly for them.
+    // This is a reasonable UX for dropdowns.
+  }, [debouncedSearch, status, accountType, dispatch]);
 
   const handlePageChange = (page: number) => {
     dispatch(fetchAccountsRequest({
@@ -68,25 +71,12 @@ export default function AccountsPage() {
 
   const handleSortSelect = (value: string) => {
     const [key, val] = value.split(':');
-    let newStatus = status;
-    let newAccountType = accountType;
-
     if (key === 'status') {
-      newStatus = val;
-      setStatus(newStatus);
+      setStatus(val);
     }
     if (key === 'account_type') {
-      newAccountType = val;
-      setAccountType(newAccountType);
+      setAccountType(val);
     }
-
-    dispatch(fetchAccountsRequest({
-      search: search,
-      status: newStatus,
-      account_type: newAccountType,
-      per_page: pagination.perPage,
-      page: 1
-    }));
   };
 
   const handleActionSelect = (value: string) => {
@@ -135,9 +125,9 @@ export default function AccountsPage() {
               <ActionDropdown onSelect={handleActionSelect} />
             </div>
           </div>
-          {loading && <p>Loading...</p>}
-          {error && <p className="text-red-500">Error: {error}</p>}
-          {!loading && !error && (
+          {status === 'loading' && <p>Loading...</p>}
+          {status === 'failed' && <p className="text-red-500">Error: {error}</p>}
+          {status === 'succeeded' && (
             <>
               <div className="md:hidden space-y-[7px]">
                 {accounts.map((account) => (
