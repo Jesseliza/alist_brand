@@ -149,7 +149,8 @@ const accountSlice = createSlice({
       state.bulkUpdateStatusInProgress = true;
       state.bulkUpdateStatusError = null;
     },
-    bulkUpdateStatusSuccess(state, action: PayloadAction<{ updated_ids: string[], status: string }>) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    bulkUpdateStatusSuccess(state, _action: PayloadAction<{ updated_ids: string[], status: string }>) {
       state.bulkUpdateStatusInProgress = false;
       // This part is tricky, as we don't have the status in the account object.
       // We will just refetch the accounts list in the saga.
