@@ -19,7 +19,7 @@ import {
   fetchAccountByIdSuccess,
   fetchAccountByIdFailure,
 } from './accountSlice';
-import { Account, Brand } from '@/types/entities';
+import { Account, Brand, AccountType } from '@/types/entities';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const transformVenueToBrand = (venue: any): Brand => {
@@ -103,7 +103,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
         emailAddress: apiAccount.email,
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
-        accountType: apiAccount.account_type,
+        accountType: apiAccount.account_type as AccountType,
         brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
@@ -174,7 +174,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         emailAddress: apiAccount.email,
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
-        accountType: apiAccount.account_type,
+        accountType: apiAccount.account_type as AccountType,
         brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
@@ -242,7 +242,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
         emailAddress: apiAccount.email,
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
-        accountType: apiAccount.account_type,
+        accountType: apiAccount.account_type as AccountType,
         brands: apiAccount.venues
           ? apiAccount.venues.map(transformVenueToBrand)
           : [],
@@ -304,7 +304,7 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
         emailAddress: apiAccount.email,
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
-        accountType: apiAccount.account_type,
+        accountType: apiAccount.account_type as AccountType,
         brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
