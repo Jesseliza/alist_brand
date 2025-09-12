@@ -30,12 +30,12 @@ export default function LoginPage() {
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(sendOtpRequest({ phoneNumber: `${countryCode}${phoneNumber}` }));
+    dispatch(sendOtpRequest({ phoneNumber, country_code: countryCode }));
   };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(loginRequest({ phoneNumber: `${countryCode}${phoneNumber}`, otp }));
+    dispatch(loginRequest({ phoneNumber, otp, country_code: countryCode }));
   };
 
   const handleCaptchaSuccess = () => {

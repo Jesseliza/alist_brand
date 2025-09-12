@@ -12,9 +12,9 @@ import { setAuthToken } from '@/services/apiHelper';
 import { AuthResponse } from '@/types/auth';
 
 function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
-  const { phoneNumber } = action.payload;
+  const { phoneNumber, country_code } = action.payload;
   try {
-    const response: { msg: string } = yield call(sendOtpData, '/api/send-otp', { phone: phoneNumber });
+    const response: { msg: string } = yield call(sendOtpData, '/api/send-otp', { phone: phoneNumber, country_code });
     if (response.msg === 'success') {
       yield put(sendOtpSuccess(phoneNumber));
     } else {
@@ -27,9 +27,9 @@ function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
 }
 
 function* handleLogin(action: ReturnType<typeof loginRequest>) {
-    const { phoneNumber, otp } = action.payload;
+    const { phoneNumber, otp, country_code } = action.payload;
   try {
-    const response: AuthResponse = yield call(loginData, '/api/verify-otp', { phone: phoneNumber, otp });
+    const response: AuthResponse = yield call(loginData, '/api/verify-otp', { phone: phoneNumber, otp, country_code });
     if (response.msg === 'success' && response.result?.token) {
       setAuthToken(response.result.token);
       yield put(loginSuccess(response.result.user));

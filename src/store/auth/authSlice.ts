@@ -26,7 +26,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    sendOtpRequest(state, _action: PayloadAction<{ phoneNumber: string }>) {
+    sendOtpRequest(state, _action: PayloadAction<{ phoneNumber: string, country_code: string }>) {
       state.loading = true;
       state.error = null;
       state.otpSent = false;
@@ -42,7 +42,7 @@ const authSlice = createSlice({
       state.otpSent = false;
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    loginRequest(state, _action: PayloadAction<{ phoneNumber: string, otp: string }>) {
+    loginRequest(state, _action: PayloadAction<{ phoneNumber: string, otp: string, country_code: string }>) {
         state.loading = true;
         state.error = null;
     },
