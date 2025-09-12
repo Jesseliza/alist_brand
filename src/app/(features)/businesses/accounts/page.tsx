@@ -101,6 +101,10 @@ export default function AccountsPage() {
     setCheckedRows(newCheckedRows);
   };
 
+  const handleAddAccountClick = () => {
+    router.push("/businesses/accounts/create");
+  };
+
   return (
     <div>
       <div className="py-[13px] bg-white hidden md:block relative">
@@ -133,7 +137,7 @@ export default function AccountsPage() {
         <div className="max-w-[1428px] mx-auto">
           <div className="hidden md:flex justify-end items-center mb-5.5 space-x-4">
             <button
-              onClick={() => router.push("/businesses/accounts/create")}
+              onClick={handleAddAccountClick}
               className="px-4 py-2 bg-blue-500 text-white rounded"
             >
               Add Account
