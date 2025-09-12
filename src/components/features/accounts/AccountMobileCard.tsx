@@ -14,10 +14,11 @@ export default function AccountMobileCard({
   checked,
   onCheckboxChange,
 }: AccountMobileCardProps) {
-  const handleCheckboxClick = (e: React.MouseEvent) => {
+  const handleWrapperClick = (e: React.MouseEvent) => {
+    // This empty handler is to prevent the Link from navigating when clicking on the checkbox area.
+    // The actual logic is in the Checkbox's onChange and onClick handlers.
     e.stopPropagation();
     e.preventDefault();
-    onCheckboxChange();
   };
 
   return (
@@ -26,8 +27,12 @@ export default function AccountMobileCard({
         className="bg-white rounded-[13px] py-3 px-3.5 flex items-center justify-between"
       >
         <div className="flex items-center gap-3">
-          <div onClick={handleCheckboxClick} className="p-2 -ml-2">
-            <Checkbox checked={checked} onChange={() => {}} />
+          <div onClick={handleWrapperClick} className="p-2 -ml-2">
+            <Checkbox
+              checked={checked}
+              onChange={onCheckboxChange}
+              onClick={(e) => e.stopPropagation()}
+            />
           </div>
           <div className="flex items-center gap-6.75">
             <div
