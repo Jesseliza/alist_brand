@@ -19,7 +19,7 @@ import {
   fetchAccountByIdSuccess,
   fetchAccountByIdFailure,
 } from './accountSlice';
-import { Account, AccountType } from '@/types/entities';
+import { Account, AccountType, Brand } from '@/types/entities';
 
 function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
   try {
@@ -97,7 +97,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
       phone: phoneNumber,
       pin: pin,
       account_type: accountType,
-      venues: brands?.map(b => b.id) || [],
+      venues: brands?.map(b => b.brandId) || [],
       registration_type: "accounts", // Static value
       status: "active", // Static value
     };
@@ -117,7 +117,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         status: string;
         created_at: string;
         updated_at: string;
-        venues: { id: number; venue_title: string }[];
+        venues: Brand[];
       }
     };
 
@@ -167,7 +167,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
     const { accountId, brands, ...payload } = action.payload;
     const apiPayload = {
       ...payload,
-      venues: brands?.map((b) => b.id) || [],
+      venues: brands?.map((b) => b.brandId) || [],
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response: { message: string; account: any } = yield call(
