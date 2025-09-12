@@ -9,6 +9,7 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/auth/authSlice";
 import { RootState } from "@/store/store";
+import useIdleTimeout from "@/hooks/useIdleTimeout";
 
 function DashboardContent({
   children,
@@ -32,6 +33,13 @@ function DashboardContent({
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
   const pathname = usePathname();
+
+  const handleIdle = () => {
+    dispatch(logout());
+    router.replace('/login');
+  };
+
+  useIdleTimeout(handleIdle, 1800000);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -91,102 +99,102 @@ function DashboardContent({
           isOverlayMode && isMounted ? "ml-[102px]" : ""
         }`}
       >
-        <Nav>
-          {/* Mobile Nav */}
-          <div className="flex md:hidden items-center justify-between w-full">
-            <button
-              className="w-[29px] h-[29px] bg-[#F8F8F8] rounded-[11px] flex items-center justify-center"
-              onClick={() => setIsMobileMenuOpen(true)}
-            >
-              <Image
-                src="/icons/burger.svg"
-                alt="open sidebar"
-                width={27}
-                height={24}
-              />
-            </button>
-            <span className="text-[18px] font-semibold text-[#4F4F4F]">
-              Dashboard
-            </span>
-            <div className="flex items-center space-x-4">
-              <Image
-                src="/icons/navbar/notification.svg"
-                alt="notifications"
-                width={29.36}
-                height={29.36}
-              />
-              <div className="relative">
+        <header className="relative z-10">
+          <Nav>
+            {/* Mobile Nav */}
+            <div className="flex md:hidden items-center justify-between w-full">
+              <button
+                className="w-[29px] h-[29px] bg-[#F8F8F8] rounded-[11px] flex items-center justify-center"
+                onClick={() => setIsMobileMenuOpen(true)}
+              >
                 <Image
-                  src="/icons/navbar/profile7.png"
-                  alt="profile"
-                  width={42}
-                  height={42}
-                  onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
-                  className="cursor-pointer"
+                  src="/icons/burger.svg"
+                  alt="open sidebar"
+                  width={27}
+                  height={24}
                 />
-                {isProfileMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                    <button
-                      onClick={() => {
-                        dispatch(logout());
-                        setProfileMenuOpen(false);
-                        router.replace('/login');
-                      }}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
+              </button>
+              <span className="text-[18px] font-semibold text-[#4F4F4F]">
+                Dashboard
+              </span>
+              <div className="flex items-center space-x-4">
+                <Image
+                  src="/icons/navbar/notification.svg"
+                  alt="notifications"
+                  width={29.36}
+                  height={29.36}
+                />
+                <div className="relative">
+                  <Image
+                    src="/icons/navbar/profile7.png"
+                    alt="profile"
+                    width={42}
+                    height={42}
+                    onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
+                    className="cursor-pointer"
+                  />
+                  {isProfileMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                      <button
+                        onClick={() => {
+                          dispatch(logout());
+                          setProfileMenuOpen(false);
+                          router.replace('/login');
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex w-full">
-            <div className="flex-1">
-              <SearchInput />
-            </div>
-            <div className="flex items-center space-x-4">
-              <Image
-                src="/icons/navbar/notification.svg"
-                alt="notifications"
-                width={29.36}
-                height={29.36}
-              />
-              <div className="relative">
+            {/* Desktop Nav */}
+            <div className="hidden md:flex w-full">
+              <div className="flex-1">
+                <SearchInput />
+              </div>
+              <div className="flex items-center space-x-4">
                 <Image
-                  src="/icons/navbar/profile7.png"
-                  alt="profile"
-                  width={42}
-                  height={42}
-                  onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
-                  className="cursor-pointer"
+                  src="/icons/navbar/notification.svg"
+                  alt="notifications"
+                  width={29.36}
+                  height={29.36}
                 />
-                {isProfileMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                    <button
-                      onClick={() => {
-                        dispatch(logout());
-                        setProfileMenuOpen(false);
-                        router.replace('/login');
-                      }}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
+                <div className="relative">
+                  <Image
+                    src="/icons/navbar/profile7.png"
+                    alt="profile"
+                    width={42}
+                    height={42}
+                    onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
+                    className="cursor-pointer"
+                  />
+                  {isProfileMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                      <button
+                        onClick={() => {
+                          dispatch(logout());
+                          setProfileMenuOpen(false);
+                          router.replace('/login');
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        </Nav>
+          </Nav>
+        </header>
 
-        <div className="flex-1 relative">
+        <div className="flex-1 overflow-y-auto">
           <main
             className={`
-              absolute inset-0 overflow-y-auto
-              overflow-x-hidden
               ${isWhitePage ? "bg-white" : "bg-[#F3F3F3]"}   /* mobile */
               md:bg-[#F3F3F3]                                    /* desktop override */
             `}
