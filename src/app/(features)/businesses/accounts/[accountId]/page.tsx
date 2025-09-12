@@ -38,7 +38,6 @@ export default function AccountPage() {
         lastName: "",
         emailAddress: "",
         phoneNumber: "",
-        pin: "",
         accountType: AccountType.INDIVIDUAL,
         brands: [],
       });

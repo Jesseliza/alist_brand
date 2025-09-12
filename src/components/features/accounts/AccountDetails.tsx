@@ -50,7 +50,6 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
       lastName: "",
       emailAddress: "",
       phoneNumber: "",
-      pin: "",
       accountType: AccountType.INDIVIDUAL,
       brands: [],
     }
@@ -63,7 +62,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
       if (account.country_code) {
         setCountryCode(account.country_code);
       }
-      setFormData({ ...account, pin: "" });
+      setFormData({ ...account });
     }
   }, [account]);
 
@@ -80,10 +79,26 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.firstName || !formData.emailAddress) {
-      toast.error("First name and email are required.");
+
+    const requiredFields: (keyof typeof formData)[] = [
+      "firstName",
+      "lastName",
+      "emailAddress",
+      "phoneNumber",
+    ];
+    for (const field of requiredFields) {
+      if (!formData[field]) {
+        toast.error(
+          `Please fill in the ${field.replace(/([A-Z])/g, " $1").toLowerCase()}.`
+        );
+        return;
+      }
+    }
+    if (!/^\S+@\S+\.\S+$/.test(formData.emailAddress as string)) {
+      toast.error("Invalid email format.");
       return;
     }
+
     onSave({ ...formData, country_code: countryCode });
   };
 
@@ -130,13 +145,6 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
               </div>
             </div>
           </div>
-          <InputField
-            label="PIN"
-            value={formData.pin || ""}
-            name="pin"
-            type="password"
-            onChange={handleChange}
-          />
           <div className="mb-5 md:mb-7">
             <label
               htmlFor="accountType"

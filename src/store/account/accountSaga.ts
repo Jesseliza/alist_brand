@@ -62,7 +62,6 @@ interface ApiAccount {
   email: string;
   phone: string;
   country_code: string;
-  pin: string;
   account_type: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   venues: any[];
@@ -110,7 +109,6 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
         emailAddress: apiAccount.email,
         country_code: apiAccount.country_code,
         phoneNumber: apiAccount.phone,
-        pin: apiAccount.pin,
         accountType: apiAccount.account_type as AccountType,
         brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
@@ -155,7 +153,6 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
       emailAddress,
       phoneNumber,
       country_code,
-      pin,
       accountType,
       brands,
     } = action.payload;
@@ -166,7 +163,6 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
       email: emailAddress,
       phone: phoneNumber,
       country_code: country_code,
-      pin: pin,
       account_type: accountType,
       venues: brands?.map(b => b.brandId) || [],
       registration_type: "accounts", // Static value
@@ -185,7 +181,6 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         emailAddress: apiAccount.email,
         country_code: apiAccount.country_code,
         phoneNumber: apiAccount.phone,
-        pin: apiAccount.pin,
         accountType: apiAccount.account_type as AccountType,
         brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
@@ -222,7 +217,6 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
       emailAddress,
       phoneNumber,
       country_code,
-      pin,
       accountType,
     } = action.payload;
 
@@ -232,7 +226,6 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
       email: emailAddress,
       phone: phoneNumber,
       country_code: country_code,
-      pin,
       account_type: accountType,
       venues: brands?.map((b) => Number(b.brandId)),
       registration_type: "accounts",
@@ -257,7 +250,6 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
         emailAddress: apiAccount.email,
         country_code: apiAccount.country_code,
         phoneNumber: apiAccount.phone,
-        pin: apiAccount.pin,
         accountType: apiAccount.account_type as AccountType,
         brands: apiAccount.venues
           ? apiAccount.venues.map(transformVenueToBrand)
@@ -321,7 +313,6 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
         emailAddress: apiAccount.email,
         country_code: apiAccount.country_code,
         phoneNumber: apiAccount.phone,
-        pin: apiAccount.pin,
         accountType: apiAccount.account_type as AccountType,
         brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
