@@ -20,8 +20,14 @@ export default function CountryCodeDropdown({ selectedCode, onCodeChange }: Coun
           country.name.toLowerCase().replace(/\s+/g, "").includes(query.toLowerCase().replace(/\s+/g, ""))
         );
 
+  const handleOnChange = (value: string | null) => {
+    if (value) {
+      onCodeChange(value);
+    }
+  };
+
   return (
-    <Combobox value={selectedCode} onChange={onCodeChange}>
+    <Combobox value={selectedCode} onChange={handleOnChange}>
       <div className="relative w-32">
         <div className="relative w-full cursor-default overflow-hidden rounded-[11px] bg-gray-100 text-left focus:outline-none sm:text-sm">
           <Combobox.Input
