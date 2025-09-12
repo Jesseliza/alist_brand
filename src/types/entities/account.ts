@@ -32,6 +32,9 @@ export type Account = {
   /** Primary contact email address */
   emailAddress: string;
 
+  /** Country code for the phone number */
+  country_code?: string;
+
   /** Primary contact phone number */
   phoneNumber: string;
 
