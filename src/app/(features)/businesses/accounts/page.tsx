@@ -17,10 +17,16 @@ import Image from "next/image";
 export default function AccountsPage() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const accounts = useSelector((state: RootState) => state.account.accounts);
-  const pagination = useSelector((state: RootState) => state.account.pagination);
-  const loading = useSelector((state: RootState) => state.account.loading);
-  const error = useSelector((state: RootState) => state.account.error);
+  const {
+    accounts,
+    pagination,
+    loading,
+    error,
+    bulkDeleteInProgress,
+    bulkDeleteError,
+    bulkUpdateStatusInProgress,
+    bulkUpdateStatusError,
+  } = useSelector((state: RootState) => state.account);
 
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
@@ -52,6 +58,18 @@ export default function AccountsPage() {
       page: 1
     }));
   }, [debouncedSearch, status, accountType, dispatch]);
+
+  useEffect(() => {
+    if (!bulkDeleteInProgress && !bulkDeleteError) {
+      setCheckedRows(new Set());
+    }
+  }, [bulkDeleteInProgress, bulkDeleteError]);
+
+  useEffect(() => {
+    if (!bulkUpdateStatusInProgress && !bulkUpdateStatusError) {
+      setCheckedRows(new Set());
+    }
+  }, [bulkUpdateStatusInProgress, bulkUpdateStatusError]);
 
   const handlePageChange = (page: number) => {
     dispatch(fetchAccountsRequest({
