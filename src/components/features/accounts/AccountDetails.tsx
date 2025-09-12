@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Account, AccountType, Brand } from "@/types/entities";
 import BrandSearchCombobox from "./BrandSearchCombobox";
+import CountryCodeDropdown from "@/components/general/CountryCodeDropdown";
 
 // Define InputField as a standalone component outside of AccountDetails
 const InputField = ({
@@ -54,11 +55,27 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
       brands: [],
     }
   );
+  const [countryCode, setCountryCode] = useState("+971");
   const router = useRouter();
 
   useEffect(() => {
     if (account) {
-      setFormData({ ...account, pin: "" });
+      const { phoneNumber, ...rest } = account;
+      if (phoneNumber) {
+        // Improved phone number parsing
+        const countryCodeMatch = phoneNumber.match(/^\+\d{1,3}/);
+        if (countryCodeMatch) {
+          setCountryCode(countryCodeMatch[0]);
+          const numberPart = phoneNumber.substring(countryCodeMatch[0].length);
+          setFormData({ ...rest, phoneNumber: numberPart, pin: "" });
+        } else {
+          // Fallback for numbers without a country code
+          setCountryCode("+971"); // Default to +971
+          setFormData({ ...rest, phoneNumber, pin: "" });
+        }
+      } else {
+        setFormData({ ...rest, phoneNumber: "", pin: "" });
+      }
     }
   }, [account]);
 
@@ -79,7 +96,8 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
       toast.error("First name and email are required.");
       return;
     }
-    onSave(formData);
+    const fullPhoneNumber = `${countryCode}${formData.phoneNumber}`;
+    onSave({ ...formData, phoneNumber: fullPhoneNumber });
   };
 
   return (
@@ -107,13 +125,24 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
             type="email"
             onChange={handleChange}
           />
-          <InputField
-            label="Phone"
-            value={formData.phoneNumber || ""}
-            name="phoneNumber"
-            type="tel"
-            onChange={handleChange}
-          />
+          <div className="mb-5 md:mb-7">
+            <label htmlFor="phoneNumber" className="block text-[#4F4F4F] mb-2.5">
+              Phone
+            </label>
+            <div className="flex gap-2">
+              <CountryCodeDropdown selectedCode={countryCode} onCodeChange={setCountryCode} />
+              <div className="relative w-full">
+                <input
+                  type="tel"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  value={formData.phoneNumber || ""}
+                  onChange={handleChange}
+                  className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none"
+                />
+              </div>
+            </div>
+          </div>
           <InputField
             label="PIN"
             value={formData.pin || ""}

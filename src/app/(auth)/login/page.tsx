@@ -7,9 +7,11 @@ import { sendOtpRequest, loginRequest, resetOtpSent } from '@/store/auth/authSli
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import SlideCaptcha from '@/components/general/SlideCaptcha';
+import CountryCodeDropdown from '@/components/general/CountryCodeDropdown';
 
 export default function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [countryCode, setCountryCode] = useState('+971');
   const [otp, setOtp] = useState('');
   const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
@@ -28,12 +30,12 @@ export default function LoginPage() {
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(sendOtpRequest({ phoneNumber }));
+    dispatch(sendOtpRequest({ phoneNumber: `${countryCode}${phoneNumber}` }));
   };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(loginRequest({ phoneNumber, otp }));
+    dispatch(loginRequest({ phoneNumber: `${countryCode}${phoneNumber}`, otp }));
   };
 
   const handleCaptchaSuccess = () => {
@@ -55,14 +57,17 @@ export default function LoginPage() {
         </div>
         {!otpSent ? (
           <form className="w-full flex flex-col gap-[11px]" onSubmit={handleSendOtp}>
-            <input
-              type="text"
-              placeholder="Phone Number"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              className="rounded-[11px] bg-gray-100 px-5 py-[11px] text-[15px] outline-none focus:ring-2 focus:ring-[#00A4B6] transition placeholder:text-[#6E6E6E]"
-              autoComplete="tel"
-            />
+            <div className="flex gap-2">
+              <CountryCodeDropdown selectedCode={countryCode} onCodeChange={setCountryCode} />
+              <input
+                type="text"
+                placeholder="Phone Number"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className="rounded-[11px] bg-gray-100 px-5 py-[11px] text-[15px] outline-none focus:ring-2 focus:ring-[#00A4B6] transition placeholder:text-[#6E6E6E] w-full"
+                autoComplete="tel"
+              />
+            </div>
             <button
               type="submit"
               className="mt-[11px] rounded-[11px] bg-[#00A4B6] text-white font-semibold py-[11px] text-[15px] hover:bg-[#0090a6] transition"
