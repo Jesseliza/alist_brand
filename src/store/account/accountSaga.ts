@@ -18,6 +18,9 @@ import {
   fetchAccountByIdRequest,
   fetchAccountByIdSuccess,
   fetchAccountByIdFailure,
+  bulkDeleteAccountsRequest,
+  bulkDeleteAccountsSuccess,
+  bulkDeleteAccountsFailure,
 } from './accountSlice';
 import { Account, Brand, AccountType } from '@/types/entities';
 
@@ -331,12 +334,37 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
   }
 }
 
+function* handleBulkDeleteAccounts(action: ReturnType<typeof bulkDeleteAccountsRequest>) {
+  try {
+    const { account_ids } = action.payload;
+    const response: { message: string, updated_ids: string[] } | ApiError = yield call(postData, '/api/accounts/bulk-delete', { account_ids });
+
+    if ('updated_ids' in response) {
+      yield put(bulkDeleteAccountsSuccess({ updated_ids: response.updated_ids }));
+      toast.success(response.message);
+      // Refresh the accounts list
+      yield put(fetchAccountsRequest({ per_page: 10, page: 1 }));
+    } else {
+      const errorResponse = response as ApiError;
+      const errorMessage = errorResponse.response || 'Failed to delete accounts';
+      yield put(bulkDeleteAccountsFailure(errorMessage));
+      toast.error(errorMessage);
+    }
+  } catch (error) {
+    const err = error as Error;
+    const errorMessage = err.message || 'An unknown error occurred';
+    yield put(bulkDeleteAccountsFailure(errorMessage));
+    toast.error(errorMessage);
+  }
+}
+
 function* watchAccount() {
   yield takeLatest(fetchAccountsRequest.type, handleFetchAccounts);
   yield takeLatest(createAccountRequest.type, handleCreateAccount);
   yield takeLatest(updateAccountRequest.type, handleUpdateAccount);
   yield takeLatest(deleteAccountRequest.type, handleDeleteAccount);
   yield takeLatest(fetchAccountByIdRequest.type, handleFetchAccountById);
+  yield takeLatest(bulkDeleteAccountsRequest.type, handleBulkDeleteAccounts);
 }
 
 export default function* accountSaga() {

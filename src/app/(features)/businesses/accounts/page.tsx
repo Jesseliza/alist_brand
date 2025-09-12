@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
-import { fetchAccountsRequest } from "@/store/account/accountSlice";
+import { fetchAccountsRequest, bulkDeleteAccountsRequest } from "@/store/account/accountSlice";
 import { RootState } from "@/store/store";
 import AccountsTable from "@/components/features/accounts/AccountsTable";
 import AccountCard from "@/components/features/accounts/AccountMobileCard";
@@ -88,7 +88,11 @@ export default function AccountsPage() {
         router.push(`/businesses/accounts/${accountId}`);
       }
     }
-    // Add other action logic here
+    if (value === "delete") {
+      if (checkedRows.size > 0) {
+        dispatch(bulkDeleteAccountsRequest({ account_ids: Array.from(checkedRows) }));
+      }
+    }
   };
 
   const handleCheckboxChange = (accountId: string) => {

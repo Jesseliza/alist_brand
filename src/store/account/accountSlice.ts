@@ -16,6 +16,8 @@ interface AccountState {
   error: string | null;
   pagination: PaginationState;
   updateSuccess: boolean;
+  bulkDeleteInProgress: boolean;
+  bulkDeleteError: string | null;
 }
 
 const initialState: AccountState = {
@@ -30,6 +32,8 @@ const initialState: AccountState = {
     total: 0,
   },
   updateSuccess: false,
+  bulkDeleteInProgress: false,
+  bulkDeleteError: null,
 };
 
 const accountSlice = createSlice({
@@ -121,6 +125,21 @@ const accountSlice = createSlice({
     resetUpdateStatus(state) {
       state.updateSuccess = false;
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    bulkDeleteAccountsRequest(state, _action: PayloadAction<{ account_ids: string[] }>) {
+      state.bulkDeleteInProgress = true;
+      state.bulkDeleteError = null;
+    },
+    bulkDeleteAccountsSuccess(state, action: PayloadAction<{ updated_ids: string[] }>) {
+      state.bulkDeleteInProgress = false;
+      state.accounts = state.accounts.filter(
+        (account) => !action.payload.updated_ids.includes(account.accountId)
+      );
+    },
+    bulkDeleteAccountsFailure(state, action: PayloadAction<string>) {
+      state.bulkDeleteInProgress = false;
+      state.bulkDeleteError = action.payload;
+    },
   },
 });
 
@@ -141,6 +160,9 @@ export const {
   fetchAccountByIdSuccess,
   fetchAccountByIdFailure,
   resetUpdateStatus,
+  bulkDeleteAccountsRequest,
+  bulkDeleteAccountsSuccess,
+  bulkDeleteAccountsFailure,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;
