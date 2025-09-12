@@ -89,8 +89,8 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
 
   return (
     <form onSubmit={handleSubmit} className="text-[15px] pt-10 md:pt-11">
-      <div className="max-w-[559px] mx-auto px-[15px]">
-        <div className="bg-white rounded-[13px] md:px-10 md:pt-8 md:pb-3">
+      <div className="max-w-[559px] mx-auto">
+        <div className="bg-white rounded-[13px] px-4 md:px-10 pt-8 pb-3">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-1">
             <InputField
               label="First name"

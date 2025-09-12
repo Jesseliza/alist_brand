@@ -105,6 +105,9 @@ function DashboardContent({
                 height={24}
               />
             </button>
+            <span className="text-[18px] font-semibold text-[#4F4F4F]">
+              Dashboard
+            </span>
             <div className="flex items-center space-x-4">
               <Image
                 src="/icons/navbar/notification.svg"
