@@ -42,15 +42,15 @@ export default function BrandSearchCombobox({
     inputRef.current?.blur();
   };
 
-  const removeBrand = (brandId: number) => {
-    const newSelection = selectedBrands.filter((brand) => brand.id !== brandId);
+  const removeBrand = (brandId: string) => {
+    const newSelection = selectedBrands.filter((brand) => brand.brandId !== brandId);
     setSelectedBrands(newSelection);
     onChange(newSelection);
   };
 
   // Filter out already selected brands from the search results
   const availableBrands = filteredBrands.filter(
-    (brand) => !selectedBrands.some((selected) => selected.id === brand.id)
+    (brand) => !selectedBrands.some((selected) => selected.brandId === brand.brandId)
   );
 
   return (
@@ -59,14 +59,14 @@ export default function BrandSearchCombobox({
       <div className="flex flex-wrap gap-2 mb-2 min-h-[30px]">
         {selectedBrands.map((brand) => (
           <div
-            key={brand.id}
+            key={brand.brandId}
             className="flex items-center bg-gray-200 rounded-full px-3 py-1 text-sm font-medium text-gray-700"
           >
-            <span>{brand.venue_title}</span>
+            <span>{brand.name}</span>
             <button
               type="button"
               className="ml-2 -mr-1 text-gray-500 hover:text-gray-700"
-              onClick={() => removeBrand(brand.id)}
+              onClick={() => removeBrand(brand.brandId)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +110,7 @@ export default function BrandSearchCombobox({
             ) : (
               availableBrands.map((brand) => (
                 <Combobox.Option
-                  key={brand.id}
+                  key={brand.brandId}
                   value={brand}
                   className={({ active }) =>
                     `cursor-pointer select-none relative p-2 ${
@@ -124,7 +124,7 @@ export default function BrandSearchCombobox({
                         selected ? "font-medium" : "font-normal"
                       }`}
                     >
-                      {brand.venue_title}
+                      {brand.name}
                     </span>
                   )}
                 </Combobox.Option>
