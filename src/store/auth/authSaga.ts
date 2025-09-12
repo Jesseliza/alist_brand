@@ -9,12 +9,12 @@ import {
   loginFailure
 } from './authSlice';
 import { setAuthToken } from '@/services/apiHelper';
-import { AuthResponse } from '@/types/auth';
+import { AuthResponse, SendOtpResponse } from '@/types/auth';
 
 function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
   const { phoneNumber, country_code } = action.payload;
   try {
-    const response: { msg: string } = yield call(sendOtpData, '/api/send-otp', { phone: phoneNumber, country_code });
+    const response: SendOtpResponse = yield call(sendOtpData, '/api/send-otp', { phone: phoneNumber, country_code });
     if (response.msg === 'success') {
       yield put(sendOtpSuccess(`${country_code}${phoneNumber}`));
     } else {
