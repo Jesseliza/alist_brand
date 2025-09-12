@@ -16,7 +16,7 @@ function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
   try {
     const response: { msg: string } = yield call(sendOtpData, '/api/send-otp', { phone: phoneNumber, country_code });
     if (response.msg === 'success') {
-      yield put(sendOtpSuccess(phoneNumber));
+      yield put(sendOtpSuccess(`${country_code}${phoneNumber}`));
     } else {
       yield put(sendOtpFailure(response.msg || 'Failed to send OTP'));
     }

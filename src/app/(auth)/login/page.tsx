@@ -15,7 +15,7 @@ export default function LoginPage() {
   const [otp, setOtp] = useState('');
   const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, error, otpSent, isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { loading, error, otpSent, isAuthenticated, phoneNumber: storedPhoneNumber } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
 
   useEffect(() => {
@@ -79,7 +79,7 @@ export default function LoginPage() {
           </form>
         ) : (
           <form className="w-full flex flex-col gap-[11px]" onSubmit={handleLogin}>
-            <p className="text-center text-gray-600">Enter the OTP sent to {countryCode}{phoneNumber}</p>
+            <p className="text-center text-gray-600">Enter the OTP sent to {storedPhoneNumber}</p>
             <input
               type="password"
               placeholder="OTP"
