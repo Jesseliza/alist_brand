@@ -55,6 +55,7 @@ export default function Posts({ }: PostsProps) {
 
   const {
     itemsPerPage,
+    currentPage,
     startIndex,
     endIndex,
     handlePageChange,
@@ -81,6 +82,7 @@ export default function Posts({ }: PostsProps) {
           <Pagination
             totalItems={mappedPosts.length}
             itemsPerPage={itemsPerPage}
+            currentPage={currentPage}
             onPageChange={handlePageChange}
             onItemsPerPageChange={handleItemsPerPageChange}
             itemsPerPageOptions={[6, 12, 18, 24]}

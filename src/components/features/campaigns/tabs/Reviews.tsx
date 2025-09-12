@@ -38,6 +38,7 @@ export default function Reviews({ }: ReviewsProps) {
 
   const {
     itemsPerPage,
+    currentPage,
     startIndex,
     endIndex,
     handlePageChange,
@@ -63,6 +64,7 @@ export default function Reviews({ }: ReviewsProps) {
         <Pagination
           totalItems={mappedReviews.length}
           itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
           onPageChange={handlePageChange}
           onItemsPerPageChange={handleItemsPerPageChange}
           itemsPerPageOptions={[6, 9, 12, 18]}
