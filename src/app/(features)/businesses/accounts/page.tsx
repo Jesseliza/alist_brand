@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
-import { fetchAccountsRequest, bulkDeleteAccountsRequest } from "@/store/account/accountSlice";
+import { fetchAccountsRequest, bulkDeleteAccountsRequest, bulkUpdateStatusRequest } from "@/store/account/accountSlice";
 import { RootState } from "@/store/store";
 import AccountsTable from "@/components/features/accounts/AccountsTable";
 import AccountCard from "@/components/features/accounts/AccountMobileCard";
@@ -91,6 +91,11 @@ export default function AccountsPage() {
     if (value === "delete") {
       if (checkedRows.size > 0) {
         dispatch(bulkDeleteAccountsRequest({ account_ids: Array.from(checkedRows) }));
+      }
+    }
+    if (value === "active" || value === "inactive") {
+      if (checkedRows.size > 0) {
+        dispatch(bulkUpdateStatusRequest({ account_ids: Array.from(checkedRows), status: value }));
       }
     }
   };

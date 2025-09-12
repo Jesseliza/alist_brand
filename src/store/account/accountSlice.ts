@@ -18,6 +18,8 @@ interface AccountState {
   updateSuccess: boolean;
   bulkDeleteInProgress: boolean;
   bulkDeleteError: string | null;
+  bulkUpdateStatusInProgress: boolean;
+  bulkUpdateStatusError: string | null;
 }
 
 const initialState: AccountState = {
@@ -34,6 +36,8 @@ const initialState: AccountState = {
   updateSuccess: false,
   bulkDeleteInProgress: false,
   bulkDeleteError: null,
+  bulkUpdateStatusInProgress: false,
+  bulkUpdateStatusError: null,
 };
 
 const accountSlice = createSlice({
@@ -140,6 +144,20 @@ const accountSlice = createSlice({
       state.bulkDeleteInProgress = false;
       state.bulkDeleteError = action.payload;
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    bulkUpdateStatusRequest(state, _action: PayloadAction<{ account_ids: string[], status: string }>) {
+      state.bulkUpdateStatusInProgress = true;
+      state.bulkUpdateStatusError = null;
+    },
+    bulkUpdateStatusSuccess(state, action: PayloadAction<{ updated_ids: string[], status: string }>) {
+      state.bulkUpdateStatusInProgress = false;
+      // This part is tricky, as we don't have the status in the account object.
+      // We will just refetch the accounts list in the saga.
+    },
+    bulkUpdateStatusFailure(state, action: PayloadAction<string>) {
+      state.bulkUpdateStatusInProgress = false;
+      state.bulkUpdateStatusError = action.payload;
+    },
   },
 });
 
@@ -163,6 +181,9 @@ export const {
   bulkDeleteAccountsRequest,
   bulkDeleteAccountsSuccess,
   bulkDeleteAccountsFailure,
+  bulkUpdateStatusRequest,
+  bulkUpdateStatusSuccess,
+  bulkUpdateStatusFailure,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;
