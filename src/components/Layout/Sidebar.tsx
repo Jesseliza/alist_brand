@@ -14,11 +14,13 @@ const Logo = () => (
 interface SidebarProps {
   collapsed?: boolean;
   setCollapsed?: (collapsed: boolean) => void;
+  setIsMobileMenuOpen?: (isOpen: boolean) => void;
 }
 
 export default function Sidebar({
   collapsed: controlledCollapsed,
   setCollapsed: setControlledCollapsed,
+  setIsMobileMenuOpen,
 }: SidebarProps) {
   const [internalCollapsed, setInternalCollapsed] = useState(false);
   const [windowWidth, setWindowWidth] = useState(1920); // Default for SSR
@@ -111,6 +113,7 @@ export default function Sidebar({
                 <li key={itemIndex}>
                   <Link
                     href={item.href}
+                    onClick={() => setIsMobileMenuOpen?.(false)}
                     className={
                       collapsed
                         ? "flex items-center justify-center w-[52px] aspect-square  text-[#414141] rounded-[11px] hover:bg-[#F1F1F1]"
