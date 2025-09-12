@@ -149,6 +149,21 @@ export default function AccountsPage() {
               />
             </div>
           </div>
+          {/* Mobile buttons */}
+          <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
+            <button
+              onClick={handleAddAccountClick}
+              className="bg-blue-500 text-white rounded-[11px] text-sm px-4 py-2"
+            >
+              Add Account
+            </button>
+            <div className="w-[137px]">
+              <ActionDropdown
+                onSelect={handleActionSelect}
+                updateDisabled={checkedRows.size > 1}
+              />
+            </div>
+          </div>
           {loading && <p>Loading...</p>}
           {error && <p className="text-red-500">Error: {error}</p>}
           {!loading && !error && (
