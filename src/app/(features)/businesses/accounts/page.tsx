@@ -138,7 +138,7 @@ export default function AccountsPage() {
           <div className="hidden md:flex justify-end items-center mb-5.5 space-x-4">
             <button
               onClick={handleAddAccountClick}
-              className="pt-1.25 pb-1.75 px-6 bg-[#00A4B6] text-white rounded-[11px]"
+              className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
             >
               Add Account
             </button>
