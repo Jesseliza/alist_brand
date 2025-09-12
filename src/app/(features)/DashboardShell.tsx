@@ -78,7 +78,7 @@ function DashboardContent({
           ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
-        <Sidebar />
+        <Sidebar setIsMobileMenuOpen={setIsMobileMenuOpen} />
       </div>
 
       {/* Desktop Sidebar */}
