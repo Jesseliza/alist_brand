@@ -21,6 +21,9 @@ import {
   bulkDeleteAccountsRequest,
   bulkDeleteAccountsSuccess,
   bulkDeleteAccountsFailure,
+  bulkUpdateStatusRequest,
+  bulkUpdateStatusSuccess,
+  bulkUpdateStatusFailure,
 } from './accountSlice';
 import { Account, Brand, AccountType } from '@/types/entities';
 
@@ -358,6 +361,30 @@ function* handleBulkDeleteAccounts(action: ReturnType<typeof bulkDeleteAccountsR
   }
 }
 
+function* handleBulkUpdateStatus(action: ReturnType<typeof bulkUpdateStatusRequest>) {
+  try {
+    const { account_ids, status } = action.payload;
+    const response: { message: string, updated_ids: string[], status: string } | ApiError = yield call(postData, '/api/accounts/bulk-update-status', { account_ids, status });
+
+    if ('updated_ids' in response) {
+      yield put(bulkUpdateStatusSuccess({ updated_ids: response.updated_ids, status: response.status }));
+      toast.success(response.message);
+      // Refresh the accounts list
+      yield put(fetchAccountsRequest({ per_page: 10, page: 1 }));
+    } else {
+      const errorResponse = response as ApiError;
+      const errorMessage = errorResponse.response || 'Failed to update accounts status';
+      yield put(bulkUpdateStatusFailure(errorMessage));
+      toast.error(errorMessage);
+    }
+  } catch (error) {
+    const err = error as Error;
+    const errorMessage = err.message || 'An unknown error occurred';
+    yield put(bulkUpdateStatusFailure(errorMessage));
+    toast.error(errorMessage);
+  }
+}
+
 function* watchAccount() {
   yield takeLatest(fetchAccountsRequest.type, handleFetchAccounts);
   yield takeLatest(createAccountRequest.type, handleCreateAccount);
@@ -365,6 +392,7 @@ function* watchAccount() {
   yield takeLatest(deleteAccountRequest.type, handleDeleteAccount);
   yield takeLatest(fetchAccountByIdRequest.type, handleFetchAccountById);
   yield takeLatest(bulkDeleteAccountsRequest.type, handleBulkDeleteAccounts);
+  yield takeLatest(bulkUpdateStatusRequest.type, handleBulkUpdateStatus);
 }
 
 export default function* accountSaga() {
