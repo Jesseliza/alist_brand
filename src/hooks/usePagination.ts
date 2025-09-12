@@ -22,6 +22,7 @@ export const usePagination = (
 
   return {
     itemsPerPage,
+    currentPage,
     startIndex,
     endIndex,
     handlePageChange,
