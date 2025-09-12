@@ -142,7 +142,7 @@ export default function AccountsPage() {
             >
               Add Account
             </button>
-            <div className="w-[137px]">
+            <div className="w-auto">
               <ActionDropdown
                 onSelect={handleActionSelect}
                 updateDisabled={checkedRows.size > 1}
@@ -170,7 +170,12 @@ export default function AccountsPage() {
             <>
               <div className="md:hidden space-y-[7px]">
                 {accounts.map((account) => (
-                  <AccountCard key={account.accountId} account={account} />
+                  <AccountCard
+                    key={account.accountId}
+                    account={account}
+                    checked={checkedRows.has(account.accountId)}
+                    onCheckboxChange={() => handleCheckboxChange(account.accountId)}
+                  />
                 ))}
               </div>
               <div className="hidden md:block">
