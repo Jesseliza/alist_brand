@@ -172,16 +172,38 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
 
 function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
   try {
-    const { accountId, brands, ...payload } = action.payload;
+    const {
+      accountId,
+      brands,
+      firstName,
+      lastName,
+      emailAddress,
+      phoneNumber,
+      pin,
+      accountType,
+    } = action.payload;
+
     const apiPayload = {
-      ...payload,
-      venues: brands?.map((b) => b.brandId) || [],
+      first_name: firstName,
+      last_name: lastName,
+      email: emailAddress,
+      phone: phoneNumber,
+      pin,
+      account_type: accountType,
+      venues: brands?.map((b) => Number(b.brandId)),
+      registration_type: "accounts",
+      status: "active",
     };
+
+    const filteredApiPayload = Object.fromEntries(
+      Object.entries(apiPayload).filter(([, value]) => value !== undefined)
+    );
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response: { message: string; account: any } = yield call(
       postData,
       `/api/account/${accountId}`,
-      apiPayload
+      filteredApiPayload
     );
     if (response.account) {
       const apiAccount = response.account;
@@ -193,7 +215,9 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type,
-        brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
+        brands: apiAccount.venues
+          ? apiAccount.venues.map(transformVenueToBrand)
+          : [],
         signUpDate: apiAccount.created_at,
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${
           apiAccount.last_name?.[0] || ""
@@ -207,7 +231,8 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
       toast.success(response.message);
     } else {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const errorMessage = (response as any).message || "Failed to update account";
+      const errorMessage =
+        (response as any).message || "Failed to update account";
       yield put(updateAccountFailure(errorMessage));
       toast.error(errorMessage);
     }
