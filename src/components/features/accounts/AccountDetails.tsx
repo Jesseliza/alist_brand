@@ -60,22 +60,10 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
 
   useEffect(() => {
     if (account) {
-      const { phoneNumber, ...rest } = account;
-      if (phoneNumber) {
-        // Improved phone number parsing
-        const countryCodeMatch = phoneNumber.match(/^\+\d{1,3}/);
-        if (countryCodeMatch) {
-          setCountryCode(countryCodeMatch[0]);
-          const numberPart = phoneNumber.substring(countryCodeMatch[0].length);
-          setFormData({ ...rest, phoneNumber: numberPart, pin: "" });
-        } else {
-          // Fallback for numbers without a country code
-          setCountryCode("+971"); // Default to +971
-          setFormData({ ...rest, phoneNumber, pin: "" });
-        }
-      } else {
-        setFormData({ ...rest, phoneNumber: "", pin: "" });
+      if (account.country_code) {
+        setCountryCode(account.country_code);
       }
+      setFormData({ ...account, pin: "" });
     }
   }, [account]);
 

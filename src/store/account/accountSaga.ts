@@ -61,6 +61,7 @@ interface ApiAccount {
   last_name: string;
   email: string;
   phone: string;
+  country_code: string;
   pin: string;
   account_type: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -107,6 +108,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
         firstName: apiAccount.first_name,
         lastName: apiAccount.last_name,
         emailAddress: apiAccount.email,
+        country_code: apiAccount.country_code,
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type as AccountType,
@@ -181,6 +183,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         firstName: apiAccount.first_name,
         lastName: apiAccount.last_name,
         emailAddress: apiAccount.email,
+        country_code: apiAccount.country_code,
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type as AccountType,
@@ -252,6 +255,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
         firstName: apiAccount.first_name,
         lastName: apiAccount.last_name,
         emailAddress: apiAccount.email,
+        country_code: apiAccount.country_code,
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type as AccountType,
@@ -315,6 +319,7 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
         firstName: apiAccount.first_name,
         lastName: apiAccount.last_name,
         emailAddress: apiAccount.email,
+        country_code: apiAccount.country_code,
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type as AccountType,
