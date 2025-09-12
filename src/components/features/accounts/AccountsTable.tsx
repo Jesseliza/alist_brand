@@ -2,6 +2,7 @@
 
 import Checkbox from "@/components/general/CheckBox";
 import { Account } from "@/types/entities";
+import { getDisplayName } from "@/utils/accountUtils";
 import Link from "next/link";
 
 interface AccountsTableProps {
@@ -22,13 +23,6 @@ export default function AccountsTable({
       month: "2-digit",
       year: "numeric",
     });
-  };
-
-  const getDisplayName = (account: Account) => {
-    if (account.accountType === "agency") {
-      return account.firstName;
-    }
-    return [account.firstName, account.lastName].filter(Boolean).join(' ');
   };
 
   return (

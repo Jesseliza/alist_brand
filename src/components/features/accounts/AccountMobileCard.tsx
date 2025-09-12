@@ -1,4 +1,5 @@
 import { Account } from "@/types/entities";
+import { getDisplayName } from "@/utils/accountUtils";
 import Link from "next/link";
 
 interface AccountMobileCardProps {
@@ -10,13 +11,6 @@ export default function AccountMobileCard({
   account,
   onClick,
 }: AccountMobileCardProps) {
-  const getDisplayName = (account: Account) => {
-    if (account.accountType === "agency") {
-      return account.firstName;
-    }
-    return `${account.firstName} ${account.lastName}`.trim();
-  };
-
   return (
     <Link href={`/businesses/accounts/${account.accountId}`}>
       <div
