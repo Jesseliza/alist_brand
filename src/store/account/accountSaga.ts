@@ -21,6 +21,35 @@ import {
 } from './accountSlice';
 import { Account, AccountType, Brand } from '@/types/entities';
 
+// Transformation function to map API venue to Brand type
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const transformVenueToBrand = (venue: any): Brand => {
+  return {
+    brandId: venue.id.toString(),
+    accountId: venue.accountId || 'N/A', // Assuming accountId might not be present
+    name: venue.venue_title,
+    logo: venue.logo || '', // Default value
+    phoneNumber: venue.phoneNumber || '', // Default value
+    emailAddress: venue.emailAddress || '', // Default value
+    industry: venue.industry || 'N/A', // Default value
+    companyName: venue.companyName || '', // Default value
+    businessLocation: venue.businessLocation || '', // Default value
+    tradeLicenseCopy: venue.tradeLicenseCopy || '', // Default value
+    vatCertificate: venue.vatCertificate || '', // Default value
+    instagramHandle: venue.instagramHandle || '', // Default value
+    websiteUrl: venue.venue_url || '',
+    associateFirstName: venue.associateFirstName || '', // Default value
+    associateLastName: venue.associateLastName || '', // Default value
+    associateEmail: venue.associateEmail || '', // Default value
+    associatePhone: venue.associatePhone || '', // Default value
+    associateInitials: venue.associateInitials || '', // Default value
+    associateBackground: venue.associateBackground || '#CCCCCC', // Default value
+    offersCount: venue.offersCount || 0, // Default value
+    campaignsCount: venue.campaignsCount || 0, // Default value
+    profileCompletion: venue.profileCompletion || 0, // Default value
+  };
+};
+
 function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
   try {
     const { page, ...bodyPayload } = action.payload;
@@ -29,7 +58,8 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
       endpoint = `${endpoint}?page=${page}`;
     }
 
-    const response: { message: string, accounts: { data: Account[], current_page: number, last_page: number, per_page: number, total: number } } = yield call(postData, endpoint, bodyPayload);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response: { message: string, accounts: { data: any[], current_page: number, last_page: number, per_page: number, total: number } } = yield call(postData, endpoint, bodyPayload);
 
     if (response.accounts) {
       const { data, current_page, last_page, per_page, total } = response.accounts;
@@ -43,7 +73,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type,
-        brands: apiAccount.venues || [],
+        brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
         avatarBackground: generateColorFromString(apiAccount.first_name || ''),
@@ -102,26 +132,8 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
       status: "active", // Static value
     };
 
-    // Define the expected raw response type from the API
-    type ApiAccountResponse = {
-      message: string;
-      account: {
-        id: number;
-        first_name: string;
-        last_name: string;
-        email: string;
-        phone: string;
-        pin: string;
-        account_type: AccountType;
-        registration_type: string;
-        status: string;
-        created_at: string;
-        updated_at: string;
-        venues: Brand[];
-      }
-    };
-
-    const response: ApiAccountResponse = yield call(postData, '/api/add/account', apiPayload);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response: { message: string; account: any } = yield call(postData, '/api/add/account', apiPayload);
 
     // Check for a successful response based on the message and presence of the account object
     if (response && response.account) {
@@ -136,7 +148,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type,
-        brands: apiAccount.venues,
+        brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
         // These fields are not in the response, so we provide defaults
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
@@ -185,7 +197,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type,
-        brands: apiAccount.venues || [],
+        brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${
           apiAccount.last_name?.[0] || ""
@@ -247,7 +259,7 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type,
-        brands: apiAccount.venues || [],
+        brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
         avatarBackground: generateColorFromString(apiAccount.first_name || ''),

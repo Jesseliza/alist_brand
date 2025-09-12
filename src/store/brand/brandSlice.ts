@@ -31,13 +31,13 @@ const brandSlice = createSlice({
       state.error = action.payload;
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    deleteBrandRequest(state, _action: PayloadAction<{ id: number }>) {
+    deleteBrandRequest(state, _action: PayloadAction<{ brandId: string }>) {
       state.loading = true;
       state.error = null;
     },
-    deleteBrandSuccess(state, action: PayloadAction<{ id: number }>) {
+    deleteBrandSuccess(state, action: PayloadAction<{ brandId: string }>) {
       state.loading = false;
-      state.brands = state.brands.filter(brand => brand.id !== action.payload.id);
+      state.brands = state.brands.filter(brand => brand.brandId !== action.payload.brandId);
     },
     deleteBrandFailure(state, action: PayloadAction<string>) {
       state.loading = false;
