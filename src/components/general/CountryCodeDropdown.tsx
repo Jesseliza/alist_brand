@@ -30,7 +30,7 @@ export default function CountryCodeDropdown({ selectedCode, onCodeChange }: Coun
             onChange={(event) => setQuery(event.target.value)}
             autoComplete="off"
           />
-          <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
+          <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2 focus:outline-none focus:ring-0">
             <Image
               src="/icons/general/dropdownarrow-1-light.svg"
               alt="dropdown arrow"
