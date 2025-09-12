@@ -19,7 +19,7 @@ import {
   fetchAccountByIdSuccess,
   fetchAccountByIdFailure,
 } from './accountSlice';
-import { Account, AccountType, Brand } from '@/types/entities';
+import { Account, Brand } from '@/types/entities';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const transformVenueToBrand = (venue: any): Brand => {
