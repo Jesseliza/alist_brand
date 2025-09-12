@@ -41,9 +41,6 @@ export type Account = {
   /** Agency name or "individual" label */
   // affiliation: string;
 
-  /** PIN for the account */
-  pin: string;
-
   /** List of associated brands */
   brands?: Brand[];
 
