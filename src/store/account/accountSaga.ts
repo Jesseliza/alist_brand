@@ -1,6 +1,6 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects';
 import toast from 'react-hot-toast';
-import { postData, putData, deleteData, fetchData } from '@/services/commonService';
+import { postData, deleteData, fetchData } from '@/services/commonService';
 import { generateColorFromString } from '@/utils/colorGenerator';
 import {
   fetchAccountsRequest,
@@ -20,7 +20,6 @@ import {
   fetchAccountByIdFailure,
 } from './accountSlice';
 import { Account, AccountType } from '@/types/entities';
-import { CreateAccountPayload, UpdateAccountPayload } from '@/types/requests';
 
 function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
   try {
@@ -35,6 +34,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
     if (response.accounts) {
       const { data, current_page, last_page, per_page, total } = response.accounts;
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const feAccounts: Account[] = data.map((apiAccount: any) => ({
         accountId: apiAccount.id.toString(),
         firstName: apiAccount.first_name,
@@ -65,6 +65,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
         toast.success('Accounts filtered successfully!');
       }
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const errorMessage = (response as any).response || 'Failed to fetch accounts';
       yield put(fetchAccountsFailure(errorMessage));
       toast.error(errorMessage);
@@ -148,6 +149,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
       yield put(createAccountSuccess(feAccount));
       toast.success('Account created successfully!');
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const errorMessage = (response as any).response || 'Failed to create account';
       yield put(createAccountFailure(errorMessage));
       toast.error(errorMessage);
@@ -167,6 +169,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
       ...payload,
       venues: brands?.map((b) => b.id) || [],
     };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response: { message: string; account: any } = yield call(
       postData,
       `/api/account/${accountId}`,
@@ -195,6 +198,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
       yield put(updateAccountSuccess(feAccount));
       toast.success(response.message);
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const errorMessage = (response as any).message || "Failed to update account";
       yield put(updateAccountFailure(errorMessage));
       toast.error(errorMessage);
@@ -230,6 +234,7 @@ function* handleDeleteAccount(action: ReturnType<typeof deleteAccountRequest>) {
 function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdRequest>) {
   try {
     const { accountId } = action.payload;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response: { message: string, account: any } = yield call(fetchData, `/api/account/${accountId}`);
 
     if (response.account) {
@@ -252,6 +257,7 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
       };
       yield put(fetchAccountByIdSuccess(feAccount));
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const errorMessage = (response as any).response || 'Failed to fetch account';
       yield put(fetchAccountByIdFailure(errorMessage));
       toast.error(errorMessage);

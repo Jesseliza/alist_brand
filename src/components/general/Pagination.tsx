@@ -1,6 +1,4 @@
 // components/Pagination.tsx
-import { useState, useEffect } from "react";
-
 interface PaginationProps {
   totalItems: number;
   itemsPerPage: number;
