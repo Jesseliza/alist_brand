@@ -79,7 +79,7 @@ export default function LoginPage() {
           </form>
         ) : (
           <form className="w-full flex flex-col gap-[11px]" onSubmit={handleLogin}>
-            <p className="text-center text-gray-600">Enter the OTP sent to {phoneNumber}</p>
+            <p className="text-center text-gray-600">Enter the OTP sent to {countryCode}{phoneNumber}</p>
             <input
               type="password"
               placeholder="OTP"
