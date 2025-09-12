@@ -21,5 +21,5 @@ export interface LoginPayload {
 
   export interface SendOtpResponse {
     msg: string;
-    result?: any;
+    result?: unknown;
   }
