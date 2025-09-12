@@ -92,13 +92,15 @@ export default function AccountsPage() {
   };
 
   const handleCheckboxChange = (accountId: string) => {
-    const newCheckedRows = new Set(checkedRows);
-    if (newCheckedRows.has(accountId)) {
-      newCheckedRows.delete(accountId);
-    } else {
-      newCheckedRows.add(accountId);
-    }
-    setCheckedRows(newCheckedRows);
+    setCheckedRows((prevCheckedRows) => {
+      const newCheckedRows = new Set(prevCheckedRows);
+      if (newCheckedRows.has(accountId)) {
+        newCheckedRows.delete(accountId);
+      } else {
+        newCheckedRows.add(accountId);
+      }
+      return newCheckedRows;
+    });
   };
 
   const handleAddAccountClick = () => {
