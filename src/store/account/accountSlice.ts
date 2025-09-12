@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Account } from '@/types/entities';
+import { CreateAccountPayload, UpdateAccountPayload } from '@/types/requests';
 
 interface PaginationState {
   currentPage: number;
@@ -35,7 +36,13 @@ const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {
-    fetchAccountsRequest(state) {
+    fetchAccountsRequest(state, _action: PayloadAction<{
+      search?: string;
+      status?: string;
+      account_type?: string;
+      per_page?: number;
+      page?: number;
+    }>) {
       state.loading = true;
       state.error = null;
     },
@@ -48,7 +55,7 @@ const accountSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    createAccountRequest(state) {
+    createAccountRequest(state, _action: PayloadAction<CreateAccountPayload>) {
       state.loading = true;
       state.error = null;
     },
@@ -61,7 +68,7 @@ const accountSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    updateAccountRequest(state) {
+    updateAccountRequest(state, _action: PayloadAction<UpdateAccountPayload>) {
       state.loading = true;
       state.error = null;
       state.updateSuccess = false;
@@ -79,7 +86,7 @@ const accountSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    deleteAccountRequest(state) {
+    deleteAccountRequest(state, _action: PayloadAction<{ accountId: string }>) {
       state.loading = true;
       state.error = null;
     },
@@ -94,7 +101,7 @@ const accountSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    fetchAccountByIdRequest(state) {
+    fetchAccountByIdRequest(state, _action: PayloadAction<{ accountId: string }>) {
       state.loading = true;
       state.error = null;
     },
