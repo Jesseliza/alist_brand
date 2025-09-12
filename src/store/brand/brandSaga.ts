@@ -10,17 +10,44 @@ import {
 } from './brandSlice';
 import { Brand } from '@/types/entities';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const transformApiVenueToBrand = (venue: any): Brand => {
+  return {
+    brandId: venue.id.toString(),
+    name: venue.venue_title,
+    accountId: venue.accountId || 'N/A',
+    logo: venue.logo || '',
+    phoneNumber: venue.phoneNumber || '',
+    emailAddress: venue.emailAddress || '',
+    industry: venue.industry || 'N/A',
+    companyName: venue.companyName || '',
+    businessLocation: venue.businessLocation || '',
+    tradeLicenseCopy: venue.tradeLicenseCopy || '',
+    vatCertificate: venue.vatCertificate || '',
+    instagramHandle: venue.instagramHandle || '',
+    websiteUrl: venue.venue_url || '',
+    associateFirstName: venue.associateFirstName || '',
+    associateLastName: venue.associateLastName || '',
+    associateEmail: venue.associateEmail || '',
+    associatePhone: venue.associatePhone || '',
+    associateInitials: venue.associateInitials || '',
+    associateBackground: venue.associateBackground || '#CCCCCC',
+    offersCount: venue.offersCount || 0,
+    campaignsCount: venue.campaignsCount || 0,
+    profileCompletion: venue.profileCompletion || 0,
+  };
+};
+
 function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
   try {
     const { search } = action.payload;
     const endpoint = search ? `/api/list/venues?search=${search}` : '/api/list/venues';
-    // The API now returns a nested object: { message: string, venues: Brand[] }
-    const response: { message: string, venues: Brand[] } = yield call(fetchData, endpoint);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response: { message: string, venues: any[] } = yield call(fetchData, endpoint);
     if (response && response.venues) {
-      yield put(fetchBrandsSuccess(response.venues));
+      const transformedBrands: Brand[] = response.venues.map(transformApiVenueToBrand);
+      yield put(fetchBrandsSuccess(transformedBrands));
     } else {
-      // Handle cases where the API returns a success status but the structure is wrong
-      // or when fetchData returns a failure object from commonService
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const errorMessage = (response as any).response || 'Failed to fetch brands: Invalid API response structure';
       yield put(fetchBrandsFailure(errorMessage));
@@ -33,10 +60,10 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
 
 function* handleDeleteBrand(action: ReturnType<typeof deleteBrandRequest>) {
   try {
-    const { id } = action.payload;
-    const response: { success: boolean, response: string } = yield call(deleteData, `/api/list/venues/${id}`);
+    const { brandId } = action.payload;
+    const response: { success: boolean, response: string } = yield call(deleteData, `/api/list/venues/${brandId}`);
     if (response.success) {
-      yield put(deleteBrandSuccess({ id }));
+      yield put(deleteBrandSuccess({ brandId }));
     } else {
       yield put(deleteBrandFailure(response.response || 'Failed to delete brand'));
     }

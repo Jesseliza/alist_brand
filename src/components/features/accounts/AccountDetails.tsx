@@ -114,11 +114,6 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
             type="tel"
             onChange={handleChange}
           />
-          {/* <InputField
-            label="Affiliation"
-            value={formData.affiliation || ""}
-            name="affiliation"
-          /> */}
           <InputField
             label="PIN"
             value={formData.pin || ""}

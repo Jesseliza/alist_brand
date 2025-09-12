@@ -21,6 +21,34 @@ import {
 } from './accountSlice';
 import { Account, AccountType, Brand } from '@/types/entities';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const transformVenueToBrand = (venue: any): Brand => {
+  return {
+    brandId: venue.id.toString(),
+    name: venue.venue_title,
+    accountId: venue.accountId || 'N/A',
+    logo: venue.logo || '',
+    phoneNumber: venue.phoneNumber || '',
+    emailAddress: venue.emailAddress || '',
+    industry: venue.industry || 'N/A',
+    companyName: venue.companyName || '',
+    businessLocation: venue.businessLocation || '',
+    tradeLicenseCopy: venue.tradeLicenseCopy || '',
+    vatCertificate: venue.vatCertificate || '',
+    instagramHandle: venue.instagramHandle || '',
+    websiteUrl: venue.venue_url || '',
+    associateFirstName: venue.associateFirstName || '',
+    associateLastName: venue.associateLastName || '',
+    associateEmail: venue.associateEmail || '',
+    associatePhone: venue.associatePhone || '',
+    associateInitials: venue.associateInitials || '',
+    associateBackground: venue.associateBackground || '#CCCCCC',
+    offersCount: venue.offersCount || 0,
+    campaignsCount: venue.campaignsCount || 0,
+    profileCompletion: venue.profileCompletion || 0,
+  };
+};
+
 function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
   try {
     const { page, ...bodyPayload } = action.payload;
@@ -29,7 +57,8 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
       endpoint = `${endpoint}?page=${page}`;
     }
 
-    const response: { message: string, accounts: { data: Account[], current_page: number, last_page: number, per_page: number, total: number } } = yield call(postData, endpoint, bodyPayload);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response: { message: string, accounts: { data: any[], current_page: number, last_page: number, per_page: number, total: number } } = yield call(postData, endpoint, bodyPayload);
 
     if (response.accounts) {
       const { data, current_page, last_page, per_page, total } = response.accounts;
@@ -43,7 +72,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type,
-        brands: apiAccount.venues || [],
+        brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
         avatarBackground: generateColorFromString(apiAccount.first_name || ''),
@@ -102,32 +131,12 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
       status: "active", // Static value
     };
 
-    // Define the expected raw response type from the API
-    type ApiAccountResponse = {
-      message: string;
-      account: {
-        id: number;
-        first_name: string;
-        last_name: string;
-        email: string;
-        phone: string;
-        pin: string;
-        account_type: AccountType;
-        registration_type: string;
-        status: string;
-        created_at: string;
-        updated_at: string;
-        venues: Brand[];
-      }
-    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response: { message: string; account: any } = yield call(postData, '/api/add/account', apiPayload);
 
-    const response: ApiAccountResponse = yield call(postData, '/api/add/account', apiPayload);
-
-    // Check for a successful response based on the message and presence of the account object
     if (response && response.account) {
       const apiAccount = response.account;
 
-      // Transform the snake_case response to the camelCase Account type used in the frontend
       const feAccount: Account = {
         accountId: apiAccount.id.toString(),
         firstName: apiAccount.first_name,
@@ -136,9 +145,8 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type,
-        brands: apiAccount.venues,
+        brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
-        // These fields are not in the response, so we provide defaults
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
         avatarBackground: "#CCCCCC",
         subscriptionCount: 0,
@@ -185,7 +193,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type,
-        brands: apiAccount.venues || [],
+        brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${
           apiAccount.last_name?.[0] || ""
@@ -247,7 +255,7 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
         phoneNumber: apiAccount.phone,
         pin: apiAccount.pin,
         accountType: apiAccount.account_type,
-        brands: apiAccount.venues || [],
+        brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
         avatarBackground: generateColorFromString(apiAccount.first_name || ''),

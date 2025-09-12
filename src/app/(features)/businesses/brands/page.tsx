@@ -105,7 +105,6 @@ export default function BrandsPage() {
                 <Pagination
                   totalItems={brandsData.length}
                   itemsPerPage={itemsPerPage}
-                  currentPage={currentPage}
                   onPageChange={handlePageChange}
                   onItemsPerPageChange={handleItemsPerPageChange}
                 />

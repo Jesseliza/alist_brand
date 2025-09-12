@@ -107,7 +107,6 @@ export default function CreatorsProfilesPage() {
                 <Pagination
                   totalItems={CreatorsData.length}
                   itemsPerPage={itemsPerPage}
-                  currentPage={currentPage}
                   onPageChange={handlePageChange}
                   onItemsPerPageChange={handleItemsPerPageChange}
                 />
