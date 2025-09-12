@@ -126,7 +126,8 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
         toast.success('Accounts filtered successfully!');
       }
     } else {
-      const errorMessage = response.response || 'Failed to fetch accounts';
+      const errorResponse = response as ApiError;
+      const errorMessage = errorResponse.response || 'Failed to fetch accounts';
       yield put(fetchAccountsFailure(errorMessage));
       toast.error(errorMessage);
     }
@@ -187,7 +188,8 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
       yield put(createAccountSuccess(feAccount));
       toast.success('Account created successfully!');
     } else {
-      const errorMessage = response.response || 'Failed to create account';
+      const errorResponse = response as ApiError;
+      const errorMessage = errorResponse.response || 'Failed to create account';
       yield put(createAccountFailure(errorMessage));
       toast.error(errorMessage);
     }
@@ -258,7 +260,8 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
       yield put(updateAccountSuccess(feAccount));
       toast.success(response.message);
     } else {
-      const errorMessage = response.response || "Failed to update account";
+      const errorResponse = response as ApiError;
+      const errorMessage = errorResponse.response || "Failed to update account";
       yield put(updateAccountFailure(errorMessage));
       toast.error(errorMessage);
     }
@@ -315,7 +318,8 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
       };
       yield put(fetchAccountByIdSuccess(feAccount));
     } else {
-      const errorMessage = response.response || 'Failed to fetch account';
+      const errorResponse = response as ApiError;
+      const errorMessage = errorResponse.response || 'Failed to fetch account';
       yield put(fetchAccountByIdFailure(errorMessage));
       toast.error(errorMessage);
     }
