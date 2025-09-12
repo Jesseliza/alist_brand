@@ -17,6 +17,7 @@ const brandSlice = createSlice({
   name: 'brand',
   initialState,
   reducers: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     fetchBrandsRequest(state, _action: PayloadAction<{ search?: string }>) {
       state.loading = true;
       state.error = null;
@@ -29,6 +30,7 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     deleteBrandRequest(state, _action: PayloadAction<{ id: number }>) {
       state.loading = true;
       state.error = null;

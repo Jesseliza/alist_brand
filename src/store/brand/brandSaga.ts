@@ -21,6 +21,7 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
     } else {
       // Handle cases where the API returns a success status but the structure is wrong
       // or when fetchData returns a failure object from commonService
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const errorMessage = (response as any).response || 'Failed to fetch brands: Invalid API response structure';
       yield put(fetchBrandsFailure(errorMessage));
     }
