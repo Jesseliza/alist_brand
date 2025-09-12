@@ -105,15 +105,38 @@ function DashboardContent({
                 height={24}
               />
             </button>
-            <span className="text-[18px] font-semibold text-[#4F4F4F]">
-              Dashboard
-            </span>
-            <Image
-              src="/icons/navbar/notification.svg"
-              alt="notifications"
-              width={29.36}
-              height={29.36}
-            />
+            <div className="flex items-center space-x-4">
+              <Image
+                src="/icons/navbar/notification.svg"
+                alt="notifications"
+                width={29.36}
+                height={29.36}
+              />
+              <div className="relative">
+                <Image
+                  src="/icons/navbar/profile7.png"
+                  alt="profile"
+                  width={42}
+                  height={42}
+                  onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
+                  className="cursor-pointer"
+                />
+                {isProfileMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                    <button
+                      onClick={() => {
+                        dispatch(logout());
+                        setProfileMenuOpen(false);
+                        router.replace('/login');
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Desktop Nav */}
