@@ -49,6 +49,40 @@ const transformVenueToBrand = (venue: any): Brand => {
   };
 };
 
+interface ApiAccount {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  pin: string;
+  account_type: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  venues: any[];
+  created_at: string;
+}
+
+type ApiError = {
+  success: false;
+  response: string;
+};
+
+type FetchAccountsSuccessResponse = {
+  message: string;
+  accounts: {
+    data: ApiAccount[];
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+  };
+};
+
+type AccountSuccessResponse = {
+  message: string;
+  account: ApiAccount;
+};
+
 function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
   try {
     const { page, ...bodyPayload } = action.payload;
@@ -57,14 +91,12 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
       endpoint = `${endpoint}?page=${page}`;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response: { message: string, accounts: { data: any[], current_page: number, last_page: number, per_page: number, total: number } } = yield call(postData, endpoint, bodyPayload);
+    const response: FetchAccountsSuccessResponse | ApiError = yield call(postData, endpoint, bodyPayload);
 
-    if (response.accounts) {
+    if ('accounts' in response && response.accounts) {
       const { data, current_page, last_page, per_page, total } = response.accounts;
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const feAccounts: Account[] = data.map((apiAccount: any) => ({
+      const feAccounts: Account[] = data.map((apiAccount: ApiAccount) => ({
         accountId: apiAccount.id.toString(),
         firstName: apiAccount.first_name,
         lastName: apiAccount.last_name,
@@ -94,8 +126,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
         toast.success('Accounts filtered successfully!');
       }
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const errorMessage = (response as any).response || 'Failed to fetch accounts';
+      const errorMessage = response.response || 'Failed to fetch accounts';
       yield put(fetchAccountsFailure(errorMessage));
       toast.error(errorMessage);
     }
@@ -131,10 +162,9 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
       status: "active", // Static value
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response: { message: string; account: any } = yield call(postData, '/api/add/account', apiPayload);
+    const response: AccountSuccessResponse | ApiError = yield call(postData, '/api/add/account', apiPayload);
 
-    if (response && response.account) {
+    if ('account' in response && response.account) {
       const apiAccount = response.account;
 
       const feAccount: Account = {
@@ -157,8 +187,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
       yield put(createAccountSuccess(feAccount));
       toast.success('Account created successfully!');
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const errorMessage = (response as any).response || 'Failed to create account';
+      const errorMessage = response.response || 'Failed to create account';
       yield put(createAccountFailure(errorMessage));
       toast.error(errorMessage);
     }
@@ -199,13 +228,12 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
       Object.entries(apiPayload).filter(([, value]) => value !== undefined)
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response: { message: string; account: any } = yield call(
+    const response: AccountSuccessResponse | ApiError = yield call(
       postData,
       `/api/account/${accountId}`,
       filteredApiPayload
     );
-    if (response.account) {
+    if ('account' in response && response.account) {
       const apiAccount = response.account;
       const feAccount: Account = {
         accountId: apiAccount.id.toString(),
@@ -230,9 +258,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
       yield put(updateAccountSuccess(feAccount));
       toast.success(response.message);
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const errorMessage =
-        (response as any).message || "Failed to update account";
+      const errorMessage = response.response || "Failed to update account";
       yield put(updateAccountFailure(errorMessage));
       toast.error(errorMessage);
     }
@@ -267,10 +293,9 @@ function* handleDeleteAccount(action: ReturnType<typeof deleteAccountRequest>) {
 function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdRequest>) {
   try {
     const { accountId } = action.payload;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response: { message: string, account: any } = yield call(fetchData, `/api/account/${accountId}`);
+    const response: AccountSuccessResponse | ApiError = yield call(fetchData, `/api/account/${accountId}`);
 
-    if (response.account) {
+    if ('account' in response && response.account) {
       const apiAccount = response.account;
       const feAccount: Account = {
         accountId: apiAccount.id.toString(),
@@ -290,8 +315,7 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
       };
       yield put(fetchAccountByIdSuccess(feAccount));
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const errorMessage = (response as any).response || 'Failed to fetch account';
+      const errorMessage = response.response || 'Failed to fetch account';
       yield put(fetchAccountByIdFailure(errorMessage));
       toast.error(errorMessage);
     }
