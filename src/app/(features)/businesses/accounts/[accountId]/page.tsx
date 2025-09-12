@@ -121,7 +121,8 @@ export default function AccountPage() {
       {error && <div className="text-red-500 bg-red-100 p-3 rounded-md mb-4">Error: {error}</div>}
       <div>
         <AccountHeader
-          account={account}
+          // account can be null, but AccountHeader expects undefined for optional props.
+          account={account || undefined}
           activeTab={activeTab}
           onTabChange={handleTabChange}
           isCreateMode={isCreateMode}
