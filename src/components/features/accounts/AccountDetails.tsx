@@ -96,8 +96,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
       toast.error("First name and email are required.");
       return;
     }
-    const fullPhoneNumber = `${countryCode}${formData.phoneNumber}`;
-    onSave({ ...formData, phoneNumber: fullPhoneNumber });
+    onSave({ ...formData, country_code: countryCode });
   };
 
   return (
