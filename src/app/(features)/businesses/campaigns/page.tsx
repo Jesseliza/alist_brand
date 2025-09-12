@@ -123,7 +123,6 @@ export default function CampaignsPage() {
                 <Pagination
                   totalItems={CampaignsData.length}
                   itemsPerPage={itemsPerPage}
-                  currentPage={currentPage}
                   onPageChange={handlePageChange}
                   onItemsPerPageChange={handleItemsPerPageChange}
                 />

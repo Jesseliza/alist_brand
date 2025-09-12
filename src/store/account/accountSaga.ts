@@ -21,32 +21,31 @@ import {
 } from './accountSlice';
 import { Account, AccountType, Brand } from '@/types/entities';
 
-// Transformation function to map API venue to Brand type
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const transformVenueToBrand = (venue: any): Brand => {
   return {
     brandId: venue.id.toString(),
-    accountId: venue.accountId || 'N/A', // Assuming accountId might not be present
     name: venue.venue_title,
-    logo: venue.logo || '', // Default value
-    phoneNumber: venue.phoneNumber || '', // Default value
-    emailAddress: venue.emailAddress || '', // Default value
-    industry: venue.industry || 'N/A', // Default value
-    companyName: venue.companyName || '', // Default value
-    businessLocation: venue.businessLocation || '', // Default value
-    tradeLicenseCopy: venue.tradeLicenseCopy || '', // Default value
-    vatCertificate: venue.vatCertificate || '', // Default value
-    instagramHandle: venue.instagramHandle || '', // Default value
+    accountId: venue.accountId || 'N/A',
+    logo: venue.logo || '',
+    phoneNumber: venue.phoneNumber || '',
+    emailAddress: venue.emailAddress || '',
+    industry: venue.industry || 'N/A',
+    companyName: venue.companyName || '',
+    businessLocation: venue.businessLocation || '',
+    tradeLicenseCopy: venue.tradeLicenseCopy || '',
+    vatCertificate: venue.vatCertificate || '',
+    instagramHandle: venue.instagramHandle || '',
     websiteUrl: venue.venue_url || '',
-    associateFirstName: venue.associateFirstName || '', // Default value
-    associateLastName: venue.associateLastName || '', // Default value
-    associateEmail: venue.associateEmail || '', // Default value
-    associatePhone: venue.associatePhone || '', // Default value
-    associateInitials: venue.associateInitials || '', // Default value
-    associateBackground: venue.associateBackground || '#CCCCCC', // Default value
-    offersCount: venue.offersCount || 0, // Default value
-    campaignsCount: venue.campaignsCount || 0, // Default value
-    profileCompletion: venue.profileCompletion || 0, // Default value
+    associateFirstName: venue.associateFirstName || '',
+    associateLastName: venue.associateLastName || '',
+    associateEmail: venue.associateEmail || '',
+    associatePhone: venue.associatePhone || '',
+    associateInitials: venue.associateInitials || '',
+    associateBackground: venue.associateBackground || '#CCCCCC',
+    offersCount: venue.offersCount || 0,
+    campaignsCount: venue.campaignsCount || 0,
+    profileCompletion: venue.profileCompletion || 0,
   };
 };
 
@@ -135,11 +134,9 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response: { message: string; account: any } = yield call(postData, '/api/add/account', apiPayload);
 
-    // Check for a successful response based on the message and presence of the account object
     if (response && response.account) {
       const apiAccount = response.account;
 
-      // Transform the snake_case response to the camelCase Account type used in the frontend
       const feAccount: Account = {
         accountId: apiAccount.id.toString(),
         firstName: apiAccount.first_name,
@@ -150,7 +147,6 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         accountType: apiAccount.account_type,
         brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
         signUpDate: apiAccount.created_at,
-        // These fields are not in the response, so we provide defaults
         avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
         avatarBackground: "#CCCCCC",
         subscriptionCount: 0,

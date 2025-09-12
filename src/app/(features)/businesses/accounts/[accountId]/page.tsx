@@ -83,10 +83,8 @@ export default function AccountPage() {
 
   const handleSave = (formData: Partial<Account>) => {
     if (isCreateMode) {
-      // The saga and backend will handle generating the full account object
       dispatch(createAccountRequest(formData as CreateAccountPayload));
     } else {
-      // Ensure we have the accountId for updates
       if (accountId) {
         dispatch(updateAccountRequest({ ...formData, accountId } as UpdateAccountPayload));
       }

@@ -11,8 +11,6 @@ export enum AccountType {
  * Account Entity Type
  * Represents a user account in the system
  */
-import { Brand } from "./brand";
-
 export type Account = {
   /** Unique identifier for the account */
   accountId: string;
@@ -41,8 +39,8 @@ export type Account = {
   /** PIN for the account */
   pin: string;
 
-  /** List of associated brands */
-  brands?: Brand[];
+  /** List of associated brand IDs */
+  brandIds?: number[];
 
   /** Account type - Individual or Agency */
   accountType: AccountType;
