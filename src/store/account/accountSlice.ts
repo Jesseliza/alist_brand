@@ -36,6 +36,7 @@ const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     fetchAccountsRequest(state, _action: PayloadAction<{
       search?: string;
       status?: string;
@@ -55,6 +56,7 @@ const accountSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     createAccountRequest(state, _action: PayloadAction<CreateAccountPayload>) {
       state.loading = true;
       state.error = null;
@@ -68,6 +70,7 @@ const accountSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     updateAccountRequest(state, _action: PayloadAction<UpdateAccountPayload>) {
       state.loading = true;
       state.error = null;
@@ -86,6 +89,7 @@ const accountSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     deleteAccountRequest(state, _action: PayloadAction<{ accountId: string }>) {
       state.loading = true;
       state.error = null;
@@ -101,6 +105,7 @@ const accountSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     fetchAccountByIdRequest(state, _action: PayloadAction<{ accountId: string }>) {
       state.loading = true;
       state.error = null;
