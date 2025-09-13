@@ -62,7 +62,7 @@ function DashboardContent({
   );
 
   return (
-    <div className="flex min-h-screen w-screen overflow-hidden font-[Poppins]">
+    <div className="flex min-h-screen w-full font-[Poppins]">
       {/* Mobile Sidebar Backdrop */}
       {isMobileMenuOpen && (
         <div
