@@ -168,7 +168,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
             initialSelectedBrands={formData.brands || []}
             onChange={handleBrandChange}
           />
-          <div className="flex justify-end gap-4 mt-6">
+          <div className="flex justify-end gap-4 mt-6 flex-shrink-0">
             <button
               type="button"
               onClick={() => router.back()}
