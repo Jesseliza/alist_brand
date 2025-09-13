@@ -136,12 +136,8 @@ export default function AccountsPage() {
 
   return (
     <div>
-      <div className="py-[13px] bg-white hidden md:block relative">
-        <div
-          className="absolute inset-0 bg-white"
-          style={{ left: "-100vw", right: "-100vw" }}
-        />
-        <div className="max-w-[1428px] mx-auto flex items-center justify-between relative z-10">
+      <div className="py-[13px] bg-white hidden md:block">
+        <div className="max-w-[1428px] mx-auto flex items-center justify-between">
           <div className="text-[18px] leading-[27px] w-[147px]">
             <SortDropdown onSelect={handleSortSelect} />
           </div>
@@ -180,13 +176,15 @@ export default function AccountsPage() {
           </div>
           {/* Mobile buttons */}
           <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
-            <button
-              onClick={handleAddAccountClick}
-              className="bg-blue-500 text-white rounded-[11px] text-sm px-4 py-2"
-            >
-              Add Account
-            </button>
-            <div className="w-[137px]">
+            <div className="relative z-20">
+              <button
+                onClick={handleAddAccountClick}
+                className="bg-blue-500 text-white rounded-[11px] text-sm px-4 py-2"
+              >
+                Add Account
+              </button>
+            </div>
+            <div className="w-auto">
               <ActionDropdown
                 onSelect={handleActionSelect}
                 updateDisabled={checkedRows.size > 1}
@@ -206,6 +204,13 @@ export default function AccountsPage() {
                     onCheckboxChange={() => handleCheckboxChange(account.accountId)}
                   />
                 ))}
+                <Pagination
+                  totalItems={pagination.total}
+                  itemsPerPage={pagination.perPage}
+                  currentPage={pagination.currentPage}
+                  onPageChange={handlePageChange}
+                  onItemsPerPageChange={handleItemsPerPageChange}
+                />
               </div>
               <div className="hidden md:block">
                 <AccountsTable
