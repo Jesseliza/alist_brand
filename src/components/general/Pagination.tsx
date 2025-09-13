@@ -89,11 +89,11 @@ export default function Pagination({
   return (
     <div
       className={`flex items-center py-4 ${
-        fixed ? "justify-center" : "justify-between"
+        fixed ? "justify-center" : "justify-center md:justify-between"
       }`}
     >
       {!fixed && (
-        <div className="flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-6">
           <span className="text-sm text-gray-700">Show</span>
           <select
             className="p-2 border border-gray-300 rounded-lg bg-white text-gray-900 cursor-pointer focus:outline-none focus:border-teal-500"
