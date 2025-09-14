@@ -186,6 +186,7 @@ export default function AccountsPage() {
               <ActionDropdown
                 onSelect={handleActionSelect}
                 updateDisabled={checkedRows.size > 1}
+                disabled={checkedRows.size === 0}
               />
             </div>
           </div>
@@ -203,6 +204,7 @@ export default function AccountsPage() {
               <ActionDropdown
                 onSelect={handleActionSelect}
                 updateDisabled={checkedRows.size > 1}
+                disabled={checkedRows.size === 0}
               />
             </div>
           </div>

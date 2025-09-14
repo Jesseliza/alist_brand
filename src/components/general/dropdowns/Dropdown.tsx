@@ -29,6 +29,7 @@ interface DropdownProps<T> {
   icon?: string; // path to SVG image
   buttonClassName?: string; // extra Tailwind classes
   menuItemsClassName?: string;
+  disabled?: boolean;
 }
 
 export function Dropdown<T>(props: DropdownProps<T>) {
@@ -54,6 +55,7 @@ export function Dropdown<T>(props: DropdownProps<T>) {
       shadow-lg max-h-60 overflow-auto z-10
       focus:outline-none 
     `.trim(),
+    disabled = false,
   } = props;
 
   // uncontrolled state for select mode
@@ -74,9 +76,10 @@ export function Dropdown<T>(props: DropdownProps<T>) {
           if (controlled === undefined) setInternal(val);
           onSelect(val);
         }}
+        disabled={disabled}
       >
         <div className="relative text-left">
-          <ListboxButton className={buttonClassName}>
+          <ListboxButton className={`${buttonClassName} disabled:opacity-50 disabled:cursor-not-allowed`}>
             <div className="truncate flex-1">{displayLabel}</div>
             <div className="mr-3">
               <Image
@@ -118,7 +121,10 @@ export function Dropdown<T>(props: DropdownProps<T>) {
   // —— action mode ——
   return (
     <Menu as="div" className="relative w-full text-left">
-      <MenuButton className={buttonClassName}>
+      <MenuButton
+        className={`${buttonClassName} disabled:opacity-50 disabled:cursor-not-allowed`}
+        disabled={disabled}
+      >
         <div className="truncate flex-1">{displayLabel}</div>
         <div className="mr-3">
           <Image
