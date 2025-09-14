@@ -6,6 +6,9 @@ import {
   fetchAccountsRequest,
   fetchAccountsSuccess,
   fetchAccountsFailure,
+  fetchMoreAccountsRequest,
+  fetchMoreAccountsSuccess,
+  fetchMoreAccountsFailure,
   createAccountRequest,
   createAccountSuccess,
   createAccountFailure,
@@ -141,6 +144,59 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
     const err = error as Error;
     const errorMessage = err.message || 'An unknown error occurred';
     yield put(fetchAccountsFailure(errorMessage));
+    toast.error(errorMessage);
+  }
+}
+
+function* handleFetchMoreAccounts(action: ReturnType<typeof fetchMoreAccountsRequest>) {
+  try {
+    const { page, ...bodyPayload } = action.payload;
+    let endpoint = '/api/list/accounts';
+    if (page) {
+      endpoint = `${endpoint}?page=${page}`;
+    }
+
+    const response: FetchAccountsSuccessResponse | ApiError = yield call(postData, endpoint, bodyPayload);
+
+    if ('accounts' in response && response.accounts) {
+      const { data, current_page, last_page, per_page, total } = response.accounts;
+
+      const feAccounts: Account[] = data.map((apiAccount: ApiAccount) => ({
+        accountId: apiAccount.id.toString(),
+        firstName: apiAccount.first_name,
+        lastName: apiAccount.last_name,
+        emailAddress: apiAccount.email,
+        country_code: apiAccount.country_code,
+        phoneNumber: apiAccount.phone,
+        accountType: apiAccount.account_type as AccountType,
+        brands: apiAccount.venues ? apiAccount.venues.map(transformVenueToBrand) : [],
+        signUpDate: apiAccount.created_at,
+        avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
+        avatarBackground: generateColorFromString(apiAccount.first_name || ''),
+        subscriptionCount: 0,
+        brandsCount: apiAccount.venues?.length || 0,
+        campaignsCount: 0,
+      }));
+
+      yield put(fetchMoreAccountsSuccess({
+        accounts: feAccounts,
+        pagination: {
+          currentPage: current_page,
+          lastPage: last_page,
+          perPage: per_page,
+          total: total,
+        },
+      }));
+    } else {
+      const errorResponse = response as ApiError;
+      const errorMessage = errorResponse.response || 'Failed to fetch more accounts';
+      yield put(fetchMoreAccountsFailure(errorMessage));
+      toast.error(errorMessage);
+    }
+  } catch (error) {
+    const err = error as Error;
+    const errorMessage = err.message || 'An unknown error occurred';
+    yield put(fetchMoreAccountsFailure(errorMessage));
     toast.error(errorMessage);
   }
 }
@@ -387,6 +443,7 @@ function* handleBulkUpdateStatus(action: ReturnType<typeof bulkUpdateStatusReque
 
 function* watchAccount() {
   yield takeLatest(fetchAccountsRequest.type, handleFetchAccounts);
+  yield takeLatest(fetchMoreAccountsRequest.type, handleFetchMoreAccounts);
   yield takeLatest(createAccountRequest.type, handleCreateAccount);
   yield takeLatest(updateAccountRequest.type, handleUpdateAccount);
   yield takeLatest(deleteAccountRequest.type, handleDeleteAccount);

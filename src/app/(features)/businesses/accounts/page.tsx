@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
-import { fetchAccountsRequest, bulkDeleteAccountsRequest, bulkUpdateStatusRequest } from "@/store/account/accountSlice";
+import { fetchAccountsRequest, bulkDeleteAccountsRequest, bulkUpdateStatusRequest, fetchMoreAccountsRequest } from "@/store/account/accountSlice";
 import { RootState } from "@/store/store";
 import AccountsTable from "@/components/features/accounts/AccountsTable";
 import AccountCard from "@/components/features/accounts/AccountMobileCard";
@@ -32,6 +32,7 @@ export default function AccountsPage() {
   const [status, setStatus] = useState("");
   const [accountType, setAccountType] = useState("");
   const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
+  const [mobilePage, setMobilePage] = useState(1);
 
   const debouncedSearch = useDebounce(search, 500);
   // Effect for initial load
@@ -49,6 +50,7 @@ export default function AccountsPage() {
       return;
     }
 
+    setMobilePage(1); // Reset page number
     // Debounced search effect
     dispatch(fetchAccountsRequest({
       search: debouncedSearch,
@@ -130,6 +132,18 @@ export default function AccountsPage() {
     });
   };
 
+  const handleSeeMore = () => {
+    const nextPage = mobilePage + 1;
+    dispatch(fetchMoreAccountsRequest({
+      page: nextPage,
+      search: search,
+      status: status,
+      account_type: accountType,
+      per_page: 10
+    }));
+    setMobilePage(nextPage);
+  };
+
   const handleAddAccountClick = () => {
     router.push("/businesses/accounts/create");
   };
@@ -177,7 +191,7 @@ export default function AccountsPage() {
           </div>
           {/* Mobile buttons */}
           <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
-            <div className="relative z-50">
+            <div className="relative">
               <button
                 onClick={handleAddAccountClick}
                 className="bg-blue-500 text-white rounded-[11px] text-sm px-4 py-2"
@@ -205,13 +219,15 @@ export default function AccountsPage() {
                     onCheckboxChange={() => handleCheckboxChange(account.accountId)}
                   />
                 ))}
-                <Pagination
-                  totalItems={pagination.total}
-                  itemsPerPage={pagination.perPage}
-                  currentPage={pagination.currentPage}
-                  onPageChange={handlePageChange}
-                  onItemsPerPageChange={handleItemsPerPageChange}
-                />
+                {accounts.length < pagination.total && (
+                  <button
+                    onClick={handleSeeMore}
+                    disabled={loading}
+                    className="w-full text-center py-2 text-blue-500 disabled:text-gray-400"
+                  >
+                    {loading ? 'Loading...' : 'See More'}
+                  </button>
+                )}
               </div>
               <div className="hidden md:block">
                 <AccountsTable

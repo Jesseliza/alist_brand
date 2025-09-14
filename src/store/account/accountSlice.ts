@@ -65,6 +65,26 @@ const accountSlice = createSlice({
       state.error = action.payload;
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    fetchMoreAccountsRequest(state, _action: PayloadAction<{
+      search?: string;
+      status?: string;
+      account_type?: string;
+      per_page?: number;
+      page?: number;
+    }>) {
+      state.loading = true;
+      state.error = null;
+    },
+    fetchMoreAccountsSuccess(state, action: PayloadAction<{ accounts: Account[], pagination: PaginationState }>) {
+      state.loading = false;
+      state.accounts = [...state.accounts, ...action.payload.accounts];
+      state.pagination = action.payload.pagination;
+    },
+    fetchMoreAccountsFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     createAccountRequest(state, _action: PayloadAction<CreateAccountPayload>) {
       state.loading = true;
       state.error = null;
@@ -166,6 +186,9 @@ export const {
   fetchAccountsRequest,
   fetchAccountsSuccess,
   fetchAccountsFailure,
+  fetchMoreAccountsRequest,
+  fetchMoreAccountsSuccess,
+  fetchMoreAccountsFailure,
   createAccountRequest,
   createAccountSuccess,
   createAccountFailure,
