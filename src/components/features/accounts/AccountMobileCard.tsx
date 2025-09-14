@@ -43,14 +43,14 @@ export default function AccountMobileCard({
                 {account.avatarInitials}
               </span>
             </div>
-            <div className="flex flex-col">
-              <h3 className="text-[15px] text-[#4F4F4F] font-semibold leading-[1.5]">
+            <div className="flex flex-col flex-1 w-0">
+              <h3 className="text-[15px] text-[#4F4F4F] font-semibold leading-[1.5] truncate">
                 {getDisplayName(account)}
               </h3>
-              <p className="text-[11px] text-[#686868] leading-[1.5]">
+              <p className="text-[11px] text-[#686868] leading-[1.5] truncate">
                 {account.emailAddress}
               </p>
-              <p className="text-[11px] text-[#686868] leading-[1.5]">
+              <p className="text-[11px] text-[#686868] leading-[1.5] truncate">
                 {account.phoneNumber}
               </p>
             </div>
