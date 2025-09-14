@@ -138,7 +138,7 @@ export default function AccountsPage() {
     <div>
       <div className="py-[13px] bg-white hidden md:block">
         <div className="max-w-[1428px] mx-auto flex items-center justify-between">
-          <div className="text-[18px] leading-[27px] w-[147px]">
+          <div className="text-[18px] leading-[27px]">
             <SortDropdown onSelect={handleSortSelect} />
           </div>
         </div>
@@ -176,7 +176,7 @@ export default function AccountsPage() {
           </div>
           {/* Mobile buttons */}
           <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
-            <div className="relative z-20">
+            <div className="relative z-50">
               <button
                 onClick={handleAddAccountClick}
                 className="bg-blue-500 text-white rounded-[11px] text-sm px-4 py-2"

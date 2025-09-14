@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 
 const useIdleTimeout = (onIdle: () => void, idleTime: number) => {
   const timeoutId = useRef<number | null>(null);
