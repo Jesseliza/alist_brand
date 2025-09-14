@@ -26,7 +26,7 @@ export default function AccountMobileCard({
       <div
         className="bg-white rounded-[13px] py-3 px-3.5 flex items-center justify-between"
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 min-w-0">
           <div onClick={handleWrapperClick} className="p-2 -ml-2">
             <Checkbox
               checked={checked}
@@ -34,7 +34,7 @@ export default function AccountMobileCard({
               onClick={(e) => e.stopPropagation()}
             />
           </div>
-          <div className="flex items-center gap-6.75">
+          <div className="flex items-center gap-4">
             <div
               className={`w-[47.81px] h-[47.81px] flex items-center justify-center rounded-full`}
               style={{ backgroundColor: account.avatarBackground }}
