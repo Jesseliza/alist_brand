@@ -79,7 +79,7 @@ export function Dropdown<T>(props: DropdownProps<T>) {
         disabled={disabled}
       >
         <div className="relative text-left">
-          <ListboxButton className={`${buttonClassName} disabled:opacity-50 disabled:cursor-not-allowed`}>
+          <ListboxButton className={buttonClassName}>
             <div className="truncate flex-1">{displayLabel}</div>
             <div className="mr-3">
               <Image
@@ -122,7 +122,7 @@ export function Dropdown<T>(props: DropdownProps<T>) {
   return (
     <Menu as="div" className="relative w-full text-left">
       <MenuButton
-        className={`${buttonClassName} disabled:opacity-50 disabled:cursor-not-allowed`}
+        className={buttonClassName}
         disabled={disabled}
       >
         <div className="truncate flex-1">{displayLabel}</div>

@@ -66,7 +66,7 @@ export default function ActionDropdown({
       title={title}
       options={options}
       onSelect={handleSelect}
-      buttonClassName="pt-1.25 pb-1.75 bg-[#00A4B6] border-0 rounded-[11px] flex items-center justify-between w-full"
+      buttonClassName={`pt-1.25 pb-1.75 border-0 rounded-[11px] flex items-center justify-between w-full ${disabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#00A4B6]'}`}
       icon="/icons/general/dropdownarrow-1-white.svg"
       disabled={disabled}
     />
