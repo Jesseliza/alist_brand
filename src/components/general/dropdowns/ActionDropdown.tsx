@@ -5,11 +5,13 @@ import { Dropdown } from "@/components/general/dropdowns/Dropdown";
 interface ActionDropdownProps {
   onSelect?: (value: string) => void;
   updateDisabled?: boolean;
+  disabled?: boolean;
 }
 
 export default function ActionDropdown({
   onSelect,
   updateDisabled,
+  disabled,
 }: ActionDropdownProps) {
   const options = [
     {
@@ -66,6 +68,7 @@ export default function ActionDropdown({
       onSelect={handleSelect}
       buttonClassName="pt-1.25 pb-1.75 bg-[#00A4B6] border-0 rounded-[11px] flex items-center justify-between w-full"
       icon="/icons/general/dropdownarrow-1-white.svg"
+      disabled={disabled}
     />
   );
 }
