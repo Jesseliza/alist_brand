@@ -220,13 +220,15 @@ export default function AccountsPage() {
                   />
                 ))}
                 {accounts.length < pagination.total && (
-                  <button
-                    onClick={handleSeeMore}
-                    disabled={loading}
-                    className="w-full text-center py-2 text-blue-500 disabled:text-gray-400"
-                  >
-                    {loading ? 'Loading...' : 'See More'}
-                  </button>
+                  <div className="text-center font-semibold text-[15px] text-gray-500 my-4">
+                    <button
+                      onClick={handleSeeMore}
+                      disabled={loading}
+                      className="disabled:text-gray-400"
+                    >
+                      {loading ? 'Loading...' : 'See More'}
+                    </button>
+                  </div>
                 )}
               </div>
               <div className="hidden md:block">
