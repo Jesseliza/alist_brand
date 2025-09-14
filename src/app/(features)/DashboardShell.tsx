@@ -192,9 +192,11 @@ function DashboardContent({
           </Nav>
         </header>
 
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 relative">
           <main
             className={`
+              absolute inset-0 overflow-y-auto
+              overflow-x-hidden
               ${isWhitePage ? "bg-white" : "bg-[#F3F3F3]"}   /* mobile */
               md:bg-[#F3F3F3]                                    /* desktop override */
             `}
