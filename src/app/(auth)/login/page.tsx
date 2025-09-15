@@ -9,6 +9,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import SlideCaptcha from '@/components/general/SlideCaptcha';
 import CountryCodeDropdown from '@/components/general/CountryCodeDropdown';
 
+function getCookie(name: string) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(';').shift();
+}
+
 export default function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [countryCode, setCountryCode] = useState('+971');
@@ -22,7 +28,8 @@ export default function LoginPage() {
   const redirectUrl = searchParams.get("redirect");
 
   useEffect(() => {
-    if (isAuthenticated && !loginInProgress) {
+    const token = getCookie("token");
+    if (isAuthenticated && !loginInProgress && token) {
       if (redirectedFrom === "admin" && redirectUrl) {
         router.push(redirectUrl);
       } else {

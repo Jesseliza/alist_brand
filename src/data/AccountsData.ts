@@ -15,6 +15,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 1,
     brandsCount: 3,
     campaignsCount: 5,
+    status: "active",
   },
   {
     accountId: "1",
@@ -30,6 +31,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 1,
     brandsCount: 1,
     campaignsCount: 2,
+    status: "active",
   },
   {
     accountId: "2",
@@ -45,6 +47,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 2,
     brandsCount: 5,
     campaignsCount: 8,
+    status: "active",
   },
   {
     accountId: "3",
@@ -60,6 +63,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 1,
     brandsCount: 2,
     campaignsCount: 3,
+    status: "active",
   },
   {
     accountId: "4",
@@ -75,6 +79,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 1,
     brandsCount: 4,
     campaignsCount: 6,
+    status: "active",
   },
   {
     accountId: "5",
@@ -90,6 +95,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 1,
     brandsCount: 1,
     campaignsCount: 1,
+    status: "active",
   },
   {
     accountId: "6",
@@ -105,6 +111,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 3,
     brandsCount: 15,
     campaignsCount: 30,
+    status: "active",
   },
   {
     accountId: "7",
@@ -120,6 +127,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 2,
     brandsCount: 8,
     campaignsCount: 12,
+    status: "active",
   },
   {
     accountId: "8",
@@ -135,6 +143,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 2,
     brandsCount: 12,
     campaignsCount: 20,
+    status: "active",
   },
   {
     accountId: "9",
@@ -150,6 +159,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 4,
     brandsCount: 20,
     campaignsCount: 40,
+    status: "active",
   },
   {
     accountId: "10",
@@ -165,6 +175,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 2,
     brandsCount: 10,
     campaignsCount: 15,
+    status: "active",
   },
   {
     accountId: "11",
@@ -180,6 +191,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 1,
     brandsCount: 7,
     campaignsCount: 10,
+    status: "active",
   },
   {
     accountId: "12",
@@ -195,6 +207,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 5,
     brandsCount: 50,
     campaignsCount: 100,
+    status: "active",
   },
   {
     accountId: "13",
@@ -210,6 +223,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 4,
     brandsCount: 35,
     campaignsCount: 70,
+    status: "active",
   },
   {
     accountId: "14",
@@ -225,6 +239,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 6,
     brandsCount: 60,
     campaignsCount: 120,
+    status: "active",
   },
   {
     accountId: "15",
@@ -240,6 +255,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 4,
     brandsCount: 40,
     campaignsCount: 80,
+    status: "active",
   },
   {
     accountId: "16",
@@ -255,6 +271,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 3,
     brandsCount: 25,
     campaignsCount: 50,
+    status: "active",
   },
   {
     accountId: "17",
@@ -270,6 +287,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 7,
     brandsCount: 75,
     campaignsCount: 150,
+    status: "active",
   },
   {
     accountId: "18",
@@ -285,6 +303,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 1,
     brandsCount: 6,
     campaignsCount: 9,
+    status: "active",
   },
   {
     accountId: "19",
@@ -300,6 +319,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 4,
     brandsCount: 42,
     campaignsCount: 84,
+    status: "active",
   },
   {
     accountId: "20",
@@ -315,6 +335,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 1,
     brandsCount: 2,
     campaignsCount: 4,
+    status: "active",
   },
   {
     accountId: "21",
@@ -330,6 +351,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 1,
     brandsCount: 1,
     campaignsCount: 2,
+    status: "active",
   },
   {
     accountId: "22",
@@ -345,6 +367,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 2,
     brandsCount: 9,
     campaignsCount: 14,
+    status: "active",
   },
   {
     accountId: "23",
@@ -360,6 +383,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 2,
     brandsCount: 7,
     campaignsCount: 11,
+    status: "active",
   },
   {
     accountId: "24",
@@ -375,6 +399,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 1,
     brandsCount: 3,
     campaignsCount: 6,
+    status: "active",
   },
   {
     accountId: "25",
@@ -390,6 +415,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 1,
     brandsCount: 2,
     campaignsCount: 4,
+    status: "active",
   },
   {
     accountId: "26",
@@ -405,6 +431,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 5,
     brandsCount: 55,
     campaignsCount: 110,
+    status: "active",
   },
   {
     accountId: "27",
@@ -420,6 +447,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 4,
     brandsCount: 38,
     campaignsCount: 76,
+    status: "active",
   },
   {
     accountId: "28",
@@ -435,6 +463,7 @@ export const AccountsData: Account[] = [
     subscriptionCount: 1,
     brandsCount: 4,
     campaignsCount: 7,
+    status: "active",
   },
   {
     accountId: "29",
@@ -450,5 +479,6 @@ export const AccountsData: Account[] = [
     subscriptionCount: 1,
     brandsCount: 1,
     campaignsCount: 3,
+    status: "active",
   },
 ];
