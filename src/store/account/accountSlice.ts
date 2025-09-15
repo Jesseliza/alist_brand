@@ -149,6 +149,9 @@ const accountSlice = createSlice({
     resetUpdateStatus(state) {
       state.updateSuccess = false;
     },
+    clearSelectedAccount(state) {
+      state.selectedAccount = null;
+    },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     bulkDeleteAccountsRequest(state, _action: PayloadAction<{ account_ids: string[] }>) {
       state.bulkDeleteInProgress = true;
@@ -202,6 +205,7 @@ export const {
   fetchAccountByIdSuccess,
   fetchAccountByIdFailure,
   resetUpdateStatus,
+  clearSelectedAccount,
   bulkDeleteAccountsRequest,
   bulkDeleteAccountsSuccess,
   bulkDeleteAccountsFailure,

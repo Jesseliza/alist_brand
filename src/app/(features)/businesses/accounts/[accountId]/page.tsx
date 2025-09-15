@@ -12,6 +12,7 @@ import {
   updateAccountRequest,
   fetchAccountByIdRequest,
   resetUpdateStatus,
+  clearSelectedAccount,
 } from "@/store/account/accountSlice";
 import { CreateAccountPayload, UpdateAccountPayload } from "@/types/requests";
 
@@ -33,6 +34,7 @@ export default function AccountPage() {
 
   useEffect(() => {
     if (isCreateMode) {
+      dispatch(clearSelectedAccount());
       setAccount({
         firstName: "",
         lastName: "",
