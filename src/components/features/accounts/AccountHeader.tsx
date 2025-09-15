@@ -18,7 +18,8 @@ export default function AccountHeader({
   onTabChange,
   isCreateMode = false,
 }: AccountHeaderProps) {
-  const displayTabs = isCreateMode ? ["Details"] : ["Details", "Brands", "Plans"];
+  // The "Plans" tab has been removed as per the user's request.
+  const displayTabs = isCreateMode ? ["Details"] : ["Details", "Brands"];
 
   return (
     <div className="w-full bg-white border-b border-[#E2E2E2]">
@@ -43,6 +44,9 @@ export default function AccountHeader({
                 <div>
                   <h1 className="text-[18px] md:text-[25px] font-semibold ">
                     {`${account?.firstName || ""} ${account?.lastName || ""}`}
+                    {account?.status === "inactive" && (
+                      <span className="text-red-500 text-sm ml-2">(Inactive)</span>
+                    )}
                   </h1>
                   {/* <p className="text-[15px] md:text-[18px] font-medium ">
                     {account?.affiliation}

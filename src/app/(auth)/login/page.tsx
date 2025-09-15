@@ -17,16 +17,22 @@ export default function LoginPage() {
   const dispatch = useDispatch<AppDispatch>();
   const { loading, error, otpSent, isAuthenticated, phoneNumber: storedPhoneNumber } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
+  const searchParams = new URLSearchParams(window.location.search);
+  const redirectedFrom = searchParams.get("redirectedFrom");
 
   useEffect(() => {
-    if (isAuthenticated) {
-      router.push('/dashboard');
+    if (isAuthenticated && otp && isCaptchaVerified) {
+      if (redirectedFrom === "admin") {
+        router.push("/admin/team");
+      } else {
+        router.push("/dashboard");
+      }
     }
     // Cleanup function to reset the otpSent flag when the component unmounts
     return () => {
-        dispatch(resetOtpSent());
-    }
-  }, [isAuthenticated, router, dispatch]);
+      dispatch(resetOtpSent());
+    };
+  }, [isAuthenticated, router, dispatch, otp, isCaptchaVerified, redirectedFrom]);
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,7 +69,10 @@ export default function LoginPage() {
                 type="text"
                 placeholder="Phone Number"
                 value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                onChange={(e) => {
+                  const numericValue = e.target.value.replace(/[^0-9]/g, "");
+                  setPhoneNumber(numericValue);
+                }}
                 className="rounded-[11px] bg-gray-100 px-5 py-[11px] text-[15px] outline-none focus:ring-2 focus:ring-[#00A4B6] transition placeholder:text-[#6E6E6E] w-full"
                 autoComplete="tel"
               />
