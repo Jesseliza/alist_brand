@@ -222,7 +222,7 @@ export default function AccountsPage() {
                   />
                 ))}
                 {accounts.length < pagination.total && (
-                  <div className="text-center font-semibold text-[15px] text-gray-500 my-4">
+                  <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
                     <button
                       onClick={handleSeeMore}
                       disabled={loading}
