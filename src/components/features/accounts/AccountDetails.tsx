@@ -108,7 +108,9 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
 
     requiredFields.forEach((field) => {
       if (!formData[field]) {
-        newErrors[field] = `${field.replace(/([A-Z])/g, " $1")} is required.`;
+        const label = field.replace(/([A-Z])/g, " $1");
+        const capitalizedLabel = label.charAt(0).toUpperCase() + label.slice(1);
+        newErrors[field] = `${capitalizedLabel} is required.`;
       }
     });
 
