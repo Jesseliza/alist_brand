@@ -10,7 +10,7 @@ import { RootState } from "@/store/store";
 import AccountsTable from "@/components/features/accounts/AccountsTable";
 import AccountCard from "@/components/features/accounts/AccountMobileCard";
 import Pagination from "@/components/general/Pagination";
-import SortDropdown from "@/components/general/dropdowns/SortDropdown";
+// import SortDropdown from "@/components/general/dropdowns/SortDropdown";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
 import Image from "next/image";
@@ -30,8 +30,8 @@ export default function AccountsPage() {
   } = useSelector((state: RootState) => state.account);
 
   const { searchTerm } = useSelector((state: RootState) => state.search);
-  const [status, setStatus] = useState("");
-  const [accountType, setAccountType] = useState("");
+  // const [status, setStatus] = useState("");
+  // const [accountType, setAccountType] = useState("");
   const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
   const [mobilePage, setMobilePage] = useState(1);
 
@@ -55,12 +55,10 @@ export default function AccountsPage() {
     // Debounced search effect
     dispatch(fetchAccountsRequest({
       search: debouncedSearch,
-      status: status,
-      account_type: accountType,
       per_page: 10,
       page: 1
     }));
-  }, [debouncedSearch, status, accountType, dispatch]);
+  }, [debouncedSearch, dispatch]);
 
   useEffect(() => {
     if (!bulkDeleteInProgress && !bulkDeleteError) {
@@ -78,14 +76,12 @@ export default function AccountsPage() {
     dispatch(fetchAccountsRequest({
       page,
       search: searchTerm,
-      status: status,
-      account_type: accountType,
       per_page: pagination.perPage
     }));
   };
 
   const handleItemsPerPageChange = (items: number) => {
-    dispatch(fetchAccountsRequest({ search: searchTerm, status, account_type: accountType, per_page: items, page: 1 }));
+    dispatch(fetchAccountsRequest({ search: searchTerm, per_page: items, page: 1 }));
   };
 
   // const handleSortSelect = (value: string) => {
@@ -134,8 +130,6 @@ export default function AccountsPage() {
     dispatch(fetchMoreAccountsRequest({
       page: nextPage,
       search: searchTerm,
-      status: status,
-      account_type: accountType,
       per_page: 10
     }));
     setMobilePage(nextPage);
