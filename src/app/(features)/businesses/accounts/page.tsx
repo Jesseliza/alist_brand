@@ -150,14 +150,14 @@ export default function AccountsPage() {
 
   return (
     <div>
-      <div className="py-[13px] bg-white hidden md:block relative">
+      {/* <div className="py-[13px] bg-white hidden md:block relative">
         <div className="absolute inset-0 bg-white" style={{left: '-100vw', right: '-100vw'}}></div>
         <div className="max-w-[1428px] mx-auto flex items-center justify-between relative z-10">
           <div className="text-[18px] leading-[27px]">
             <SortDropdown onSelect={handleSortSelect} />
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="md:hidden pt-4 flex items-center gap-[7px]">
         <SearchInputMobile
           value={search}
