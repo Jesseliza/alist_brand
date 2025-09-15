@@ -16,6 +16,7 @@ interface AccountState {
   error: string | null;
   pagination: PaginationState;
   updateSuccess: boolean;
+  createSuccess: boolean;
   bulkDeleteInProgress: boolean;
   bulkDeleteError: string | null;
   bulkUpdateStatusInProgress: boolean;
@@ -34,6 +35,7 @@ const initialState: AccountState = {
     total: 0,
   },
   updateSuccess: false,
+  createSuccess: false,
   bulkDeleteInProgress: false,
   bulkDeleteError: null,
   bulkUpdateStatusInProgress: false,
@@ -88,11 +90,13 @@ const accountSlice = createSlice({
     createAccountRequest(state, _action: PayloadAction<CreateAccountPayload>) {
       state.loading = true;
       state.error = null;
+      state.createSuccess = false;
     },
     createAccountSuccess(state, action: PayloadAction<Account>) {
       state.loading = false;
       state.selectedAccount = action.payload;
       state.accounts.push(action.payload);
+      state.createSuccess = true;
     },
     createAccountFailure(state, action: PayloadAction<string>) {
       state.loading = false;
@@ -149,8 +153,8 @@ const accountSlice = createSlice({
     resetUpdateStatus(state) {
       state.updateSuccess = false;
     },
-    clearSelectedAccount(state) {
-      state.selectedAccount = null;
+    resetCreateStatus(state) {
+      state.createSuccess = false;
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     bulkDeleteAccountsRequest(state, _action: PayloadAction<{ account_ids: string[] }>) {
@@ -205,7 +209,7 @@ export const {
   fetchAccountByIdSuccess,
   fetchAccountByIdFailure,
   resetUpdateStatus,
-  clearSelectedAccount,
+  resetCreateStatus,
   bulkDeleteAccountsRequest,
   bulkDeleteAccountsSuccess,
   bulkDeleteAccountsFailure,

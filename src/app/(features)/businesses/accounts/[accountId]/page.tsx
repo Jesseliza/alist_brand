@@ -12,7 +12,7 @@ import {
   updateAccountRequest,
   fetchAccountByIdRequest,
   resetUpdateStatus,
-  clearSelectedAccount,
+  resetCreateStatus,
 } from "@/store/account/accountSlice";
 import { CreateAccountPayload, UpdateAccountPayload } from "@/types/requests";
 
@@ -25,7 +25,7 @@ export default function AccountPage() {
   const accountId = params.accountId as string;
   const isCreateMode = accountId === "create";
 
-  const { selectedAccount, loading, error, updateSuccess } = useSelector(
+  const { selectedAccount, loading, error, updateSuccess, createSuccess } = useSelector(
     (state: RootState) => state.account
   );
 
@@ -34,7 +34,6 @@ export default function AccountPage() {
 
   useEffect(() => {
     if (isCreateMode) {
-      dispatch(clearSelectedAccount());
       setAccount({
         firstName: "",
         lastName: "",
@@ -56,8 +55,9 @@ export default function AccountPage() {
 
   // Handle successful creation or update
   useEffect(() => {
-    if (isCreateMode && selectedAccount?.accountId) {
+    if (createSuccess) {
       router.push("/businesses/accounts");
+      dispatch(resetCreateStatus()); // Reset the flag
     }
 
     if (updateSuccess) {
@@ -65,10 +65,9 @@ export default function AccountPage() {
       dispatch(resetUpdateStatus()); // Reset the flag
     }
   }, [
-    selectedAccount,
-    isCreateMode,
-    router,
+    createSuccess,
     updateSuccess,
+    router,
     dispatch,
   ]);
 
