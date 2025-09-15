@@ -17,6 +17,7 @@ const InputField = ({
   type = "text",
   icon,
   onChange,
+  error,
 }: {
   label: string;
   value: string;
@@ -24,6 +25,7 @@ const InputField = ({
   type?: string;
   icon?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
 }) => (
   <div className="mb-5 md:mb-7">
     <label htmlFor={name} className="block text-[#4F4F4F] mb-2.5">
@@ -44,6 +46,7 @@ const InputField = ({
         </div>
       )}
     </div>
+    {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
   </div>
 );
 
@@ -64,6 +67,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
     }
   );
   const [countryCode, setCountryCode] = useState("+971");
+  const [errors, setErrors] = useState<Partial<Record<keyof Account, string>>>({});
   const router = useRouter();
 
   useEffect(() => {
@@ -93,27 +97,30 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const newErrors: Partial<Record<keyof Account, string>> = {};
 
-    const requiredFields: (keyof typeof formData)[] = [
+    const requiredFields: (keyof Account)[] = [
       "firstName",
       "lastName",
       "emailAddress",
       "phoneNumber",
     ];
-    for (const field of requiredFields) {
+
+    requiredFields.forEach((field) => {
       if (!formData[field]) {
-        toast.error(
-          `Please fill in the ${field.replace(/([A-Z])/g, " $1").toLowerCase()}.`
-        );
-        return;
+        newErrors[field] = `${field.replace(/([A-Z])/g, " $1")} is required.`;
       }
-    }
-    if (!/^\S+@\S+\.\S+$/.test(formData.emailAddress as string)) {
-      toast.error("Invalid email format.");
-      return;
+    });
+
+    if (formData.emailAddress && !/^\S+@\S+\.\S+$/.test(formData.emailAddress)) {
+      newErrors.emailAddress = "Invalid email format.";
     }
 
-    onSave({ ...formData, country_code: countryCode });
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      onSave({ ...formData, country_code: countryCode });
+    }
   };
 
   return (
@@ -126,12 +133,14 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
               value={formData.firstName || ""}
               name="firstName"
               onChange={handleChange}
+              error={errors.firstName}
             />
             <InputField
               label="Last name"
               value={formData.lastName || ""}
               name="lastName"
               onChange={handleChange}
+              error={errors.lastName}
             />
           </div>
           <InputField
@@ -141,6 +150,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
             type="email"
             icon="/icons/edit-icon.svg"
             onChange={handleChange}
+            error={errors.emailAddress}
           />
           <div className="mb-5 md:mb-7">
             <label htmlFor="phoneNumber" className="block text-[#4F4F4F] mb-2.5">
@@ -162,6 +172,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
                 </div>
               </div>
             </div>
+            {errors.phoneNumber && <p className="text-red-500 text-xs mt-1">{errors.phoneNumber}</p>}
           </div>
           <div className="mb-5 md:mb-7">
             <label

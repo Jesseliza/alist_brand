@@ -17,6 +17,7 @@ export function middleware(request: NextRequest) {
     if (isAdminRoute) {
       const url = new URL("/login", request.url);
       url.searchParams.set("redirectedFrom", "admin");
+      url.searchParams.set("redirect", pathname);
       return NextResponse.redirect(url);
     }
     // If the user is trying to access any other protected route, redirect to login

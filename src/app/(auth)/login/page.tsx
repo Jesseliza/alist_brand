@@ -19,11 +19,12 @@ export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectedFrom = searchParams.get("redirectedFrom");
+  const redirectUrl = searchParams.get("redirect");
 
   useEffect(() => {
     if (isAuthenticated && !loginInProgress) {
-      if (redirectedFrom === "admin") {
-        router.push("/admin/team");
+      if (redirectedFrom === "admin" && redirectUrl) {
+        router.push(redirectUrl);
       } else {
         router.push("/dashboard");
       }
@@ -32,7 +33,7 @@ export default function LoginPage() {
     return () => {
       dispatch(resetOtpSent());
     };
-  }, [isAuthenticated, loginInProgress, router, dispatch, redirectedFrom]);
+  }, [isAuthenticated, loginInProgress, router, dispatch, redirectedFrom, redirectUrl]);
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
