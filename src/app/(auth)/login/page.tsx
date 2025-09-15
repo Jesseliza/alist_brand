@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/store/store';
 import { sendOtpRequest, loginRequest, resetOtpSent } from '@/store/auth/authSlice';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import SlideCaptcha from '@/components/general/SlideCaptcha';
 import CountryCodeDropdown from '@/components/general/CountryCodeDropdown';
 
@@ -15,13 +15,13 @@ export default function LoginPage() {
   const [otp, setOtp] = useState('');
   const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, error, otpSent, isAuthenticated, phoneNumber: storedPhoneNumber } = useSelector((state: RootState) => state.auth);
+  const { loading, error, otpSent, isAuthenticated, phoneNumber: storedPhoneNumber, loginInProgress } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
-  const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = useSearchParams();
   const redirectedFrom = searchParams.get("redirectedFrom");
 
   useEffect(() => {
-    if (isAuthenticated && otp && isCaptchaVerified) {
+    if (isAuthenticated && !loginInProgress) {
       if (redirectedFrom === "admin") {
         router.push("/admin/team");
       } else {
@@ -32,7 +32,7 @@ export default function LoginPage() {
     return () => {
       dispatch(resetOtpSent());
     };
-  }, [isAuthenticated, router, dispatch, otp, isCaptchaVerified, redirectedFrom]);
+  }, [isAuthenticated, loginInProgress, router, dispatch, redirectedFrom]);
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();

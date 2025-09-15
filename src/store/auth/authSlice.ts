@@ -9,6 +9,7 @@ interface AuthState {
   error: string | null;
   otpSent: boolean;
   isAuthLoading: boolean;
+  loginInProgress: boolean;
 }
 
 const initialState: AuthState = {
@@ -19,6 +20,7 @@ const initialState: AuthState = {
   error: null,
   otpSent: false,
   isAuthLoading: true,
+  loginInProgress: false,
 };
 
 const authSlice = createSlice({
@@ -45,6 +47,7 @@ const authSlice = createSlice({
     loginRequest(state, _action: PayloadAction<{ phoneNumber: string, otp: string, country_code: string }>) {
         state.loading = true;
         state.error = null;
+        state.loginInProgress = true;
     },
     loginSuccess(state, action: PayloadAction<Account>) {
       state.loading = false;
@@ -52,10 +55,12 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.phoneNumber = null;
       state.otpSent = false;
+      state.loginInProgress = false;
     },
     loginFailure(state, action: PayloadAction<string>) {
       state.loading = false;
       state.error = action.payload;
+      state.loginInProgress = false;
     },
     logout(state) {
       state.isAuthenticated = false;
