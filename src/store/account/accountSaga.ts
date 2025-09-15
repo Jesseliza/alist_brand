@@ -66,6 +66,7 @@ interface ApiAccount {
   phone: string;
   country_code: string;
   account_type: string;
+  status: "active" | "inactive";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   venues: any[];
   created_at: string;
@@ -120,6 +121,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
         subscriptionCount: 0,
         brandsCount: apiAccount.venues?.length || 0,
         campaignsCount: 0,
+        status: apiAccount.status,
       }));
 
       yield put(fetchAccountsSuccess({
@@ -176,6 +178,7 @@ function* handleFetchMoreAccounts(action: ReturnType<typeof fetchMoreAccountsReq
         subscriptionCount: 0,
         brandsCount: apiAccount.venues?.length || 0,
         campaignsCount: 0,
+        status: apiAccount.status,
       }));
 
       yield put(fetchMoreAccountsSuccess({
@@ -245,6 +248,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         subscriptionCount: 0,
         brandsCount: apiAccount.venues.length,
         campaignsCount: 0,
+        status: apiAccount.status,
       };
 
       yield put(createAccountSuccess(feAccount));
@@ -318,6 +322,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
         subscriptionCount: 0,
         brandsCount: apiAccount.venues?.length || 0,
         campaignsCount: 0,
+        status: apiAccount.status,
       };
       yield put(updateAccountSuccess(feAccount));
       toast.success(response.message);
@@ -377,6 +382,7 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
         subscriptionCount: 0,
         brandsCount: apiAccount.venues?.length || 0,
         campaignsCount: 0,
+        status: apiAccount.status,
       };
       yield put(fetchAccountByIdSuccess(feAccount));
     } else {
