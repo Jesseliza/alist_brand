@@ -1,7 +1,16 @@
-// SearchInput.jsx
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { setSearchTerm } from "@/store/search/searchSlice";
 
 export default function SearchInput() {
+  const dispatch = useDispatch();
+  const { searchTerm } = useSelector((state: RootState) => state.search);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearchTerm(e.target.value));
+  };
+
   return (
     <div className="relative max-w-[341px]">
       <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -16,6 +25,8 @@ export default function SearchInput() {
       <input
         type="text"
         placeholder="Search"
+        value={searchTerm}
+        onChange={handleChange}
         className="
           text-[18px]
           block

@@ -28,13 +28,13 @@ export default function AccountsPage() {
     bulkUpdateStatusError,
   } = useSelector((state: RootState) => state.account);
 
-  const [search, setSearch] = useState("");
+  const { searchTerm } = useSelector((state: RootState) => state.search);
   const [status, setStatus] = useState("");
   const [accountType, setAccountType] = useState("");
   const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
   const [mobilePage, setMobilePage] = useState(1);
 
-  const debouncedSearch = useDebounce(search, 500);
+  const debouncedSearch = useDebounce(searchTerm, 500);
   // Effect for initial load
   useEffect(() => {
     if (accounts.length === 0) {
@@ -76,7 +76,7 @@ export default function AccountsPage() {
   const handlePageChange = (page: number) => {
     dispatch(fetchAccountsRequest({
       page,
-      search: search,
+      search: searchTerm,
       status: status,
       account_type: accountType,
       per_page: pagination.perPage
@@ -84,22 +84,18 @@ export default function AccountsPage() {
   };
 
   const handleItemsPerPageChange = (items: number) => {
-    dispatch(fetchAccountsRequest({ search, status, account_type: accountType, per_page: items, page: 1 }));
+    dispatch(fetchAccountsRequest({ search: searchTerm, status, account_type: accountType, per_page: items, page: 1 }));
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
-
-  const handleSortSelect = (value: string) => {
-    const [key, val] = value.split(':');
-    if (key === 'status') {
-      setStatus(val);
-    }
-    if (key === 'account_type') {
-      setAccountType(val);
-    }
-  };
+  // const handleSortSelect = (value: string) => {
+  //   const [key, val] = value.split(':');
+  //   if (key === 'status') {
+  //     setStatus(val);
+  //   }
+  //   if (key === 'account_type') {
+  //     setAccountType(val);
+  //   }
+  // };
 
   const handleActionSelect = (value: string) => {
     if (value === "update") {
@@ -136,7 +132,7 @@ export default function AccountsPage() {
     const nextPage = mobilePage + 1;
     dispatch(fetchMoreAccountsRequest({
       page: nextPage,
-      search: search,
+      search: searchTerm,
       status: status,
       account_type: accountType,
       per_page: 10
@@ -159,11 +155,6 @@ export default function AccountsPage() {
         </div>
       </div> */}
       <div className="md:hidden pt-4 flex items-center gap-[7px]">
-        <SearchInputMobile
-          value={search}
-          onChange={handleSearchChange}
-          placeholder="Search account"
-        />
         <div className="bg-white rounded-[11px] w-10 h-10  flex items-center justify-center aspect-square">
           <Image
             src="/icons/general/sort-1-light.svg"
