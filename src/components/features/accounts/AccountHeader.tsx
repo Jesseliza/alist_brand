@@ -42,12 +42,14 @@ export default function AccountHeader({
                   {account?.avatarInitials}
                 </div>
                 <div>
-                  <h1 className="text-[18px] md:text-[25px] font-semibold ">
-                    {`${account?.firstName || ""} ${account?.lastName || ""}`}
+                  <div>
+                    <h1 className="text-[18px] md:text-[25px] font-semibold ">
+                      {`${account?.firstName || ""} ${account?.lastName || ""}`}
+                    </h1>
                     {account?.status === "inactive" && (
-                      <span className="text-red-500 text-sm ml-2">(Inactive)</span>
+                      <span className="text-red-500 text-sm">(Inactive)</span>
                     )}
-                  </h1>
+                  </div>
                   {/* <p className="text-[15px] md:text-[18px] font-medium ">
                     {account?.affiliation}
                   </p> */}

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
 import { fetchAccountsRequest, bulkDeleteAccountsRequest, bulkUpdateStatusRequest, fetchMoreAccountsRequest } from "@/store/account/accountSlice";
+import { setSearchTerm } from "@/store/search/searchSlice";
 import { RootState } from "@/store/store";
 import AccountsTable from "@/components/features/accounts/AccountsTable";
 import AccountCard from "@/components/features/accounts/AccountMobileCard";
@@ -155,6 +156,11 @@ export default function AccountsPage() {
         </div>
       </div> */}
       <div className="md:hidden pt-4 flex items-center gap-[7px]">
+        <SearchInputMobile
+          value={searchTerm}
+          onChange={(e) => dispatch(setSearchTerm(e.target.value))}
+          placeholder="Search account"
+        />
         <div className="bg-white rounded-[11px] w-10 h-10  flex items-center justify-center aspect-square">
           <Image
             src="/icons/general/sort-1-light.svg"
