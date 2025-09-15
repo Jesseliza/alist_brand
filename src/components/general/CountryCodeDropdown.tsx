@@ -31,7 +31,7 @@ export default function CountryCodeDropdown({ selectedCode, onCodeChange }: Coun
       <div className="relative w-32">
         <div className="relative w-full cursor-default overflow-hidden rounded-[11px] bg-gray-100 text-left focus:outline-none sm:text-sm">
           <Combobox.Input
-            className="w-full border-none py-[11px] pl-3 pr-10 text-[15px] leading-5 text-gray-900 bg-gray-100 focus:ring-0"
+            className="w-full border-none py-[11px] pl-3 pr-10 text-[15px] leading-5 text-gray-900 bg-gray-100 focus:outline-none focus:ring-0 focus:border-transparent"
             displayValue={() => selectedCode}
             onChange={(event) => setQuery(event.target.value)}
             autoComplete="off"
