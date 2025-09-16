@@ -75,6 +75,7 @@
   type ApiError = {
     success: false;
     response: string;
+    errors?: { [key: string]: string[] };
   };
 
   type FetchAccountsSuccessResponse = {
@@ -133,9 +134,6 @@
             total: total,
           },
         }));
-        if (bodyPayload.search || bodyPayload.status || bodyPayload.account_type) {
-          toast.success('Accounts filtered successfully!');
-        }
       } else {
         const errorResponse = response as ApiError;
         const errorMessage = errorResponse.response || 'Failed to fetch accounts';
@@ -256,8 +254,13 @@
       } else {
         const errorResponse = response as ApiError;
         const errorMessage = errorResponse.response || 'Failed to create account';
-        yield put(createAccountFailure(errorMessage));
-        toast.error(errorMessage);
+        if (errorResponse.errors) {
+          const errorMessages = Object.values(errorResponse.errors).flat();
+          toast.error(errorMessages.join('\n'));
+        } else {
+          toast.error(errorMessage);
+        }
+        yield put(createAccountFailure({ message: errorMessage, errors: errorResponse.errors }));
       }
     } catch (error) {
       const err = error as Error;
@@ -329,8 +332,13 @@
       } else {
         const errorResponse = response as ApiError;
         const errorMessage = errorResponse.response || "Failed to update account";
-        yield put(updateAccountFailure(errorMessage));
-        toast.error(errorMessage);
+        if (errorResponse.errors) {
+            const errorMessages = Object.values(errorResponse.errors).flat();
+            toast.error(errorMessages.join('\n'));
+        } else {
+            toast.error(errorMessage);
+        }
+        yield put(updateAccountFailure({ message: errorMessage, errors: errorResponse.errors }));
       }
     } catch (error) {
       const err = error as Error;

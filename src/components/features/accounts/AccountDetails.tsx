@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-// import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 import { Account, AccountType, Brand } from "@/types/entities";
 import BrandSearchCombobox from "./BrandSearchCombobox";
 import CountryCodeDropdown from "@/components/general/CountryCodeDropdown";
-
 import Image from "next/image";
 
 // Define InputField as a standalone component outside of AccountDetails
@@ -69,6 +69,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
   const [countryCode, setCountryCode] = useState("+971");
   const [errors, setErrors] = useState<Partial<Record<keyof Account, string>>>({});
   const router = useRouter();
+  const apiErrors = useSelector((state: RootState) => state.account.errors);
 
   useEffect(() => {
     if (account) {
@@ -78,6 +79,16 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
       setFormData({ ...account });
     }
   }, [account]);
+
+  useEffect(() => {
+    if (apiErrors) {
+      const newErrors: Partial<Record<keyof Account, string>> = {};
+      for (const key in apiErrors) {
+        newErrors[key as keyof Account] = apiErrors[key][0];
+      }
+      setErrors(newErrors);
+    }
+  }, [apiErrors]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
