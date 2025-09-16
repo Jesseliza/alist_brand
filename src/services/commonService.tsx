@@ -22,22 +22,13 @@ export const postData = async <T,>(endpoint: string, data: T) => {
     const axiosError = error as AxiosError<{ response: string, message: string }>;
     console.log("error=>", axiosError);
 
-    let message = "Something went wrong";
-
     if (axiosError.response) {
-      // Server responded (like 413, 500, etc.)
-      message =
-        axiosError.response.data?.response ||     // your backend JSON error (if any)
-        axiosError.response.data?.message ||      // common API error format
-        axiosError.response.statusText ||         // e.g. "Request Entity Too Large"
-        `Error ${axiosError.response.status}`;    // fallback (e.g. Error 413)
+      return { success: false, ...axiosError.response.data };
     } else if (axiosError.request) {
-      message = "No response from server (possible CORS or network issue)";
+      return { success: false, response: "No response from server (possible CORS or network issue)" };
     } else {
-      message = axiosError.message;
+      return { success: false, response: axiosError.message };
     }
-
-    return { success: false, response: message };
   }
 };
 

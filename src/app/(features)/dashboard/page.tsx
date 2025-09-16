@@ -100,14 +100,14 @@ const LegendLabels = ({
 
 export default function Dashboard() {
   return (
-    <div>
+    <div className="overflow-x-auto">
       <div className="py-[13px] bg-white hidden md:block relative">
         <div
           className="absolute inset-0 bg-white h-[65px]"
           style={{ left: "-100vw", right: "-100vw" }}
         />
       </div>
-      <div className="max-w-[1428px] mx-auto mt-[90px]">
+      <div className="max-w-[1428px] mx-auto mt-[90px] min-w-[1024px]">
         <div>
           <DashboardStatCards />
         </div>

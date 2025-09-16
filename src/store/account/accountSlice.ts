@@ -14,6 +14,7 @@ interface AccountState {
   selectedAccount: Account | null;
   loading: boolean;
   error: string | null;
+  errors: { [key: string]: string[] } | null;
   pagination: PaginationState;
   updateSuccess: boolean;
   createSuccess: boolean;
@@ -28,6 +29,7 @@ const initialState: AccountState = {
   selectedAccount: null,
   loading: false,
   error: null,
+  errors: null,
   pagination: {
     currentPage: 1,
     lastPage: 1,
@@ -56,6 +58,7 @@ const accountSlice = createSlice({
     }>) {
       state.loading = true;
       state.error = null;
+      state.errors = null;
     },
     fetchAccountsSuccess(state, action: PayloadAction<{ accounts: Account[], pagination: PaginationState }>) {
       state.loading = false;
@@ -90,6 +93,7 @@ const accountSlice = createSlice({
     createAccountRequest(state, _action: PayloadAction<CreateAccountPayload>) {
       state.loading = true;
       state.error = null;
+      state.errors = null;
       state.createSuccess = false;
     },
     createAccountSuccess(state, action: PayloadAction<Account>) {
@@ -98,14 +102,16 @@ const accountSlice = createSlice({
       state.accounts.push(action.payload);
       state.createSuccess = true;
     },
-    createAccountFailure(state, action: PayloadAction<string>) {
+    createAccountFailure(state, action: PayloadAction<{ message: string, errors?: { [key: string]: string[] } }>) {
       state.loading = false;
-      state.error = action.payload;
+      state.error = action.payload.message;
+      state.errors = action.payload.errors || null;
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     updateAccountRequest(state, _action: PayloadAction<UpdateAccountPayload>) {
       state.loading = true;
       state.error = null;
+      state.errors = null;
       state.updateSuccess = false;
     },
     updateAccountSuccess(state, action: PayloadAction<Account>) {
@@ -117,9 +123,10 @@ const accountSlice = createSlice({
       }
       state.updateSuccess = true;
     },
-    updateAccountFailure(state, action: PayloadAction<string>) {
+    updateAccountFailure(state, action: PayloadAction<{ message: string, errors?: { [key: string]: string[] } }>) {
       state.loading = false;
-      state.error = action.payload;
+      state.error = action.payload.message;
+      state.errors = action.payload.errors || null;
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     deleteAccountRequest(state, _action: PayloadAction<{ accountId: string }>) {
