@@ -30,7 +30,7 @@ function DashboardContent({
 }) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -137,6 +137,17 @@ function DashboardContent({
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                       <button
                         onClick={() => {
+                          if (user?.accountId) {
+                            router.push(`/businesses/accounts/${user.accountId}`);
+                            setProfileMenuOpen(false);
+                          }
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        Profile
+                      </button>
+                      <button
+                        onClick={() => {
                           dispatch(logout());
                           setProfileMenuOpen(false);
                           router.replace('/login');
@@ -174,6 +185,17 @@ function DashboardContent({
                   />
                   {isProfileMenuOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                      <button
+                        onClick={() => {
+                          if (user?.accountId) {
+                            router.push(`/businesses/accounts/${user.accountId}`);
+                            setProfileMenuOpen(false);
+                          }
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        Profile
+                      </button>
                       <button
                         onClick={() => {
                           dispatch(logout());
