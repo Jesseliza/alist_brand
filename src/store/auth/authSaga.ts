@@ -2,21 +2,17 @@ import { call, put, takeLatest, all } from 'redux-saga/effects';
 import { loginData, sendOtpData } from '@/services/authService';
 import { call, put, takeLatest, all } from 'redux-saga/effects';
 import { loginData, sendOtpData } from '@/services/authService';
-import { fetchData } from '@/services/commonService';
 import {
   sendOtpRequest,
   sendOtpSuccess,
   sendOtpFailure,
   loginRequest,
   loginSuccess,
-  loginFailure,
-  authCheckCompleted,
-  setUser,
-  logout
+  loginFailure
 } from './authSlice';
 import { setAuthToken } from '@/services/apiHelper';
 import { AuthResponse, SendOtpResponse } from '@/types/auth';
-import { Account } from '@/types/entities';
+import CryptoJS from 'crypto-js';
 
 function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
   const { phoneNumber, country_code } = action.payload;
@@ -33,12 +29,19 @@ function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
   }
 }
 
+const secretPass = 'al123@st678$ven';
+
 function* handleLogin(action: ReturnType<typeof loginRequest>) {
     const { phoneNumber, otp, country_code } = action.payload;
   try {
     const response: AuthResponse = yield call(loginData, '/api/verify-otp', { phone: phoneNumber, otp, country_code });
     if (response.msg === 'success' && response.result?.token) {
       setAuthToken(response.result.token);
+
+      // Encrypt and store user data
+      const encryptedUser = CryptoJS.AES.encrypt(JSON.stringify(response.result.user), secretPass).toString();
+      localStorage.setItem('user', encryptedUser);
+
       yield put(loginSuccess(response.result.user));
     } else {
       yield put(loginFailure(response.msg || 'Login failed'));
@@ -49,26 +52,9 @@ function* handleLogin(action: ReturnType<typeof loginRequest>) {
   }
 }
 
-function* handleAuthCheckCompleted(action: ReturnType<typeof authCheckCompleted>) {
-  if (action.payload.isAuthenticated) {
-    try {
-      const response: { account: Account } = yield call(fetchData, '/api/account');
-      if (response.account) {
-        yield put(setUser(response.account));
-      } else {
-        yield put(logout());
-      }
-    } catch (error) {
-      console.error("Failed to fetch user profile, logging out.", error);
-      yield put(logout());
-    }
-  }
-}
-
 function* watchAuth() {
   yield takeLatest(sendOtpRequest.type, handleSendOtp);
   yield takeLatest(loginRequest.type, handleLogin);
-  yield takeLatest(authCheckCompleted.type, handleAuthCheckCompleted);
 }
 
 export default function* authSaga() {

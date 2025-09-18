@@ -68,16 +68,11 @@ const authSlice = createSlice({
       state.phoneNumber = null;
       state.otpSent = false;
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
       document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     },
     resetOtpSent(state) {
       state.otpSent = false;
-    },
-    checkAuthStatusRequest(state) {
-      state.isAuthLoading = true;
-    },
-    setUser(state, action: PayloadAction<Account>) {
-      state.user = action.payload;
     },
     authCheckCompleted(state, action: PayloadAction<{ isAuthenticated: boolean, user?: Account | null }>) {
       state.isAuthenticated = action.payload.isAuthenticated;
@@ -96,8 +91,6 @@ export const {
     loginFailure,
     logout,
     resetOtpSent,
-    checkAuthStatusRequest,
-    setUser,
     authCheckCompleted,
 } = authSlice.actions;
 
