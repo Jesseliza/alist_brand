@@ -133,9 +133,6 @@
             total: total,
           },
         }));
-        if (bodyPayload.search || bodyPayload.status || bodyPayload.account_type) {
-          toast.success('Accounts filtered successfully!');
-        }
       } else {
         const errorResponse = response as ApiError;
         const errorMessage = errorResponse.response || 'Failed to fetch accounts';
