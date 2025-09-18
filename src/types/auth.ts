@@ -43,12 +43,17 @@ export interface LoginPayload {
   }
 
   /**
-   * Represents the raw response from the login API.
+   * Represents the shape of the `result` object from the login API response.
+   */
+  export interface ApiLoginResult {
+    token: string;
+    account: ApiAccount;
+  }
+
+  /**
+   * Represents the raw response from the login API, as returned by the auth service.
    */
   export interface ApiAuthResponse {
     msg: string;
-    result?: {
-      token: string;
-      account: ApiAccount;
-    };
+    result?: ApiLoginResult;
   }
