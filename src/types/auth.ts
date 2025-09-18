@@ -23,3 +23,32 @@ export interface LoginPayload {
     msg: string;
     result?: unknown;
   }
+
+  /**
+   * Represents the raw account object from the API response.
+   */
+  interface ApiAccount {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+    country_code: string;
+    account_type: string;
+    registration_type: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+  }
+
+  /**
+   * Represents the raw response from the login API.
+   */
+  export interface ApiAuthResponse {
+    msg: string;
+    result?: {
+      token: string;
+      account: ApiAccount;
+    };
+  }
