@@ -13,6 +13,7 @@ import {
   fetchAccountByIdRequest,
   resetUpdateStatus,
   resetCreateStatus,
+  clearAccountError,
 } from "@/store/account/accountSlice";
 import { CreateAccountPayload, UpdateAccountPayload } from "@/types/requests";
 
@@ -71,6 +72,11 @@ export default function AccountPage() {
     dispatch,
   ]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearAccountError());
+    };
+  }, [dispatch]);
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);

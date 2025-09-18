@@ -186,10 +186,14 @@ const accountSlice = createSlice({
       state.bulkUpdateStatusInProgress = false;
       state.bulkUpdateStatusError = action.payload;
     },
+    clearAccountError(state) {
+      state.error = null;
+    },
   },
 });
 
 export const {
+  clearAccountError,
   fetchAccountsRequest,
   fetchAccountsSuccess,
   fetchAccountsFailure,
