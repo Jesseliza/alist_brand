@@ -176,7 +176,7 @@ export default function AccountsPage() {
             <div className="w-auto">
               <ActionDropdown
                 onSelect={handleActionSelect}
-                updateDisabled={checkedRows.size > 1}
+                showUpdate={checkedRows.size === 1}
                 disabled={checkedRows.size === 0}
               />
             </div>
@@ -194,7 +194,7 @@ export default function AccountsPage() {
             <div className="w-auto">
               <ActionDropdown
                 onSelect={handleActionSelect}
-                updateDisabled={checkedRows.size > 1}
+                showUpdate={checkedRows.size === 1}
                 disabled={checkedRows.size === 0}
               />
             </div>

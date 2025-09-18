@@ -4,25 +4,24 @@ import { Dropdown } from "@/components/general/dropdowns/Dropdown";
 
 interface ActionDropdownProps {
   onSelect?: (value: string) => void;
-  updateDisabled?: boolean;
+  showUpdate?: boolean;
   disabled?: boolean;
 }
 
 export default function ActionDropdown({
   onSelect,
-  updateDisabled,
+  showUpdate,
   disabled,
 }: ActionDropdownProps) {
   const options = [
-    {
+    ...(showUpdate ? [{
       value: "update",
       label: (
         <div className="flex items-center px-3 py-2 text-[#6E6E6E]">
           <span>Update</span>
         </div>
       ),
-      disabled: updateDisabled,
-    },
+    }] : []),
     {
       value: "delete",
       label: (
