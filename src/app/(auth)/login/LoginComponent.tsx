@@ -29,14 +29,11 @@ export default function LoginComponent() {
         router.push("/dashboard");
       }
     }
-  }, [isAuthenticated, loginInProgress, router, redirectedFrom, redirectUrl]);
-
-  useEffect(() => {
     // Cleanup function to reset the otpSent flag when the component unmounts
     return () => {
       dispatch(resetOtpSent());
     };
-  }, [dispatch]);
+  }, [isAuthenticated, loginInProgress, router, dispatch, redirectedFrom, redirectUrl]);
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();

@@ -13,7 +13,7 @@ export default function ActionDropdown({
   updateDisabled,
   disabled,
 }: ActionDropdownProps) {
-  const baseOptions = [
+  const options = [
     {
       value: "update",
       label: (
@@ -21,6 +21,7 @@ export default function ActionDropdown({
           <span>Update</span>
         </div>
       ),
+      disabled: updateDisabled,
     },
     {
       value: "delete",
@@ -47,10 +48,6 @@ export default function ActionDropdown({
       ),
     },
   ];
-
-  const options = updateDisabled
-    ? baseOptions.filter((option) => option.value !== "update")
-    : baseOptions;
 
   const title = (
     <div className="text-[18px] px-6 text-white leading-[27px]">
