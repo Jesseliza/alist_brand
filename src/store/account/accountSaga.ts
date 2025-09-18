@@ -1,4 +1,4 @@
-  import { call, put, takeLatest, all } from 'redux-saga/effects';
+import { call, put, takeLatest, all } from 'redux-saga/effects';
   import toast from 'react-hot-toast';
   import { postData, deleteData, fetchData } from '@/services/commonService';
   import { generateColorFromString } from '@/utils/colorGenerator';
@@ -74,7 +74,10 @@
 
   type ApiError = {
     success: false;
-    response: string;
+    response?: string;
+    message?: string;
+    error?: string;
+    errors?: { [key: string]: string[] };
   };
 
   type FetchAccountsSuccessResponse = {
@@ -256,13 +259,18 @@
       } else {
         const errorResponse = response as ApiError;
         const errorMessage = errorResponse.response || 'Failed to create account';
-        yield put(createAccountFailure(errorMessage));
-        toast.error(errorMessage);
+        if (errorResponse.errors) {
+          const errorMessages = Object.values(errorResponse.errors).flat();
+          toast.error(errorMessages.join('\n'));
+        } else {
+          toast.error(errorMessage);
+        }
+        yield put(createAccountFailure({ message: errorMessage, errors: errorResponse.errors }));
       }
     } catch (error) {
       const err = error as Error;
       const errorMessage = err.message || 'An unknown error occurred';
-      yield put(createAccountFailure(errorMessage));
+      yield put(createAccountFailure({ message: errorMessage }));
       toast.error(errorMessage);
     }
   }
@@ -325,17 +333,22 @@
           status: apiAccount.status,
         };
         yield put(updateAccountSuccess(feAccount));
-        toast.success(response.message);
+        toast.success(response.message || "Account updated successfully!");
       } else {
         const errorResponse = response as ApiError;
         const errorMessage = errorResponse.response || "Failed to update account";
-        yield put(updateAccountFailure(errorMessage));
-        toast.error(errorMessage);
+        if (errorResponse.errors) {
+            const errorMessages = Object.values(errorResponse.errors).flat();
+            toast.error(errorMessages.join('\n'));
+        } else {
+            toast.error(errorMessage);
+        }
+        yield put(updateAccountFailure({ message: errorMessage, errors: errorResponse.errors }));
       }
     } catch (error) {
       const err = error as Error;
       const errorMessage = err.message || "An unknown error occurred";
-      yield put(updateAccountFailure(errorMessage));
+      yield put(updateAccountFailure({ message: errorMessage }));
       toast.error(errorMessage);
     }
   }
