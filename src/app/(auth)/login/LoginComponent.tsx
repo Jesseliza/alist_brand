@@ -13,6 +13,7 @@ export default function LoginComponent() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [countryCode, setCountryCode] = useState('+971');
   const [otp, setOtp] = useState('');
+  const [formError, setFormError] = useState('');
   const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const { loading, error, otpSent, isAuthenticated, phoneNumber: storedPhoneNumber, loginInProgress } = useSelector((state: RootState) => state.auth);
@@ -47,6 +48,11 @@ export default function LoginComponent() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!otp.trim()) {
+      setFormError('Please enter the OTP.');
+      return;
+    }
+    setFormError('');
     dispatch(loginRequest({ phoneNumber, otp, country_code: countryCode }));
   };
 
@@ -99,13 +105,19 @@ export default function LoginComponent() {
               type="password"
               placeholder="OTP"
               value={otp}
-              onChange={(e) => setOtp(e.target.value)}
+              onChange={(e) => {
+                setOtp(e.target.value);
+                if (formError) {
+                  setFormError('');
+                }
+              }}
               className="rounded-[11px] bg-gray-100 px-5 py-[11px] text-[15px] outline-none focus:ring-2 focus:ring-[#00A4B6] transition placeholder:text-[#6E6E6E]"
               autoComplete="one-time-code"
             />
             <div className="mt-4">
               <SlideCaptcha onSuccess={handleCaptchaSuccess} />
             </div>
+            {formError && <p className="text-red-500 text-sm mt-2">{formError}</p>}
             <button
               type="submit"
               className="mt-[11px] rounded-[11px] bg-[#00A4B6] text-white font-semibold py-[11px] text-[15px] hover:bg-[#0090a6] transition disabled:bg-gray-400"
@@ -113,7 +125,7 @@ export default function LoginComponent() {
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
-            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+            {error && !formError && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </form>
         )}
       </div>
