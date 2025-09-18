@@ -38,10 +38,8 @@ export default function AccountsPage() {
   const debouncedSearch = useDebounce(searchTerm, 500);
   // Effect for initial load
   useEffect(() => {
-    if (accounts.length === 0) {
-        dispatch(fetchAccountsRequest({ per_page: 10, page: 1 }));
-    }
-  }, [dispatch, accounts.length]);
+    dispatch(fetchAccountsRequest({ per_page: 10, page: 1 }));
+  }, [dispatch]);
 
   const isInitialSearchMount = useRef(true);
   useEffect(() => {
