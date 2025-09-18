@@ -17,36 +17,38 @@ function AuthRehydrator({ children }: { children: React.ReactNode }) {
     let isAuthenticated = false;
     let user = null;
     const encryptedToken = localStorage.getItem('token');
-    const encryptedUser = localStorage.getItem('user');
 
     try {
       if (encryptedToken) {
-        // A token exists, so we expect a full, valid session.
-        if (!encryptedUser) {
-          throw new Error("Incomplete session: Token found but user data is missing.");
-        }
-
         const decryptedTokenBytes = CryptoJS.AES.decrypt(encryptedToken, secretPass);
         const decryptedToken = decryptedTokenBytes.toString(CryptoJS.enc.Utf8);
-        if (!decryptedToken) {
-          throw new Error("Failed to decrypt token.");
-        }
-        const token = JSON.parse(decryptedToken);
+        if (decryptedToken) {
+          const token = JSON.parse(decryptedToken);
+          axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          isAuthenticated = true; // We have a valid token, so user is authenticated
 
-        const decryptedUserBytes = CryptoJS.AES.decrypt(encryptedUser, secretPass);
-        const decryptedUser = decryptedUserBytes.toString(CryptoJS.enc.Utf8);
-        if (!decryptedUser) {
-          throw new Error("Failed to decrypt user data.");
+          // Now, let's try to get user data, but don't fail the whole session if it's corrupted
+          const encryptedUser = localStorage.getItem('user');
+          if (encryptedUser) {
+            try {
+              const decryptedUserBytes = CryptoJS.AES.decrypt(encryptedUser, secretPass);
+              const decryptedUser = decryptedUserBytes.toString(CryptoJS.enc.Utf8);
+              if (decryptedUser) {
+                user = JSON.parse(decryptedUser);
+              } else {
+                console.error("Failed to decrypt user data from localStorage.");
+              }
+            } catch (userError) {
+              console.error("Failed to parse decrypted user data.", userError);
+            }
+          }
+        } else {
+            throw new Error("Failed to decrypt token.");
         }
-        const parsedUser = JSON.parse(decryptedUser);
-
-        // If we get here, everything is valid.
-        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        user = parsedUser;
-        isAuthenticated = true;
       }
     } catch (e) {
-      console.error("Failed to rehydrate auth state, logging out.", e);
+      console.error("Failed to rehydrate auth token, logging out.", e);
+      // This will catch token decryption/parsing errors
       delete axiosInstance.defaults.headers.common['Authorization'];
       localStorage.removeItem('token');
       localStorage.removeItem('user');
