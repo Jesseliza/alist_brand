@@ -28,7 +28,6 @@ export default function AccountPage() {
   const { selectedAccount, loading, error, updateSuccess, createSuccess } = useSelector(
     (state: RootState) => state.account
   );
-  const { user: loggedInUser } = useSelector((state: RootState) => state.auth);
 
   const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "Details");
   const [account, setAccount] = useState<Partial<Account> | null>(null);
@@ -44,13 +43,9 @@ export default function AccountPage() {
         brands: [],
       });
     } else if (accountId) {
-      if (loggedInUser && loggedInUser.accountId === accountId) {
-        setAccount(loggedInUser);
-      } else {
-        dispatch(fetchAccountByIdRequest({ accountId }));
-      }
+      dispatch(fetchAccountByIdRequest({ accountId }));
     }
-  }, [accountId, isCreateMode, dispatch, loggedInUser]);
+  }, [accountId, isCreateMode, dispatch]);
 
   useEffect(() => {
     if (selectedAccount && selectedAccount.accountId === accountId) {
