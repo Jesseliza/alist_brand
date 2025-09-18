@@ -4,7 +4,7 @@ import { Provider, useDispatch } from "react-redux";
 import { store } from "./store";
 import { useEffect } from "react";
 import { authCheckCompleted } from "./auth/authSlice";
-import { setAuthToken } from "@/services/apiHelper";
+import axiosInstance from "@/services/apiHelper";
 import CryptoJS from 'crypto-js';
 
 const secretPass = 'al123@st678$ven';
@@ -26,7 +26,7 @@ function AuthRehydrator({ children }: { children: React.ReactNode }) {
 
         if (decryptedToken) {
           const token = JSON.parse(decryptedToken);
-          setAuthToken(token); // Apply token to axios instance
+          axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
           isAuthenticated = true;
 
           // If token is valid, try to load user data
@@ -38,7 +38,9 @@ function AuthRehydrator({ children }: { children: React.ReactNode }) {
         }
       } catch (e) {
         console.error("Failed to decrypt token or user on load, logging out.", e);
-        setAuthToken(null); // Clear any invalid token
+        delete axiosInstance.defaults.headers.common['Authorization'];
+        localStorage.removeItem('token');
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         localStorage.removeItem('user'); // Also clear user
         isAuthenticated = false;
         user = null;
