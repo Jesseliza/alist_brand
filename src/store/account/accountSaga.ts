@@ -69,6 +69,7 @@
     status: "active" | "inactive";
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     venues: any[];
+  venues_count: number;
     created_at: string;
   }
 
@@ -119,7 +120,7 @@
           avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
           avatarBackground: generateColorFromString(apiAccount.first_name || ''),
           subscriptionCount: 0,
-          brandsCount: apiAccount.venues?.length || 0,
+          brandsCount: apiAccount.venues_count || 0,
           campaignsCount: 0,
           status: apiAccount.status,
         }));
@@ -173,7 +174,7 @@
           avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
           avatarBackground: generateColorFromString(apiAccount.first_name || ''),
           subscriptionCount: 0,
-          brandsCount: apiAccount.venues?.length || 0,
+          brandsCount: apiAccount.venues_count || 0,
           campaignsCount: 0,
           status: apiAccount.status,
         }));
@@ -243,7 +244,7 @@
           avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
           avatarBackground: "#CCCCCC",
           subscriptionCount: 0,
-          brandsCount: apiAccount.venues.length,
+          brandsCount: apiAccount.venues_count,
           campaignsCount: 0,
           status: apiAccount.status,
         };
@@ -317,7 +318,7 @@
           }`.toUpperCase(),
           avatarBackground: generateColorFromString(apiAccount.first_name || ""),
           subscriptionCount: 0,
-          brandsCount: apiAccount.venues?.length || 0,
+          brandsCount: apiAccount.venues_count || 0,
           campaignsCount: 0,
           status: apiAccount.status,
         };
@@ -377,7 +378,7 @@
           avatarInitials: `${apiAccount.first_name?.[0] || ""}${apiAccount.last_name?.[0] || ""}`.toUpperCase(),
           avatarBackground: generateColorFromString(apiAccount.first_name || ''),
           subscriptionCount: 0,
-          brandsCount: apiAccount.venues?.length || 0,
+          brandsCount: apiAccount.venues_count || 0,
           campaignsCount: 0,
           status: apiAccount.status,
         };
