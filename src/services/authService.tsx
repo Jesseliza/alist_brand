@@ -6,12 +6,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 export const loginData = async (endpoint: string, payload: LoginPayload) => {
   try {
     const response = await axios.post(`${BASE_URL}${endpoint}`, payload);
-    const { account, ...rest } = response.data;
-    const result = {
-      ...rest,
-      user: account,
-    };
-    return { result, msg: "success" };
+    return { result: response.data, msg: "success" };
   } catch (error) {
     const axiosError = error as AxiosError<{ message: string }>;
     return { msg: axiosError.response?.data?.message || "Invalid Credentials" };
