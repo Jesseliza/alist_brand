@@ -132,8 +132,16 @@ export default function AccountsTable({
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                 {account.accountType}
               </td>
-              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] capitalize">
-                {account.status}
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
+                <span
+                  className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                    account.status === 'active'
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-red-100 text-red-800'
+                  }`}
+                >
+                  {account.status}
+                </span>
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
                 {account.brandsCount}
