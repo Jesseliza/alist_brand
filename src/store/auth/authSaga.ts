@@ -1,15 +1,22 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects';
 import { loginData, sendOtpData } from '@/services/authService';
+import { call, put, takeLatest, all } from 'redux-saga/effects';
+import { loginData, sendOtpData } from '@/services/authService';
+import { fetchData } from '@/services/commonService';
 import {
   sendOtpRequest,
   sendOtpSuccess,
   sendOtpFailure,
   loginRequest,
   loginSuccess,
-  loginFailure
+  loginFailure,
+  authCheckCompleted,
+  setUser,
+  logout
 } from './authSlice';
 import { setAuthToken } from '@/services/apiHelper';
 import { AuthResponse, SendOtpResponse } from '@/types/auth';
+import { Account } from '@/types/entities';
 
 function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
   const { phoneNumber, country_code } = action.payload;
@@ -42,9 +49,26 @@ function* handleLogin(action: ReturnType<typeof loginRequest>) {
   }
 }
 
+function* handleAuthCheckCompleted(action: ReturnType<typeof authCheckCompleted>) {
+  if (action.payload.isAuthenticated) {
+    try {
+      const response: { account: Account } = yield call(fetchData, '/api/account');
+      if (response.account) {
+        yield put(setUser(response.account));
+      } else {
+        yield put(logout());
+      }
+    } catch (error) {
+      console.error("Failed to fetch user profile, logging out.", error);
+      yield put(logout());
+    }
+  }
+}
+
 function* watchAuth() {
   yield takeLatest(sendOtpRequest.type, handleSendOtp);
   yield takeLatest(loginRequest.type, handleLogin);
+  yield takeLatest(authCheckCompleted.type, handleAuthCheckCompleted);
 }
 
 export default function* authSaga() {

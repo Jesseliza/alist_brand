@@ -73,8 +73,15 @@ const authSlice = createSlice({
     resetOtpSent(state) {
       state.otpSent = false;
     },
-    authCheckCompleted(state, action: PayloadAction<{ isAuthenticated: boolean }>) {
+    checkAuthStatusRequest(state) {
+      state.isAuthLoading = true;
+    },
+    setUser(state, action: PayloadAction<Account>) {
+      state.user = action.payload;
+    },
+    authCheckCompleted(state, action: PayloadAction<{ isAuthenticated: boolean, user?: Account | null }>) {
       state.isAuthenticated = action.payload.isAuthenticated;
+      state.user = action.payload.user || null;
       state.isAuthLoading = false;
     }
   },
@@ -89,6 +96,8 @@ export const {
     loginFailure,
     logout,
     resetOtpSent,
+    checkAuthStatusRequest,
+    setUser,
     authCheckCompleted,
 } = authSlice.actions;
 
