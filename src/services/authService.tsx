@@ -1,11 +1,11 @@
 import axios, { AxiosError } from 'axios';
-import { LoginPayload, SendOtpPayload } from '@/types/auth';
+import { ApiAuthResponse, ApiLoginResult, LoginPayload, SendOtpPayload } from '@/types/auth';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export const loginData = async (endpoint: string, payload: LoginPayload) => {
+export const loginData = async (endpoint: string, payload: LoginPayload): Promise<ApiAuthResponse> => {
   try {
-    const response = await axios.post(`${BASE_URL}${endpoint}`, payload);
+    const response = await axios.post<ApiLoginResult>(`${BASE_URL}${endpoint}`, payload);
     return { result: response.data, msg: "success" };
   } catch (error) {
     const axiosError = error as AxiosError<{ message: string }>;

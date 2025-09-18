@@ -9,7 +9,7 @@ import {
   loginFailure
 } from './authSlice';
 import { setAuthToken } from '@/services/apiHelper';
-import { AuthResponse, SendOtpResponse } from '@/types/auth';
+import { ApiAuthResponse, SendOtpResponse } from '@/types/auth';
 import { Account, AccountType } from '@/types/entities';
 import CryptoJS from 'crypto-js';
 
@@ -33,10 +33,7 @@ const secretPass = 'al123@st678$ven';
 function* handleLogin(action: ReturnType<typeof loginRequest>) {
     const { phoneNumber, otp, country_code } = action.payload;
   try {
-    // The response from loginData will be raw from the API.
-    // We need to cast it to 'any' to access the 'account' property,
-    // as AuthResponse expects a 'user' property.
-    const response: any = yield call(loginData, '/api/verify-otp', { phone: phoneNumber, otp, country_code });
+    const response: ApiAuthResponse = yield call(loginData, '/api/verify-otp', { phone: phoneNumber, otp, country_code });
     if (response.msg === 'success' && response.result?.token) {
       setAuthToken(response.result.token);
 
