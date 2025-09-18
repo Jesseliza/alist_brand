@@ -1,7 +1,5 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects';
 import { loginData, sendOtpData } from '@/services/authService';
-import { call, put, takeLatest, all } from 'redux-saga/effects';
-import { loginData, sendOtpData } from '@/services/authService';
 import {
   sendOtpRequest,
   sendOtpSuccess,
