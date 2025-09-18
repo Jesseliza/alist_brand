@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/store/store';
 import { sendOtpRequest, loginRequest, resetOtpSent } from '@/store/auth/authSlice';
@@ -21,6 +21,9 @@ export default function LoginComponent() {
   const redirectedFrom = searchParams.get("redirectedFrom");
   const redirectUrl = searchParams.get("redirect");
 
+  const isAuthenticatedRef = useRef(isAuthenticated);
+  isAuthenticatedRef.current = isAuthenticated;
+
   useEffect(() => {
     if (isAuthenticated && !loginInProgress) {
       if (redirectedFrom === "admin" && redirectUrl) {
@@ -31,7 +34,9 @@ export default function LoginComponent() {
     }
     // Cleanup function to reset the otpSent flag when the component unmounts
     return () => {
-      dispatch(resetOtpSent());
+      if (!isAuthenticatedRef.current) {
+        dispatch(resetOtpSent());
+      }
     };
   }, [isAuthenticated, loginInProgress, router, dispatch, redirectedFrom, redirectUrl]);
 

@@ -59,6 +59,13 @@ export default function AccountsTable({
 
             <th
               scope="col"
+              className="px-6 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+            >
+              Status
+            </th>
+
+            <th
+              scope="col"
               className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap "
             >
               Brands
@@ -115,7 +122,7 @@ export default function AccountsTable({
 
               {/* PHONE */}
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                {account.phoneNumber}
+                {account.country_code} {account.phoneNumber}
               </td>
 
               {/* EMAIL */}
@@ -124,6 +131,9 @@ export default function AccountsTable({
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                 {account.accountType}
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] capitalize">
+                {account.status}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
                 {account.brandsCount}

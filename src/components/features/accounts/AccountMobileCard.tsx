@@ -51,7 +51,10 @@ export default function AccountMobileCard({
                 {account.emailAddress}
               </p>
               <p className="text-[11px] text-[#686868] leading-[1.5] truncate">
-                {account.phoneNumber}
+                {account.country_code} {account.phoneNumber}
+              </p>
+              <p className="text-[11px] text-[#686868] leading-[1.5] truncate capitalize">
+                Status: {account.status}
               </p>
             </div>
           </div>

@@ -255,7 +255,7 @@
         toast.success('Account created successfully!');
       } else {
         const errorResponse = response as ApiError;
-        const errorMessage = errorResponse.response || 'Failed to create account';
+        const errorMessage = errorResponse.response ? `${errorResponse.response} Failed to create account` : 'Failed to create account';
         yield put(createAccountFailure(errorMessage));
         toast.error(errorMessage);
       }
@@ -328,7 +328,7 @@
         toast.success(response.message);
       } else {
         const errorResponse = response as ApiError;
-        const errorMessage = errorResponse.response || "Failed to update account";
+        const errorMessage = errorResponse.response ? `${errorResponse.response} Failed to update account` : 'Failed to update account';
         yield put(updateAccountFailure(errorMessage));
         toast.error(errorMessage);
       }

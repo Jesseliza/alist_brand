@@ -82,10 +82,6 @@ export default function Pagination({
 
   const pageNumbers = calculatePageNumbers(currentPage, totalPages);
 
-  if (totalPages <= 1) {
-    return null; // Don't render pagination if there's only one page or less
-  }
-
   return (
     <div
       className={`flex items-center py-4 ${
