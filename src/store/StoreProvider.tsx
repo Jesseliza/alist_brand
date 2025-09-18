@@ -15,25 +15,37 @@ function AuthRehydrator({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     let isAuthenticated = false;
+    let user = null;
     const encryptedToken = localStorage.getItem('token');
+    const encryptedUser = localStorage.getItem('user');
 
     if (encryptedToken) {
       try {
-        const decryptedBytes = CryptoJS.AES.decrypt(encryptedToken, secretPass);
-        const decryptedToken = decryptedBytes.toString(CryptoJS.enc.Utf8);
+        const decryptedTokenBytes = CryptoJS.AES.decrypt(encryptedToken, secretPass);
+        const decryptedToken = decryptedTokenBytes.toString(CryptoJS.enc.Utf8);
 
         if (decryptedToken) {
           const token = JSON.parse(decryptedToken);
           setAuthToken(token); // Apply token to axios instance
           isAuthenticated = true;
+
+          // If token is valid, try to load user data
+          if (encryptedUser) {
+            const decryptedUserBytes = CryptoJS.AES.decrypt(encryptedUser, secretPass);
+            const decryptedUser = decryptedUserBytes.toString(CryptoJS.enc.Utf8);
+            user = JSON.parse(decryptedUser);
+          }
         }
       } catch (e) {
-        console.error("Failed to decrypt token on load, logging out.", e);
+        console.error("Failed to decrypt token or user on load, logging out.", e);
         setAuthToken(null); // Clear any invalid token
+        localStorage.removeItem('user'); // Also clear user
+        isAuthenticated = false;
+        user = null;
       }
     }
 
-    dispatch(authCheckCompleted({ isAuthenticated }));
+    dispatch(authCheckCompleted({ isAuthenticated, user }));
   }, [dispatch]);
 
   return <>{children}</>;
