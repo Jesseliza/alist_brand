@@ -68,15 +68,13 @@ const authSlice = createSlice({
       state.phoneNumber = null;
       state.otpSent = false;
       localStorage.removeItem('token');
-      localStorage.removeItem('user');
       document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     },
     resetOtpSent(state) {
       state.otpSent = false;
     },
-    authCheckCompleted(state, action: PayloadAction<{ isAuthenticated: boolean, user?: Account | null }>) {
+    authCheckCompleted(state, action: PayloadAction<{ isAuthenticated: boolean }>) {
       state.isAuthenticated = action.payload.isAuthenticated;
-      state.user = action.payload.user || null;
       state.isAuthLoading = false;
     }
   },
