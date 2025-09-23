@@ -27,10 +27,10 @@ import { Brand } from '@/types/entities';
 import { FetchBrandsResponse } from '@/types/requests';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const transformApiBrandToBrand = (brand: any): Brand => {
+const transformApiVenueToBrand = (venue: any): Brand => {
   return {
-    brandId: brand.id.toString(),
-    name: brand.venue_title,
+    brandId: venue.id.toString(),
+    name: venue.venue_title,
     accountId: venue.accountId || 'N/A',
     logo: venue.logo || '',
     phoneNumber: venue.phoneNumber || '',
@@ -41,16 +41,16 @@ const transformApiBrandToBrand = (brand: any): Brand => {
     tradeLicenseCopy: venue.tradeLicenseCopy || '',
     vatCertificate: venue.vatCertificate || '',
     instagramHandle: venue.instagramHandle || '',
-    websiteUrl: brand.venue_url || '',
-    associateFirstName: brand.associateFirstName || '',
-    associateLastName: brand.associateLastName || '',
-    associateEmail: brand.associateEmail || '',
-    associatePhone: brand.associatePhone || '',
-    associateInitials: brand.associateInitials || '',
-    associateBackground: brand.associateBackground || '#CCCCCC',
-    offersCount: brand.offersCount || 0,
-    campaignsCount: brand.campaignsCount || 0,
-    profileCompletion: brand.profileCompletion || 0,
+    websiteUrl: venue.venue_url || '',
+    associateFirstName: venue.associateFirstName || '',
+    associateLastName: venue.associateLastName || '',
+    associateEmail: venue.associateEmail || '',
+    associatePhone: venue.associatePhone || '',
+    associateInitials: venue.associateInitials || '',
+    associateBackground: venue.associateBackground || '#CCCCCC',
+    offersCount: venue.offersCount || 0,
+    campaignsCount: venue.campaignsCount || 0,
+    profileCompletion: venue.profileCompletion || 0,
   };
 };
 
@@ -59,11 +59,11 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
     const { page, per_page, search } = action.payload;
     const endpoint = `/api/list/brands?page=${page}&per_page=${per_page}`;
     const payload = { search: search || "" };
-    const response: { message: string, brands: FetchBrandsResponse } = yield call(postData, endpoint, payload);
-    if (response && response.brands) {
+    const response: { message: string, venues: FetchBrandsResponse } = yield call(postData, endpoint, payload);
+    if (response && response.venues) {
       const transformedResponse: FetchBrandsResponse = {
-        ...response.brands,
-        data: response.brands.data.map(transformApiBrandToBrand),
+        ...response.venues,
+        data: response.venues.data.map(transformApiVenueToBrand),
       };
       yield put(fetchBrandsSuccess(transformedResponse));
     } else {
@@ -81,11 +81,11 @@ function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest
     const { page, per_page, search } = action.payload;
     const endpoint = `/api/list/brands?page=${page}&per_page=${per_page}`;
     const payload = { search: search || "" };
-    const response: { message: string, brands: FetchBrandsResponse } = yield call(postData, endpoint, payload);
-    if (response && response.brands) {
+    const response: { message: string, venues: FetchBrandsResponse } = yield call(postData, endpoint, payload);
+    if (response && response.venues) {
       const transformedResponse: FetchBrandsResponse = {
-        ...response.brands,
-        data: response.brands.data.map(transformApiBrandToBrand),
+        ...response.venues,
+        data: response.venues.data.map(transformApiVenueToBrand),
       };
       yield put(fetchMoreBrandsSuccess(transformedResponse));
     } else {
@@ -101,9 +101,9 @@ function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest
 function* handleFetchBrandById(action: ReturnType<typeof fetchBrandByIdRequest>) {
   try {
     const { brandId } = action.payload;
-    const response: { message: string, brand: any } = yield call(fetchData, `/api/list/brands/${brandId}`);
-    if (response && response.brand) {
-      const transformedBrand: Brand = transformApiBrandToBrand(response.brand);
+    const response: { message: string, venue: any } = yield call(fetchData, `/api/list/brands/${brandId}`);
+    if (response && response.venue) {
+      const transformedBrand: Brand = transformApiVenueToBrand(response.venue);
       yield put(fetchBrandByIdSuccess(transformedBrand));
     } else {
       const errorMessage = (response as any).response || 'Failed to fetch brand: Invalid API response structure';
