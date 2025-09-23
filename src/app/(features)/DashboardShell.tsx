@@ -3,6 +3,7 @@
 import Sidebar from "@/components/Layout/Sidebar";
 import Nav from "@/components/Layout/Nav";
 import SearchInput from "@/components/general/SearchInput";
+import Loader from "@/components/general/Loader";
 import Image from "next/image";
 import { useState, useEffect, Suspense, useCallback } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
@@ -276,7 +277,7 @@ export default function DashboardShell({
   const isOverlayMode = windowWidth < 1280 && windowWidth >= 768;
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loader />}>
       <DashboardContent
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}

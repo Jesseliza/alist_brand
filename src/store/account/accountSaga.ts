@@ -1,6 +1,6 @@
   import { call, put, takeLatest, all } from 'redux-saga/effects';
   import toast from 'react-hot-toast';
-  import { postData, deleteData, fetchData } from '@/services/commonService';
+  import { postData, deleteData, fetchData, updateData } from '@/services/commonService';
   import { generateColorFromString } from '@/utils/colorGenerator';
   import {
     fetchAccountsRequest,
@@ -295,7 +295,7 @@
       );
 
       const response: AccountSuccessResponse | ApiError = yield call(
-        postData,
+        updateData,
         `/api/account/${accountId}`,
         filteredApiPayload
       );
