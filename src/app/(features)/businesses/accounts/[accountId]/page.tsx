@@ -16,6 +16,7 @@ import {
   clearAccountError,
 } from "@/store/account/accountSlice";
 import { CreateAccountPayload, UpdateAccountPayload } from "@/types/requests";
+import Loader from "@/components/general/Loader";
 
 export default function AccountPage() {
   const router = useRouter();
@@ -98,11 +99,7 @@ export default function AccountPage() {
   };
 
   if (loading && !account) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p>Loading...</p>
-      </div>
-    );
+    return <Loader />;
   }
 
   if (!isCreateMode && !account && !loading) {

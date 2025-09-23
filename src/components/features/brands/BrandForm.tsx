@@ -1,23 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
 import { Brand } from "@/types/entities";
-import { addBrandRequest, updateBrandRequest } from "@/store/brand/brandSlice";
-import { RootState } from "@/store/store";
 
 interface BrandFormProps {
   brand: Brand | null;
+  onSave: (data: FormData) => void;
+  isSaving: boolean;
+  error: string | null;
 }
 
-export default function BrandForm({ brand }: BrandFormProps) {
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const { addBrandInProgress, addBrandError, updateBrandInProgress, updateBrandError } = useSelector(
-    (state: RootState) => state.brand
-  );
-
+export default function BrandForm({ brand, onSave, isSaving, error }: BrandFormProps) {
   const [formData, setFormData] = useState({
     name: "",
     emailAddress: "",
@@ -84,12 +77,7 @@ export default function BrandForm({ brand }: BrandFormProps) {
           data.append(key, value as string | Blob);
         }
       });
-
-      if (isEditMode) {
-        dispatch(updateBrandRequest({ brandId: brand.brandId, data }));
-      } else {
-        dispatch(addBrandRequest({ data }));
-      }
+      onSave(data);
     }
   };
 
@@ -216,14 +204,13 @@ export default function BrandForm({ brand }: BrandFormProps) {
       <div>
         <button
           type="submit"
-          disabled={addBrandInProgress || updateBrandInProgress}
+          disabled={isSaving}
           className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           {isEditMode ? "Update Brand" : "Add Brand"}
         </button>
       </div>
-      {addBrandError && <p className="text-red-500">{addBrandError}</p>}
-      {updateBrandError && <p className="text-red-500">{updateBrandError}</p>}
+      {error && <p className="text-red-500">{error}</p>}
     </form>
   );
 }

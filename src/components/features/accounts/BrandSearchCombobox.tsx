@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Brand } from "@/types/entities";
 import { fetchBrandsRequest } from "@/store/brand/brandSlice";
 import { RootState } from "@/store/store";
+import InlineLoader from "@/components/general/InlineLoader";
 
 interface BrandSearchComboboxProps {
   onChange: (selectedBrands: Brand[]) => void;
@@ -100,9 +101,9 @@ export default function BrandSearchCombobox({
           />
           <Combobox.Options className="absolute z-10 w-full bg-white shadow-lg rounded-md max-h-60 overflow-auto bottom-full mb-1">
             {loading ? (
-                 <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
-                    Loading...
-                 </div>
+              <div className="flex justify-center items-center py-2">
+                <InlineLoader />
+              </div>
             ) : availableBrands.length === 0 && query !== "" ? (
               <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                 Nothing found.

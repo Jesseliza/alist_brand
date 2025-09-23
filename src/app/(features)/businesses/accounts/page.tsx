@@ -14,6 +14,8 @@ import Pagination from "@/components/general/Pagination";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
 import Image from "next/image";
+import Loader from "@/components/general/Loader";
+import InlineLoader from "@/components/general/InlineLoader";
 
 export default function AccountsPage() {
   const router = useRouter();
@@ -197,7 +199,7 @@ export default function AccountsPage() {
               />
             </div>
           </div>
-          {loading && <p>Loading...</p>}
+          {loading && <Loader />}
           {error && <p className="text-red-500">Error: {error}</p>}
           {!loading && !error && (
             <>
@@ -217,7 +219,7 @@ export default function AccountsPage() {
                       disabled={loading}
                       className="disabled:text-gray-400"
                     >
-                      {loading ? 'Loading...' : 'See More'}
+                      {loading ? <InlineLoader /> : 'See More'}
                     </button>
                   </div>
                 )}
