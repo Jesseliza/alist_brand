@@ -83,7 +83,7 @@ export default function BrandsPage() {
   };
 
   const handleAddBrandClick = () => {
-    router.push("/businesses/brands/0");
+    router.push("/businesses/brands/create");
   };
 
   const handleDownloadClick = (brandId: string, fileType: string) => {

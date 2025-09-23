@@ -56,7 +56,6 @@ function DashboardContent({
     /^\/businesses\/accounts\/[^/?]+(\?tab=Details)$/,
     /^\/businesses\/accounts\/[^/?]+\/[^/?]+(\?tab=Business\+Details)$/,
     /^\/creators\/profiles\/[^/?]+(\?tab=Info)$/,
-    /^\/businesses\/brands\/[^/?]+$/,
   ];
 
   const isWhitePage = whitePagePatterns.some((pattern) =>
