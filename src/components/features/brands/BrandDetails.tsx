@@ -5,6 +5,7 @@ import { Brand } from "@/types/entities";
 import SearchableDropdown from "@/components/general/dropdowns/SearchableDropdown";
 import { countries } from "@/data/Countries";
 import { states } from "@/data/States";
+import { industries } from "@/data/Industries";
 
 interface BrandDetailsProps {
   brand: Partial<Brand>;
@@ -151,18 +152,17 @@ export default function BrandDetails({
                   </div>
                 </div>
                 <div className="mb-5 md:mb-7">
-                  <InputField
-                    label="Industry"
-                    value={brand.industry || ""}
-                    name="industry"
-                    isEditMode={isEditMode}
-                    onChange={onFieldChange}
-                    icon={{
-                      src: "/icons/arrow-expand.svg",
-                      width: 12.05,
-                      height: 6.03,
-                      alt: "expand",
-                    }}
+                  <label
+                    htmlFor="industry"
+                    className="block text-[#4F4F4F] mb-2.5 truncate"
+                  >
+                    Industry
+                  </label>
+                  <SearchableDropdown
+                    options={industries}
+                    selectedValue={brand.industry || ""}
+                    onValueChange={(value) => onFieldChange("industry", value)}
+                    placeholder="Select an industry"
                   />
                 </div>
 
