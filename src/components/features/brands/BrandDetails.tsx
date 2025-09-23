@@ -1,19 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { Brand } from "@/types/entities";
 
 interface BrandDetailsProps {
-  businessName: string;
-  companyName: string;
-  businessLocation: string;
-  industry: string;
-  registrationDate: string;
-  instagram: string;
-  website: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
+  brand: Partial<Brand>;
+  isEditMode: boolean;
+  onFieldChange: (field: keyof Brand, value: string) => void;
+  onFileChange: (field: keyof Brand, file: File) => void;
 }
 
 interface IconProps {
@@ -26,58 +20,54 @@ interface IconProps {
 interface InputFieldProps {
   label: string;
   value: string;
-  name: string;
+  name: keyof Brand;
   icon?: IconProps;
+  isEditMode: boolean;
+  onChange: (field: keyof Brand, value: string) => void;
 }
 
-export default function BrandDetails({
-  businessName = "Bianca",
-  companyName = "Williams",
-  businessLocation = "bianca@gmail.com",
-  industry = "+971 583859885",
-  registrationDate = "13/08/2024",
-  instagram = "dunkin_ae",
-  website = "dunkin_ae",
-  firstName = "Biance",
-  lastName = "Williams",
-  email = "bianca@gmail.com",
-  phone = "+971 583859885",
-}: BrandDetailsProps) {
-  const InputField = ({ label, value, name, icon }: InputFieldProps) => (
-    <div>
-      <label
-        htmlFor={name}
-        className="block text-[#4F4F4F] mb-2.5 truncate"
-        title={label}
-      >
-        {label}
-      </label>
-      <div className="relative">
-        <input
-          type="text"
-          id={name}
-          name={name}
-          value={value}
-          readOnly
-          title={value}
-          className={`w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none truncate ${
-            icon ? "pr-12" : ""
-          }`}
-        />
-        {icon && (
-          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex-shrink-0">
-            <Image
-              src={icon.src}
-              alt={icon.alt}
-              width={icon.width}
-              height={icon.height}
-            />
-          </div>
-        )}
-      </div>
+const InputField = ({ label, value, name, icon, isEditMode, onChange }: InputFieldProps) => (
+  <div>
+    <label
+      htmlFor={name}
+      className="block text-[#4F4F4F] mb-2.5 truncate"
+      title={label}
+    >
+      {label}
+    </label>
+    <div className="relative">
+      <input
+        type="text"
+        id={name}
+        name={name}
+        value={value}
+        readOnly={!isEditMode}
+        onChange={(e) => onChange(name, e.target.value)}
+        title={value}
+        className={`w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none truncate ${
+          icon ? "pr-12" : ""
+        }`}
+      />
+      {icon && (
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex-shrink-0">
+          <Image
+            src={icon.src}
+            alt={icon.alt}
+            width={icon.width}
+            height={icon.height}
+          />
+        </div>
+      )}
     </div>
-  );
+  </div>
+);
 
+export default function BrandDetails({
+  brand,
+  isEditMode,
+  onFieldChange,
+  onFileChange,
+}: BrandDetailsProps) {
   return (
     <div className="text-[15px] pt-10 md:pt-11">
       <div className="max-w-[1148px] mx-auto md:px-[15px] ">
@@ -95,8 +85,10 @@ export default function BrandDetails({
                 <div className="mb-5 md:mb-7">
                   <InputField
                     label="Business name"
-                    value={businessName}
-                    name="businessName"
+                    value={brand.name || ""}
+                    name="name"
+                    isEditMode={isEditMode}
+                    onChange={onFieldChange}
                     icon={{
                       src: "/icons/edit-icon-2.svg",
                       width: 16.69,
@@ -108,8 +100,10 @@ export default function BrandDetails({
                 <div className="mb-5 md:mb-7">
                   <InputField
                     label="Company Name (as on trade license)"
-                    value={companyName}
+                    value={brand.companyName || ""}
                     name="companyName"
+                    isEditMode={isEditMode}
+                    onChange={onFieldChange}
                     icon={{
                       src: "/icons/edit-icon-2.svg",
                       width: 16.69,
@@ -121,8 +115,10 @@ export default function BrandDetails({
                 <div className="mb-5 md:mb-7">
                   <InputField
                     label="Business Location"
-                    value={businessLocation}
+                    value={brand.businessLocation || ""}
                     name="businessLocation"
+                    isEditMode={isEditMode}
+                    onChange={onFieldChange}
                     icon={{
                       src: "/icons/arrow-expand.svg",
                       width: 12.05,
@@ -134,8 +130,10 @@ export default function BrandDetails({
                 <div className="mb-5 md:mb-7">
                   <InputField
                     label="Industry"
-                    value={industry}
+                    value={brand.industry || ""}
                     name="industry"
+                    isEditMode={isEditMode}
+                    onChange={onFieldChange}
                     icon={{
                       src: "/icons/arrow-expand.svg",
                       width: 12.05,
@@ -146,28 +144,38 @@ export default function BrandDetails({
                 </div>
 
                 <div className="grid grid-cols-2 gap-5">
-                  <InputField
-                    label="Trade License Copy"
-                    value="TradeLicense.pdf"
-                    name="TradeLicenseCopy"
-                    icon={{
-                      src: "/icons/download.svg",
-                      width: 20,
-                      height: 15,
-                      alt: "expand",
-                    }}
-                  />
-                  <InputField
-                    label="VAT Certificate"
-                    value="vat.pdf"
-                    name="VATCertificate"
-                    icon={{
-                      src: "/icons/download.svg",
-                      width: 20,
-                      height: 15,
-                      alt: "expand",
-                    }}
-                  />
+                  <div>
+                    <label
+                      htmlFor="tradeLicenseCopy"
+                      className="block text-[#4F4F4F] mb-2.5 truncate"
+                    >
+                      Trade License Copy
+                    </label>
+                    <input
+                      type="file"
+                      id="tradeLicenseCopy"
+                      name="tradeLicenseCopy"
+                      disabled={!isEditMode}
+                      onChange={(e) => e.target.files && onFileChange("tradeLicenseCopy", e.target.files[0])}
+                      className="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="vatCertificate"
+                      className="block text-[#4F4F4F] mb-2.5 truncate"
+                    >
+                      VAT Certificate
+                    </label>
+                    <input
+                      type="file"
+                      id="vatCertificate"
+                      name="vatCertificate"
+                      disabled={!isEditMode}
+                      onChange={(e) => e.target.files && onFileChange("vatCertificate", e.target.files[0])}
+                      className="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -181,8 +189,10 @@ export default function BrandDetails({
                 <div className="px-4 grid grid-cols-2 gap-5 mb-5 md:mb-7">
                   <InputField
                     label="Instagram"
-                    value={instagram}
-                    name="instagram"
+                    value={brand.instagramHandle || ""}
+                    name="instagramHandle"
+                    isEditMode={isEditMode}
+                    onChange={onFieldChange}
                     icon={{
                       src: "/icons/edit-icon.svg",
                       width: 12.14,
@@ -192,8 +202,10 @@ export default function BrandDetails({
                   />
                   <InputField
                     label="Website"
-                    value={website}
-                    name="website"
+                    value={brand.websiteUrl || ""}
+                    name="websiteUrl"
+                    isEditMode={isEditMode}
+                    onChange={onFieldChange}
                     icon={{
                       src: "/icons/edit-icon.svg",
                       width: 12.14,
@@ -210,20 +222,26 @@ export default function BrandDetails({
                 <div className="grid grid-cols-2 gap-5 mb-5 md:mb-7">
                   <InputField
                     label="First name"
-                    value={firstName}
-                    name="firstName"
+                    value={brand.associateFirstName || ""}
+                    name="associateFirstName"
+                    isEditMode={isEditMode}
+                    onChange={onFieldChange}
                   />
                   <InputField
                     label="Last name"
-                    value={lastName}
-                    name="lastName"
+                    value={brand.associateLastName || ""}
+                    name="associateLastName"
+                    isEditMode={isEditMode}
+                    onChange={onFieldChange}
                   />
                 </div>
                 <div className="mb-5 md:mb-7">
                   <InputField
                     label="Email"
-                    value={email}
-                    name="email"
+                    value={brand.associateEmail || ""}
+                    name="associateEmail"
+                    isEditMode={isEditMode}
+                    onChange={onFieldChange}
                     icon={{
                       src: "/icons/edit-icon.svg",
                       width: 12.14,
@@ -235,8 +253,10 @@ export default function BrandDetails({
 
                 <InputField
                   label="Phone"
-                  value={phone}
-                  name="phone"
+                  value={brand.associatePhone || ""}
+                  name="associatePhone"
+                  isEditMode={isEditMode}
+                  onChange={onFieldChange}
                   icon={{
                     src: "/icons/edit-icon.svg",
                     width: 12.14,
@@ -249,7 +269,7 @@ export default function BrandDetails({
           </div>
         </div>
         <p className="text-sm text-[#4F4F4F] mt-4">
-          Registration date: {registrationDate}
+          Registration date: {brand.registrationDate || "N/A"}
         </p>
       </div>
     </div>

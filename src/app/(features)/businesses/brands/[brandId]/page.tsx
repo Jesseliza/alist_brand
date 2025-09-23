@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Brand } from "@/types/entities";
-import BrandForm from "@/components/features/brands/BrandForm";
+import BrandTabContent from "@/components/features/brands/BrandTabContent";
 import Loader from "@/components/general/Loader";
 import { fetchData } from "@/services/commonService";
 
@@ -40,7 +40,7 @@ export default function BrandPage() {
   const { brandId } = params;
   const isCreateMode = brandId === "create";
 
-  const [brand, setBrand] = useState<Brand | null>(null);
+  const [brand, setBrand] = useState<Partial<Brand>>({});
   const [loading, setLoading] = useState(!isCreateMode);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -50,12 +50,17 @@ export default function BrandPage() {
       const fetchBrand = async () => {
         setLoading(true);
         try {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const response: any = await fetchData(`/api/list/venues/${brandId}`);
-          if (response && response.venue) {
-            setBrand(transformApiVenueToBrand(response.venue));
+          const response: any = await fetchData(`/api/list/venues`);
+          if (response && response.venues) {
+            const allBrands = response.venues.map(transformApiVenueToBrand);
+            const foundBrand = allBrands.find((b: Brand) => b.brandId === brandId);
+            if (foundBrand) {
+              setBrand(foundBrand);
+            } else {
+              setError("Brand not found.");
+            }
           } else {
-            setError("Brand not found.");
+            setError("Failed to fetch brands.");
           }
         } catch (e) {
           setError("Failed to fetch brand data.");
@@ -67,17 +72,20 @@ export default function BrandPage() {
     }
   }, [brandId, isCreateMode]);
 
-  const handleSave = async (data: FormData) => {
+  const handleFieldChange = (field: keyof Brand, value: string) => {
+    setBrand((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleFileChange = (field: keyof Brand, file: File) => {
+    setBrand((prev) => ({ ...prev, [field]: file }));
+  };
+
+  const handleSave = async () => {
     setIsSaving(true);
     setError(null);
     // TODO: Implement API call to save/update brand.
-    // The API endpoints are not defined in the codebase.
-    if (isCreateMode) {
-      console.log("Creating brand:", Object.fromEntries(data.entries()));
-    } else {
-      console.log("Updating brand:", brandId, Object.fromEntries(data.entries()));
-    }
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+    console.log("Saving brand:", brand);
+    await new Promise(resolve => setTimeout(resolve, 1000));
     setIsSaving(false);
   };
 
@@ -94,16 +102,28 @@ export default function BrandPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">
+    <div>
+      <h1 className="text-2xl font-bold mb-4 px-4">
         {isCreateMode ? "Add Brand" : "Edit Brand"}
       </h1>
-      <BrandForm
-        brand={brand}
-        onSave={handleSave}
-        isSaving={isSaving}
-        error={error}
+      <BrandTabContent
+        activeTab="Business Details"
+        brand={{
+          ...brand,
+          onFieldChange: handleFieldChange,
+          onFileChange: handleFileChange,
+          isEditMode: true, // Always editable in this context
+        }}
       />
+      <div className="flex justify-end mt-4 px-4">
+        <button
+          onClick={handleSave}
+          disabled={isSaving}
+          className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
+        >
+          {isSaving ? "Saving..." : "Save Changes"}
+        </button>
+      </div>
     </div>
   );
 }
