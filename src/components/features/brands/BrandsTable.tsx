@@ -8,7 +8,12 @@ import { useState } from "react";
 
 export type { Brand };
 
-export default function BrandsTable({ brands }: { brands: Brand[] }) {
+interface BrandsTableProps {
+  brands: Brand[];
+  onDownloadClick: (brandId: string, fileType: 'tradeLicense' | 'vatCertificate') => void;
+}
+
+export default function BrandsTable({ brands, onDownloadClick }: BrandsTableProps) {
   const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
 
   const handleCheckboxChange = (brandId: string) => {
@@ -87,7 +92,7 @@ export default function BrandsTable({ brands }: { brands: Brand[] }) {
                     onChange={() => handleCheckboxChange(brand.brandId)}
                   />
                   <Link
-                    href={`/businesses/accounts/${brand.accountId}/${brand.brandId}`}
+                    href={`/businesses/brands/${brand.brandId}`}
                   >
                     <div className="flex items-center ml-3 cursor-pointer">
                       <div className="h-[33px] w-[33px] rounded-full overflow-hidden relative flex-shrink-0">
@@ -138,15 +143,36 @@ export default function BrandsTable({ brands }: { brands: Brand[] }) {
                 </div>
               </td>
               <td className="px-4 py-[8.5px] whitespace-nowrap text-center text-[#4F4F4F]">
-                <button className="bg-[#636363] text-white flex items-center justify-center gap-2.5 px-4 py-1.5 rounded-full text-[13px]">
-                  <Image
-                    src="/icons/general/upload-1.svg"
-                    alt="download"
-                    width={13.15}
-                    height={16.99}
-                  />
-                  <span className="ml-1">Upload</span>
-                </button>
+                <div className="flex items-center justify-center space-x-2">
+                  {brand.tradeLicenseCopy && (
+                    <button
+                      onClick={() => onDownloadClick(brand.brandId, 'tradeLicense')}
+                      className="bg-[#636363] text-white flex items-center justify-center gap-2.5 px-4 py-1.5 rounded-full text-[13px]"
+                    >
+                      <Image
+                        src="/icons/download.svg"
+                        alt="download"
+                        width={13.15}
+                        height={16.99}
+                      />
+                      <span className="ml-1">License</span>
+                    </button>
+                  )}
+                  {brand.vatCertificate && (
+                    <button
+                      onClick={() => onDownloadClick(brand.brandId, 'vatCertificate')}
+                      className="bg-[#636363] text-white flex items-center justify-center gap-2.5 px-4 py-1.5 rounded-full text-[13px]"
+                    >
+                      <Image
+                        src="/icons/download.svg"
+                        alt="download"
+                        width={13.15}
+                        height={16.99}
+                      />
+                      <span className="ml-1">VAT</span>
+                    </button>
+                  )}
+                </div>
               </td>
             </tr>
           ))}
