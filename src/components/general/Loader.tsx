@@ -1,4 +1,5 @@
 import Image from "next/image";
+import loaderGif from "../../../public/icons/loader.gif";
 
 interface LoaderProps {
   size?: number;
@@ -7,7 +8,7 @@ interface LoaderProps {
 const Loader = ({ size = 64 }: LoaderProps) => {
   return (
     <div className="fixed top-0 left-0 w-screen h-screen z-50 flex justify-center items-center bg-white bg-opacity-80">
-      <Image src="/icons/loader.gif" alt="Loading..." width={size} height={size} />
+      <Image src={loaderGif} alt="Loading..." width={size} height={size} />
     </div>
   );
 };
