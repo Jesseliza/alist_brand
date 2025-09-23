@@ -12,14 +12,19 @@ import {
   fetchIndustriesFailure,
 } from "./commonSlice";
 import { PayloadAction } from "@reduxjs/toolkit";
+import { Option } from "@/types/common";
 
 function* fetchCountriesSaga() {
   try {
     const response: any = yield call(fetchData, "/api/countries");
-    if (response.success) {
-      yield put(fetchCountriesSuccess(response.data));
+    if (response && response.accounts) {
+      const formattedData: Option[] = response.accounts.map((country: any) => ({
+        value: country.id.toString(),
+        label: country.country_name,
+      }));
+      yield put(fetchCountriesSuccess(formattedData));
     } else {
-      yield put(fetchCountriesFailure(response.response));
+      yield put(fetchCountriesFailure(response.message || "Failed to fetch countries"));
     }
   } catch (error: any) {
     yield put(fetchCountriesFailure(error.message));
@@ -29,10 +34,15 @@ function* fetchCountriesSaga() {
 function* fetchStatesSaga(action: PayloadAction<string>) {
   try {
     const response: any = yield call(postData, "/api/states", { country_id: action.payload });
-    if (response.success) {
-      yield put(fetchStatesSuccess(response.data));
+    if (response && response.accounts) {
+      // Assuming states response has a similar structure
+      const formattedData: Option[] = response.accounts.map((state: any) => ({
+        value: state.id.toString(),
+        label: state.state_name, // Assuming the label key is state_name
+      }));
+      yield put(fetchStatesSuccess(formattedData));
     } else {
-      yield put(fetchStatesFailure(response.response));
+      yield put(fetchStatesFailure(response.message || "Failed to fetch states"));
     }
   } catch (error: any) {
     yield put(fetchStatesFailure(error.message));
@@ -42,10 +52,14 @@ function* fetchStatesSaga(action: PayloadAction<string>) {
 function* fetchIndustriesSaga() {
   try {
     const response: any = yield call(fetchData, "/api/categories");
-    if (response.success) {
-      yield put(fetchIndustriesSuccess(response.data));
+    if (response && response.accounts) {
+      const formattedData: Option[] = response.accounts.map((industry: any) => ({
+        value: industry.id.toString(),
+        label: industry.category,
+      }));
+      yield put(fetchIndustriesSuccess(formattedData));
     } else {
-      yield put(fetchIndustriesFailure(response.response));
+      yield put(fetchIndustriesFailure(response.message || "Failed to fetch industries"));
     }
   } catch (error: any) {
     yield put(fetchIndustriesFailure(error.message));
