@@ -6,6 +6,7 @@ import { Campaign } from "@/types/entities";
 import { useState, useEffect } from "react";
 import CampaignDetails from "@/components/features/campaigns/CampaignDetails";
 import Image from "next/image";
+import Loader from "@/components/general/Loader";
 
 export default function CampaignDetailsPage() {
   const params = useParams();
@@ -29,11 +30,7 @@ export default function CampaignDetailsPage() {
 
   // Show loading state while campaign data is being fetched
   if (!campaign) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <p className="text-gray-500">Loading campaign details...</p>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

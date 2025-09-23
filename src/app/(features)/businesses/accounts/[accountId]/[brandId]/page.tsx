@@ -5,6 +5,7 @@ import BrandTabContent from "@/components/features/brands/BrandTabContent";
 import { brandsData } from "@/data/BrandsData";
 import { Brand } from "@/types/entities";
 import { useState, useEffect } from "react";
+import Loader from "@/components/general/Loader";
 
 export default function BusinessAccountBrandPage() {
   const searchParams = useSearchParams();
@@ -31,11 +32,7 @@ export default function BusinessAccountBrandPage() {
 
   // Show loading state while brand data is being fetched
   if (!brand) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <p className="text-gray-500">Loading brand details...</p>
-      </div>
-    );
+    return <Loader />;
   }
 
   return <BrandTabContent activeTab={activeTab} brand={brand} />;

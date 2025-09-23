@@ -10,6 +10,7 @@ import {
 } from "next/navigation";
 import { brandsData } from "@/data/BrandsData";
 import { Brand } from "@/types/entities";
+import Loader from "@/components/general/Loader";
 
 export default function BrandLayout({
   children,
@@ -58,11 +59,7 @@ export default function BrandLayout({
 
   // Show loading state while brand data is being fetched
   if (!brand) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <p className="text-gray-500">Loading brand details...</p>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
