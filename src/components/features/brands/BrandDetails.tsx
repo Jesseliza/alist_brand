@@ -3,9 +3,10 @@
 import Image from "next/image";
 import { Brand } from "@/types/entities";
 import SearchableDropdown from "@/components/general/dropdowns/SearchableDropdown";
-import { countries } from "@/data/Countries";
-import { states } from "@/data/States";
-import { industries } from "@/data/Industries";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { fetchCountries, fetchIndustries, fetchStates } from "@/store/common/commonSlice";
 
 interface BrandDetailsProps {
   brand: Partial<Brand>;
@@ -76,6 +77,22 @@ export default function BrandDetails({
   onSave,
   isSaving,
 }: BrandDetailsProps) {
+  const dispatch = useDispatch();
+  const { countries, states, industries, loading, error } = useSelector(
+    (state: RootState) => state.common
+  );
+
+  useEffect(() => {
+    dispatch(fetchCountries());
+    dispatch(fetchIndustries());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (brand.country) {
+      dispatch(fetchStates(brand.country));
+    }
+  }, [brand.country, dispatch]);
+
   return (
     <div className="text-[15px] pt-10 md:pt-11">
       <div className="max-w-[1148px] mx-auto md:px-[15px] ">
@@ -131,8 +148,12 @@ export default function BrandDetails({
                     <SearchableDropdown
                       options={countries}
                       selectedValue={brand.country || ""}
-                      onValueChange={(value) => onFieldChange("country", value)}
+                      onValueChange={(value) => {
+                        onFieldChange("country", value);
+                        onFieldChange("state", ""); // Clear state when country changes
+                      }}
                       placeholder="Select a country"
+                      disabled={loading.countries}
                     />
                   </div>
                   <div>
@@ -143,11 +164,11 @@ export default function BrandDetails({
                       State
                     </label>
                     <SearchableDropdown
-                      options={brand.country ? states[brand.country] || [] : []}
+                      options={states}
                       selectedValue={brand.state || ""}
                       onValueChange={(value) => onFieldChange("state", value)}
                       placeholder="Select a state"
-                      disabled={!brand.country}
+                      disabled={!brand.country || loading.states}
                     />
                   </div>
                 </div>
@@ -163,6 +184,7 @@ export default function BrandDetails({
                     selectedValue={brand.industry || ""}
                     onValueChange={(value) => onFieldChange("industry", value)}
                     placeholder="Select an industry"
+                    disabled={loading.industries}
                   />
                 </div>
 
