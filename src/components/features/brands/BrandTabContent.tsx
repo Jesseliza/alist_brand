@@ -18,21 +18,7 @@ export default function BrandTabContent({
   const renderContent = () => {
     switch (activeTab) {
       case "Business Details":
-        return (
-          <BrandDetails
-            businessName={brand.name}
-            companyName={brand.companyName}
-            businessLocation={brand.businessLocation}
-            industry={brand.industry}
-            registrationDate="13/08/2024" // This might need to be added to Brand type
-            instagram={brand.instagramHandle}
-            website={brand.websiteUrl}
-            firstName={brand.associateFirstName}
-            lastName={brand.associateLastName}
-            email={brand.associateEmail}
-            phone={brand.associatePhone}
-          />
-        );
+        return <BrandDetails brand={brand} />;
       case "Campaigns":
         return (
           <div>
