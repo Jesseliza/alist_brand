@@ -92,7 +92,7 @@ export default function BrandPage() {
             ...brand,
             onFieldChange: handleFieldChange,
             onFileChange: handleFileChange,
-            isEditMode: !isCreateMode,
+            isEditMode: true,
             onSave: handleSave,
             isSaving: isSaving,
           }}
