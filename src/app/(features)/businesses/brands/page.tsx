@@ -4,9 +4,12 @@ import BrandsTable from "@/components/features/brands/BrandsTable";
 import BrandCard from "@/components/features/brands/BrandCard";
 import BrandCardMobile from "@/components/features/brands/BrandMobileCard";
 import Pagination from "@/components/general/Pagination";
-import { brandsData } from "@/data/BrandsData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { Brand } from "@/types/entities";
+import { fetchData } from "@/services/commonService";
+import { transformApiVenueToBrand } from "@/utils/brandUtils";
+import Loader from "@/components/general/Loader";
 import TableCardsToggler from "@/components/general/TableCardsToggler";
 import SortDropdown from "@/components/general/dropdowns/SortDropdown";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
@@ -16,13 +19,36 @@ import Link from "next/link";
 
 export default function BrandsPage() {
   const router = useRouter();
+  const [brands, setBrands] = useState<Brand[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [view, setView] = useState<"table" | "cards">("table");
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      setLoading(true);
+      try {
+        const response: any = await fetchData(`/api/list/venues?search=${search}`);
+        if (response && response.venues) {
+          setBrands(response.venues.map(transformApiVenueToBrand));
+        } else {
+          setError("Failed to fetch brands.");
+        }
+      } catch (e) {
+        setError("Failed to fetch brand data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBrands();
+  }, [search]);
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentBrands = brandsData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentBrands = brands.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -54,6 +80,7 @@ export default function BrandsPage() {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
+
   return (
     <div>
       <div className="py-[13px] bg-white hidden md:block relative">
@@ -116,43 +143,51 @@ export default function BrandsPage() {
             </div>
           </div>
 
-          <div className="md:hidden space-y-[7px]">
-            {brandsData.map((brand) => (
-              <Link
-                key={brand.brandId}
-                href={`/businesses/accounts/${brand.accountId}/${brand.brandId}`}
-              >
-                <BrandCardMobile brand={brand} />
-              </Link>
-            ))}
-          </div>
-          <div className="hidden md:block">
-            {view === "table" ? (
-              <>
-                <BrandsTable brands={currentBrands} />
-                <Pagination
-                  totalItems={brandsData.length}
-                  itemsPerPage={itemsPerPage}
-                  currentPage={currentPage}
-                  onPageChange={handlePageChange}
-                  onItemsPerPageChange={handleItemsPerPageChange}
-                />
-              </>
-            ) : (
-              <>
-                <div className="grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center mb-8">
-                  {brandsData.map((brand) => (
-                    <Link
-                      key={brand.brandId}
-                      href={`/businesses/accounts/${brand.accountId}/${brand.brandId}`}
-                    >
-                      <BrandCard brand={brand} />
-                    </Link>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
+          {loading ? (
+            <Loader />
+          ) : error ? (
+            <p className="text-red-500">{error}</p>
+          ) : (
+            <>
+              <div className="md:hidden space-y-[7px]">
+                {brands.map((brand) => (
+                  <Link
+                    key={brand.brandId}
+                    href={`/businesses/brands/${brand.brandId}`}
+                  >
+                    <BrandCardMobile brand={brand} />
+                  </Link>
+                ))}
+              </div>
+              <div className="hidden md:block">
+                {view === "table" ? (
+                  <>
+                    <BrandsTable brands={currentBrands} />
+                    <Pagination
+                      totalItems={brands.length}
+                      itemsPerPage={itemsPerPage}
+                      currentPage={currentPage}
+                      onPageChange={handlePageChange}
+                      onItemsPerPageChange={handleItemsPerPageChange}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <div className="grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center mb-8">
+                      {brands.map((brand) => (
+                        <Link
+                          key={brand.brandId}
+                          href={`/businesses/brands/${brand.brandId}`}
+                        >
+                          <BrandCard brand={brand} />
+                        </Link>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
