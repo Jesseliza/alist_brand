@@ -1,15 +1,32 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Brand } from "@/types/entities";
-import { addBrandRequest, updateBrandRequest } from "@/store/brand/brandSlice";
-import { RootState } from "@/store/store";
-import { useParams } from "next/navigation";
 
 interface BrandDetailsProps {
-  brand?: Brand | null;
+  formData: {
+    businessName: string;
+    companyName: string;
+    businessLocation: string;
+    industry: string;
+    instagram: string;
+    website: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    tradeLicenseCopy: File | null;
+    vatCertificate: File | null;
+  };
+  errors: Partial<Record<keyof BrandDetailsProps["formData"], string>>;
+  isEditMode: boolean;
+  originalBrand: {
+    tradeLicenseCopy?: string;
+    vatCertificate?: string;
+    registrationDate?: string;
+  } | null;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: React.FormEvent) => void;
 }
 
 interface IconProps {
@@ -27,94 +44,15 @@ interface InputFieldProps {
   icon?: IconProps;
 }
 
-export default function BrandDetails({ brand }: BrandDetailsProps) {
-  const dispatch = useDispatch();
-  const params = useParams();
-  const { addBrandInProgress, addBrandError, updateBrandInProgress, updateBrandError } = useSelector(
-    (state: RootState) => state.brand
-  );
-
-  const [formData, setFormData] = useState({
-    businessName: "",
-    companyName: "",
-    businessLocation: "",
-    industry: "",
-    instagram: "",
-    website: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    tradeLicenseCopy: null as File | null,
-    vatCertificate: null as File | null,
-  });
-
-  const [errors, setErrors] = useState<Partial<Record<keyof typeof formData, string>>>({});
-
-  const isEditMode = !!brand;
-
-  useEffect(() => {
-    if (isEditMode && brand) {
-      setFormData({
-        businessName: brand.name || "",
-        companyName: brand.companyName || "",
-        businessLocation: brand.businessLocation || "",
-        industry: brand.industry || "",
-        instagram: brand.instagramHandle || "",
-        website: brand.websiteUrl || "",
-        firstName: brand.associateFirstName || "",
-        lastName: brand.associateLastName || "",
-        email: brand.associateEmail || "",
-        phone: brand.associatePhone || "",
-        tradeLicenseCopy: null,
-        vatCertificate: null,
-      });
-    }
-  }, [brand, isEditMode]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, files } = e.target;
-    if (files && files.length > 0) {
-      setFormData((prev) => ({ ...prev, [name]: files[0] }));
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const newErrors: Partial<Record<keyof typeof formData, string>> = {};
-
-    if (!formData.businessName) newErrors.businessName = "Brand name is required.";
-    if (!formData.email) {
-      newErrors.email = "Email address is required.";
-    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
-      newErrors.email = "Invalid email format.";
-    }
-    if (!formData.phone) newErrors.phone = "Phone number is required.";
-
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      const data = new FormData();
-      Object.keys(formData).forEach(key => {
-        const value = formData[key as keyof typeof formData];
-        if (value) {
-          data.append(key, value as string | Blob);
-        }
-      });
-
-      if (isEditMode) {
-        dispatch(updateBrandRequest({ brandId: brand.brandId, data }));
-      } else {
-        dispatch(addBrandRequest({ data }));
-      }
-    }
-  };
-
+export default function BrandDetails({
+  formData,
+  errors,
+  isEditMode,
+  originalBrand,
+  handleChange,
+  handleFileChange,
+  handleSubmit,
+}: BrandDetailsProps) {
   const InputField = ({ label, value, name, icon, onChange }: InputFieldProps) => (
     <div>
       <label
@@ -232,9 +170,9 @@ export default function BrandDetails({ brand }: BrandDetailsProps) {
                       >
                         Trade License Copy
                       </label>
-                      {isEditMode && brand.tradeLicenseCopy ? (
+                      {isEditMode && originalBrand?.tradeLicenseCopy ? (
                         <div className="flex items-center justify-between">
-                          <p className="text-sm text-gray-500">{brand.tradeLicenseCopy}</p>
+                          <p className="text-sm text-gray-500">{originalBrand.tradeLicenseCopy}</p>
                           <button type="button" className="text-sm text-blue-500">Download</button>
                         </div>
                       ) : (
@@ -254,9 +192,9 @@ export default function BrandDetails({ brand }: BrandDetailsProps) {
                       >
                         VAT Certificate
                       </label>
-                      {isEditMode && brand.vatCertificate ? (
+                      {isEditMode && originalBrand?.vatCertificate ? (
                         <div className="flex items-center justify-between">
-                          <p className="text-sm text-gray-500">{brand.vatCertificate}</p>
+                          <p className="text-sm text-gray-500">{originalBrand.vatCertificate}</p>
                           <button type="button" className="text-sm text-blue-500">Download</button>
                         </div>
                       ) : (
@@ -359,14 +297,14 @@ export default function BrandDetails({ brand }: BrandDetailsProps) {
           <div className="flex justify-end mt-4">
             <button
               type="submit"
-              disabled={addBrandInProgress || updateBrandInProgress}
               className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
             >
               {isEditMode ? "Save" : "Add Brand"}
             </button>
           </div>
-          {addBrandError && <p className="text-red-500">{addBrandError}</p>}
-          {updateBrandError && <p className="text-red-500">{updateBrandError}</p>}
+          <p className="text-sm text-[#4F4F4F] mt-4">
+            Registration date: {originalBrand?.registrationDate}
+          </p>
         </div>
       </div>
     </form>
