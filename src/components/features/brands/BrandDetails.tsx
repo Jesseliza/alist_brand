@@ -8,6 +8,8 @@ interface BrandDetailsProps {
   isEditMode: boolean;
   onFieldChange: (field: keyof Brand, value: string) => void;
   onFileChange: (field: keyof Brand, file: File) => void;
+  onSave: () => void;
+  isSaving: boolean;
 }
 
 interface IconProps {
@@ -67,6 +69,8 @@ export default function BrandDetails({
   isEditMode,
   onFieldChange,
   onFileChange,
+  onSave,
+  isSaving,
 }: BrandDetailsProps) {
   return (
     <div className="text-[15px] pt-10 md:pt-11">
@@ -151,14 +155,19 @@ export default function BrandDetails({
                     >
                       Trade License Copy
                     </label>
-                    <input
-                      type="file"
-                      id="tradeLicenseCopy"
-                      name="tradeLicenseCopy"
-                      disabled={!isEditMode}
-                      onChange={(e) => e.target.files && onFileChange("tradeLicenseCopy", e.target.files[0])}
-                      className="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                    />
+                    {typeof brand.tradeLicenseCopy === 'string' && brand.tradeLicenseCopy ? (
+                      <a href={brand.tradeLicenseCopy} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Download</a>
+                    ) : (
+                      <input
+                        type="file"
+                        id="tradeLicenseCopy"
+                        name="tradeLicenseCopy"
+                        disabled={!isEditMode}
+                        onChange={(e) => e.target.files && onFileChange("tradeLicenseCopy", e.target.files[0])}
+                        className="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                      />
+                    )}
+                    {brand.tradeLicenseCopy instanceof File && <p className="text-sm text-gray-500 mt-1">{brand.tradeLicenseCopy.name}</p>}
                   </div>
                   <div>
                     <label
@@ -167,14 +176,19 @@ export default function BrandDetails({
                     >
                       VAT Certificate
                     </label>
-                    <input
-                      type="file"
-                      id="vatCertificate"
-                      name="vatCertificate"
-                      disabled={!isEditMode}
-                      onChange={(e) => e.target.files && onFileChange("vatCertificate", e.target.files[0])}
-                      className="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                    />
+                    {typeof brand.vatCertificate === 'string' && brand.vatCertificate ? (
+                      <a href={brand.vatCertificate} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Download</a>
+                    ) : (
+                      <input
+                        type="file"
+                        id="vatCertificate"
+                        name="vatCertificate"
+                        disabled={!isEditMode}
+                        onChange={(e) => e.target.files && onFileChange("vatCertificate", e.target.files[0])}
+                        className="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+                      />
+                    )}
+                    {brand.vatCertificate instanceof File && <p className="text-sm text-gray-500 mt-1">{brand.vatCertificate.name}</p>}
                   </div>
                 </div>
               </div>
@@ -266,6 +280,15 @@ export default function BrandDetails({
                 />
               </div>
             </div>
+          </div>
+          <div className="flex justify-end mt-4 px-4 pb-6">
+            <button
+              onClick={onSave}
+              disabled={isSaving}
+              className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
+            >
+              {isSaving ? "Saving..." : "Save Changes"}
+            </button>
           </div>
         </div>
         <p className="text-sm text-[#4F4F4F] mt-4">

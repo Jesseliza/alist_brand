@@ -4,36 +4,10 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { Brand } from "@/types/entities";
 import BrandTabContent from "@/components/features/brands/BrandTabContent";
+import BrandHeader from "@/components/features/brands/BrandHeader";
 import Loader from "@/components/general/Loader";
 import { fetchData } from "@/services/commonService";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const transformApiVenueToBrand = (venue: any): Brand => {
-  return {
-    brandId: venue.id.toString(),
-    name: venue.venue_title,
-    accountId: venue.accountId || 'N/A',
-    logo: venue.logo || '',
-    phoneNumber: venue.phoneNumber || '',
-    emailAddress: venue.emailAddress || '',
-    industry: venue.industry || 'N/A',
-    companyName: venue.companyName || '',
-    businessLocation: venue.businessLocation || '',
-    tradeLicenseCopy: venue.tradeLicenseCopy || '',
-    vatCertificate: venue.vatCertificate || '',
-    instagramHandle: venue.instagramHandle || '',
-    websiteUrl: venue.venue_url || '',
-    associateFirstName: venue.associateFirstName || '',
-    associateLastName: venue.associateLastName || '',
-    associateEmail: venue.associateEmail || '',
-    associatePhone: venue.associatePhone || '',
-    associateInitials: venue.associateInitials || '',
-    associateBackground: venue.associateBackground || '#CCCCCC',
-    offersCount: venue.offersCount || 0,
-    campaignsCount: venue.campaignsCount || 0,
-    profileCompletion: venue.profileCompletion || 0,
-  };
-};
+import { transformApiVenueToBrand } from "@/utils/brandUtils";
 
 export default function BrandPage() {
   const params = useParams();
@@ -50,17 +24,11 @@ export default function BrandPage() {
       const fetchBrand = async () => {
         setLoading(true);
         try {
-          const response: any = await fetchData(`/api/list/venues`);
-          if (response && response.venues) {
-            const allBrands = response.venues.map(transformApiVenueToBrand);
-            const foundBrand = allBrands.find((b: Brand) => b.brandId === brandId);
-            if (foundBrand) {
-              setBrand(foundBrand);
-            } else {
-              setError("Brand not found.");
-            }
+          const response: any = await fetchData(`/api/list/venues/${brandId}`);
+          if (response && response.venue) {
+            setBrand(transformApiVenueToBrand(response.venue));
           } else {
-            setError("Failed to fetch brands.");
+            setError("Brand not found.");
           }
         } catch (e) {
           setError("Failed to fetch brand data.");
@@ -87,6 +55,7 @@ export default function BrandPage() {
     console.log("Saving brand:", brand);
     await new Promise(resolve => setTimeout(resolve, 1000));
     setIsSaving(false);
+    alert("Brand saved successfully! (This is a placeholder message)");
   };
 
   if (loading) {
@@ -102,27 +71,32 @@ export default function BrandPage() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4 px-4">
-        {isCreateMode ? "Add Brand" : "Edit Brand"}
-      </h1>
-      <BrandTabContent
-        activeTab="Business Details"
-        brand={{
-          ...brand,
-          onFieldChange: handleFieldChange,
-          onFileChange: handleFileChange,
-          isEditMode: true, // Always editable in this context
-        }}
-      />
-      <div className="flex justify-end mt-4 px-4">
-        <button
-          onClick={handleSave}
-          disabled={isSaving}
-          className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
-        >
-          {isSaving ? "Saving..." : "Save Changes"}
-        </button>
+    <div className="pt-6">
+      {isCreateMode ? (
+        <div className="bg-white p-6 mb-6">
+          <h1 className="text-2xl font-bold">Add Brand</h1>
+        </div>
+      ) : (
+        <BrandHeader
+          name={brand?.name || ""}
+          subtitle={brand?.businessLocation || ""}
+          logo={brand?.logo}
+          tabs={["Business Details", "Campaigns"]}
+          activeTab="Business Details"
+        />
+      )}
+      <div className="pb-6">
+        <BrandTabContent
+          activeTab="Business Details"
+          brand={{
+            ...brand,
+            onFieldChange: handleFieldChange,
+            onFileChange: handleFileChange,
+            isEditMode: !isCreateMode,
+            onSave: handleSave,
+            isSaving: isSaving,
+          }}
+        />
       </div>
     </div>
   );
