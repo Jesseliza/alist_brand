@@ -5,7 +5,7 @@ import { Brand } from "@/types/entities";
 import { useParams } from "next/navigation";
 
 interface BrandTabContentProps extends TabContentProps {
-  brand: any; // This should be improved
+  brand: Brand;
 }
 
 export default function BrandTabContent({
@@ -18,16 +18,27 @@ export default function BrandTabContent({
   const renderContent = () => {
     switch (activeTab) {
       case "Business Details":
-        return <BrandDetails {...brand} />;
+        return (
+          <BrandDetails
+            businessName={brand.name}
+            companyName={brand.companyName}
+            businessLocation={brand.businessLocation}
+            industry={brand.industry}
+            registrationDate="13/08/2024" // This might need to be added to Brand type
+            instagram={brand.instagramHandle}
+            website={brand.websiteUrl}
+            firstName={brand.associateFirstName}
+            lastName={brand.associateLastName}
+            email={brand.associateEmail}
+            phone={brand.associatePhone}
+          />
+        );
       case "Campaigns":
-        if (brand.isEditMode) {
-          return (
-            <div>
-              <BrandCampaigns brandId={brand.originalBrand.brandId} accountId={accountId} />
-            </div>
-          );
-        }
-        return null;
+        return (
+          <div>
+            <BrandCampaigns brandId={brand.brandId} accountId={accountId} />
+          </div>
+        );
       default:
         return null;
     }

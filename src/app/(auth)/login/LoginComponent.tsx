@@ -8,7 +8,6 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import SlideCaptcha from '@/components/general/SlideCaptcha';
 import CountryCodeDropdown from '@/components/general/CountryCodeDropdown';
-import Loader from '@/components/general/Loader';
 
 export default function LoginComponent() {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -92,10 +91,10 @@ export default function LoginComponent() {
             </div>
             <button
               type="submit"
-              className="mt-[11px] rounded-[11px] bg-[#00A4B6] text-white font-semibold py-[11px] text-[15px] hover:bg-[#0090a6] transition flex justify-center"
+              className="mt-[11px] rounded-[11px] bg-[#00A4B6] text-white font-semibold py-[11px] text-[15px] hover:bg-[#0090a6] transition"
               disabled={loading}
             >
-              {loading ? <Loader size={24} /> : 'Send OTP'}
+              {loading ? 'Sending OTP...' : 'Send OTP'}
             </button>
             {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </form>
@@ -121,10 +120,10 @@ export default function LoginComponent() {
             {formError && <p className="text-red-500 text-sm mt-2">{formError}</p>}
             <button
               type="submit"
-              className="mt-[11px] rounded-[11px] bg-[#00A4B6] text-white font-semibold py-[11px] text-[15px] hover:bg-[#0090a6] transition disabled:bg-gray-400 flex justify-center"
+              className="mt-[11px] rounded-[11px] bg-[#00A4B6] text-white font-semibold py-[11px] text-[15px] hover:bg-[#0090a6] transition disabled:bg-gray-400"
               disabled={loading || !isCaptchaVerified}
             >
-              {loading ? <Loader size={24} /> : 'Sign In'}
+              {loading ? 'Signing in...' : 'Sign In'}
             </button>
             {error && !formError && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </form>

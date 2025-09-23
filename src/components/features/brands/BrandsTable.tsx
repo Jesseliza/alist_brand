@@ -8,12 +8,7 @@ import { useState } from "react";
 
 export type { Brand };
 
-interface BrandsTableProps {
-  brands: Brand[];
-  onDownloadClick: (brandId: string, fileType: 'tradeLicense' | 'vatCertificate') => void;
-}
-
-export default function BrandsTable({ brands, onDownloadClick }: BrandsTableProps) {
+export default function BrandsTable({ brands }: { brands: Brand[] }) {
   const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
 
   const handleCheckboxChange = (brandId: string) => {
@@ -92,7 +87,7 @@ export default function BrandsTable({ brands, onDownloadClick }: BrandsTableProp
                     onChange={() => handleCheckboxChange(brand.brandId)}
                   />
                   <Link
-                    href={`/businesses/brands/${brand.brandId}`}
+                    href={`/businesses/accounts/${brand.accountId}/${brand.brandId}`}
                   >
                     <div className="flex items-center ml-3 cursor-pointer">
                       <div className="h-[33px] w-[33px] rounded-full overflow-hidden relative flex-shrink-0">
@@ -143,36 +138,15 @@ export default function BrandsTable({ brands, onDownloadClick }: BrandsTableProp
                 </div>
               </td>
               <td className="px-4 py-[8.5px] whitespace-nowrap text-center text-[#4F4F4F]">
-                <div className="flex items-center justify-center space-x-2">
-                  {brand.tradeLicenseCopy && (
-                    <button
-                      onClick={() => onDownloadClick(brand.brandId, 'tradeLicense')}
-                      className="bg-[#636363] text-white flex items-center justify-center gap-2.5 px-4 py-1.5 rounded-full text-[13px]"
-                    >
-                      <Image
-                        src="/icons/download.svg"
-                        alt="download"
-                        width={13.15}
-                        height={16.99}
-                      />
-                      <span className="ml-1">License</span>
-                    </button>
-                  )}
-                  {brand.vatCertificate && (
-                    <button
-                      onClick={() => onDownloadClick(brand.brandId, 'vatCertificate')}
-                      className="bg-[#636363] text-white flex items-center justify-center gap-2.5 px-4 py-1.5 rounded-full text-[13px]"
-                    >
-                      <Image
-                        src="/icons/download.svg"
-                        alt="download"
-                        width={13.15}
-                        height={16.99}
-                      />
-                      <span className="ml-1">VAT</span>
-                    </button>
-                  )}
-                </div>
+                <button className="bg-[#636363] text-white flex items-center justify-center gap-2.5 px-4 py-1.5 rounded-full text-[13px]">
+                  <Image
+                    src="/icons/general/upload-1.svg"
+                    alt="download"
+                    width={13.15}
+                    height={16.99}
+                  />
+                  <span className="ml-1">Upload</span>
+                </button>
               </td>
             </tr>
           ))}

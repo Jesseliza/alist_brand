@@ -1,67 +1,34 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useRouter } from "next/navigation";
-import { fetchBrandsRequest, verifyPinAndDownloadRequest, fetchMoreBrandsRequest } from "@/store/brand/brandSlice";
-import { RootState } from "@/store/store";
 import BrandsTable from "@/components/features/brands/BrandsTable";
 import BrandCard from "@/components/features/brands/BrandCard";
 import BrandCardMobile from "@/components/features/brands/BrandMobileCard";
 import Pagination from "@/components/general/Pagination";
+import { brandsData } from "@/data/BrandsData";
+import { useState } from "react";
 import TableCardsToggler from "@/components/general/TableCardsToggler";
 import SortDropdown from "@/components/general/dropdowns/SortDropdown";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
 import Image from "next/image";
 import Link from "next/link";
-import Loader from "@/components/general/Loader";
-import PinModal from "@/components/general/PinModal";
 
 export default function BrandsPage() {
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const {
-    brands,
-    pagination,
-    loading,
-    error,
-    pinVerificationInProgress,
-    pinVerificationError,
-  } = useSelector((state: RootState) => state.brand);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [view, setView] = useState<"table" | "cards">("table");
   const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 500);
-  const [isPinModalOpen, setPinModalOpen] = useState(false);
-  const [downloadFileInfo, setDownloadFileInfo] = useState<{
-    brandId: string;
-    fileType: string;
-  } | null>(null);
-
-  const observer = useRef<IntersectionObserver>();
-  const lastBrandElementRef = useCallback(node => {
-    if (loading) return;
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && brands.length < pagination.total) {
-        dispatch(fetchMoreBrandsRequest({ page: pagination.currentPage + 1, per_page: 10, search: debouncedSearch }));
-      }
-    });
-    if (node) observer.current.observe(node);
-  }, [loading, pagination, brands, debouncedSearch, dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchBrandsRequest({ page: 1, per_page: 10, search: debouncedSearch }));
-  }, [dispatch, debouncedSearch]);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentBrands = brandsData.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (page: number) => {
-    dispatch(fetchBrandsRequest({ page, per_page: pagination.perPage, search }));
+    setCurrentPage(page);
   };
 
   const handleItemsPerPageChange = (items: number) => {
-    dispatch(fetchBrandsRequest({ page: 1, per_page: items, search }));
+    setItemsPerPage(items);
+    setCurrentPage(1);
   };
 
   const handleViewChange = (newView: "table" | "cards") => {
@@ -77,52 +44,11 @@ export default function BrandsPage() {
     console.log("Action selected:", value);
     // Add your action logic here
   };
-
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
-
-  const { user } = useSelector((state: RootState) => state.auth);
-
-  const handleAddBrandClick = () => {
-    if (user?.accountId) {
-      router.push(`/businesses/accounts/${user.accountId}/create`);
-    } else {
-      console.error("No accountId found for the current user.");
-    }
-  };
-
-  const handleDownloadClick = (brandId: string, fileType: string) => {
-    setDownloadFileInfo({ brandId, fileType });
-    setPinModalOpen(true);
-  };
-
-  const handlePinSubmit = (pin: string) => {
-    if (downloadFileInfo) {
-      dispatch(
-        verifyPinAndDownloadRequest({
-          ...downloadFileInfo,
-          pin,
-        })
-      );
-    }
-  };
-
-  useEffect(() => {
-    if (!pinVerificationInProgress && !pinVerificationError) {
-      setPinModalOpen(false);
-    }
-  }, [pinVerificationInProgress, pinVerificationError]);
-
   return (
     <div>
-      <PinModal
-        isOpen={isPinModalOpen}
-        onClose={() => setPinModalOpen(false)}
-        onSubmit={handlePinSubmit}
-        loading={pinVerificationInProgress}
-        error={pinVerificationError}
-      />
       <div className="py-[13px] bg-white hidden md:block relative">
         <div
           className="absolute inset-0 bg-white"
@@ -157,88 +83,48 @@ export default function BrandsPage() {
       </div>
       <div className="py-5.5">
         <div className="max-w-[1428px] mx-auto">
-          <div className="hidden md:flex justify-end items-center mb-5.5 space-x-4">
-            <button
-              onClick={handleAddBrandClick}
-              className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
-            >
-              Add Brand
-            </button>
-            <div className="w-auto">
+          {view === "table" && (
+            <div className="w-[137px] ml-auto mb-5.5 hidden md:block">
               <ActionDropdown onSelect={handleActionSelect} />
             </div>
-          </div>
-          {/* Mobile buttons */}
-          <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
-            <div className="relative">
-              <button
-                onClick={handleAddBrandClick}
-                className="bg-blue-500 text-white rounded-[11px] text-sm px-4 py-2"
-              >
-                Add Brand
-              </button>
-            </div>
-            <div className="w-auto">
-              <ActionDropdown onSelect={handleActionSelect} />
-            </div>
-          </div>
-          {loading ? (
-            <Loader />
-          ) : error ? (
-            <p className="text-red-500">Error: {error}</p>
-          ) : (
-            <>
-              <div className="md:hidden space-y-[7px]">
-                {brands.map((brand) => (
-                  <div key={brand.brandId}>
-                    <Link href={`/businesses/brands/${brand.brandId}`}>
-                      <BrandCardMobile brand={brand} onDownloadClick={handleDownloadClick} />
-                    </Link>
-                  </div>
-                ))}
-              </div>
-              <div className="hidden md:block">
-                {view === "table" ? (
-                  <>
-                    <BrandsTable brands={brands} onDownloadClick={handleDownloadClick} />
-                    <Pagination
-                      totalItems={pagination.total}
-                      itemsPerPage={pagination.perPage}
-                      currentPage={pagination.currentPage}
-                      onPageChange={handlePageChange}
-                      onItemsPerPageChange={handleItemsPerPageChange}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <div className="grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center mb-8">
-                      {brands.map((brand, index) => {
-                        if (brands.length === index + 1) {
-                          return (
-                            <div ref={lastBrandElementRef} key={brand.brandId}>
-                              <Link href={`/businesses/brands/${brand.brandId}`}>
-                                <BrandCard brand={brand} onDownloadClick={handleDownloadClick} />
-                              </Link>
-                            </div>
-                          );
-                        } else {
-                          return (
-                            <Link
-                              key={brand.brandId}
-                              href={`/businesses/brands/${brand.brandId}`}
-                            >
-                              <BrandCard brand={brand} onDownloadClick={handleDownloadClick} />
-                            </Link>
-                          );
-                        }
-                      })}
-                    </div>
-                    {loading && <Loader />}
-                  </>
-                )}
-              </div>
-            </>
           )}
+          <div className="md:hidden space-y-[7px]">
+            {brandsData.map((brand) => (
+              <Link
+                key={brand.brandId}
+                href={`/businesses/accounts/${brand.accountId}/${brand.brandId}`}
+              >
+                <BrandCardMobile brand={brand} />
+              </Link>
+            ))}
+          </div>
+          <div className="hidden md:block">
+            {view === "table" ? (
+              <>
+                <BrandsTable brands={currentBrands} />
+                <Pagination
+                  totalItems={brandsData.length}
+                  itemsPerPage={itemsPerPage}
+                  currentPage={currentPage}
+                  onPageChange={handlePageChange}
+                  onItemsPerPageChange={handleItemsPerPageChange}
+                />
+              </>
+            ) : (
+              <>
+                <div className="grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center mb-8">
+                  {brandsData.map((brand) => (
+                    <Link
+                      key={brand.brandId}
+                      href={`/businesses/accounts/${brand.accountId}/${brand.brandId}`}
+                    >
+                      <BrandCard brand={brand} />
+                    </Link>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

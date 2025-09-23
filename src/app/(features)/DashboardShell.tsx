@@ -6,7 +6,6 @@ import SearchInput from "@/components/general/SearchInput";
 import Image from "next/image";
 import { useState, useEffect, Suspense, useCallback } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import Loader from "@/components/general/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/auth/authSlice";
 import { RootState } from "@/store/store";
@@ -277,7 +276,7 @@ export default function DashboardShell({
   const isOverlayMode = windowWidth < 1280 && windowWidth >= 768;
 
   return (
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<div>Loading...</div>}>
       <DashboardContent
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}

@@ -3,12 +3,7 @@
 import { Brand } from "@/types/entities";
 import Image from "next/image";
 
-interface BrandCardMobileProps {
-  brand: Brand;
-  onDownloadClick: (brandId: string, fileType: 'tradeLicense' | 'vatCertificate') => void;
-}
-
-export default function BrandCardMobile({ brand, onDownloadClick }: BrandCardMobileProps) {
+export default function BrandCardMobile({ brand }: { brand: Brand }) {
   return (
     <div className="bg-white rounded-[13px] p-6">
       {/* Top section with logo and main info */}
@@ -73,36 +68,6 @@ export default function BrandCardMobile({ brand, onDownloadClick }: BrandCardMob
             {brand.offersCount} offers
           </p>
         </div>
-      </div>
-      <div className="flex items-center justify-center space-x-2 mt-4">
-        {brand.tradeLicenseCopy && (
-          <button
-            onClick={() => onDownloadClick(brand.brandId, 'tradeLicense')}
-            className="bg-[#636363] text-white flex items-center justify-center gap-2.5 px-4 py-1.5 rounded-full text-[13px]"
-          >
-            <Image
-              src="/icons/download.svg"
-              alt="download"
-              width={13.15}
-              height={16.99}
-            />
-            <span className="ml-1">License</span>
-          </button>
-        )}
-        {brand.vatCertificate && (
-          <button
-            onClick={() => onDownloadClick(brand.brandId, 'vatCertificate')}
-            className="bg-[#636363] text-white flex items-center justify-center gap-2.5 px-4 py-1.5 rounded-full text-[13px]"
-          >
-            <Image
-              src="/icons/download.svg"
-              alt="download"
-              width={13.15}
-              height={16.99}
-            />
-            <span className="ml-1">VAT</span>
-          </button>
-        )}
       </div>
     </div>
   );

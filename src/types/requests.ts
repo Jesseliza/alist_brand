@@ -5,10 +5,3 @@ export type UpdateAccountPayload = Partial<CreateAccountPayload> & { accountId: 
 
 export type CreateBrandPayload = Omit<Brand, 'brandId' | 'offersCount' | 'campaignsCount' | 'profileCompletion'>;
 export type UpdateBrandPayload = Partial<CreateBrandPayload> & { brandId: string };
-
-export interface FetchBrandsResponse {
-    data: Brand[];
-    total: number;
-    per_page: number;
-    current_page: number;
-}

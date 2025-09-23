@@ -2,12 +2,7 @@
 import Image from "next/image";
 import { Brand } from "@/types/entities";
 
-interface BrandCardProps {
-  brand: Brand;
-  onDownloadClick: (brandId: string, fileType: 'tradeLicense' | 'vatCertificate') => void;
-}
-
-export default function BrandCard({ brand, onDownloadClick }: BrandCardProps) {
+export default function BrandCard({ brand }: { brand: Brand }) {
   const items = [
     {
       id: "industry",
@@ -80,36 +75,6 @@ export default function BrandCard({ brand, onDownloadClick }: BrandCardProps) {
           </p>
           <p className="text-[11px] leading-[17px]">{brand.associateEmail}</p>
         </div>
-      </div>
-      <div className="flex items-center justify-center space-x-2 mt-4">
-        {brand.tradeLicenseCopy && (
-          <button
-            onClick={() => onDownloadClick(brand.brandId, 'tradeLicense')}
-            className="bg-[#636363] text-white flex items-center justify-center gap-2.5 px-4 py-1.5 rounded-full text-[13px]"
-          >
-            <Image
-              src="/icons/download.svg"
-              alt="download"
-              width={13.15}
-              height={16.99}
-            />
-            <span className="ml-1">License</span>
-          </button>
-        )}
-        {brand.vatCertificate && (
-          <button
-            onClick={() => onDownloadClick(brand.brandId, 'vatCertificate')}
-            className="bg-[#636363] text-white flex items-center justify-center gap-2.5 px-4 py-1.5 rounded-full text-[13px]"
-          >
-            <Image
-              src="/icons/download.svg"
-              alt="download"
-              width={13.15}
-              height={16.99}
-            />
-            <span className="ml-1">VAT</span>
-          </button>
-        )}
       </div>
     </div>
   );
