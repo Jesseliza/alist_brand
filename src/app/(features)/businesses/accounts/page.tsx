@@ -14,6 +14,7 @@ import Pagination from "@/components/general/Pagination";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
 import Image from "next/image";
+import Loader from "@/components/general/Loader";
 
 export default function AccountsPage() {
   const router = useRouter();
@@ -197,9 +198,11 @@ export default function AccountsPage() {
               />
             </div>
           </div>
-          {loading && <p>Loading...</p>}
-          {error && <p className="text-red-500">Error: {error}</p>}
-          {!loading && !error && (
+          {loading ? (
+            <Loader />
+          ) : error ? (
+            <p className="text-red-500">Error: {error}</p>
+          ) : (
             <>
               <div className="md:hidden space-y-[7px]">
                 {accounts.map((account) => (
@@ -215,9 +218,9 @@ export default function AccountsPage() {
                     <button
                       onClick={handleSeeMore}
                       disabled={loading}
-                      className="disabled:text-gray-400"
+                      className="disabled:text-gray-400 flex justify-center"
                     >
-                      {loading ? 'Loading...' : 'See More'}
+                      {loading ? <Loader size={24} /> : 'See More'}
                     </button>
                   </div>
                 )}

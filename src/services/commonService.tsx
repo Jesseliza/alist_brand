@@ -42,7 +42,7 @@ export const postData = async <T,>(endpoint: string, data: T) => {
   }
 };
 
-export const updateData = async <T,>(endpoint: string, data: T) => {
+export const putData = async <T,>(endpoint: string, data: T) => {
   try {
     const response = await axiosInstance.put(`${endpoint}`, data);
     return response.data;

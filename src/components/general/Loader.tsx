@@ -1,9 +1,13 @@
 import Image from "next/image";
 
-const Loader = () => {
+interface LoaderProps {
+  size?: number;
+}
+
+const Loader = ({ size = 64 }: LoaderProps) => {
   return (
     <div className="flex justify-center items-center h-full">
-      <Image src="/icons/loader.gif" alt="Loading..." width={64} height={64} />
+      <Image src="/icons/loader.gif" alt="Loading..." width={size} height={size} />
     </div>
   );
 };
