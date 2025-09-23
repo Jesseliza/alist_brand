@@ -2,6 +2,9 @@
 
 import Image from "next/image";
 import { Brand } from "@/types/entities";
+import SearchableDropdown from "@/components/general/dropdowns/SearchableDropdown";
+import { countries } from "@/data/Countries";
+import { states } from "@/data/States";
 
 interface BrandDetailsProps {
   brand: Partial<Brand>;
@@ -116,20 +119,36 @@ export default function BrandDetails({
                     }}
                   />
                 </div>
-                <div className="mb-5 md:mb-7">
-                  <InputField
-                    label="Business Location"
-                    value={brand.businessLocation || ""}
-                    name="businessLocation"
-                    isEditMode={isEditMode}
-                    onChange={onFieldChange}
-                    icon={{
-                      src: "/icons/arrow-expand.svg",
-                      width: 12.05,
-                      height: 6.03,
-                      alt: "expand",
-                    }}
-                  />
+                <div className="grid grid-cols-2 gap-5 mb-5 md:mb-7">
+                  <div>
+                    <label
+                      htmlFor="country"
+                      className="block text-[#4F4F4F] mb-2.5 truncate"
+                    >
+                      Country
+                    </label>
+                    <SearchableDropdown
+                      options={countries}
+                      selectedValue={brand.country || ""}
+                      onValueChange={(value) => onFieldChange("country", value)}
+                      placeholder="Select a country"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="state"
+                      className="block text-[#4F4F4F] mb-2.5 truncate"
+                    >
+                      State
+                    </label>
+                    <SearchableDropdown
+                      options={brand.country ? states[brand.country] || [] : []}
+                      selectedValue={brand.state || ""}
+                      onValueChange={(value) => onFieldChange("state", value)}
+                      placeholder="Select a state"
+                      disabled={!brand.country}
+                    />
+                  </div>
                 </div>
                 <div className="mb-5 md:mb-7">
                   <InputField
@@ -233,18 +252,11 @@ export default function BrandDetails({
                 <h3 className="mb-6 text-[18px] text-[#4F4F4F] font-medium">
                   Associate details
                 </h3>
-                <div className="grid grid-cols-2 gap-5 mb-5 md:mb-7">
+                <div className="mb-5 md:mb-7">
                   <InputField
-                    label="First name"
-                    value={brand.associateFirstName || ""}
-                    name="associateFirstName"
-                    isEditMode={isEditMode}
-                    onChange={onFieldChange}
-                  />
-                  <InputField
-                    label="Last name"
-                    value={brand.associateLastName || ""}
-                    name="associateLastName"
+                    label="Name"
+                    value={brand.associateName || ""}
+                    name="associateName"
                     isEditMode={isEditMode}
                     onChange={onFieldChange}
                   />
