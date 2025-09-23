@@ -57,8 +57,8 @@ const transformApiVenueToBrand = (venue: any): Brand => {
 function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
   try {
     const { page, per_page, search } = action.payload;
-    const endpoint = `/api/list/brands?page=${page}&per_page=${per_page}`;
-    const payload = { search: search || "" };
+    const endpoint = `/api/list/brands?page=${page}`;
+    const payload = { search: search || "", per_page: per_page };
     const response: { message: string, venues: FetchBrandsResponse } = yield call(postData, endpoint, payload);
     if (response && response.venues) {
       const transformedResponse: FetchBrandsResponse = {
@@ -79,8 +79,8 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
 function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest>) {
   try {
     const { page, per_page, search } = action.payload;
-    const endpoint = `/api/list/brands?page=${page}&per_page=${per_page}`;
-    const payload = { search: search || "" };
+    const endpoint = `/api/list/brands?page=${page}`;
+    const payload = { search: search || "", per_page: per_page };
     const response: { message: string, venues: FetchBrandsResponse } = yield call(postData, endpoint, payload);
     if (response && response.venues) {
       const transformedResponse: FetchBrandsResponse = {

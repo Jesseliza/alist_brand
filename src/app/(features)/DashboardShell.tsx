@@ -3,10 +3,10 @@
 import Sidebar from "@/components/Layout/Sidebar";
 import Nav from "@/components/Layout/Nav";
 import SearchInput from "@/components/general/SearchInput";
-import Loader from "@/components/general/Loader";
 import Image from "next/image";
 import { useState, useEffect, Suspense, useCallback } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import Loader from "@/components/general/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/auth/authSlice";
 import { RootState } from "@/store/store";
