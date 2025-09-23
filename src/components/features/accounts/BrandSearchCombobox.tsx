@@ -2,10 +2,8 @@
 
 import { Combobox } from "@headlessui/react";
 import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Brand } from "@/types/entities";
-import { fetchBrandsRequest } from "@/store/brand/brandSlice";
-import { RootState } from "@/store/store";
+import { fetchData } from "@/services/commonService";
 import InlineLoader from "@/components/general/InlineLoader";
 
 interface BrandSearchComboboxProps {
@@ -13,13 +11,41 @@ interface BrandSearchComboboxProps {
   initialSelectedBrands?: Brand[];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const transformApiVenueToBrand = (venue: any): Brand => {
+  return {
+    brandId: venue.id.toString(),
+    name: venue.venue_title,
+    accountId: venue.accountId || 'N/A',
+    logo: venue.logo || '',
+    phoneNumber: venue.phoneNumber || '',
+    emailAddress: venue.emailAddress || '',
+    industry: venue.industry || 'N/A',
+    companyName: venue.companyName || '',
+    businessLocation: venue.businessLocation || '',
+    tradeLicenseCopy: venue.tradeLicenseCopy || '',
+    vatCertificate: venue.vatCertificate || '',
+    instagramHandle: venue.instagramHandle || '',
+    websiteUrl: venue.venue_url || '',
+    associateFirstName: venue.associateFirstName || '',
+    associateLastName: venue.associateLastName || '',
+    associateEmail: venue.associateEmail || '',
+    associatePhone: venue.associatePhone || '',
+    associateInitials: venue.associateInitials || '',
+    associateBackground: venue.associateBackground || '#CCCCCC',
+    offersCount: venue.offersCount || 0,
+    campaignsCount: venue.campaignsCount || 0,
+    profileCompletion: venue.profileCompletion || 0,
+  };
+};
+
 export default function BrandSearchCombobox({
   onChange,
   initialSelectedBrands = [],
 }: BrandSearchComboboxProps) {
-  const dispatch = useDispatch();
-  const { brands: filteredBrands, loading } = useSelector((state: RootState) => state.brand);
   const [query, setQuery] = useState("");
+  const [filteredBrands, setFilteredBrands] = useState<Brand[]>([]);
+  const [loading, setLoading] = useState(false);
   const [selectedBrands, setSelectedBrands] = useState<Brand[]>(initialSelectedBrands);
   const inputRef = useRef<HTMLInputElement>(null); // Create a ref for the input
 
@@ -27,14 +53,29 @@ export default function BrandSearchCombobox({
   useEffect(() => {
     const handler = setTimeout(() => {
       if (query.trim() !== "") {
-        dispatch(fetchBrandsRequest({ search: query }));
+        const fetchBrands = async () => {
+          setLoading(true);
+          try {
+            const response: any = await fetchData(`/api/list/venues?search=${query}`);
+            if (response && response.venues) {
+              setFilteredBrands(response.venues.map(transformApiVenueToBrand));
+            }
+          } catch (e) {
+            console.error("Failed to fetch brands", e);
+          } finally {
+            setLoading(false);
+          }
+        };
+        fetchBrands();
+      } else {
+        setFilteredBrands([]);
       }
     }, 500); // 500ms delay
 
     return () => {
       clearTimeout(handler);
     };
-  }, [query, dispatch]);
+  }, [query]);
 
   const handleSelectionChange = (newlySelectedBrands: Brand[]) => {
     setSelectedBrands(newlySelectedBrands);

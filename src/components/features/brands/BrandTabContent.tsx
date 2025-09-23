@@ -5,7 +5,11 @@ import { Brand } from "@/types/entities";
 import { useParams } from "next/navigation";
 
 interface BrandTabContentProps extends TabContentProps {
-  brand: Brand;
+  brand: Partial<Brand> & {
+    isEditMode: boolean;
+    onFieldChange: (field: keyof Brand, value: string) => void;
+    onFileChange: (field: keyof Brand, file: File) => void;
+  };
 }
 
 export default function BrandTabContent({
@@ -20,17 +24,10 @@ export default function BrandTabContent({
       case "Business Details":
         return (
           <BrandDetails
-            businessName={brand.name}
-            companyName={brand.companyName}
-            businessLocation={brand.businessLocation}
-            industry={brand.industry}
-            registrationDate="13/08/2024" // This might need to be added to Brand type
-            instagram={brand.instagramHandle}
-            website={brand.websiteUrl}
-            firstName={brand.associateFirstName}
-            lastName={brand.associateLastName}
-            email={brand.associateEmail}
-            phone={brand.associatePhone}
+            brand={brand}
+            isEditMode={brand.isEditMode}
+            onFieldChange={brand.onFieldChange}
+            onFileChange={brand.onFileChange}
           />
         );
       case "Campaigns":
