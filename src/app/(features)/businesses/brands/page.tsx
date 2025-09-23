@@ -82,8 +82,14 @@ export default function BrandsPage() {
     setSearch(e.target.value);
   };
 
+  const { user } = useSelector((state: RootState) => state.auth);
+
   const handleAddBrandClick = () => {
-    router.push("/businesses/brands/create");
+    if (user?.accountId) {
+      router.push(`/businesses/accounts/${user.accountId}/create`);
+    } else {
+      console.error("No accountId found for the current user.");
+    }
   };
 
   const handleDownloadClick = (brandId: string, fileType: string) => {

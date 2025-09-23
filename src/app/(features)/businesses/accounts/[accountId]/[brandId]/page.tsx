@@ -13,13 +13,16 @@ export default function BusinessAccountBrandPage() {
     searchParams.get("tab") || "Business Details"
   );
   const [brand, setBrand] = useState<Brand | null>(null);
+  const isEditMode = params.brandId !== "create";
 
   // Fetch brand data based on brandId from URL
   useEffect(() => {
-    const brandId = params.brandId as string;
-    const foundBrand = brandsData.find((b) => b.brandId === brandId);
-    setBrand(foundBrand || null);
-  }, [params.brandId]);
+    if (isEditMode) {
+      const brandId = params.brandId as string;
+      const foundBrand = brandsData.find((b) => b.brandId === brandId);
+      setBrand(foundBrand || null);
+    }
+  }, [params.brandId, isEditMode]);
 
   // Update active tab when URL changes
   useEffect(() => {
@@ -30,7 +33,7 @@ export default function BusinessAccountBrandPage() {
   }, [searchParams]);
 
   // Show loading state while brand data is being fetched
-  if (!brand) {
+  if (!brand && isEditMode) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <p className="text-gray-500">Loading brand details...</p>
@@ -38,5 +41,5 @@ export default function BusinessAccountBrandPage() {
     );
   }
 
-  return <BrandTabContent activeTab={activeTab} brand={brand} />;
+  return <BrandTabContent activeTab={activeTab} brand={isEditMode ? brand : null} />;
 }
