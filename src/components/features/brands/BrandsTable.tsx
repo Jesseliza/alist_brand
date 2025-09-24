@@ -1,24 +1,27 @@
 "use client";
 
 import Checkbox from "@/components/general/CheckBox";
-import Image from "next/image";
-import Link from "next/link";
 import { Brand } from "@/types/entities";
-import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 
-export type { Brand };
+interface BrandsTableProps {
+  brands: Brand[];
+  checkedRows: Set<string>;
+  onCheckboxChange: (brandId: string) => void;
+}
 
-export default function BrandsTable({ brands }: { brands: Brand[] }) {
-  const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
-
-  const handleCheckboxChange = (brandId: string) => {
-    const newCheckedRows = new Set(checkedRows);
-    if (newCheckedRows.has(brandId)) {
-      newCheckedRows.delete(brandId);
-    } else {
-      newCheckedRows.add(brandId);
-    }
-    setCheckedRows(newCheckedRows);
+export default function BrandsTable({
+  brands,
+  checkedRows,
+  onCheckboxChange,
+}: BrandsTableProps) {
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
   };
 
   return (
@@ -30,79 +33,55 @@ export default function BrandsTable({ brands }: { brands: Brand[] }) {
               scope="col"
               className="px-4.75 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
-              Brand name
+              Brand
             </th>
             <th
               scope="col"
-              className="px-4 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
-            >
-              Owner
-            </th>
-            <th
-              scope="col"
-              className="px-4 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+              className="px-6 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
               Phone
             </th>
             <th
               scope="col"
-              className="px-4 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+              className="px-6 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
               Email
             </th>
             <th
               scope="col"
-              className="px-4 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+              className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
-              Industry
+              Campaigns
             </th>
             <th
               scope="col"
-              className="px-4 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+              className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
-              Offers
-            </th>
-            <th
-              scope="col"
-              className="px-4 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
-            >
-              Profile completion
-            </th>
-            <th
-              scope="col"
-              className="px-4 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
-            >
-              Files
+              Sign up date
             </th>
           </tr>
         </thead>
-
         <tbody className="bg-white">
           {brands.map((brand) => (
             <tr key={brand.brandId} className="odd:bg-[#F8F8F8]">
-              <td className="px-4.75 py-[8.5px] whitespace-nowrap">
+              <td className="px-4.75 py-2.5 whitespace-nowrap">
                 <div className="flex items-center">
                   <Checkbox
                     checked={checkedRows.has(brand.brandId)}
-                    onChange={() => handleCheckboxChange(brand.brandId)}
+                    onChange={() => onCheckboxChange(brand.brandId)}
                   />
-                  <Link
-                    href={`/businesses/accounts/${brand.accountId}/${brand.brandId}`}
-                  >
-                    <div className="flex items-center ml-3 cursor-pointer">
-                      <div className="h-[33px] w-[33px] rounded-full overflow-hidden relative flex-shrink-0">
-                        <Image
-                          src={brand.logo}
-                          alt={brand.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
+                  <Link href={`/businesses/brands/${brand.brandId}`}>
+                    <div className="ml-3 flex items-center cursor-pointer">
+                      <Image
+                        src={brand.logo || '/images/default-brand.png'}
+                        alt={brand.name}
+                        width={33}
+                        height={33}
+                        className="rounded-full"
+                      />
                       <span
-                        className={`ml-3 text-[#4F4F4F] ${
-                          checkedRows.has(brand.brandId)
-                            ? "font-semibold"
-                            : "font-medium"
+                        className={`ml-4 text-[#4F4F4F] ${
+                          checkedRows.has(brand.brandId) ? "font-semibold" : ""
                         }`}
                       >
                         {brand.name}
@@ -111,42 +90,17 @@ export default function BrandsTable({ brands }: { brands: Brand[] }) {
                   </Link>
                 </div>
               </td>
-              <td className="px-4 py-[8.5px] whitespace-nowrap text-[#4F4F4F]">
-                {`${brand.associateFirstName} ${brand.associateLastName}`}
-              </td>
-              <td className="px-4 py-[8.5px] whitespace-nowrap text-[#4F4F4F]">
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                 {brand.phoneNumber}
               </td>
-              <td className="px-4 py-[8.5px] whitespace-nowrap text-[#4F4F4F] truncate text-ellipsis max-w-[200px]">
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                 {brand.emailAddress}
               </td>
-              <td className="px-4 py-[8.5px] whitespace-nowrap text-[#4F4F4F] truncate text-ellipsis max-w-[170px]">
-                {brand.industry}
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
+                {brand.campaignsCount}
               </td>
-              <td className="px-4 py-[8.5px] whitespace-nowrap text-center text-[#4F4F4F]">
-                {brand.offersCount}
-              </td>
-              <td className="px-4 py-[8.5px] whitespace-nowrap text-center text-[#4F4F4F]">
-                <div className="flex items-center justify-center gap-2.5">
-                  <p className="w-[38px] ">{brand.profileCompletion}%</p>
-                  <div className="bg-[#D6D6D6] rounded-full h-4 flex-1 relative overflow-hidden">
-                    <div
-                      className="bg-[#00A4B6] h-full rounded-full transition-all duration-300"
-                      style={{ width: `${brand.profileCompletion}%` }}
-                    ></div>
-                  </div>
-                </div>
-              </td>
-              <td className="px-4 py-[8.5px] whitespace-nowrap text-center text-[#4F4F4F]">
-                <button className="bg-[#636363] text-white flex items-center justify-center gap-2.5 px-4 py-1.5 rounded-full text-[13px]">
-                  <Image
-                    src="/icons/general/upload-1.svg"
-                    alt="download"
-                    width={13.15}
-                    height={16.99}
-                  />
-                  <span className="ml-1">Upload</span>
-                </button>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
+                {brand.registrationDate ? formatDate(brand.registrationDate) : 'N/A'}
               </td>
             </tr>
           ))}

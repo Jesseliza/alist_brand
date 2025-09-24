@@ -1,85 +1,139 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects';
-import { fetchData, deleteData } from '@/services/commonService';
+import toast from 'react-hot-toast';
+import { postData } from '@/services/commonService';
 import {
   fetchBrandsRequest,
   fetchBrandsSuccess,
   fetchBrandsFailure,
-  deleteBrandRequest,
-  deleteBrandSuccess,
-  deleteBrandFailure,
+  fetchMoreBrandsRequest,
+  fetchMoreBrandsSuccess,
+  fetchMoreBrandsFailure,
 } from './brandSlice';
 import { Brand } from '@/types/entities';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const transformApiVenueToBrand = (venue: any): Brand => {
-  return {
-    brandId: venue.id.toString(),
-    name: venue.venue_title,
-    accountId: venue.accountId || 'N/A',
-    logo: venue.logo || '',
-    phoneNumber: venue.phoneNumber || '',
-    emailAddress: venue.emailAddress || '',
-    industry: venue.industry || 'N/A',
-    companyName: venue.companyName || '',
-    businessLocation: venue.businessLocation || '',
-    tradeLicenseCopy: venue.tradeLicenseCopy || '',
-    vatCertificate: venue.vatCertificate || '',
-    instagramHandle: venue.instagramHandle || '',
-    websiteUrl: venue.venue_url || '',
-    associateFirstName: venue.associateFirstName || '',
-    associateLastName: venue.associateLastName || '',
-    associateEmail: venue.associateEmail || '',
-    associatePhone: venue.associatePhone || '',
-    associateInitials: venue.associateInitials || '',
-    associateBackground: venue.associateBackground || '#CCCCCC',
-    offersCount: venue.offersCount || 0,
-    campaignsCount: venue.campaignsCount || 0,
-    profileCompletion: venue.profileCompletion || 0,
-    country: venue.country || '',
-    state: venue.state || '',
-    associateName: venue.associateName || '',
-    registrationDate: venue.registrationDate || '',
+interface ApiBrand {
+  id: number;
+  venue_title: string;
+  venue_url: string;
+  venue_whatsapp_no: string;
+  venue_email: string;
+  venue_banner: string;
+  created_at: string;
+}
+
+type ApiError = {
+  success: false;
+  response: string;
+};
+
+type FetchBrandsSuccessResponse = {
+  message: string;
+  venues: {
+    data: ApiBrand[];
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
   };
 };
 
 function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
   try {
-    const { search } = action.payload;
-    const endpoint = search ? `/api/list/venues?search=${search}` : '/api/list/venues';
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response: { message: string, venues: any[] } = yield call(fetchData, endpoint);
-    if (response && response.venues) {
-      const transformedBrands: Brand[] = response.venues.map(transformApiVenueToBrand);
-      yield put(fetchBrandsSuccess(transformedBrands));
+    const { page, ...bodyPayload } = action.payload;
+    let endpoint = '/api/list/brands';
+    if (page) {
+      endpoint = `${endpoint}?page=${page}`;
+    }
+
+    const response: FetchBrandsSuccessResponse | ApiError = yield call(postData, endpoint, bodyPayload);
+
+    if ('venues' in response && response.venues) {
+      const { data, current_page, last_page, per_page, total } = response.venues;
+
+      const feBrands: Brand[] = data.map((apiBrand: ApiBrand) => ({
+        brandId: apiBrand.id.toString(),
+        name: apiBrand.venue_title,
+        logo: apiBrand.venue_banner,
+        websiteUrl: apiBrand.venue_url,
+        phoneNumber: apiBrand.venue_whatsapp_no,
+        emailAddress: apiBrand.venue_email,
+        registrationDate: apiBrand.created_at,
+        campaignsCount: 0, // This should be updated with actual data if available
+      }));
+
+      yield put(fetchBrandsSuccess({
+        brands: feBrands,
+        pagination: {
+          currentPage: current_page,
+          lastPage: last_page,
+          perPage: per_page,
+          total: total,
+        },
+      }));
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const errorMessage = (response as any).response || 'Failed to fetch brands: Invalid API response structure';
+      const errorResponse = response as ApiError;
+      const errorMessage = errorResponse.response || 'Failed to fetch brands';
       yield put(fetchBrandsFailure(errorMessage));
+      toast.error(errorMessage);
     }
   } catch (error) {
     const err = error as Error;
-    yield put(fetchBrandsFailure(err.message || 'An unknown error occurred'));
+    const errorMessage = err.message || 'An unknown error occurred';
+    yield put(fetchBrandsFailure(errorMessage));
+    toast.error(errorMessage);
   }
 }
 
-function* handleDeleteBrand(action: ReturnType<typeof deleteBrandRequest>) {
+function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest>) {
   try {
-    const { brandId } = action.payload;
-    const response: { success: boolean, response: string } = yield call(deleteData, `/api/list/venues/${brandId}`);
-    if (response.success) {
-      yield put(deleteBrandSuccess({ brandId }));
+    const { page, ...bodyPayload } = action.payload;
+    let endpoint = '/api/list/brands';
+    if (page) {
+      endpoint = `${endpoint}?page=${page}`;
+    }
+
+    const response: FetchBrandsSuccessResponse | ApiError = yield call(postData, endpoint, bodyPayload);
+
+    if ('venues' in response && response.venues) {
+      const { data, current_page, last_page, per_page, total } = response.venues;
+
+      const feBrands: Brand[] = data.map((apiBrand: ApiBrand) => ({
+        brandId: apiBrand.id.toString(),
+        name: apiBrand.venue_title,
+        logo: apiBrand.venue_banner,
+        websiteUrl: apiBrand.venue_url,
+        phoneNumber: apiBrand.venue_whatsapp_no,
+        emailAddress: apiBrand.venue_email,
+        registrationDate: apiBrand.created_at,
+        campaignsCount: 0, // This should be updated with actual data if available
+      }));
+
+      yield put(fetchMoreBrandsSuccess({
+        brands: feBrands,
+        pagination: {
+          currentPage: current_page,
+          lastPage: last_page,
+          perPage: per_page,
+          total: total,
+        },
+      }));
     } else {
-      yield put(deleteBrandFailure(response.response || 'Failed to delete brand'));
+      const errorResponse = response as ApiError;
+      const errorMessage = errorResponse.response || 'Failed to fetch more brands';
+      yield put(fetchMoreBrandsFailure(errorMessage));
+      toast.error(errorMessage);
     }
   } catch (error) {
     const err = error as Error;
-    yield put(deleteBrandFailure(err.message || 'An unknown error occurred'));
+    const errorMessage = err.message || 'An unknown error occurred';
+    yield put(fetchMoreBrandsFailure(errorMessage));
+    toast.error(errorMessage);
   }
 }
 
 function* watchBrand() {
   yield takeLatest(fetchBrandsRequest.type, handleFetchBrands);
-  yield takeLatest(deleteBrandRequest.type, handleDeleteBrand);
+  yield takeLatest(fetchMoreBrandsRequest.type, handleFetchMoreBrands);
 }
 
 export default function* brandSaga() {
