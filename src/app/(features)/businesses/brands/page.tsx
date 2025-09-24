@@ -31,13 +31,13 @@ export default function BrandsPage() {
     const fetchBrands = async () => {
       setLoading(true);
       try {
-        const response: any = await fetchData(`/api/list/venues?search=${search}`);
+        const response = await fetchData(`/api/list/venues?search=${search}`);
         if (response && response.venues) {
           setBrands(response.venues.map(transformApiVenueToBrand));
         } else {
           setError("Failed to fetch brands.");
         }
-      } catch (e) {
+      } catch {
         setError("Failed to fetch brand data.");
       } finally {
         setLoading(false);

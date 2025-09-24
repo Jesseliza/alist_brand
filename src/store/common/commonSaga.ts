@@ -16,12 +16,22 @@ import {
 } from "./commonSlice";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { Option } from "@/types/common";
+import {
+  CountryApiResponse,
+  StateApiResponse,
+  IndustryApiResponse,
+  AccountApiResponse,
+  Country,
+  State,
+  Industry,
+  Account,
+} from "@/types/api";
 
 function* fetchCountriesSaga() {
   try {
-    const response: any = yield call(fetchData, "/api/countries");
+    const response: CountryApiResponse = yield call(fetchData, "/api/countries");
     if (response && response.accounts) {
-      const formattedData: Option[] = response.accounts.map((country: any) => ({
+      const formattedData: Option[] = response.accounts.map((country: Country) => ({
         value: country.id.toString(),
         label: country.country_name,
       }));
@@ -29,34 +39,33 @@ function* fetchCountriesSaga() {
     } else {
       yield put(fetchCountriesFailure(response.message || "Failed to fetch countries"));
     }
-  } catch (error: any) {
-    yield put(fetchCountriesFailure(error.message));
+  } catch (error) {
+    yield put(fetchCountriesFailure((error as Error).message));
   }
 }
 
 function* fetchStatesSaga(action: PayloadAction<string>) {
   try {
-    const response: any = yield call(postData, "/api/states", { country_id: action.payload });
+    const response: StateApiResponse = yield call(postData, "/api/states", { country_id: action.payload });
     if (response && response.accounts) {
-      // Assuming states response has a similar structure
-      const formattedData: Option[] = response.accounts.map((state: any) => ({
+      const formattedData: Option[] = response.accounts.map((state: State) => ({
         value: state.id.toString(),
-        label: state.state_name, // Assuming the label key is state_name
+        label: state.state_name,
       }));
       yield put(fetchStatesSuccess(formattedData));
     } else {
       yield put(fetchStatesFailure(response.message || "Failed to fetch states"));
     }
-  } catch (error: any) {
-    yield put(fetchStatesFailure(error.message));
+  } catch (error) {
+    yield put(fetchStatesFailure((error as Error).message));
   }
 }
 
 function* fetchIndustriesSaga() {
   try {
-    const response: any = yield call(fetchData, "/api/categories");
+    const response: IndustryApiResponse = yield call(fetchData, "/api/categories");
     if (response && response.accounts) {
-      const formattedData: Option[] = response.accounts.map((industry: any) => ({
+      const formattedData: Option[] = response.accounts.map((industry: Industry) => ({
         value: industry.id.toString(),
         label: industry.category,
       }));
@@ -64,8 +73,8 @@ function* fetchIndustriesSaga() {
     } else {
       yield put(fetchIndustriesFailure(response.message || "Failed to fetch industries"));
     }
-  } catch (error: any) {
-    yield put(fetchIndustriesFailure(error.message));
+  } catch (error) {
+    yield put(fetchIndustriesFailure((error as Error).message));
   }
 }
 
@@ -77,9 +86,9 @@ function* fetchAllAccountsSaga() {
       account_type: "individual",
       per_page: 20,
     };
-    const response: any = yield call(postData, "/api/all/accounts", payload);
+    const response: AccountApiResponse = yield call(postData, "/api/all/accounts", payload);
     if (response && response.accounts) {
-      const formattedData: Option[] = response.accounts.map((account: any) => ({
+      const formattedData: Option[] = response.accounts.map((account: Account) => ({
         value: account.id.toString(),
         label: `${account.first_name} ${account.last_name}`,
       }));
@@ -87,8 +96,8 @@ function* fetchAllAccountsSaga() {
     } else {
       yield put(fetchAllAccountsFailure(response.message || "Failed to fetch accounts"));
     }
-  } catch (error: any) {
-    yield put(fetchAllAccountsFailure(error.message));
+  } catch (error) {
+    yield put(fetchAllAccountsFailure((error as Error).message));
   }
 }
 

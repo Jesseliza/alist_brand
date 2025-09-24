@@ -55,6 +55,7 @@ const commonSlice = createSlice({
       state.error.countries = action.payload;
       state.loading.countries = false;
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     fetchStates: (state, action: PayloadAction<string>) => {
       state.loading.states = true;
       state.error.states = null;

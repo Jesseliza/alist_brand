@@ -24,13 +24,13 @@ export default function BrandPage() {
       const fetchBrand = async () => {
         setLoading(true);
         try {
-          const response: any = await fetchData(`/api/list/venues/${brandId}`);
+          const response = await fetchData(`/api/list/venues/${brandId}`);
           if (response && response.venue) {
             setBrand(transformApiVenueToBrand(response.venue));
           } else {
             setError("Brand not found.");
           }
-        } catch (e) {
+        } catch {
           setError("Failed to fetch brand data.");
         } finally {
           setLoading(false);

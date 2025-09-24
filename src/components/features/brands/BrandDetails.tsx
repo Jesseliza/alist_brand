@@ -82,7 +82,7 @@ export default function BrandDetails({
 }: BrandDetailsProps) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { countries, states, industries, allAccounts, loading, error } = useSelector(
+  const { countries, states, industries, allAccounts, loading } = useSelector(
     (state: RootState) => state.common
   );
 
