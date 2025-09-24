@@ -1,109 +1,105 @@
 "use client";
 
-import BrandsTable from "@/components/features/brands/BrandsTable";
-import BrandCard from "@/components/features/brands/BrandCard";
-import BrandCardMobile from "@/components/features/brands/BrandMobileCard";
-import Pagination from "@/components/general/Pagination";
-import { useState, useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
-import { Brand } from "@/types/entities";
-import { fetchData } from "@/services/commonService";
-import { transformApiVenueToBrand } from "@/utils/brandUtils";
-import Loader from "@/components/general/Loader";
-import TableCardsToggler from "@/components/general/TableCardsToggler";
-import SortDropdown from "@/components/general/dropdowns/SortDropdown";
+import { fetchBrandsRequest, fetchMoreBrandsRequest } from "@/store/brand/brandSlice";
+import { setSearchTerm } from "@/store/search/searchSlice";
+import { RootState } from "@/store/store";
+import BrandsTable from "@/components/features/brands/BrandsTable";
+import BrandMobileCard from "@/components/features/brands/BrandMobileCard";
+import Pagination from "@/components/general/Pagination";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
 import Image from "next/image";
-import Link from "next/link";
+import Loader from "@/components/general/Loader";
+import InlineLoader from "@/components/general/InlineLoader";
 
 export default function BrandsPage() {
   const router = useRouter();
-  const [brands, setBrands] = useState<Brand[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [view, setView] = useState<"table" | "cards">("table");
-  const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
+  const {
+    brands,
+    pagination,
+    loading,
+    error,
+  } = useSelector((state: RootState) => state.brand);
+
+  const { searchTerm } = useSelector((state: RootState) => state.search);
+  const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
+  const [mobilePage, setMobilePage] = useState(1);
+
+  const debouncedSearch = useDebounce(searchTerm, 500);
 
   useEffect(() => {
-    const fetchBrands = async () => {
-      setLoading(true);
-      try {
-        const response = await fetchData(`/api/list/venues?search=${search}`);
-        if (response && response.venues) {
-          setBrands(response.venues.map(transformApiVenueToBrand));
-        } else {
-          setError("Failed to fetch brands.");
-        }
-      } catch {
-        setError("Failed to fetch brand data.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBrands();
-  }, [search]);
+    dispatch(fetchBrandsRequest({ per_page: 10, page: 1 }));
+  }, [dispatch]);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentBrands = brands.slice(indexOfFirstItem, indexOfLastItem);
+  const isInitialSearchMount = useRef(true);
+  useEffect(() => {
+    if (isInitialSearchMount.current) {
+      isInitialSearchMount.current = false;
+      return;
+    }
+
+    setMobilePage(1);
+    dispatch(fetchBrandsRequest({
+      search: debouncedSearch,
+      per_page: 10,
+      page: 1
+    }));
+  }, [debouncedSearch, dispatch]);
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    dispatch(fetchBrandsRequest({
+      page,
+      search: searchTerm,
+      per_page: pagination.perPage
+    }));
   };
 
   const handleItemsPerPageChange = (items: number) => {
-    setItemsPerPage(items);
-    setCurrentPage(1);
-  };
-
-  const handleViewChange = (newView: "table" | "cards") => {
-    setView(newView);
-  };
-
-  const handleSortSelect = (value: string) => {
-    console.log("Sort selected:", value);
-    // Add your sort logic here
+    dispatch(fetchBrandsRequest({ search: searchTerm, per_page: items, page: 1 }));
   };
 
   const handleActionSelect = (value: string) => {
-    console.log("Action selected:", value);
-    // Add your action logic here
+    if (value === "update") {
+      if (checkedRows.size === 1) {
+        const brandId = checkedRows.values().next().value;
+        router.push(`/businesses/brands/${brandId}`);
+      }
+    }
   };
 
-  const handleAddBrandClick = () => {
-    router.push("/businesses/brands/create");
+  const handleCheckboxChange = (brandId: string) => {
+    setCheckedRows((prevCheckedRows) => {
+      const newCheckedRows = new Set(prevCheckedRows);
+      if (newCheckedRows.has(brandId)) {
+        newCheckedRows.delete(brandId);
+      } else {
+        newCheckedRows.add(brandId);
+      }
+      return newCheckedRows;
+    });
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+  const handleSeeMore = () => {
+    const nextPage = mobilePage + 1;
+    dispatch(fetchMoreBrandsRequest({
+      page: nextPage,
+      search: searchTerm,
+      per_page: 10
+    }));
+    setMobilePage(nextPage);
   };
 
   return (
     <div>
-      <div className="py-[13px] bg-white hidden md:block relative">
-        <div
-          className="absolute inset-0 bg-white"
-          style={{ left: "-100vw", right: "-100vw" }}
-        />
-        <div className="max-w-[1428px] mx-auto flex items-center justify-between relative z-10">
-          <div className="text-[18px] leading-[27px] w-[147px]">
-            <SortDropdown onSelect={handleSortSelect} />
-          </div>
-          <div>
-            <TableCardsToggler
-              onViewChange={handleViewChange}
-              defaultView="table"
-            />
-          </div>
-        </div>
-      </div>
       <div className="md:hidden pt-4 flex items-center gap-[7px]">
         <SearchInputMobile
-          value={search}
-          onChange={handleSearchChange}
+          value={searchTerm}
+          onChange={(e) => dispatch(setSearchTerm(e.target.value))}
           placeholder="Search brand"
         />
         <div className="bg-white rounded-[11px] w-10 h-10  flex items-center justify-center aspect-square">
@@ -118,73 +114,61 @@ export default function BrandsPage() {
       <div className="py-5.5">
         <div className="max-w-[1428px] mx-auto">
           <div className="hidden md:flex justify-end items-center mb-5.5 space-x-4">
-            <button
-              onClick={handleAddBrandClick}
-              className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
-            >
-              Add Brand
-            </button>
             <div className="w-auto">
-              <ActionDropdown onSelect={handleActionSelect} />
+              <ActionDropdown
+                onSelect={handleActionSelect}
+                showUpdate={checkedRows.size === 1}
+                disabled={checkedRows.size === 0}
+              />
             </div>
           </div>
-
           <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
-            <div className="relative">
-              <button
-                onClick={handleAddBrandClick}
-                className="bg-blue-500 text-white rounded-[11px] text-sm px-4 py-2"
-              >
-                Add Brand
-              </button>
-            </div>
             <div className="w-auto">
-              <ActionDropdown onSelect={handleActionSelect} />
+              <ActionDropdown
+                onSelect={handleActionSelect}
+                showUpdate={checkedRows.size === 1}
+                disabled={checkedRows.size === 0}
+              />
             </div>
           </div>
-
-          {loading ? (
-            <Loader />
-          ) : error ? (
-            <p className="text-red-500">{error}</p>
-          ) : (
+          {loading && <Loader />}
+          {error && <p className="text-red-500">Error: {error}</p>}
+          {!loading && !error && (
             <>
               <div className="md:hidden space-y-[7px]">
                 {brands.map((brand) => (
-                  <Link
+                  <BrandMobileCard
                     key={brand.brandId}
-                    href={`/businesses/brands/${brand.brandId}`}
-                  >
-                    <BrandCardMobile brand={brand} />
-                  </Link>
+                    brand={brand}
+                    checked={checkedRows.has(brand.brandId)}
+                    onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
+                  />
                 ))}
+                {brands.length < pagination.total && (
+                  <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
+                    <button
+                      onClick={handleSeeMore}
+                      disabled={loading}
+                      className="disabled:text-gray-400"
+                    >
+                      {loading ? <InlineLoader /> : 'See More'}
+                    </button>
+                  </div>
+                )}
               </div>
               <div className="hidden md:block">
-                {view === "table" ? (
-                  <>
-                    <BrandsTable brands={currentBrands} />
-                    <Pagination
-                      totalItems={brands.length}
-                      itemsPerPage={itemsPerPage}
-                      currentPage={currentPage}
-                      onPageChange={handlePageChange}
-                      onItemsPerPageChange={handleItemsPerPageChange}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <div className="grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center mb-8">
-                      {brands.map((brand) => (
-                        <Link
-                          key={brand.brandId}
-                          href={`/businesses/brands/${brand.brandId}`}
-                        >
-                          <BrandCard brand={brand} />
-                        </Link>
-                      ))}
-                    </div>
-                  </>
-                )}
+                <BrandsTable
+                  brands={brands}
+                  checkedRows={checkedRows}
+                  onCheckboxChange={handleCheckboxChange}
+                />
+                <Pagination
+                  totalItems={pagination.total}
+                  itemsPerPage={pagination.perPage}
+                  currentPage={pagination.currentPage}
+                  onPageChange={handlePageChange}
+                  onItemsPerPageChange={handleItemsPerPageChange}
+                />
               </div>
             </>
           )}
