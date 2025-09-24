@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Brand } from "@/types/entities";
 import SearchableDropdown from "@/components/general/dropdowns/SearchableDropdown";
@@ -15,6 +16,7 @@ interface BrandDetailsProps {
   onFileChange: (field: keyof Brand, file: File) => void;
   onSave: () => void;
   isSaving: boolean;
+  isCreateMode: boolean;
 }
 
 interface IconProps {
@@ -76,7 +78,9 @@ export default function BrandDetails({
   onFileChange,
   onSave,
   isSaving,
+  isCreateMode,
 }: BrandDetailsProps) {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { countries, states, industries, loading, error } = useSelector(
     (state: RootState) => state.common
@@ -315,13 +319,20 @@ export default function BrandDetails({
               </div>
             </div>
           </div>
-          <div className="flex justify-end mt-4 px-4 pb-6">
+          <div className="flex justify-end gap-4 mt-4 px-4 pb-6">
+            <button
+              type="button"
+              onClick={() => router.back()}
+              className="px-6 py-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            >
+              Cancel
+            </button>
             <button
               onClick={onSave}
               disabled={isSaving}
               className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
             >
-              {isSaving ? "Saving..." : "Save Changes"}
+              {isSaving ? "Saving..." : isCreateMode ? "Save" : "Save Changes"}
             </button>
           </div>
         </div>

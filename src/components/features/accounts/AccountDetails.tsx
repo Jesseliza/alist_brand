@@ -53,9 +53,10 @@ const InputField = ({
 interface AccountDetailsProps {
   account: Partial<Account> | null;
   onSave: (account: Partial<Account>) => void;
+  isCreateMode: boolean;
 }
 
-export default function AccountDetails({ account, onSave }: AccountDetailsProps) {
+export default function AccountDetails({ account, onSave, isCreateMode }: AccountDetailsProps) {
   const [formData, setFormData] = useState<Partial<Account>>(
     account || {
       firstName: "",
@@ -199,7 +200,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
             initialSelectedBrands={formData.brands || []}
             onChange={handleBrandChange}
           />
-          <div className="flex justify-end gap-4 mt-6 flex-shrink-0 mb-4 md:mb-0">
+          <div className="flex justify-end gap-4 mt-6 px-4 pb-6">
             <button
               type="button"
               onClick={() => router.back()}
@@ -211,7 +212,7 @@ export default function AccountDetails({ account, onSave }: AccountDetailsProps)
               type="submit"
               className="px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              Save Account
+              {isCreateMode ? "Save" : "Save Changes"}
             </button>
           </div>
         </div>

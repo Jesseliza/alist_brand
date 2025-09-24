@@ -95,6 +95,7 @@ export default function BrandPage() {
             isEditMode: true,
             onSave: handleSave,
             isSaving: isSaving,
+            isCreateMode: isCreateMode,
           }}
         />
       </div>

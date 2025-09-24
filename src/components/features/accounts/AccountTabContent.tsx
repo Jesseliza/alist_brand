@@ -7,17 +7,19 @@ import { Account } from "@/types/entities";
 interface AccountTabContentProps extends TabContentProps {
   account: Partial<Account> | null;
   onSave: (account: Partial<Account>) => void;
+  isCreateMode: boolean;
 }
 
 export default function AccountTabContent({
   activeTab,
   account,
   onSave,
+  isCreateMode,
 }: AccountTabContentProps) {
   const renderContent = () => {
     switch (activeTab) {
       case "Details":
-        return <AccountDetails account={account} onSave={onSave} />;
+        return <AccountDetails account={account} onSave={onSave} isCreateMode={isCreateMode} />;
       case "Brands":
         return (
           <div className="max-w-[1428px] mx-auto flex justify-between pt-10 text-[#4F4F4F]">
