@@ -5,15 +5,18 @@ interface CommonState {
   countries: Option[];
   states: Option[];
   industries: Option[];
+  allAccounts: Option[];
   loading: {
     countries: boolean;
     states: boolean;
     industries: boolean;
+    allAccounts: boolean;
   };
   error: {
     countries: string | null;
     states: string | null;
     industries: string | null;
+    allAccounts: string | null;
   };
 }
 
@@ -21,15 +24,18 @@ const initialState: CommonState = {
   countries: [],
   states: [],
   industries: [],
+  allAccounts: [],
   loading: {
     countries: false,
     states: false,
     industries: false,
+    allAccounts: false,
   },
   error: {
     countries: null,
     states: null,
     industries: null,
+    allAccounts: null,
   },
 };
 
@@ -73,6 +79,18 @@ const commonSlice = createSlice({
       state.error.industries = action.payload;
       state.loading.industries = false;
     },
+    fetchAllAccounts: (state) => {
+      state.loading.allAccounts = true;
+      state.error.allAccounts = null;
+    },
+    fetchAllAccountsSuccess: (state, action: PayloadAction<Option[]>) => {
+      state.allAccounts = action.payload;
+      state.loading.allAccounts = false;
+    },
+    fetchAllAccountsFailure: (state, action: PayloadAction<string>) => {
+      state.error.allAccounts = action.payload;
+      state.loading.allAccounts = false;
+    },
   },
 });
 
@@ -86,6 +104,9 @@ export const {
   fetchIndustries,
   fetchIndustriesSuccess,
   fetchIndustriesFailure,
+  fetchAllAccounts,
+  fetchAllAccountsSuccess,
+  fetchAllAccountsFailure,
 } = commonSlice.actions;
 
 export default commonSlice.reducer;

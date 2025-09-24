@@ -10,6 +10,9 @@ import {
   fetchIndustries,
   fetchIndustriesSuccess,
   fetchIndustriesFailure,
+  fetchAllAccounts,
+  fetchAllAccountsSuccess,
+  fetchAllAccountsFailure,
 } from "./commonSlice";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { Option } from "@/types/common";
@@ -66,10 +69,28 @@ function* fetchIndustriesSaga() {
   }
 }
 
+function* fetchAllAccountsSaga() {
+  try {
+    const response: any = yield call(fetchData, "/api/all/accounts");
+    if (response && response.accounts) {
+      const formattedData: Option[] = response.accounts.map((account: any) => ({
+        value: account.id.toString(),
+        label: `${account.first_name} ${account.last_name}`,
+      }));
+      yield put(fetchAllAccountsSuccess(formattedData));
+    } else {
+      yield put(fetchAllAccountsFailure(response.message || "Failed to fetch accounts"));
+    }
+  } catch (error: any) {
+    yield put(fetchAllAccountsFailure(error.message));
+  }
+}
+
 function* commonSaga() {
   yield takeLatest(fetchCountries.type, fetchCountriesSaga);
   yield takeLatest(fetchStates.type, fetchStatesSaga);
   yield takeLatest(fetchIndustries.type, fetchIndustriesSaga);
+  yield takeLatest(fetchAllAccounts.type, fetchAllAccountsSaga);
 }
 
 export default commonSaga;

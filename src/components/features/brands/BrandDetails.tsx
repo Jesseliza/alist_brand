@@ -7,7 +7,7 @@ import SearchableDropdown from "@/components/general/dropdowns/SearchableDropdow
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { fetchCountries, fetchIndustries, fetchStates } from "@/store/common/commonSlice";
+import { fetchAllAccounts, fetchCountries, fetchIndustries, fetchStates } from "@/store/common/commonSlice";
 
 interface BrandDetailsProps {
   brand: Partial<Brand>;
@@ -82,13 +82,14 @@ export default function BrandDetails({
 }: BrandDetailsProps) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { countries, states, industries, loading, error } = useSelector(
+  const { countries, states, industries, allAccounts, loading, error } = useSelector(
     (state: RootState) => state.common
   );
 
   useEffect(() => {
     dispatch(fetchCountries());
     dispatch(fetchIndustries());
+    dispatch(fetchAllAccounts());
   }, [dispatch]);
 
   useEffect(() => {
@@ -111,6 +112,21 @@ export default function BrandDetails({
                 Business Details
               </h3>
               <div className="px-4 ">
+                <div className="mb-5 md:mb-7">
+                  <label
+                    htmlFor="account"
+                    className="block text-[#4F4F4F] mb-2.5 truncate"
+                  >
+                    Account
+                  </label>
+                  <SearchableDropdown
+                    options={allAccounts}
+                    selectedValue={brand.accountId || ""}
+                    onValueChange={(value) => onFieldChange("accountId", value)}
+                    placeholder="Select an account"
+                    disabled={loading.allAccounts}
+                  />
+                </div>
                 <div className="mb-5 md:mb-7">
                   <InputField
                     label="Business name"
