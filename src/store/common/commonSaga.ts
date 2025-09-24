@@ -71,7 +71,13 @@ function* fetchIndustriesSaga() {
 
 function* fetchAllAccountsSaga() {
   try {
-    const response: any = yield call(fetchData, "/api/all/accounts");
+    const payload = {
+      search: "",
+      status: "active",
+      account_type: "individual",
+      per_page: 20,
+    };
+    const response: any = yield call(postData, "/api/all/accounts", payload);
     if (response && response.accounts) {
       const formattedData: Option[] = response.accounts.map((account: any) => ({
         value: account.id.toString(),
