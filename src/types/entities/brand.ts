@@ -9,6 +9,7 @@ export type Brand = {
   companyName: string; // Legal name on trade license
   country: string; // Country code
   state: string; // State or province
+  businessLocation: string; // Business location
   tradeLicenseCopy: string; // File reference (e.g. PDF)
   vatCertificate: string; // File reference (e.g. PDF)
   instagramHandle: string; // Social media username
