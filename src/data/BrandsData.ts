@@ -6,12 +6,10 @@ import { AccountsData } from "./AccountsData";
 function populateAssociateInfo(
   brand: Omit<
     Brand,
-    | "associateName"
-    | "associateEmail"
-    | "associatePhone"
-    | "offersCount"
-    | "campaignsCount"
-    | "profileCompletion"
+    | "associateFirstName"
+    | "associateLastName"
+    | "associateInitials"
+    | "associateBackground"
   >
 ): Brand {
   const account = AccountsData.find((acc) => acc.accountId === brand.accountId);
@@ -20,24 +18,20 @@ function populateAssociateInfo(
     // Fallback if account not found
     return {
       ...brand,
-      associateName: "Unknown",
-      associateEmail: "unknown@account.com",
-      associatePhone: "+971-50-000-0000",
-      offersCount: 0,
-      campaignsCount: 0,
-      profileCompletion: 0,
-    };
+      associateFirstName: "Unknown",
+      associateLastName: "Account",
+      associateInitials: "UA",
+      associateBackground: "#6c757d",
+    } as Brand;
   }
 
   return {
     ...brand,
-    associateName: account.firstName,
-    associateEmail: account.emailAddress,
-    associatePhone: account.phoneNumber,
-    offersCount: 0,
-    campaignsCount: 0,
-    profileCompletion: 0,
-  };
+    associateFirstName: account.firstName,
+    associateLastName: account.lastName,
+    associateInitials: account.avatarInitials,
+    associateBackground: account.avatarBackground,
+  } as Brand;
 }
 // import onethousand from "@/assets/images/brands/1847-4.png";
 //

@@ -35,6 +35,10 @@ const transformApiVenueToBrand = (venue: any): Brand => {
     offersCount: venue.offersCount || 0,
     campaignsCount: venue.campaignsCount || 0,
     profileCompletion: venue.profileCompletion || 0,
+    country: venue.country || '',
+    state: venue.state || '',
+    associateName: venue.associateName || '',
+    registrationDate: venue.registrationDate || '',
   };
 };
 
