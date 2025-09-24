@@ -29,7 +29,7 @@ export default function BrandSearchCombobox({
         const fetchBrands = async () => {
           setLoading(true);
           try {
-            const response: any = await fetchData(`/api/list/venues?search=${query}`);
+            const response = await fetchData(`/api/list/venues?search=${query}`);
             if (response && response.venues) {
               setFilteredBrands(response.venues.map(transformApiVenueToBrand));
             }
