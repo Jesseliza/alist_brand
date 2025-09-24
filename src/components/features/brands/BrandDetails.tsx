@@ -113,21 +113,6 @@ export default function BrandDetails({
               </h3>
               <div className="px-4 ">
                 <div className="mb-5 md:mb-7">
-                  <label
-                    htmlFor="account"
-                    className="block text-[#4F4F4F] mb-2.5 truncate"
-                  >
-                    Account
-                  </label>
-                  <SearchableDropdown
-                    options={allAccounts}
-                    selectedValue={brand.accountId || ""}
-                    onValueChange={(value) => onFieldChange("accountId", value)}
-                    placeholder="Select an account"
-                    disabled={loading.allAccounts}
-                  />
-                </div>
-                <div className="mb-5 md:mb-7">
                   <InputField
                     label="Business name"
                     value={brand.name || ""}
@@ -155,6 +140,21 @@ export default function BrandDetails({
                       height: 16.26,
                       alt: "copy",
                     }}
+                  />
+                </div>
+                <div className="mb-5 md:mb-7">
+                  <label
+                    htmlFor="account"
+                    className="block text-[#4F4F4F] mb-2.5 truncate"
+                  >
+                    Account
+                  </label>
+                  <SearchableDropdown
+                    options={allAccounts}
+                    selectedValue={brand.accountId || ""}
+                    onValueChange={(value) => onFieldChange("accountId", value)}
+                    placeholder="Select an account"
+                    disabled={loading.allAccounts}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-5 mb-5 md:mb-7">
