@@ -2,6 +2,7 @@ export type Brand = {
   brandId: string;
   accountId: string; // FK to Account
   name: string; // Display name (e.g. "Dunkin'")
+  owner: string; // Owner of the brand
   logo: string; // Brand image URL
   phoneNumber: string; // Main contact number
   emailAddress: string; // Contact email
@@ -25,4 +26,5 @@ export type Brand = {
   offersCount: number; // (Derived) Number of "offers" or activities scheduled under Brand
   campaignsCount: number; // (Derived) Number of Campaigns this Brand runs
   profileCompletion: number; // (Derived) How complete the Brand's profile is for the UI
+  files: number; // Number of files associated with the brand
 };

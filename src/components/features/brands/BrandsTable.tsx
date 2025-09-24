@@ -39,6 +39,12 @@ export default function BrandsTable({
               scope="col"
               className="px-6 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
+              Owner
+            </th>
+            <th
+              scope="col"
+              className="px-6 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+            >
               Phone
             </th>
             <th
@@ -49,15 +55,27 @@ export default function BrandsTable({
             </th>
             <th
               scope="col"
-              className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+              className="px-6 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
-              Campaigns
+              Industry
             </th>
             <th
               scope="col"
               className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
-              Sign up date
+              Offers
+            </th>
+            <th
+              scope="col"
+              className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+            >
+              Profile completion
+            </th>
+            <th
+              scope="col"
+              className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+            >
+              Files
             </th>
           </tr>
         </thead>
@@ -91,16 +109,25 @@ export default function BrandsTable({
                 </div>
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
+                {brand.owner}
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                 {brand.phoneNumber}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                 {brand.emailAddress}
               </td>
-              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
-                {brand.campaignsCount}
-              </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                {brand.registrationDate ? formatDate(brand.registrationDate) : 'N/A'}
+                {brand.industry}
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
+                {brand.offersCount}
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
+                {brand.profileCompletion}%
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
+                {brand.files}
               </td>
             </tr>
           ))}

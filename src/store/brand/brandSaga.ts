@@ -19,6 +19,12 @@ interface ApiBrand {
   venue_email: string;
   venue_banner: string;
   created_at: string;
+  // Assuming the following fields are available in the API response
+  owner?: string;
+  industry?: string;
+  offers_count?: number;
+  profile_completion?: number;
+  files_count?: number;
 }
 
 type ApiError = {
@@ -53,12 +59,33 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
       const feBrands: Brand[] = data.map((apiBrand: ApiBrand) => ({
         brandId: apiBrand.id.toString(),
         name: apiBrand.venue_title,
+        owner: apiBrand.owner || 'N/A',
         logo: apiBrand.venue_banner,
         websiteUrl: apiBrand.venue_url,
         phoneNumber: apiBrand.venue_whatsapp_no,
         emailAddress: apiBrand.venue_email,
+        industry: apiBrand.industry || 'N/A',
         registrationDate: apiBrand.created_at,
+        offersCount: apiBrand.offers_count || 0,
         campaignsCount: 0, // This should be updated with actual data if available
+        profileCompletion: apiBrand.profile_completion || 0,
+        files: apiBrand.files_count || 0,
+        // Defaulting other required fields
+        accountId: 'N/A',
+        companyName: 'N/A',
+        country: 'N/A',
+        state: 'N/A',
+        businessLocation: 'N/A',
+        tradeLicenseCopy: '',
+        vatCertificate: '',
+        instagramHandle: '',
+        associateName: '',
+        associateEmail: '',
+        associatePhone: '',
+        associateFirstName: '',
+        associateLastName: '',
+        associateInitials: '',
+        associateBackground: '',
       }));
 
       yield put(fetchBrandsSuccess({
@@ -100,12 +127,33 @@ function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest
       const feBrands: Brand[] = data.map((apiBrand: ApiBrand) => ({
         brandId: apiBrand.id.toString(),
         name: apiBrand.venue_title,
+        owner: apiBrand.owner || 'N/A',
         logo: apiBrand.venue_banner,
         websiteUrl: apiBrand.venue_url,
         phoneNumber: apiBrand.venue_whatsapp_no,
         emailAddress: apiBrand.venue_email,
+        industry: apiBrand.industry || 'N/A',
         registrationDate: apiBrand.created_at,
+        offersCount: apiBrand.offers_count || 0,
         campaignsCount: 0, // This should be updated with actual data if available
+        profileCompletion: apiBrand.profile_completion || 0,
+        files: apiBrand.files_count || 0,
+        // Defaulting other required fields
+        accountId: 'N/A',
+        companyName: 'N/A',
+        country: 'N/A',
+        state: 'N/A',
+        businessLocation: 'N/A',
+        tradeLicenseCopy: '',
+        vatCertificate: '',
+        instagramHandle: '',
+        associateName: '',
+        associateEmail: '',
+        associatePhone: '',
+        associateFirstName: '',
+        associateLastName: '',
+        associateInitials: '',
+        associateBackground: '',
       }));
 
       yield put(fetchMoreBrandsSuccess({
