@@ -144,7 +144,7 @@ export default function BrandsPage() {
                     onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
                   />
                 ))}
-                {brands.length < pagination.total && (
+                {pagination && brands.length < pagination.total && (
                   <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
                     <button
                       onClick={handleSeeMore}
@@ -162,13 +162,15 @@ export default function BrandsPage() {
                   checkedRows={checkedRows}
                   onCheckboxChange={handleCheckboxChange}
                 />
-                <Pagination
-                  totalItems={pagination.total}
-                  itemsPerPage={pagination.perPage}
-                  currentPage={pagination.currentPage}
-                  onPageChange={handlePageChange}
-                  onItemsPerPageChange={handleItemsPerPageChange}
-                />
+                {pagination && (
+                  <Pagination
+                    totalItems={pagination.total}
+                    itemsPerPage={pagination.perPage}
+                    currentPage={pagination.currentPage}
+                    onPageChange={handlePageChange}
+                    onItemsPerPageChange={handleItemsPerPageChange}
+                  />
+                )}
               </div>
             </>
           )}
