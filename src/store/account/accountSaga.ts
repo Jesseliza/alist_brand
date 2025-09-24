@@ -1,4 +1,4 @@
-  import { call, put, takeLatest, all } from 'redux-saga/effects';
+import { call, put, takeLatest, all } from 'redux-saga/effects';
   import toast from 'react-hot-toast';
   import { postData, deleteData, fetchData } from '@/services/commonService';
   import { generateColorFromString } from '@/utils/colorGenerator';
@@ -55,6 +55,10 @@
       offersCount: venue.offersCount || 0,
       campaignsCount: venue.campaignsCount || 0,
       profileCompletion: venue.profileCompletion || 0,
+      country: venue.country || '',
+      state: venue.state || '',
+      associateName: venue.associateName || '',
+      registrationDate: venue.registrationDate || '',
     };
   };
 
