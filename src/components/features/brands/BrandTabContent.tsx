@@ -11,6 +11,7 @@ interface BrandTabContentProps extends TabContentProps {
     onFileChange: (field: keyof Brand, file: File) => void;
     onSave: () => void;
     isSaving: boolean;
+    isCreateMode: boolean;
   };
 }
 
@@ -32,6 +33,7 @@ export default function BrandTabContent({
             onFileChange={brand.onFileChange}
             onSave={brand.onSave}
             isSaving={brand.isSaving}
+            isCreateMode={brand.isCreateMode}
           />
         );
       case "Campaigns":

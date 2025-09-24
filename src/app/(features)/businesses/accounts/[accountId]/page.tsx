@@ -132,6 +132,7 @@ export default function AccountPage() {
           activeTab={activeTab}
           account={account}
           onSave={handleSave}
+          isCreateMode={isCreateMode}
         />
       </div>
     </div>
