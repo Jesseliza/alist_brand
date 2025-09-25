@@ -1,8 +1,25 @@
 // components/BrandCard.tsx
 import Image from "next/image";
+import Link from "next/link";
 import { Brand } from "@/types/entities";
+import Checkbox from "@/components/general/CheckBox";
 
-export default function BrandCard({ brand }: { brand: Brand }) {
+interface BrandCardProps {
+  brand: Brand;
+  checked: boolean;
+  onCheckboxChange: () => void;
+}
+
+export default function BrandCard({
+  brand,
+  checked,
+  onCheckboxChange,
+}: BrandCardProps) {
+  const handleWrapperClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
   const items = [
     {
       id: "industry",
@@ -30,16 +47,24 @@ export default function BrandCard({ brand }: { brand: Brand }) {
     },
   ];
   return (
-    <div className="bg-white rounded-[13px] px-[21px] pt-[19px] pb-[22px] max-w-[400px] mx-auto">
-      {/* Profile circle */}
-      <div className="w-[90px] h-[90px] mx-auto overflow-hidden bg-white rounded-full border-5 border-[#E1E1E1]">
-        <Image src={brand.logo} alt={brand.name} width={80} height={80} />
-      </div>
+    <Link href={`/businesses/brands/${brand.brandId}`} className="block cursor-pointer">
+      <div className="bg-white rounded-[13px] px-[21px] pt-[19px] pb-[22px] max-w-[400px] mx-auto relative">
+        <div onClick={handleWrapperClick} className="absolute top-2 right-2">
+          <Checkbox
+            checked={checked}
+            onChange={onCheckboxChange}
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+        {/* Profile circle */}
+        <div className="w-[90px] h-[90px] mx-auto overflow-hidden bg-white rounded-full border-5 border-[#E1E1E1]">
+          <Image src={brand.logo} alt={brand.name} width={80} height={80} />
+        </div>
 
-      {/* Brand name */}
-      <h2 className="mt-4 text-center text-[18px] font-medium text-[#4F4F4F]">
-        {brand.name}
-      </h2>
+        {/* Brand name */}
+        <h2 className="mt-4 text-center text-[18px] font-medium text-[#4F4F4F]">
+          {brand.name}
+        </h2>
 
       {/* Info items */}
       <div className="mt-5 grid grid-cols-3 gap-2.5">
@@ -77,5 +102,6 @@ export default function BrandCard({ brand }: { brand: Brand }) {
         </div>
       </div>
     </div>
+    </Link>
   );
 }
