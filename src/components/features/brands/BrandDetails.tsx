@@ -160,7 +160,7 @@ export default function BrandDetails({
                     selectedValue={brand.accountId || ""}
                     onValueChange={(value) => onFieldChange("accountId", value)}
                     placeholder="Select an account"
-                    disabled={loading.allAccounts}
+                    disabled={!isEditMode || loading.allAccounts}
                   />
                   {errors.accountId && <p className="text-red-500 text-xs mt-1">{errors.accountId}</p>}
                 </div>
@@ -180,7 +180,7 @@ export default function BrandDetails({
                         onFieldChange("state", ""); // Clear state when country changes
                       }}
                       placeholder="Select a country"
-                      disabled={loading.countries}
+                      disabled={!isEditMode || loading.countries}
                     />
                     {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
                   </div>
@@ -196,7 +196,7 @@ export default function BrandDetails({
                       selectedValue={brand.state || ""}
                       onValueChange={(value) => onFieldChange("state", value)}
                       placeholder="Select a state"
-                      disabled={!brand.country || loading.states}
+                      disabled={!isEditMode || !brand.country || loading.states}
                     />
                     {errors.state && <p className="text-red-500 text-xs mt-1">{errors.state}</p>}
                   </div>
@@ -213,7 +213,7 @@ export default function BrandDetails({
                     selectedValue={brand.industry || ""}
                     onValueChange={(value) => onFieldChange("industry", value)}
                     placeholder="Select an industry"
-                    disabled={loading.industries}
+                    disabled={!isEditMode || loading.industries}
                   />
                   {errors.industry && <p className="text-red-500 text-xs mt-1">{errors.industry}</p>}
                 </div>
