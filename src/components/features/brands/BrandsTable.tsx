@@ -4,6 +4,7 @@ import Checkbox from "@/components/general/CheckBox";
 import { Brand } from "@/types/entities";
 import { getDisplayName } from "@/utils/brandUtils";
 import { generateColorFromString } from "@/utils/colorGenerator";
+import { getInitials } from "@/utils/text";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -106,7 +107,7 @@ export default function BrandsTable({
                           style={{ backgroundColor: generateColorFromString(brand.name) }}
                         >
                           <span className="text-white text-sm font-medium">
-                            {brand.name.substring(0, 2).toUpperCase()}
+                            {getInitials(brand.name)}
                           </span>
                         </div>
                       )}

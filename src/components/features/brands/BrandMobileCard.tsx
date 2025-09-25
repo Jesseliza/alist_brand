@@ -4,6 +4,7 @@ import Checkbox from "@/components/general/CheckBox";
 import Image from "next/image";
 import { getDisplayName } from "@/utils/brandUtils";
 import { generateColorFromString } from "@/utils/colorGenerator";
+import { getInitials } from "@/utils/text";
 
 interface BrandMobileCardProps {
   brand: Brand;
@@ -49,7 +50,7 @@ export default function BrandMobileCard({
                 style={{ backgroundColor: generateColorFromString(brand.name) }}
               >
                 <span className="text-white text-xl font-semibold">
-                  {brand.name.substring(0, 2).toUpperCase()}
+                  {getInitials(brand.name)}
                 </span>
               </div>
             )}

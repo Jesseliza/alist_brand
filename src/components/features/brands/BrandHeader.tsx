@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import UnifiedTabs from "@/components/general/UnifiedTabs";
+import { getInitials } from "@/utils/text";
 const menuIcon = "/icons/common/menu-dots.svg";
 
 interface BrandHeaderProps {
@@ -56,7 +57,7 @@ export default function BrandHeader({
                 />
               ) : (
                 <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-white text-4xl font-bold">
-                  {name.substring(0, 2).toUpperCase()}
+                  {getInitials(name)}
                 </div>
               )}
             </div>
