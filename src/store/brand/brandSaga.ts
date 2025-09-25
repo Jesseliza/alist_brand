@@ -1,6 +1,6 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects';
 import toast from 'react-hot-toast';
-import { postData } from '@/services/commonService';
+import { postData, fetchData } from '@/services/commonService';
 import {
   fetchBrandsRequest,
   fetchBrandsSuccess,
