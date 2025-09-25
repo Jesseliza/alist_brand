@@ -95,6 +95,11 @@ const brandSlice = createSlice({
         state.brand = { ...state.brand, [action.payload.field]: action.payload.file };
       }
     },
+    initializeNewBrand: (state) => {
+      state.brand = {};
+      state.loading = false;
+      state.error = null;
+    },
   },
 });
 
@@ -114,6 +119,7 @@ export const {
   resetCreateStatus,
   updateBrandField,
   updateBrandFile,
+  initializeNewBrand,
 } = brandSlice.actions;
 
 export default brandSlice.reducer;
