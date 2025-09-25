@@ -144,8 +144,8 @@ export default function BrandsTable({
                   <Image
                     alt="download"
                     loading="lazy"
-                    width="13.15"
-                    height="16.99"
+                    width={13}
+                    height={17}
                     decoding="async"
                     data-nimg="1"
                     src="/icons/general/upload-1.svg"
