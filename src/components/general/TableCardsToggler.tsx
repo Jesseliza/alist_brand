@@ -1,42 +1,34 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
 
-type ViewType = "table" | "cards";
+type ViewType = "table" | "card";
 
 interface TableCardsTogglerProps {
-  onViewChange?: (view: ViewType) => void;
-  defaultView?: ViewType;
+  view: ViewType;
+  setView: (view: ViewType) => void;
 }
 
 export default function TableCardsToggler({
-  onViewChange,
-  defaultView = "table",
+  view,
+  setView,
 }: TableCardsTogglerProps) {
-  const [activeView, setActiveView] = useState<ViewType>(defaultView);
-
-  const handleViewChange = (view: ViewType) => {
-    setActiveView(view);
-    onViewChange?.(view);
-  };
-
-  const getButtonClasses = (view: ViewType) => {
-    const isActive = activeView === view;
+  const getButtonClasses = (buttonView: ViewType) => {
+    const isActive = view === buttonView;
     return `flex items-center gap-4 py-[9px] px-4 rounded-[11px] cursor-pointer transition-colors ${
-      isActive ? "bg-[#F3F3F3] text-[#4F4F4F]" : "text-[#838383]"
+      isActive ? "bg-gray-200 text-gray-800" : "text-gray-500"
     }`;
   };
 
   return (
-    <div className="flex items-center gap-2 text-[15px] leading-[23px]">
+    <div className="flex items-center gap-2 text-[15px] leading-[23px] bg-white p-1 rounded-lg">
       <div
         className={getButtonClasses("table")}
-        onClick={() => handleViewChange("table")}
+        onClick={() => setView("table")}
       >
         <span>
           <Image
             src={
-              activeView === "table"
+              view === "table"
                 ? "/icons/navbar/table-active-light.svg"
                 : "/icons/navbar/table-inactive-light.svg"
             }
@@ -48,13 +40,13 @@ export default function TableCardsToggler({
         <span>Table</span>
       </div>
       <div
-        className={getButtonClasses("cards")}
-        onClick={() => handleViewChange("cards")}
+        className={getButtonClasses("card")}
+        onClick={() => setView("card")}
       >
         <span>
           <Image
             src={
-              activeView === "cards"
+              view === "card"
                 ? "/icons/navbar/cards-active-light.svg"
                 : "/icons/navbar/cards-inactive-light.svg"
             }
