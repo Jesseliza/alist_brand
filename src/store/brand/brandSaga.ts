@@ -32,6 +32,7 @@ interface ApiBrand {
   offers_count?: number;
   profile_completion?: number;
   files_count?: number;
+  accounts?: { first_name: string; last_name: string }[];
 }
 
 type ApiError = {
@@ -66,7 +67,7 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
       const feBrands: Brand[] = data.map((apiBrand: ApiBrand) => ({
         brandId: apiBrand.id.toString(),
         name: apiBrand.venue_title,
-        owner: apiBrand.owner || 'N/A',
+        owner: apiBrand.accounts && apiBrand.accounts.length > 0 ? `${apiBrand.accounts[0].first_name} ${apiBrand.accounts[0].last_name}` : 'N/A',
         logo: apiBrand.venue_logo,
         websiteUrl: apiBrand.venue_url,
         phoneNumber: apiBrand.venue_whatsapp_no,
@@ -134,7 +135,7 @@ function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest
       const feBrands: Brand[] = data.map((apiBrand: ApiBrand) => ({
         brandId: apiBrand.id.toString(),
         name: apiBrand.venue_title,
-        owner: apiBrand.owner || 'N/A',
+        owner: apiBrand.accounts && apiBrand.accounts.length > 0 ? `${apiBrand.accounts[0].first_name} ${apiBrand.accounts[0].last_name}` : 'N/A',
         logo: apiBrand.venue_logo,
         websiteUrl: apiBrand.venue_url,
         phoneNumber: apiBrand.venue_whatsapp_no,

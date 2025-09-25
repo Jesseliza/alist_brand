@@ -233,6 +233,7 @@ export default function BrandDetails({
                         type="file"
                         id="tradeLicenseCopy"
                         name="tradeLicenseCopy"
+                        accept=".pdf"
                         disabled={!isEditMode}
                         onChange={(e) => e.target.files && onFileChange("tradeLicenseCopy", e.target.files[0])}
                         className="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
@@ -255,6 +256,7 @@ export default function BrandDetails({
                         type="file"
                         id="vatCertificate"
                         name="vatCertificate"
+                        accept=".pdf"
                         disabled={!isEditMode}
                         onChange={(e) => e.target.files && onFileChange("vatCertificate", e.target.files[0])}
                         className="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"

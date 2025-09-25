@@ -9,7 +9,7 @@ import BrandHeader from "@/components/features/brands/BrandHeader";
 import Loader from "@/components/general/Loader";
 import { fetchData } from "@/services/commonService";
 import { transformApiVenueToBrand } from "@/utils/brandUtils";
-import { createBrandRequest } from "@/store/brand/brandSlice";
+import { createBrandRequest, resetCreateStatus } from "@/store/brand/brandSlice";
 import { RootState } from "@/store/store";
 
 export default function BrandPage() {
@@ -51,8 +51,9 @@ export default function BrandPage() {
   useEffect(() => {
     if (createSuccess) {
       router.push("/businesses/brands");
+      dispatch(resetCreateStatus());
     }
-  }, [createSuccess, router]);
+  }, [createSuccess, router, dispatch]);
 
   const handleFieldChange = (field: keyof Brand, value: string) => {
     setBrand((prev) => ({ ...prev, [field]: value }));
