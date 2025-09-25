@@ -14,6 +14,8 @@ import {
   initializeNewBrand,
   updateBrandField,
   updateBrandFile,
+  updateBrandRequest,
+  resetUpdateStatus,
 } from "@/store/brand/brandSlice";
 import { RootState } from "@/store/store";
 import { fetchIndustries } from "@/store/common/commonSlice";
@@ -25,7 +27,7 @@ export default function BrandPage() {
   const { brandId } = params;
   const isCreateMode = brandId === "create";
 
-  const { brand, loading, createLoading, createSuccess, error } = useSelector(
+  const { brand, loading, createLoading, createSuccess, updateLoading, updateSuccess, error } = useSelector(
     (state: RootState) => state.brand
   );
 
@@ -45,7 +47,11 @@ export default function BrandPage() {
       router.push("/businesses/brands");
       dispatch(resetCreateStatus());
     }
-  }, [createSuccess, router, dispatch]);
+    if (updateSuccess) {
+      router.push("/businesses/brands");
+      dispatch(resetUpdateStatus());
+    }
+  }, [createSuccess, updateSuccess, router, dispatch]);
 
   const handleFieldChange = (field: keyof Brand, value: string) => {
     dispatch(updateBrandField({ field, value }));
@@ -83,7 +89,12 @@ export default function BrandPage() {
       if (Object.keys(newErrors).length > 0) {
         return;
       }
-      dispatch(createBrandRequest(brand));
+
+      if (isCreateMode) {
+        dispatch(createBrandRequest(brand));
+      } else {
+        dispatch(updateBrandRequest(brand));
+      }
     }
   };
 
@@ -119,7 +130,7 @@ export default function BrandPage() {
             onFileChange: handleFileChange,
             isEditMode: true,
             onSave: handleSave,
-            isSaving: createLoading,
+            isSaving: createLoading || updateLoading,
             isCreateMode: isCreateMode,
             errors: validationErrors,
           }}
