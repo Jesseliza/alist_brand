@@ -98,19 +98,21 @@ export default function BrandCard({
             </span>
           </div>
         ))}
-      </div>
-      <div className="flex gap-3 mt-5">
-        <div
-          className="h-[35px] w-[35px] aspect-square rounded-full flex items-center justify-center text-[14px] text-white font-semibold"
-          style={{ backgroundColor: brand.associateBackground }}
-        >
-          {brand.associateInitials}
-        </div>
-        <div className="text-[#414141] text-[14px]">
-          <p className="font-medium text-[13px] leading-[20px]">
-            {`${brand.associateFirstName} ${brand.associateLastName}`}
-          </p>
-          <p className="text-[11px] leading-[17px]">{brand.associateEmail}</p>
+        <div className="col-span-3 bg-white rounded-[11px] shadow-[0_0_2px_rgba(0,0,0,0.16)] p-3 flex gap-3 items-center">
+          <div
+            className="h-[35px] w-[35px] aspect-square rounded-full flex items-center justify-center text-[14px] text-white font-semibold flex-shrink-0"
+            style={{ backgroundColor: brand.associateBackground }}
+          >
+            {brand.associateInitials}
+          </div>
+          <div className="text-[#414141] text-[14px] truncate">
+            <p className="font-medium text-[13px] leading-[20px] truncate">
+              {`${brand.associateFirstName} ${brand.associateLastName}`}
+            </p>
+            <p className="text-[11px] leading-[17px] truncate">
+              {brand.associateEmail}
+            </p>
+          </div>
         </div>
       </div>
     </div>
