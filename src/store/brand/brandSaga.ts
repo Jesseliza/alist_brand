@@ -8,6 +8,9 @@ import {
   fetchMoreBrandsRequest,
   fetchMoreBrandsSuccess,
   fetchMoreBrandsFailure,
+  createBrandRequest,
+  createBrandSuccess,
+  createBrandFailure,
 } from './brandSlice';
 import { Brand } from '@/types/entities';
 
@@ -183,9 +186,51 @@ function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest
   }
 }
 
+function* handleCreateBrand(action: ReturnType<typeof createBrandRequest>) {
+  try {
+    const brand = action.payload;
+    const formData = new FormData();
+    formData.append('venue_title', brand.name || '');
+    formData.append('company_name', brand.companyName || '');
+    formData.append('account_id', brand.accountId || '');
+    formData.append('country_id', brand.country || '');
+    formData.append('state_id', brand.state || '');
+    formData.append('category_id', brand.industry || '');
+    formData.append('venue_instagram_url', brand.instagramHandle || '');
+    formData.append('venue_url', brand.websiteUrl || '');
+    formData.append('Venue_contact_name', brand.associateName || '');
+    formData.append('venue_email', brand.associateEmail || '');
+    formData.append('venue_contact_number', brand.associatePhone || '');
+
+    if (brand.tradeLicenseCopy) {
+      formData.append('trade_license_file', brand.tradeLicenseCopy);
+    }
+    if (brand.vatCertificate) {
+      formData.append('vat_certificate_file', brand.vatCertificate);
+    }
+
+    const response: { message: string } | ApiError = yield call(postData, '/api/add/venue', formData);
+
+    if ('message' in response) {
+      yield put(createBrandSuccess());
+      toast.success(response.message);
+    } else {
+      const errorMessage = response.response || 'Failed to create brand';
+      yield put(createBrandFailure(errorMessage));
+      toast.error(errorMessage);
+    }
+  } catch (error) {
+    const err = error as Error;
+    const errorMessage = err.message || 'An unknown error occurred';
+    yield put(createBrandFailure(errorMessage));
+    toast.error(errorMessage);
+  }
+}
+
 function* watchBrand() {
   yield takeLatest(fetchBrandsRequest.type, handleFetchBrands);
   yield takeLatest(fetchMoreBrandsRequest.type, handleFetchMoreBrands);
+  yield takeLatest(createBrandRequest.type, handleCreateBrand);
 }
 
 export default function* brandSaga() {
