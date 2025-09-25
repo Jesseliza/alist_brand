@@ -46,13 +46,19 @@ export default function BrandHeader({
         <div>
           <div className="flex items-center md:gap-10 gap-6 ">
             <div className=" w-[108px] h-[108px] min-w-[45px] min-h-[45px] md:w-27 md:h-27 rounded-full  border-[#EEEEEE] border-[5px] text-white shrink-0 overflow-hidden">
-              <Image
-                src={logo || "/icons/temporary-images/dunkin.png"}
-                alt="Logo"
-                width={108}
-                height={108}
-                className="object-cover w-full h-full rounded-full"
-              />
+              {logo ? (
+                <Image
+                  src={logo}
+                  alt="Logo"
+                  width={108}
+                  height={108}
+                  className="object-cover w-full h-full rounded-full"
+                />
+              ) : (
+                <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-white text-4xl font-bold">
+                  {name.substring(0, 2).toUpperCase()}
+                </div>
+              )}
             </div>
             <div>
               <h1 className="text-[18px] md:text-[25px] font-semibold ">
