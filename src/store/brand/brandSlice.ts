@@ -4,6 +4,7 @@ import { PaginationState } from '@/types/api';
 
 interface BrandState {
   brands: Brand[];
+  brand: Brand | null;
   pagination: PaginationState;
   loading: boolean;
   error: string | null;
@@ -13,6 +14,7 @@ interface BrandState {
 
 const initialState: BrandState = {
   brands: [],
+  brand: null,
   pagination: {
     currentPage: 1,
     lastPage: 1,
@@ -55,6 +57,18 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    fetchBrandRequest: (state, action: PayloadAction<{ brandId: string }>) => {
+      state.loading = true;
+      state.error = null;
+    },
+    fetchBrandSuccess: (state, action: PayloadAction<Brand>) => {
+      state.loading = false;
+      state.brand = action.payload;
+    },
+    fetchBrandFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
     createBrandRequest: (state, action: PayloadAction<Partial<Brand>>) => {
       state.createLoading = true;
       state.createSuccess = false;
@@ -72,6 +86,16 @@ const brandSlice = createSlice({
       state.createSuccess = false;
       state.error = null;
     },
+    updateBrandField: (state, action: PayloadAction<{ field: keyof Brand; value: string }>) => {
+      if (state.brand) {
+        state.brand = { ...state.brand, [action.payload.field]: action.payload.value };
+      }
+    },
+    updateBrandFile: (state, action: PayloadAction<{ field: keyof Brand; file: File }>) => {
+      if (state.brand) {
+        state.brand = { ...state.brand, [action.payload.field]: action.payload.file };
+      }
+    },
   },
 });
 
@@ -82,10 +106,15 @@ export const {
   fetchMoreBrandsRequest,
   fetchMoreBrandsSuccess,
   fetchMoreBrandsFailure,
+  fetchBrandRequest,
+  fetchBrandSuccess,
+  fetchBrandFailure,
   createBrandRequest,
   createBrandSuccess,
   createBrandFailure,
   resetCreateStatus,
+  updateBrandField,
+  updateBrandFile,
 } = brandSlice.actions;
 
 export default brandSlice.reducer;

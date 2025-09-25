@@ -8,7 +8,7 @@ import { fetchBrandsRequest, fetchMoreBrandsRequest } from "@/store/brand/brandS
 import { setSearchTerm } from "@/store/search/searchSlice";
 import { RootState } from "@/store/store";
 import BrandsTable from "@/components/features/brands/BrandsTable";
-import BrandMobileCard from "@/components/features/brands/BrandMobileCard";
+import BrandCard from "@/components/features/brands/BrandCard";
 import Pagination from "@/components/general/Pagination";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
@@ -100,6 +100,23 @@ export default function BrandsPage() {
     setMobilePage(nextPage);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+          document.documentElement.offsetHeight - 500 &&
+        !loading &&
+        pagination &&
+        brands.length < pagination.total
+      ) {
+        handleSeeMore();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loading, pagination, brands, handleSeeMore]);
+
   return (
     <div>
       <div className="flex justify-between items-center pt-4">
@@ -170,11 +187,9 @@ export default function BrandsPage() {
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {brands.map((brand) => (
-                      <BrandMobileCard
+                      <BrandCard
                         key={brand.brandId}
                         brand={brand}
-                        checked={checkedRows.has(brand.brandId)}
-                        onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
                       />
                     ))}
                   </div>
@@ -191,11 +206,9 @@ export default function BrandsPage() {
               </div>
               <div className="md:hidden space-y-[7px]">
                 {brands.map((brand) => (
-                  <BrandMobileCard
+                  <BrandCard
                     key={brand.brandId}
                     brand={brand}
-                    checked={checkedRows.has(brand.brandId)}
-                    onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
                   />
                 ))}
                 {pagination && brands.length < pagination.total && (

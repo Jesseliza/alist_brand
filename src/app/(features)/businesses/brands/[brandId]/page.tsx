@@ -7,9 +7,11 @@ import { Brand } from "@/types/entities";
 import BrandTabContent from "@/components/features/brands/BrandTabContent";
 import BrandHeader from "@/components/features/brands/BrandHeader";
 import Loader from "@/components/general/Loader";
-import { fetchData } from "@/services/commonService";
-import { transformApiVenueToBrand } from "@/utils/brandUtils";
-import { createBrandRequest, resetCreateStatus } from "@/store/brand/brandSlice";
+import {
+  createBrandRequest,
+  resetCreateStatus,
+  fetchBrandRequest,
+} from "@/store/brand/brandSlice";
 import { RootState } from "@/store/store";
 
 export default function BrandPage() {
@@ -19,34 +21,17 @@ export default function BrandPage() {
   const { brandId } = params;
   const isCreateMode = brandId === "create";
 
-  const { createLoading, createSuccess, error } = useSelector(
+  const { brand, loading, createLoading, createSuccess, error } = useSelector(
     (state: RootState) => state.brand
   );
 
-  const [brand, setBrand] = useState<Partial<Brand>>({});
-  const [loading, setLoading] = useState(!isCreateMode);
   const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof Brand, string>>>({});
 
   useEffect(() => {
-    if (!isCreateMode) {
-      const fetchBrand = async () => {
-        setLoading(true);
-        try {
-          const response = await fetchData(`/api/list/venues/${brandId}`);
-          if (response && response.venue) {
-            setBrand(transformApiVenueToBrand(response.venue));
-          } else {
-            // setError("Brand not found.");
-          }
-        } catch {
-          // setError("Failed to fetch brand data.");
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchBrand();
+    if (!isCreateMode && brandId) {
+      dispatch(fetchBrandRequest({ brandId: brandId as string }));
     }
-  }, [brandId, isCreateMode]);
+  }, [brandId, isCreateMode, dispatch]);
 
   useEffect(() => {
     if (createSuccess) {
@@ -56,41 +41,43 @@ export default function BrandPage() {
   }, [createSuccess, router, dispatch]);
 
   const handleFieldChange = (field: keyof Brand, value: string) => {
-    setBrand((prev) => ({ ...prev, [field]: value }));
+    dispatch(updateBrandField({ field, value }));
   };
 
   const handleFileChange = (field: keyof Brand, file: File) => {
-    setBrand((prev) => ({ ...prev, [field]: file }));
+    dispatch(updateBrandFile({ field, file }));
   };
 
   const handleSave = () => {
-    const newErrors: Partial<Record<keyof Brand, string>> = {};
-    const requiredFields: (keyof Brand)[] = [
-      'name', 'companyName', 'accountId', 'country', 'state', 'industry'
-    ];
+    if (brand) {
+      const newErrors: Partial<Record<keyof Brand, string>> = {};
+      const requiredFields: (keyof Brand)[] = [
+        'name', 'companyName', 'accountId', 'country', 'state', 'industry'
+      ];
 
-    requiredFields.forEach((field) => {
-      if (!brand[field]) {
-        const label = field.replace(/([A-Z])/g, " $1");
-        const capitalizedLabel = label.charAt(0).toUpperCase() + label.slice(1);
-        newErrors[field] = `${capitalizedLabel} is required.`;
+      requiredFields.forEach((field) => {
+        if (!brand[field]) {
+          const label = field.replace(/([A-Z])/g, " $1");
+          const capitalizedLabel = label.charAt(0).toUpperCase() + label.slice(1);
+          newErrors[field] = `${capitalizedLabel} is required.`;
+        }
+      });
+
+      if (isCreateMode && !brand.tradeLicenseCopy) {
+        newErrors.tradeLicenseCopy = "Trade License copy is required.";
       }
-    });
 
-    if (isCreateMode && !brand.tradeLicenseCopy) {
-      newErrors.tradeLicenseCopy = "Trade License copy is required.";
+      if (isCreateMode && !brand.vatCertificate) {
+        newErrors.vatCertificate = "VAT Certificate is required.";
+      }
+
+      setValidationErrors(newErrors);
+
+      if (Object.keys(newErrors).length > 0) {
+        return;
+      }
+      dispatch(createBrandRequest(brand));
     }
-
-    if (isCreateMode && !brand.vatCertificate) {
-      newErrors.vatCertificate = "VAT Certificate is required.";
-    }
-
-    setValidationErrors(newErrors);
-
-    if (Object.keys(newErrors).length > 0) {
-      return;
-    }
-    dispatch(createBrandRequest(brand));
   };
 
   if (loading) {
