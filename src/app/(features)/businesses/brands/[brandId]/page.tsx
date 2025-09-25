@@ -104,11 +104,7 @@ export default function BrandPage() {
     }
 
     try {
-      const response = await axiosInstance.post('/add/venue', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axiosInstance.post('/add/venue', formData);
 
       if (response.data) {
         toast.success("Brand saved successfully!");
