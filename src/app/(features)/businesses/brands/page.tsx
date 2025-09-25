@@ -10,6 +10,7 @@ import { fetchIndustries } from "@/store/common/commonSlice";
 import { RootState } from "@/store/store";
 import BrandsTable from "@/components/features/brands/BrandsTable";
 import BrandCard from "@/components/features/brands/BrandCard";
+import BrandMobileCard from "@/components/features/brands/BrandMobileCard";
 import Pagination from "@/components/general/Pagination";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
@@ -193,17 +194,15 @@ export default function BrandsPage() {
                   />
                 )}
               </div>
-              <div className="md:hidden">
-                <div className="grid grid-cols-2 gap-4">
-                  {brands.map((brand) => (
-                    <BrandCard
-                      key={brand.brandId}
-                      brand={brand}
-                      checked={checkedRows.has(brand.brandId)}
-                      onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
-                    />
-                  ))}
-                </div>
+              <div className="md:hidden space-y-[7px]">
+                {brands.map((brand) => (
+                  <BrandMobileCard
+                    key={brand.brandId}
+                    brand={brand}
+                    checked={checkedRows.has(brand.brandId)}
+                    onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
+                  />
+                ))}
                 {loading && brands.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
                 {brands.length < pagination.total && !loading && (
                   <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
