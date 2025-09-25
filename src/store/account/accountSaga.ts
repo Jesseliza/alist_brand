@@ -32,30 +32,12 @@ import { fetchIndustries, fetchIndustriesSuccess } from "../common/commonSlice";
 import { Account, Brand, AccountType } from "@/types/entities";
 import { RootState } from "../store";
 import { Option } from "@/types/common";
+import { Industry, IndustryApiResponse } from "@/types/api";
 
 const getIndustries = (state: RootState) => state.common.industries;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function* transformVenueToBrand(venue: any): Generator<any, Brand, any> {
-    let industries: Option[] = yield select(getIndustries);
-
-    if (!industries || industries.length === 0) {
-        yield put(fetchIndustries());
-        const response = yield call(fetchData, "/api/categories");
-        if (response && response.accounts) {
-            const formattedData: Option[] = response.accounts.map(
-                (industry: { id: number; category: string }) => ({
-                    value: industry.id.toString(),
-                    label: industry.category,
-                })
-            );
-            yield put(fetchIndustriesSuccess(formattedData));
-            industries = formattedData;
-        } else {
-            industries = [];
-        }
-    }
-
+const transformVenueToBrand = (venue: any, industries: Option[]): Brand => {
     const industry = industries.find(
         (ind) => ind.value === venue.category_id?.toString()
     );
@@ -95,6 +77,26 @@ function* transformVenueToBrand(venue: any): Generator<any, Brand, any> {
         Venue_contact_name: venue.Venue_contact_name || null,
         venue_email: venue.venue_email || null,
     };
+};
+
+function* ensureIndustriesFetched(): Generator<any, Option[], any> {
+    let industries: Option[] = yield select(getIndustries);
+    if (!industries || industries.length === 0) {
+        yield put(fetchIndustries());
+        const response: IndustryApiResponse = yield call(fetchData, "/api/categories");
+        if (response && response.accounts) {
+            const formattedData: Option[] = response.accounts.map((industry: Industry) => ({
+                value: industry.id.toString(),
+                label: industry.category,
+            }));
+            yield put(fetchIndustriesSuccess(formattedData));
+            industries = formattedData;
+        } else {
+            // In case of failure, return an empty array to avoid breaking the app
+            industries = [];
+        }
+    }
+    return industries;
 }
 
 interface ApiAccount {
@@ -141,13 +143,14 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
         endpoint = `${endpoint}?page=${page}`;
       }
 
+      const industries: Option[] = yield call(ensureIndustriesFetched);
       const response: FetchAccountsSuccessResponse | ApiError = yield call(postData, endpoint, bodyPayload);
 
       if ('accounts' in response && response.accounts) {
         const { data, current_page, last_page, per_page, total } = response.accounts;
 
-        const feAccounts: Account[] = yield all(data.map(function*(apiAccount: ApiAccount) {
-          const brands = apiAccount.venues ? yield all(apiAccount.venues.map((venue: any) => call(transformVenueToBrand, venue))) : [];
+        const feAccounts: Account[] = data.map((apiAccount: ApiAccount) => {
+          const brands = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
           return {
             accountId: apiAccount.id.toString(),
             firstName: apiAccount.first_name,
@@ -165,7 +168,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
             campaignsCount: 0,
             status: apiAccount.status,
           };
-        }));
+        });
 
         yield put(fetchAccountsSuccess({
           accounts: feAccounts,
@@ -198,13 +201,14 @@ function* handleFetchMoreAccounts(action: ReturnType<typeof fetchMoreAccountsReq
         endpoint = `${endpoint}?page=${page}`;
       }
 
+      const industries: Option[] = yield call(ensureIndustriesFetched);
       const response: FetchAccountsSuccessResponse | ApiError = yield call(postData, endpoint, bodyPayload);
 
       if ('accounts' in response && response.accounts) {
         const { data, current_page, last_page, per_page, total } = response.accounts;
 
-        const feAccounts: Account[] = yield all(data.map(function*(apiAccount: ApiAccount) {
-          const brands = apiAccount.venues ? yield all(apiAccount.venues.map((venue: any) => call(transformVenueToBrand, venue))) : [];
+        const feAccounts: Account[] = data.map((apiAccount: ApiAccount) => {
+          const brands = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
           return {
             accountId: apiAccount.id.toString(),
             firstName: apiAccount.first_name,
@@ -222,7 +226,7 @@ function* handleFetchMoreAccounts(action: ReturnType<typeof fetchMoreAccountsReq
             campaignsCount: 0,
             status: apiAccount.status,
           };
-        }));
+        });
 
         yield put(fetchMoreAccountsSuccess({
           accounts: feAccounts,
@@ -276,7 +280,8 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
       if ('account' in response && response.account) {
         const apiAccount = response.account;
 
-        const feBrands: Brand[] = apiAccount.venues ? yield all(apiAccount.venues.map((venue: any) => call(transformVenueToBrand, venue))) : [];
+        const industries: Option[] = yield call(ensureIndustriesFetched);
+        const feBrands: Brand[] = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
 
         const feAccount: Account = {
           accountId: apiAccount.id.toString(),
@@ -348,7 +353,8 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
       );
       if ('account' in response && response.account) {
         const apiAccount = response.account;
-        const feBrands: Brand[] = apiAccount.venues ? yield all(apiAccount.venues.map((venue: any) => call(transformVenueToBrand, venue))) : [];
+        const industries: Option[] = yield call(ensureIndustriesFetched);
+        const feBrands: Brand[] = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
         const feAccount: Account = {
           accountId: apiAccount.id.toString(),
           firstName: apiAccount.first_name,
@@ -411,7 +417,8 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
 
       if ('account' in response && response.account) {
         const apiAccount = response.account;
-        const feBrands: Brand[] = apiAccount.venues ? yield all(apiAccount.venues.map((venue: any) => call(transformVenueToBrand, venue))) : [];
+        const industries: Option[] = yield call(ensureIndustriesFetched);
+        const feBrands: Brand[] = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
         const feAccount: Account = {
           accountId: apiAccount.id.toString(),
           firstName: apiAccount.first_name,

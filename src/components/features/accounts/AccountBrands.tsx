@@ -2,7 +2,12 @@ import AccountBrandCard from "./AccountBrandCard";
 import { Brand } from "@/types/entities";
 import Link from "next/link";
 
-export default function AccountBrands({ brands }: { brands?: Brand[] }) {
+interface AccountBrandsProps {
+  brands?: Brand[];
+  accountId?: string;
+}
+
+export default function AccountBrands({ brands, accountId }: AccountBrandsProps) {
   if (!brands || brands.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow-md flex items-center justify-center min-h-[200px] w-full">
@@ -16,7 +21,7 @@ export default function AccountBrands({ brands }: { brands?: Brand[] }) {
       {brands.map((brand) => (
         <Link
           key={brand.brandId}
-          href={`/businesses/brands/${brand.brandId}`}
+          href={`/businesses/accounts/${accountId}/${brand.brandId}`}
         >
           <AccountBrandCard brand={brand} />
         </Link>
