@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import SlideCaptcha from '@/components/general/SlideCaptcha';
 import CountryCodeDropdown from '@/components/general/CountryCodeDropdown';
+import Loader from '@/components/general/Loader'; // Import the Loader component
 
 export default function LoginComponent() {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -23,8 +24,11 @@ export default function LoginComponent() {
   const redirectUrl = searchParams.get("redirect");
 
   const isAuthenticatedRef = useRef(isAuthenticated);
-  isAuthenticatedRef.current = isAuthenticated;
+  useEffect(() => {
+    isAuthenticatedRef.current = isAuthenticated;
+  });
 
+  // Effect for handling navigation on successful login
   useEffect(() => {
     if (isAuthenticated && !loginInProgress) {
       if (redirectedFrom === "admin" && redirectUrl) {
@@ -33,13 +37,17 @@ export default function LoginComponent() {
         router.push("/dashboard");
       }
     }
-    // Cleanup function to reset the otpSent flag when the component unmounts
+  }, [isAuthenticated, loginInProgress, router, redirectedFrom, redirectUrl]);
+
+  // Effect for cleanup on unmount
+  useEffect(() => {
     return () => {
+      // Only reset the otpSent flag if the user is not authenticated and navigates away.
       if (!isAuthenticatedRef.current) {
         dispatch(resetOtpSent());
       }
     };
-  }, [isAuthenticated, loginInProgress, router, dispatch, redirectedFrom, redirectUrl]);
+  }, [dispatch]);
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,7 +61,7 @@ export default function LoginComponent() {
       return;
     }
     setFormError('');
-    dispatch(loginRequest({ phoneNumber, otp, country_code: countryCode }));
+    dispatch(loginRequest({ phoneNumber: storedPhoneNumber || phoneNumber, otp, country_code: countryCode }));
   };
 
   const handleCaptchaSuccess = () => {
@@ -62,6 +70,7 @@ export default function LoginComponent() {
 
   return (
     <div className="m-auto px-2">
+      {loginInProgress && <Loader />}
       <div className="bg-white rounded-[28px] shadow-[0_0_4px_rgba(0,0,0,0.16)] px-[22px] py-[52px] w-[358px] max-w-full">
         <div className="mb-[47px]">
           <div className="flex flex-col items-center">
@@ -123,7 +132,7 @@ export default function LoginComponent() {
               className="mt-[11px] rounded-[11px] bg-[#00A4B6] text-white font-semibold py-[11px] text-[15px] hover:bg-[#0090a6] transition disabled:bg-gray-400"
               disabled={loading || !isCaptchaVerified}
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {'Sign In'}
             </button>
             {error && !formError && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </form>
