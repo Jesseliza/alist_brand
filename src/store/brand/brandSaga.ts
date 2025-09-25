@@ -36,6 +36,7 @@ interface ApiBrand {
   profile_completion?: number;
   files_count?: number;
   accounts?: { first_name: string; last_name: string };
+  Venue_contact_name?: string;
 }
 
 type ApiError = {
@@ -97,6 +98,8 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
         associateLastName: '',
         associateInitials: '',
         associateBackground: '',
+        Venue_contact_name: apiBrand.Venue_contact_name || null,
+        venue_email: apiBrand.venue_email || null,
       }));
 
       yield put(fetchBrandsSuccess({
@@ -165,6 +168,8 @@ function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest
         associateLastName: '',
         associateInitials: '',
         associateBackground: '',
+        Venue_contact_name: apiBrand.Venue_contact_name || null,
+        venue_email: apiBrand.venue_email || null,
       }));
 
       yield put(fetchMoreBrandsSuccess({
