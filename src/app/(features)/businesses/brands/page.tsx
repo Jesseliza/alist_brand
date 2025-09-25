@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
@@ -8,7 +8,7 @@ import { fetchBrandsRequest, fetchMoreBrandsRequest } from "@/store/brand/brandS
 import { setSearchTerm } from "@/store/search/searchSlice";
 import { RootState } from "@/store/store";
 import BrandsTable from "@/components/features/brands/BrandsTable";
-import BrandCard from "@/components/features/brands/BrandCard";
+import BrandMobileCard from "@/components/features/brands/BrandMobileCard";
 import Pagination from "@/components/general/Pagination";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
@@ -32,9 +32,9 @@ export default function BrandsPage() {
   const [mobilePage, setMobilePage] = useState(1);
   const [view, setView] = useState<"table" | "card">("table");
 
-  const handleAddBrandClick = () => {
+  const handleAddBrandClick = useCallback(() => {
     router.push("/businesses/brands/create");
-  };
+  }, [router]);
 
   const debouncedSearch = useDebounce(searchTerm, 500);
 
@@ -57,28 +57,28 @@ export default function BrandsPage() {
     }));
   }, [debouncedSearch, dispatch]);
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = useCallback((page: number) => {
     dispatch(fetchBrandsRequest({
       page,
       search: searchTerm,
       per_page: pagination.perPage
     }));
-  };
+  }, [dispatch, searchTerm, pagination]);
 
-  const handleItemsPerPageChange = (items: number) => {
+  const handleItemsPerPageChange = useCallback((items: number) => {
     dispatch(fetchBrandsRequest({ search: searchTerm, per_page: items, page: 1 }));
-  };
+  }, [dispatch, searchTerm]);
 
-  const handleActionSelect = (value: string) => {
+  const handleActionSelect = useCallback((value: string) => {
     if (value === "update") {
       if (checkedRows.size === 1) {
         const brandId = checkedRows.values().next().value;
         router.push(`/businesses/brands/${brandId}`);
       }
     }
-  };
+  }, [checkedRows, router]);
 
-  const handleCheckboxChange = (brandId: string) => {
+  const handleCheckboxChange = useCallback((brandId: string) => {
     setCheckedRows((prevCheckedRows) => {
       const newCheckedRows = new Set(prevCheckedRows);
       if (newCheckedRows.has(brandId)) {
@@ -88,9 +88,9 @@ export default function BrandsPage() {
       }
       return newCheckedRows;
     });
-  };
+  }, []);
 
-  const handleSeeMore = () => {
+  const handleSeeMore = useCallback(() => {
     const nextPage = mobilePage + 1;
     dispatch(fetchMoreBrandsRequest({
       page: nextPage,
@@ -98,7 +98,7 @@ export default function BrandsPage() {
       per_page: 10
     }));
     setMobilePage(nextPage);
-  };
+  }, [mobilePage, dispatch, searchTerm]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -187,14 +187,16 @@ export default function BrandsPage() {
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {brands.map((brand) => (
-                      <BrandCard
+                      <BrandMobileCard
                         key={brand.brandId}
                         brand={brand}
+                        checked={checkedRows.has(brand.brandId)}
+                        onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
                       />
                     ))}
                   </div>
                 )}
-                {pagination && (
+                {view === "table" && pagination && (
                   <Pagination
                     totalItems={pagination.total}
                     itemsPerPage={pagination.perPage}
@@ -206,9 +208,11 @@ export default function BrandsPage() {
               </div>
               <div className="md:hidden space-y-[7px]">
                 {brands.map((brand) => (
-                  <BrandCard
+                  <BrandMobileCard
                     key={brand.brandId}
                     brand={brand}
+                    checked={checkedRows.has(brand.brandId)}
+                    onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
                   />
                 ))}
                 {pagination && brands.length < pagination.total && (
