@@ -7,6 +7,8 @@ interface BrandState {
   pagination: PaginationState;
   loading: boolean;
   error: string | null;
+  createLoading: boolean;
+  createSuccess: boolean;
 }
 
 const initialState: BrandState = {
@@ -19,6 +21,8 @@ const initialState: BrandState = {
   },
   loading: false,
   error: null,
+  createLoading: false,
+  createSuccess: false,
 };
 
 const brandSlice = createSlice({
@@ -51,6 +55,19 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    createBrandRequest: (state, action: PayloadAction<Partial<Brand>>) => {
+      state.createLoading = true;
+      state.createSuccess = false;
+      state.error = null;
+    },
+    createBrandSuccess: (state) => {
+      state.createLoading = false;
+      state.createSuccess = true;
+    },
+    createBrandFailure: (state, action: PayloadAction<string>) => {
+      state.createLoading = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -61,6 +78,9 @@ export const {
   fetchMoreBrandsRequest,
   fetchMoreBrandsSuccess,
   fetchMoreBrandsFailure,
+  createBrandRequest,
+  createBrandSuccess,
+  createBrandFailure,
 } = brandSlice.actions;
 
 export default brandSlice.reducer;
