@@ -104,7 +104,7 @@ export default function BrandPage() {
       ) : (
         <BrandHeader
           name={brand?.name || ""}
-          subtitle={brand?.businessLocation || ""}
+          // subtitle={brand?.businessLocation || ""}
           logo={brand?.logo}
           tabs={["Business Details", "Campaigns"]}
           activeTab="Business Details"

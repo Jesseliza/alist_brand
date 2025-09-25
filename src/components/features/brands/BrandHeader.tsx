@@ -7,7 +7,7 @@ const menuIcon = "/icons/common/menu-dots.svg";
 
 interface BrandHeaderProps {
   name: string;
-  subtitle: string;
+  subtitle?: string;
   logo?: string;
   tabs?: string[];
   activeTab?: string;
@@ -65,9 +65,11 @@ export default function BrandHeader({
               <h1 className="text-[18px] md:text-[25px] font-semibold ">
                 {name}
               </h1>
-              <p className="text-[15px] md:text-[18px] font-medium ">
-                {subtitle}
-              </p>
+              {subtitle && (
+                <p className="text-[15px] md:text-[18px] font-medium ">
+                  {subtitle}
+                </p>
+              )}
             </div>
           </div>
 
