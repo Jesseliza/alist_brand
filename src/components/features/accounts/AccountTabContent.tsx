@@ -23,7 +23,7 @@ export default function AccountTabContent({
       case "Brands":
         return (
           <div className="max-w-[1428px] mx-auto flex justify-between pt-10 text-[#4F4F4F]">
-            <AccountBrands accountId={account?.accountId} />
+            <AccountBrands brands={account?.brands} />
           </div>
         );
       case "Plans":
