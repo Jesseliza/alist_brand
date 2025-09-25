@@ -8,6 +8,7 @@ import { fetchBrandsRequest, fetchMoreBrandsRequest } from "@/store/brand/brandS
 import { setSearchTerm } from "@/store/search/searchSlice";
 import { RootState } from "@/store/store";
 import BrandsTable from "@/components/features/brands/BrandsTable";
+import BrandCard from "@/components/features/brands/BrandCard";
 import BrandMobileCard from "@/components/features/brands/BrandMobileCard";
 import Pagination from "@/components/general/Pagination";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
@@ -189,7 +190,7 @@ export default function BrandsPage() {
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {brands.map((brand) => (
-                      <BrandMobileCard
+                      <BrandCard
                         key={brand.brandId}
                         brand={brand}
                         checked={checkedRows.has(brand.brandId)}
@@ -217,18 +218,18 @@ export default function BrandsPage() {
                     onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
                   />
                 ))}
-                {pagination && brands.length < pagination.total && (
-                  <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
-                    <button
-                      onClick={handleSeeMore}
-                      disabled={loading}
-                      className="disabled:text-gray-400"
-                    >
-                      {loading ? <InlineLoader /> : 'See More'}
-                    </button>
-                  </div>
-                )}
               </div>
+              {pagination && brands.length < pagination.total && (
+                <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
+                  <button
+                    onClick={handleSeeMore}
+                    disabled={loading}
+                    className="disabled:text-gray-400"
+                  >
+                    {loading ? <InlineLoader /> : 'See More'}
+                  </button>
+                </div>
+              )}
             </>
           )}
         </div>
