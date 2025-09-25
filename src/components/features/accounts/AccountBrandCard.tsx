@@ -32,8 +32,23 @@ export default function AccountBrandCard({ brand }: { brand: Brand }) {
   return (
     <div className="bg-white rounded-[13px] px-[21px] pt-[19px] pb-[22px] max-w-md">
       {/* Profile circle */}
-      <div className="w-[90px] h-[90px] mx-auto overflow-hidden bg-white rounded-full border-5 border-[#E1E1E1]">
-        <Image src={brand.logo} alt={brand.name} width={80} height={80} />
+      <div className="w-[90px] h-[90px] mx-auto overflow-hidden bg-white rounded-full border-5 border-[#E1E1E1] flex items-center justify-center">
+        {brand.logo ? (
+          <Image
+            src={brand.logo}
+            alt={brand.name}
+            width={80}
+            height={80}
+            className="object-cover w-full h-full"
+          />
+        ) : (
+          <div
+            className="w-full h-full flex items-center justify-center text-white text-2xl font-bold"
+            style={{ backgroundColor: brand.associateBackground }}
+          >
+            {brand.associateInitials}
+          </div>
+        )}
       </div>
 
       {/* Brand name */}

@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function AccountBrands({ brands }: { brands?: Brand[] }) {
   if (!brands || brands.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-[200px]">
+      <div className="bg-white rounded-lg shadow-md flex items-center justify-center min-h-[200px] w-full">
         <p className="text-gray-500">No brands found for this account.</p>
       </div>
     );
