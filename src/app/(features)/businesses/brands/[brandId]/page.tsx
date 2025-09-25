@@ -11,6 +11,8 @@ import {
   createBrandRequest,
   resetCreateStatus,
   fetchBrandRequest,
+  updateBrandField,
+  updateBrandFile,
 } from "@/store/brand/brandSlice";
 import { RootState } from "@/store/store";
 

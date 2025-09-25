@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
@@ -32,9 +32,9 @@ export default function BrandsPage() {
   const [mobilePage, setMobilePage] = useState(1);
   const [view, setView] = useState<"table" | "card">("table");
 
-  const handleAddBrandClick = useCallback(() => {
+  const handleAddBrandClick = () => {
     router.push("/businesses/brands/create");
-  }, [router]);
+  };
 
   const debouncedSearch = useDebounce(searchTerm, 500);
 
@@ -57,28 +57,28 @@ export default function BrandsPage() {
     }));
   }, [debouncedSearch, dispatch]);
 
-  const handlePageChange = useCallback((page: number) => {
+  const handlePageChange = (page: number) => {
     dispatch(fetchBrandsRequest({
       page,
       search: searchTerm,
       per_page: pagination.perPage
     }));
-  }, [dispatch, searchTerm, pagination]);
+  };
 
-  const handleItemsPerPageChange = useCallback((items: number) => {
+  const handleItemsPerPageChange = (items: number) => {
     dispatch(fetchBrandsRequest({ search: searchTerm, per_page: items, page: 1 }));
-  }, [dispatch, searchTerm]);
+  };
 
-  const handleActionSelect = useCallback((value: string) => {
+  const handleActionSelect = (value: string) => {
     if (value === "update") {
       if (checkedRows.size === 1) {
         const brandId = checkedRows.values().next().value;
         router.push(`/businesses/brands/${brandId}`);
       }
     }
-  }, [checkedRows, router]);
+  };
 
-  const handleCheckboxChange = useCallback((brandId: string) => {
+  const handleCheckboxChange = (brandId: string) => {
     setCheckedRows((prevCheckedRows) => {
       const newCheckedRows = new Set(prevCheckedRows);
       if (newCheckedRows.has(brandId)) {
@@ -88,9 +88,9 @@ export default function BrandsPage() {
       }
       return newCheckedRows;
     });
-  }, []);
+  };
 
-  const handleSeeMore = useCallback(() => {
+  const handleSeeMore = () => {
     const nextPage = mobilePage + 1;
     dispatch(fetchMoreBrandsRequest({
       page: nextPage,
@@ -98,11 +98,12 @@ export default function BrandsPage() {
       per_page: 10
     }));
     setMobilePage(nextPage);
-  }, [mobilePage, dispatch, searchTerm]);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
       if (
+        view === "card" &&
         window.innerHeight + document.documentElement.scrollTop >=
           document.documentElement.offsetHeight - 500 &&
         !loading &&
@@ -115,7 +116,7 @@ export default function BrandsPage() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [loading, pagination, brands, handleSeeMore]);
+  }, [view, loading, pagination, brands, handleSeeMore]);
 
   return (
     <div>
@@ -136,12 +137,13 @@ export default function BrandsPage() {
           </div>
         </div>
         <div className="hidden md:block">
-          <TableCardsToggler view={view} setView={setView} />
+          {/* This will be moved */}
         </div>
       </div>
       <div className="py-5.5">
         <div className="max-w-[1428px] mx-auto">
           <div className="hidden md:flex justify-end items-center mb-5.5 space-x-4">
+            <TableCardsToggler view={view} setView={setView} />
             <button
               onClick={handleAddBrandClick}
               className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
