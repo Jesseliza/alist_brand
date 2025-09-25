@@ -61,7 +61,16 @@ export default function LoginComponent() {
       return;
     }
     setFormError('');
-    dispatch(loginRequest({ phoneNumber: storedPhoneNumber || phoneNumber, otp, country_code: countryCode }));
+
+    const phoneToVerify = storedPhoneNumber || phoneNumber;
+    const numericCountryCode = countryCode.replace(/\D/g, '');
+
+    let finalPhoneNumber = phoneToVerify;
+    if (phoneToVerify.startsWith(numericCountryCode)) {
+      finalPhoneNumber = phoneToVerify.substring(numericCountryCode.length);
+    }
+
+    dispatch(loginRequest({ phoneNumber: finalPhoneNumber, otp, country_code: countryCode }));
   };
 
   const handleCaptchaSuccess = () => {
