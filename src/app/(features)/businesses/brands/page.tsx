@@ -49,7 +49,6 @@ export default function BrandsPage() {
       return;
     }
 
-    setMobilePage(1);
     dispatch(fetchBrandsRequest({
       search: debouncedSearch,
       per_page: 12,
