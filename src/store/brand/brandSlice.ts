@@ -68,6 +68,10 @@ const brandSlice = createSlice({
       state.createLoading = false;
       state.error = action.payload;
     },
+    resetCreateStatus: (state) => {
+      state.createSuccess = false;
+      state.error = null;
+    },
   },
 });
 
@@ -81,6 +85,7 @@ export const {
   createBrandRequest,
   createBrandSuccess,
   createBrandFailure,
+  resetCreateStatus,
 } = brandSlice.actions;
 
 export default brandSlice.reducer;
