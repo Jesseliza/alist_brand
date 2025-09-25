@@ -97,35 +97,35 @@ export default function BrandCard({
               </span>
             </div>
           ))}
-          {(brand.Venue_contact_name || brand.venue_email) && (
-            <div className="col-span-3 bg-white rounded-[11px] shadow-[0_0_2px_rgba(0,0,0,0.16)] p-3 flex gap-3 items-center">
-              <div
-                className="h-[35px] w-[35px] aspect-square rounded-full flex items-center justify-center text-[14px] text-white font-semibold flex-shrink-0"
-                style={{
-                  backgroundColor: brand.Venue_contact_name
-                    ? generateColorFromString(brand.Venue_contact_name)
-                    : "#CCCCCC",
-                }}
-              >
-                {brand.Venue_contact_name
-                  ? brand.Venue_contact_name.substring(0, 2).toUpperCase()
-                  : ""}
-              </div>
-              <div className="text-[#414141] text-[14px] truncate">
-                {brand.Venue_contact_name && (
-                  <p className="font-medium text-[13px] leading-[20px] truncate">
-                    {brand.Venue_contact_name}
-                  </p>
-                )}
-                {brand.venue_email && (
-                  <p className="text-[11px] leading-[17px] truncate">
-                    {brand.venue_email}
-                  </p>
-                )}
-              </div>
-            </div>
-          )}
         </div>
+        {(brand.Venue_contact_name || brand.venue_email) && (
+          <div className="flex gap-3 mt-5">
+            <div
+              className="h-[35px] w-[35px] aspect-square rounded-full flex items-center justify-center text-[14px] text-white font-semibold flex-shrink-0"
+              style={{
+                backgroundColor: brand.Venue_contact_name
+                  ? generateColorFromString(brand.Venue_contact_name)
+                  : "#CCCCCC",
+              }}
+            >
+              {brand.Venue_contact_name
+                ? brand.Venue_contact_name.substring(0, 2).toUpperCase()
+                : ""}
+            </div>
+            <div className="text-[#414141] text-[14px] truncate">
+              {brand.Venue_contact_name && (
+                <p className="font-medium text-[13px] leading-[20px] truncate">
+                  {brand.Venue_contact_name}
+                </p>
+              )}
+              {brand.venue_email && (
+                <p className="text-[11px] leading-[17px] truncate">
+                  {brand.venue_email}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </Link>
   );
