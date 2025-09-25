@@ -140,9 +140,19 @@ export default function BrandsTable({
                 {brand.profileCompletion}%
               </td> */}
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
-                <button className="bg-blue-500 text-white rounded-[11px] text-[15px] px-4 py-1">
-                  View Files
-                </button>
+                <div className="flex items-center justify-center cursor-pointer">
+                  <Image
+                    alt="Upload"
+                    loading="lazy"
+                    width="13.14"
+                    height="16.97"
+                    decoding="async"
+                    data-nimg="1"
+                    src="/icons/general/upload-1.svg"
+                    style={{ color: "transparent" }}
+                  />
+                  <span className="ml-2">Upload</span>
+                </div>
               </td>
             </tr>
           ))}
