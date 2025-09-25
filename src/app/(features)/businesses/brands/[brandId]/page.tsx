@@ -52,6 +52,27 @@ export default function BrandPage() {
   };
 
   const handleSave = async () => {
+    const requiredFields: (keyof Brand)[] = [
+      'name', 'companyName', 'accountId', 'country', 'state', 'industry'
+    ];
+
+    for (const field of requiredFields) {
+      if (!brand[field]) {
+        toast.error(`Please fill in the ${field} field.`);
+        return;
+      }
+    }
+
+    if (isCreateMode && !brand.tradeLicenseCopy) {
+      toast.error("Please upload a Trade License copy.");
+      return;
+    }
+
+    if (isCreateMode && !brand.vatCertificate) {
+      toast.error("Please upload a VAT Certificate.");
+      return;
+    }
+
     setIsSaving(true);
     setError(null);
 
@@ -87,8 +108,8 @@ export default function BrandPage() {
         router.push("/businesses/brands");
       }
     } catch (error) {
-      setError(error.response?.data?.message || 'Failed to save brand.');
       toast.error(error.response?.data?.message || 'Failed to save brand.');
+      router.push("/businesses/brands");
     } finally {
       setIsSaving(false);
     }
@@ -98,9 +119,6 @@ export default function BrandPage() {
     return <Loader />;
   }
 
-  if (error) {
-    return <p className="text-red-500">{error}</p>;
-  }
 
   if (!brand && !isCreateMode) {
     return <p className="text-red-500">Brand not found.</p>;
