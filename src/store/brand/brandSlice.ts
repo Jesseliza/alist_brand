@@ -13,6 +13,7 @@ interface BrandState {
 }
 
 const initialState: BrandState = {
+  brand: null,
   brands: [],
   pagination: {
     currentPage: 1,
@@ -85,14 +86,22 @@ const brandSlice = createSlice({
       state.createSuccess = false;
       state.error = null;
     },
+    initializeNewBrand: (state) => {
+      state.brand = {} as Brand;
+      state.error = null;
+    },
     updateBrandField: (state, action: PayloadAction<{ field: keyof Brand; value: string }>) => {
       if (state.brand) {
         state.brand = { ...state.brand, [action.payload.field]: action.payload.value };
+      } else {
+        state.brand = { [action.payload.field]: action.payload.value } as Partial<Brand> as Brand;
       }
     },
     updateBrandFile: (state, action: PayloadAction<{ field: keyof Brand; file: File }>) => {
       if (state.brand) {
         state.brand = { ...state.brand, [action.payload.field]: action.payload.file };
+      } else {
+        state.brand = { [action.payload.field]: action.payload.file } as Partial<Brand> as Brand;
       }
     },
   },
@@ -112,6 +121,7 @@ export const {
   createBrandSuccess,
   createBrandFailure,
   resetCreateStatus,
+  initializeNewBrand,
   updateBrandField,
   updateBrandFile,
 } = brandSlice.actions;
