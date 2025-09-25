@@ -1,16 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Brand } from "@/types/entities";
 import BrandTabContent from "@/components/features/brands/BrandTabContent";
 import BrandHeader from "@/components/features/brands/BrandHeader";
 import Loader from "@/components/general/Loader";
 import { fetchData } from "@/services/commonService";
 import { transformApiVenueToBrand } from "@/utils/brandUtils";
+import axiosInstance from "@/services/apiHelper";
+import toast from "react-hot-toast";
 
 export default function BrandPage() {
   const params = useParams();
+  const router = useRouter();
   const { brandId } = params;
   const isCreateMode = brandId === "create";
 
@@ -51,11 +54,44 @@ export default function BrandPage() {
   const handleSave = async () => {
     setIsSaving(true);
     setError(null);
-    // TODO: Implement API call to save/update brand.
-    console.log("Saving brand:", brand);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setIsSaving(false);
-    alert("Brand saved successfully! (This is a placeholder message)");
+
+    const formData = new FormData();
+    formData.append('venue_title', brand.name || '');
+    formData.append('company_name', brand.companyName || '');
+    formData.append('account_id', brand.accountId || '');
+    formData.append('country_id', brand.country || '');
+    formData.append('state_id', brand.state || '');
+    formData.append('category_id', brand.industry || '');
+    formData.append('venue_instagram_url', brand.instagramHandle || '');
+    formData.append('venue_url', brand.websiteUrl || '');
+    formData.append('Venue_contact_name', brand.associateName || '');
+    formData.append('venue_email', brand.associateEmail || '');
+    formData.append('venue_contact_number', brand.associatePhone || '');
+
+    if (brand.tradeLicenseCopy) {
+      formData.append('trade_license_file', brand.tradeLicenseCopy);
+    }
+    if (brand.vatCertificate) {
+      formData.append('vat_certificate_file', brand.vatCertificate);
+    }
+
+    try {
+      const response = await axiosInstance.post('/add/venue', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.data) {
+        toast.success("Brand saved successfully!");
+        router.push("/businesses/brands");
+      }
+    } catch (error) {
+      setError(error.response?.data?.message || 'Failed to save brand.');
+      toast.error(error.response?.data?.message || 'Failed to save brand.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   if (loading) {
