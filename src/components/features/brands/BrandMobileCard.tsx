@@ -2,9 +2,10 @@ import { Brand } from "@/types/entities";
 import Link from "next/link";
 import Checkbox from "@/components/general/CheckBox";
 import Image from "next/image";
-import { getDisplayName } from "@/utils/brandUtils";
-import { generateColorFromString } from "@/utils/colorGenerator";
 import { getInitials } from "@/utils/text";
+import { generateColorFromString } from "@/utils/colorGenerator";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface BrandMobileCardProps {
   brand: Brand;
@@ -18,70 +19,80 @@ export default function BrandMobileCard({
   onCheckboxChange,
 }: BrandMobileCardProps) {
   const handleWrapperClick = (e: React.MouseEvent) => {
+    // This empty handler is to prevent the Link from navigating when clicking on the checkbox area.
     e.stopPropagation();
-    e.preventDefault();
   };
 
+  const { industries } = useSelector((state: RootState) => state.common);
+  const industryMap = new Map(industries.map((i) => [i.value, i.label]));
+  const industryName = industryMap.get(brand.industry) || 'N/A';
+
+  const items = [
+    {
+      id: "industry",
+      iconSrc: "/icons/store.svg",
+      iconAlt: "Industry",
+      label: industryName,
+      width: 39.58,
+      height: 33.62,
+    },
+    {
+      id: "instagram",
+      iconSrc: "/icons/instagram.svg",
+      iconAlt: "Social",
+      label: brand.instagramHandle || "N/A",
+      width: 32.71,
+      height: 32.71,
+    },
+    {
+      id: "offers",
+      iconSrc: "/icons/calendar.svg",
+      iconAlt: "Offers",
+      label: `${brand.offersCount} offers`,
+      width: 30.64,
+      height: 29.84,
+    },
+  ];
+
   return (
-    <Link href={`/businesses/brands/${brand.brandId}`} className="block cursor-pointer">
-      <div
-        className="bg-white rounded-[13px] py-3 px-3.5 flex items-center justify-between"
-      >
-        <div className="flex items-center gap-3 min-w-0">
-          <div onClick={handleWrapperClick} className="p-2 -ml-2">
-            <Checkbox
-              checked={checked}
-              onChange={onCheckboxChange}
-              onClick={(e) => e.stopPropagation()}
-            />
-          </div>
-          <div className="flex items-center gap-4">
+    <div className="bg-white rounded-[13px] p-6 relative">
+      <div onClick={handleWrapperClick} className="absolute top-4 right-4 z-10">
+        <Checkbox
+          checked={checked}
+          onChange={onCheckboxChange}
+        />
+      </div>
+      <Link href={`/businesses/brands/${brand.brandId}`} className="block cursor-pointer">
+        <div className="flex items-start gap-4">
+          <div className="h-[75px] w-[75px] rounded-full overflow-hidden relative flex-shrink-0 border-[5px] border-[#EEEEEE]">
             {brand.logo ? (
-              <Image
-                src={brand.logo}
-                alt={brand.name}
-                width={48}
-                height={48}
-                className="rounded-full"
-              />
+              <Image src={brand.logo} alt={brand.name} fill className="object-cover" sizes="100vw" />
             ) : (
               <div
-                className="h-[48px] w-[48px] rounded-full flex items-center justify-center"
+                className="w-full h-full flex items-center justify-center"
                 style={{ backgroundColor: generateColorFromString(brand.name) }}
               >
-                <span className="text-white text-xl font-semibold">
-                  {getInitials(brand.name)}
-                </span>
+                <span className="text-white text-3xl font-semibold">{getInitials(brand.name)}</span>
               </div>
             )}
-            <div className="flex flex-col flex-1 min-w-0">
-              <h3 className="text-[15px] text-[#4F4F4F] font-semibold leading-[1.5] truncate">
-                {getDisplayName(brand)}
-              </h3>
-              <p className="text-[11px] text-[#686868] leading-[1.5] truncate">
-                {brand.emailAddress}
-              </p>
-              <p className="text-[11px] text-[#686868] leading-[1.5] truncate">
-                {brand.phoneNumber}
-              </p>
-            </div>
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-[17px] font-medium text-[#4F4F4F] mb-1">{brand.name}</h3>
+            {brand.owner && <p className="text-[15px] text-[#4F4F4F] mb-1">{brand.owner}</p>}
+            {brand.emailAddress && <p className="text-[15px] text-[#4F4F4F] overflow-hidden text-ellipsis whitespace-nowrap">{brand.emailAddress}</p>}
           </div>
         </div>
-        <div className="text-[#BDBDBD]">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M8.59 16.59L13.17 12L8.59 7.41L10 6L16 12L10 18L8.59 16.59Z"
-              fill="currentColor"
-            />
-          </svg>
+        <div className="grid grid-cols-3 gap-5 mt-6">
+          {items.map((item) => (
+            <div key={item.id} className="rounded-[11px] pt-4 pb-5 flex items-center justify-center mb-2 flex-col gap-[16px] [box-shadow:0px_0px_2px_rgba(0,0,0,0.16)]">
+              <div className="h-[33px] w-[40px] flex items-center justify-center">
+                <Image src={item.iconSrc} alt={item.iconAlt} width={item.width} height={item.height} />
+              </div>
+              <p className="text-[11px] text-[#4F4F4F] text-center">{item.label}</p>
+            </div>
+          ))}
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
