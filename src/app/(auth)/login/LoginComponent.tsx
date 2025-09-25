@@ -63,11 +63,10 @@ export default function LoginComponent() {
     setFormError('');
 
     const phoneToVerify = storedPhoneNumber || phoneNumber;
-    const numericCountryCode = countryCode.replace(/\D/g, '');
 
     let finalPhoneNumber = phoneToVerify;
-    if (phoneToVerify.startsWith(numericCountryCode)) {
-      finalPhoneNumber = phoneToVerify.substring(numericCountryCode.length);
+    if (phoneToVerify.startsWith(countryCode)) {
+      finalPhoneNumber = phoneToVerify.substring(countryCode.length);
     }
 
     dispatch(loginRequest({ phoneNumber: finalPhoneNumber, otp, country_code: countryCode }));
