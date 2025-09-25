@@ -10,6 +10,8 @@ interface BrandState {
   error: string | null;
   createLoading: boolean;
   createSuccess: boolean;
+  updateLoading: boolean;
+  updateSuccess: boolean;
 }
 
 const initialState: BrandState = {
@@ -24,6 +26,8 @@ const initialState: BrandState = {
   error: null,
   createLoading: false,
   createSuccess: false,
+  updateLoading: false,
+  updateSuccess: false,
 };
 
 const brandSlice = createSlice({
@@ -100,6 +104,23 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
+    updateBrandRequest: (state, action: PayloadAction<Partial<Brand>>) => {
+      state.updateLoading = true;
+      state.updateSuccess = false;
+      state.error = null;
+    },
+    updateBrandSuccess: (state) => {
+      state.updateLoading = false;
+      state.updateSuccess = true;
+    },
+    updateBrandFailure: (state, action: PayloadAction<string>) => {
+      state.updateLoading = false;
+      state.error = action.payload;
+    },
+    resetUpdateStatus: (state) => {
+      state.updateSuccess = false;
+      state.error = null;
+    },
   },
 });
 
@@ -120,6 +141,10 @@ export const {
   updateBrandField,
   updateBrandFile,
   initializeNewBrand,
+  updateBrandRequest,
+  updateBrandSuccess,
+  updateBrandFailure,
+  resetUpdateStatus,
 } = brandSlice.actions;
 
 export default brandSlice.reducer;

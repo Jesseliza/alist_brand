@@ -399,9 +399,11 @@ export default function BrandDetails({
             </button>
           </div>
         </div>
-        <p className="text-sm text-[#4F4F4F] mt-4">
-          Registration date: {brand.registrationDate || "N/A"}
-        </p>
+        {brand.registrationDate && (
+          <p className="text-sm text-[#4F4F4F] mt-4">
+            Registration date: {new Date(brand.registrationDate).toLocaleDateString()}
+          </p>
+        )}
       </div>
     </div>
   );
