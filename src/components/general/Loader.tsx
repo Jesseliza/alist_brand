@@ -6,8 +6,13 @@ interface LoaderProps {
 
 const Loader = ({ size = 64 }: LoaderProps) => {
   return (
-    <div className="flex justify-center items-center min-h-[400px]">
-      <Image src="/icons/loader.gif" alt="Loading..." width={size} height={size} />
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <Image
+        src="/icons/loader.gif"
+        alt="Loading..."
+        width={size}
+        height={size}
+      />
     </div>
   );
 };
