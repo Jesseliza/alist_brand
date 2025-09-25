@@ -1,5 +1,6 @@
 "use client";
 
+import { useSelector } from "react-redux";
 import Checkbox from "@/components/general/CheckBox";
 import { Brand } from "@/types/entities";
 import { getDisplayName } from "@/utils/brandUtils";
@@ -7,6 +8,7 @@ import { generateColorFromString } from "@/utils/colorGenerator";
 import { getInitials } from "@/utils/text";
 import Link from "next/link";
 import Image from "next/image";
+import { RootState } from "@/store/store";
 
 interface BrandsTableProps {
   brands: Brand[];
@@ -19,6 +21,10 @@ export default function BrandsTable({
   checkedRows,
   onCheckboxChange,
 }: BrandsTableProps) {
+  const { industries } = useSelector((state: RootState) => state.common);
+
+  const industryMap = new Map(industries.map(i => [i.value, i.label]));
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-GB", {
       day: "2-digit",
@@ -132,7 +138,7 @@ export default function BrandsTable({
                 {brand.emailAddress}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                {brand.industry}
+                {industryMap.get(brand.industry) || 'N/A'}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
                 {brand.offersCount}

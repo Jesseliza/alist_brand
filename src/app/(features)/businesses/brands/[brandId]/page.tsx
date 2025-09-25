@@ -16,6 +16,7 @@ import {
   updateBrandFile,
 } from "@/store/brand/brandSlice";
 import { RootState } from "@/store/store";
+import { fetchIndustries } from "@/store/common/commonSlice";
 
 export default function BrandPage() {
   const params = useParams();
@@ -31,6 +32,7 @@ export default function BrandPage() {
   const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof Brand, string>>>({});
 
   useEffect(() => {
+    dispatch(fetchIndustries());
     if (isCreateMode) {
       dispatch(initializeNewBrand());
     } else if (brandId) {
