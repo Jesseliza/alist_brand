@@ -74,6 +74,65 @@ const InputField = ({ label, value, name, icon, isEditMode, onChange, error }: I
   </div>
 );
 
+interface FileUploadFieldProps {
+  label: string;
+  file: string | File | null | undefined;
+  name: keyof Brand;
+  isEditMode: boolean;
+  onFileChange: (field: keyof Brand, file: File) => void;
+  error?: string;
+}
+
+const FileUploadField = ({ label, file, name, isEditMode, onFileChange, error }: FileUploadFieldProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  let displayValue = '';
+  if (typeof file === 'string') {
+    displayValue = file.split('/').pop() || '';
+  } else if (file instanceof File) {
+    displayValue = file.name;
+  }
+
+  return (
+    <div>
+      <label htmlFor={name} className="block text-[#4F4F4F] mb-2.5 truncate">
+        {label}
+      </label>
+      <div className="relative">
+        <input
+          type="text"
+          value={displayValue}
+          readOnly
+          placeholder="No file selected"
+          className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none truncate pr-12"
+        />
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex-shrink-0">
+          {isEditMode ? (
+            <button type="button" onClick={() => fileInputRef.current?.click()} className="focus:outline-none">
+              <Image src="/icons/download.svg" alt="upload file" width={20} height={15} />
+            </button>
+          ) : (
+            typeof file === 'string' && file && (
+              <a href={file} target="_blank" rel="noopener noreferrer">
+                <Image src="/icons/download.svg" alt="download file" width={20} height={15} />
+              </a>
+            )
+          )}
+        </div>
+        <input
+          type="file"
+          ref={fileInputRef}
+          className="hidden"
+          accept=".pdf"
+          disabled={!isEditMode}
+          onChange={(e) => e.target.files && onFileChange(name, e.target.files[0])}
+        />
+      </div>
+      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+    </div>
+  );
+};
+
 export default function BrandDetails({
   brand,
   isEditMode,
@@ -86,8 +145,6 @@ export default function BrandDetails({
 }: BrandDetailsProps) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const tradeLicenseInputRef = useRef<HTMLInputElement>(null);
-  const vatCertificateInputRef = useRef<HTMLInputElement>(null);
   const { countries, states, industries, allAccounts, loading } = useSelector(
     (state: RootState) => state.common
   );
@@ -222,100 +279,24 @@ export default function BrandDetails({
 
                 <div className="grid grid-cols-2 gap-5">
                   <div>
-                    <label
-                      htmlFor="tradeLicenseCopy"
-                      className="block text-[#4F4F4F] mb-2.5 truncate"
-                    >
-                      Trade License Copy
-                    </label>
-                    {typeof brand.tradeLicenseCopy === 'string' && brand.tradeLicenseCopy ? (
-                      <div className="relative">
-                        <input
-                          type="text"
-                          value={brand.tradeLicenseCopy.split('/').pop() || ''}
-                          readOnly
-                          className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none truncate pr-12"
-                        />
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex-shrink-0">
-                          <button type="button" onClick={() => tradeLicenseInputRef.current?.click()} className="focus:outline-none">
-                            <Image
-                              src="/icons/download.svg"
-                              alt="upload new file"
-                              width={20}
-                              height={15}
-                            />
-                          </button>
-                        </div>
-                        <input
-                          type="file"
-                          ref={tradeLicenseInputRef}
-                          className="hidden"
-                          accept=".pdf"
-                          disabled={!isEditMode}
-                          onChange={(e) => e.target.files && onFileChange("tradeLicenseCopy", e.target.files[0])}
-                        />
-                      </div>
-                    ) : (
-                      <input
-                        type="file"
-                        id="tradeLicenseCopy"
-                        name="tradeLicenseCopy"
-                        accept=".pdf"
-                        disabled={!isEditMode}
-                        onChange={(e) => e.target.files && onFileChange("tradeLicenseCopy", e.target.files[0])}
-                        className="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                      />
-                    )}
-                    {brand.tradeLicenseCopy instanceof File && <p className="text-sm text-gray-500 mt-1">{brand.tradeLicenseCopy.name}</p>}
-                    {errors.tradeLicenseCopy && <p className="text-red-500 text-xs mt-1">{errors.tradeLicenseCopy}</p>}
+                    <FileUploadField
+                      label="Trade License Copy"
+                      file={brand.tradeLicenseCopy}
+                      name="tradeLicenseCopy"
+                      isEditMode={isEditMode}
+                      onFileChange={onFileChange}
+                      error={errors.tradeLicenseCopy}
+                    />
                   </div>
                   <div>
-                    <label
-                      htmlFor="vatCertificate"
-                      className="block text-[#4F4F4F] mb-2.5 truncate"
-                    >
-                      VAT Certificate
-                    </label>
-                    {typeof brand.vatCertificate === 'string' && brand.vatCertificate ? (
-                      <div className="relative">
-                        <input
-                          type="text"
-                          value={brand.vatCertificate.split('/').pop() || ''}
-                          readOnly
-                          className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none truncate pr-12"
-                        />
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex-shrink-0">
-                          <button type="button" onClick={() => vatCertificateInputRef.current?.click()} className="focus:outline-none">
-                            <Image
-                              src="/icons/download.svg"
-                              alt="upload new file"
-                              width={20}
-                              height={15}
-                            />
-                          </button>
-                        </div>
-                        <input
-                          type="file"
-                          ref={vatCertificateInputRef}
-                          className="hidden"
-                          accept=".pdf"
-                          disabled={!isEditMode}
-                          onChange={(e) => e.target.files && onFileChange("vatCertificate", e.target.files[0])}
-                        />
-                      </div>
-                    ) : (
-                      <input
-                        type="file"
-                        id="vatCertificate"
-                        name="vatCertificate"
-                        accept=".pdf"
-                        disabled={!isEditMode}
-                        onChange={(e) => e.target.files && onFileChange("vatCertificate", e.target.files[0])}
-                        className="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                      />
-                    )}
-                    {brand.vatCertificate instanceof File && <p className="text-sm text-gray-500 mt-1">{brand.vatCertificate.name}</p>}
-                    {errors.vatCertificate && <p className="text-red-500 text-xs mt-1">{errors.vatCertificate}</p>}
+                    <FileUploadField
+                      label="VAT Certificate"
+                      file={brand.vatCertificate}
+                      name="vatCertificate"
+                      isEditMode={isEditMode}
+                      onFileChange={onFileChange}
+                      error={errors.vatCertificate}
+                    />
                   </div>
                 </div>
               </div>

@@ -26,10 +26,11 @@ interface ApiBrand {
   venue_logo: string | null;
   venue_banner: string | null;
   created_at: string;
-  category: {
+  category?: {
     id: number;
     category: string;
-  } | null;
+  };
+  category_id?: number | null;
   owner?: string;
   offers_count?: number;
   profile_completion?: number;
@@ -39,7 +40,6 @@ interface ApiBrand {
   account_id?: number | null;
   country_id?: number | null;
   state_id?: number | null;
-  category_id?: number | null;
   company_name?: string | null;
   delivery_areas?: string | null;
   trade_license_file?: string | null;
