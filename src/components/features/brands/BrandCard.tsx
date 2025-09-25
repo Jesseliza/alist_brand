@@ -5,6 +5,8 @@ import { Brand } from "@/types/entities";
 import Checkbox from "@/components/general/CheckBox";
 import { generateColorFromString } from "@/utils/colorGenerator";
 import { getInitials } from "@/utils/text";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface BrandCardProps {
   brand: Brand;
@@ -21,12 +23,16 @@ export default function BrandCard({
     e.stopPropagation();
   };
 
+  const { industries } = useSelector((state: RootState) => state.common);
+  const industryMap = new Map(industries.map(i => [i.value, i.label]));
+  const industryName = industryMap.get(brand.industry) || 'N/A';
+
   const items = [
     {
       id: "industry",
       iconSrc: "/icons/category-1-light.svg",
       iconAlt: "Industry",
-      label: brand.industry,
+      label: industryName,
       with: 33.64,
       height: 28.58,
     },
