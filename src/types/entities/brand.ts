@@ -27,6 +27,4 @@ export type Brand = {
   campaignsCount: number; // (Derived) Number of Campaigns this Brand runs
   profileCompletion: number; // (Derived) How complete the Brand's profile is for the UI
   files: number; // Number of files associated with the brand
-  Venue_contact_name: string | null; // From API
-  venue_email: string | null; // From API
 };
