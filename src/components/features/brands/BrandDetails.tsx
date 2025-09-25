@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Brand } from "@/types/entities";
 import SearchableDropdown from "@/components/general/dropdowns/SearchableDropdown";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { fetchAllAccounts, fetchCountries, fetchIndustries, fetchStates } from "@/store/common/commonSlice";
@@ -86,6 +86,8 @@ export default function BrandDetails({
 }: BrandDetailsProps) {
   const router = useRouter();
   const dispatch = useDispatch();
+  const tradeLicenseInputRef = useRef<HTMLInputElement>(null);
+  const vatCertificateInputRef = useRef<HTMLInputElement>(null);
   const { countries, states, industries, allAccounts, loading } = useSelector(
     (state: RootState) => state.common
   );
@@ -227,7 +229,32 @@ export default function BrandDetails({
                       Trade License Copy
                     </label>
                     {typeof brand.tradeLicenseCopy === 'string' && brand.tradeLicenseCopy ? (
-                      <a href={brand.tradeLicenseCopy} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Download</a>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={brand.tradeLicenseCopy.split('/').pop() || ''}
+                          readOnly
+                          className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none truncate pr-12"
+                        />
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex-shrink-0">
+                          <button type="button" onClick={() => tradeLicenseInputRef.current?.click()} className="focus:outline-none">
+                            <Image
+                              src="/icons/download.svg"
+                              alt="upload new file"
+                              width={20}
+                              height={15}
+                            />
+                          </button>
+                        </div>
+                        <input
+                          type="file"
+                          ref={tradeLicenseInputRef}
+                          className="hidden"
+                          accept=".pdf"
+                          disabled={!isEditMode}
+                          onChange={(e) => e.target.files && onFileChange("tradeLicenseCopy", e.target.files[0])}
+                        />
+                      </div>
                     ) : (
                       <input
                         type="file"
@@ -250,7 +277,32 @@ export default function BrandDetails({
                       VAT Certificate
                     </label>
                     {typeof brand.vatCertificate === 'string' && brand.vatCertificate ? (
-                      <a href={brand.vatCertificate} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Download</a>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={brand.vatCertificate.split('/').pop() || ''}
+                          readOnly
+                          className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none truncate pr-12"
+                        />
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex-shrink-0">
+                          <button type="button" onClick={() => vatCertificateInputRef.current?.click()} className="focus:outline-none">
+                            <Image
+                              src="/icons/download.svg"
+                              alt="upload new file"
+                              width={20}
+                              height={15}
+                            />
+                          </button>
+                        </div>
+                        <input
+                          type="file"
+                          ref={vatCertificateInputRef}
+                          className="hidden"
+                          accept=".pdf"
+                          disabled={!isEditMode}
+                          onChange={(e) => e.target.files && onFileChange("vatCertificate", e.target.files[0])}
+                        />
+                      </div>
                     ) : (
                       <input
                         type="file"
