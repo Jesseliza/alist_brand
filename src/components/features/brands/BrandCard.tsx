@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Brand } from "@/types/entities";
 import Checkbox from "@/components/general/CheckBox";
 import { generateColorFromString } from "@/utils/colorGenerator";
+import { getInitials } from "@/utils/text";
 
 interface BrandCardProps {
   brand: Brand;
@@ -66,7 +67,7 @@ export default function BrandCard({
               style={{ backgroundColor: generateColorFromString(brand.name) }}
             >
               <span className="text-white text-3xl font-semibold">
-                {brand.name.substring(0, 2).toUpperCase()}
+                {getInitials(brand.name)}
               </span>
             </div>
           )}
