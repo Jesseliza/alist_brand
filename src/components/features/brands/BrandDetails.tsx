@@ -17,6 +17,7 @@ interface BrandDetailsProps {
   onSave: () => void;
   isSaving: boolean;
   isCreateMode: boolean;
+  errors?: Partial<Record<keyof Brand, string>>;
 }
 
 interface IconProps {
@@ -33,9 +34,10 @@ interface InputFieldProps {
   icon?: IconProps;
   isEditMode: boolean;
   onChange: (field: keyof Brand, value: string) => void;
+  error?: string;
 }
 
-const InputField = ({ label, value, name, icon, isEditMode, onChange }: InputFieldProps) => (
+const InputField = ({ label, value, name, icon, isEditMode, onChange, error }: InputFieldProps) => (
   <div>
     <label
       htmlFor={name}
@@ -68,6 +70,7 @@ const InputField = ({ label, value, name, icon, isEditMode, onChange }: InputFie
         </div>
       )}
     </div>
+    {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
   </div>
 );
 
@@ -79,6 +82,7 @@ export default function BrandDetails({
   onSave,
   isSaving,
   isCreateMode,
+  errors = {},
 }: BrandDetailsProps) {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -125,6 +129,7 @@ export default function BrandDetails({
                       height: 16.26,
                       alt: "copy",
                     }}
+                    error={errors.name}
                   />
                 </div>
                 <div className="mb-5 md:mb-7">
@@ -140,6 +145,7 @@ export default function BrandDetails({
                       height: 16.26,
                       alt: "copy",
                     }}
+                    error={errors.companyName}
                   />
                 </div>
                 <div className="mb-5 md:mb-7">
@@ -156,6 +162,7 @@ export default function BrandDetails({
                     placeholder="Select an account"
                     disabled={loading.allAccounts}
                   />
+                  {errors.accountId && <p className="text-red-500 text-xs mt-1">{errors.accountId}</p>}
                 </div>
                 <div className="grid grid-cols-2 gap-5 mb-5 md:mb-7">
                   <div>
@@ -175,6 +182,7 @@ export default function BrandDetails({
                       placeholder="Select a country"
                       disabled={loading.countries}
                     />
+                    {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
                   </div>
                   <div>
                     <label
@@ -190,6 +198,7 @@ export default function BrandDetails({
                       placeholder="Select a state"
                       disabled={!brand.country || loading.states}
                     />
+                    {errors.state && <p className="text-red-500 text-xs mt-1">{errors.state}</p>}
                   </div>
                 </div>
                 <div className="mb-5 md:mb-7">
@@ -206,6 +215,7 @@ export default function BrandDetails({
                     placeholder="Select an industry"
                     disabled={loading.industries}
                   />
+                  {errors.industry && <p className="text-red-500 text-xs mt-1">{errors.industry}</p>}
                 </div>
 
                 <div className="grid grid-cols-2 gap-5">
@@ -229,6 +239,7 @@ export default function BrandDetails({
                       />
                     )}
                     {brand.tradeLicenseCopy instanceof File && <p className="text-sm text-gray-500 mt-1">{brand.tradeLicenseCopy.name}</p>}
+                    {errors.tradeLicenseCopy && <p className="text-red-500 text-xs mt-1">{errors.tradeLicenseCopy}</p>}
                   </div>
                   <div>
                     <label
@@ -250,6 +261,7 @@ export default function BrandDetails({
                       />
                     )}
                     {brand.vatCertificate instanceof File && <p className="text-sm text-gray-500 mt-1">{brand.vatCertificate.name}</p>}
+                    {errors.vatCertificate && <p className="text-red-500 text-xs mt-1">{errors.vatCertificate}</p>}
                   </div>
                 </div>
               </div>

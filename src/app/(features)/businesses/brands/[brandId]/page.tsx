@@ -21,6 +21,7 @@ export default function BrandPage() {
   const [loading, setLoading] = useState(!isCreateMode);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof Brand, string>>>({});
 
   useEffect(() => {
     if (!isCreateMode) {
@@ -52,24 +53,30 @@ export default function BrandPage() {
   };
 
   const handleSave = async () => {
+    const newErrors: Partial<Record<keyof Brand, string>> = {};
     const requiredFields: (keyof Brand)[] = [
       'name', 'companyName', 'accountId', 'country', 'state', 'industry'
     ];
 
-    for (const field of requiredFields) {
+    requiredFields.forEach((field) => {
       if (!brand[field]) {
-        toast.error(`Please fill in the ${field} field.`);
-        return;
+        const label = field.replace(/([A-Z])/g, " $1");
+        const capitalizedLabel = label.charAt(0).toUpperCase() + label.slice(1);
+        newErrors[field] = `${capitalizedLabel} is required.`;
       }
-    }
+    });
 
     if (isCreateMode && !brand.tradeLicenseCopy) {
-      toast.error("Please upload a Trade License copy.");
-      return;
+      newErrors.tradeLicenseCopy = "Trade License copy is required.";
     }
 
     if (isCreateMode && !brand.vatCertificate) {
-      toast.error("Please upload a VAT Certificate.");
+      newErrors.vatCertificate = "VAT Certificate is required.";
+    }
+
+    setValidationErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
       return;
     }
 
@@ -150,6 +157,7 @@ export default function BrandPage() {
             onSave: handleSave,
             isSaving: isSaving,
             isCreateMode: isCreateMode,
+            errors: validationErrors,
           }}
         />
       </div>

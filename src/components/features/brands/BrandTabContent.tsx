@@ -12,6 +12,7 @@ interface BrandTabContentProps extends TabContentProps {
     onSave: () => void;
     isSaving: boolean;
     isCreateMode: boolean;
+    errors?: Partial<Record<keyof Brand, string>>;
   };
 }
 
@@ -34,6 +35,7 @@ export default function BrandTabContent({
             onSave={brand.onSave}
             isSaving={brand.isSaving}
             isCreateMode={brand.isCreateMode}
+            errors={brand.errors}
           />
         );
       case "Campaigns":
