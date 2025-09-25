@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
@@ -91,7 +91,7 @@ export default function BrandsPage() {
     });
   };
 
-  const handleSeeMore = () => {
+  const handleSeeMore = useCallback(() => {
     const nextPage = mobilePage + 1;
     dispatch(fetchMoreBrandsRequest({
       page: nextPage,
@@ -99,7 +99,7 @@ export default function BrandsPage() {
       per_page: 12
     }));
     setMobilePage(nextPage);
-  };
+  }, [mobilePage, dispatch, searchTerm]);
 
   useEffect(() => {
     const handleScroll = () => {
