@@ -6,6 +6,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
 import { fetchBrandsRequest, fetchMoreBrandsRequest } from "@/store/brand/brandSlice";
 import { setSearchTerm } from "@/store/search/searchSlice";
+import { fetchIndustries } from "@/store/common/commonSlice";
 import { RootState } from "@/store/store";
 import BrandsTable from "@/components/features/brands/BrandsTable";
 import BrandCard from "@/components/features/brands/BrandCard";
@@ -40,6 +41,7 @@ export default function BrandsPage() {
 
   useEffect(() => {
     dispatch(fetchBrandsRequest({ per_page: 12, page: 1 }));
+    dispatch(fetchIndustries());
   }, [dispatch]);
 
   const isInitialSearchMount = useRef(true);
