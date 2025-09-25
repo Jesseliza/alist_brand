@@ -101,23 +101,6 @@ export default function BrandsPage() {
     setMobilePage(nextPage);
   }, [mobilePage, dispatch, searchTerm]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        view === "card" &&
-        window.innerHeight + document.documentElement.scrollTop >=
-          document.documentElement.offsetHeight - 500 &&
-        !loading &&
-        pagination &&
-        brands.length < pagination.total
-      ) {
-        handleSeeMore();
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [view, loading, pagination, brands, handleSeeMore]);
 
   return (
     <div>
@@ -219,9 +202,15 @@ export default function BrandsPage() {
                   />
                 ))}
               </div>
-              {loading && brands.length > 0 && (
+              {pagination && brands.length < pagination.total && (
                 <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
-                  <InlineLoader />
+                  <button
+                    onClick={handleSeeMore}
+                    disabled={loading}
+                    className="disabled:text-gray-400"
+                  >
+                    {loading ? <InlineLoader /> : 'See More'}
+                  </button>
                 </div>
               )}
             </>
