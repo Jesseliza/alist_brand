@@ -14,7 +14,6 @@ interface BrandState {
 
 const initialState: BrandState = {
   brands: [],
-  brand: null,
   pagination: {
     currentPage: 1,
     lastPage: 1,
