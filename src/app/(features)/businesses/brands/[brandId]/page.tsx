@@ -25,6 +25,7 @@ export default function BrandPage() {
 
   const [brand, setBrand] = useState<Partial<Brand>>({});
   const [loading, setLoading] = useState(!isCreateMode);
+  const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof Brand, string>>>({});
 
   useEffect(() => {
     if (!isCreateMode) {
@@ -62,6 +63,32 @@ export default function BrandPage() {
   };
 
   const handleSave = () => {
+    const newErrors: Partial<Record<keyof Brand, string>> = {};
+    const requiredFields: (keyof Brand)[] = [
+      'name', 'companyName', 'accountId', 'country', 'state', 'industry'
+    ];
+
+    requiredFields.forEach((field) => {
+      if (!brand[field]) {
+        const label = field.replace(/([A-Z])/g, " $1");
+        const capitalizedLabel = label.charAt(0).toUpperCase() + label.slice(1);
+        newErrors[field] = `${capitalizedLabel} is required.`;
+      }
+    });
+
+    if (isCreateMode && !brand.tradeLicenseCopy) {
+      newErrors.tradeLicenseCopy = "Trade License copy is required.";
+    }
+
+    if (isCreateMode && !brand.vatCertificate) {
+      newErrors.vatCertificate = "VAT Certificate is required.";
+    }
+
+    setValidationErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
     dispatch(createBrandRequest(brand));
   };
 
@@ -99,6 +126,7 @@ export default function BrandPage() {
             onSave: handleSave,
             isSaving: createLoading,
             isCreateMode: isCreateMode,
+            errors: validationErrors,
           }}
         />
       </div>
