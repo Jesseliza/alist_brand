@@ -11,6 +11,7 @@ import {
   createBrandRequest,
   resetCreateStatus,
   fetchBrandRequest,
+  initializeNewBrand,
   updateBrandField,
   updateBrandFile,
 } from "@/store/brand/brandSlice";
@@ -30,7 +31,9 @@ export default function BrandPage() {
   const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof Brand, string>>>({});
 
   useEffect(() => {
-    if (!isCreateMode && brandId) {
+    if (isCreateMode) {
+      dispatch(initializeNewBrand());
+    } else if (brandId) {
       dispatch(fetchBrandRequest({ brandId: brandId as string }));
     }
   }, [brandId, isCreateMode, dispatch]);
