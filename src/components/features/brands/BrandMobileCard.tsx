@@ -2,6 +2,8 @@ import { Brand } from "@/types/entities";
 import Link from "next/link";
 import Checkbox from "@/components/general/CheckBox";
 import Image from "next/image";
+import { getDisplayName } from "@/utils/brandUtils";
+import { generateColorFromString } from "@/utils/colorGenerator";
 
 interface BrandMobileCardProps {
   brand: Brand;
@@ -33,16 +35,27 @@ export default function BrandMobileCard({
             />
           </div>
           <div className="flex items-center gap-4">
-            <Image
-              src={brand.logo || '/images/default-brand.png'}
-              alt={brand.name}
-              width={48}
-              height={48}
-              className="rounded-full"
-            />
+            {brand.logo ? (
+              <Image
+                src={brand.logo}
+                alt={brand.name}
+                width={48}
+                height={48}
+                className="rounded-full"
+              />
+            ) : (
+              <div
+                className="h-[48px] w-[48px] rounded-full flex items-center justify-center"
+                style={{ backgroundColor: generateColorFromString(brand.name) }}
+              >
+                <span className="text-white text-xl font-semibold">
+                  {brand.name.substring(0, 2).toUpperCase()}
+                </span>
+              </div>
+            )}
             <div className="flex flex-col flex-1 min-w-0">
               <h3 className="text-[15px] text-[#4F4F4F] font-semibold leading-[1.5] truncate">
-                {brand.name}
+                {getDisplayName(brand)}
               </h3>
               <p className="text-[11px] text-[#686868] leading-[1.5] truncate">
                 {brand.emailAddress}
