@@ -17,11 +17,15 @@ interface ApiBrand {
   venue_url: string;
   venue_whatsapp_no: string;
   venue_email: string;
+  venue_logo: string;
   venue_banner: string;
   created_at: string;
+  category: {
+    id: number;
+    category: string;
+  };
   // Assuming the following fields are available in the API response
   owner?: string;
-  industry?: string;
   offers_count?: number;
   profile_completion?: number;
   files_count?: number;
@@ -60,11 +64,11 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
         brandId: apiBrand.id.toString(),
         name: apiBrand.venue_title,
         owner: apiBrand.owner || 'N/A',
-        logo: apiBrand.venue_banner,
+        logo: apiBrand.venue_logo,
         websiteUrl: apiBrand.venue_url,
         phoneNumber: apiBrand.venue_whatsapp_no,
         emailAddress: apiBrand.venue_email,
-        industry: apiBrand.industry || 'N/A',
+        industry: apiBrand.category?.category || 'N/A',
         registrationDate: apiBrand.created_at,
         offersCount: apiBrand.offers_count || 0,
         campaignsCount: 0, // This should be updated with actual data if available
@@ -128,11 +132,11 @@ function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest
         brandId: apiBrand.id.toString(),
         name: apiBrand.venue_title,
         owner: apiBrand.owner || 'N/A',
-        logo: apiBrand.venue_banner,
+        logo: apiBrand.venue_logo,
         websiteUrl: apiBrand.venue_url,
         phoneNumber: apiBrand.venue_whatsapp_no,
         emailAddress: apiBrand.venue_email,
-        industry: apiBrand.industry || 'N/A',
+        industry: apiBrand.category?.category || 'N/A',
         registrationDate: apiBrand.created_at,
         offersCount: apiBrand.offers_count || 0,
         campaignsCount: 0, // This should be updated with actual data if available
