@@ -20,23 +20,32 @@ import { Brand } from '@/types/entities';
 interface ApiBrand {
   id: number;
   venue_title: string;
-  venue_url: string;
-  venue_whatsapp_no: string;
-  venue_email: string;
-  venue_logo: string;
-  venue_banner: string;
+  venue_url: string | null;
+  venue_whatsapp_no: string | null;
+  venue_email: string | null;
+  venue_logo: string | null;
+  venue_banner: string | null;
   created_at: string;
   category: {
     id: number;
     category: string;
-  };
-  // Assuming the following fields are available in the API response
+  } | null;
   owner?: string;
   offers_count?: number;
   profile_completion?: number;
   files_count?: number;
-  accounts?: { first_name: string; last_name: string };
-  Venue_contact_name?: string;
+  accounts?: { first_name: string; last_name: string } | null;
+  Venue_contact_name?: string | null;
+  account_id?: number | null;
+  country_id?: number | null;
+  state_id?: number | null;
+  category_id?: number | null;
+  company_name?: string | null;
+  delivery_areas?: string | null;
+  trade_license_file?: string | null;
+  vat_certificate_file?: string | null;
+  venue_instagram_url?: string | null;
+  venue_contact_number?: string | null;
 }
 
 type ApiError = {
@@ -79,10 +88,9 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
         industry: apiBrand.category?.category || 'N/A',
         registrationDate: apiBrand.created_at,
         offersCount: apiBrand.offers_count || 0,
-        campaignsCount: 0, // This should be updated with actual data if available
+        campaignsCount: 0,
         profileCompletion: apiBrand.profile_completion || 0,
         files: apiBrand.files_count || 0,
-        // Defaulting other required fields
         accountId: 'N/A',
         companyName: 'N/A',
         country: 'N/A',
@@ -149,10 +157,9 @@ function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest
         industry: apiBrand.category?.category || 'N/A',
         registrationDate: apiBrand.created_at,
         offersCount: apiBrand.offers_count || 0,
-        campaignsCount: 0, // This should be updated with actual data if available
+        campaignsCount: 0,
         profileCompletion: apiBrand.profile_completion || 0,
         files: apiBrand.files_count || 0,
-        // Defaulting other required fields
         accountId: 'N/A',
         companyName: 'N/A',
         country: 'N/A',
@@ -256,16 +263,16 @@ function* handleFetchBrand(action: ReturnType<typeof fetchBrandRequest>) {
         websiteUrl: apiBrand.venue_url,
         phoneNumber: apiBrand.venue_whatsapp_no,
         emailAddress: apiBrand.venue_email,
-        industry: apiBrand.category?.category || 'N/A',
+        industry: apiBrand.category_id ? apiBrand.category_id.toString() : null,
         registrationDate: apiBrand.created_at,
         offersCount: apiBrand.offers_count || 0,
         campaignsCount: 0,
         profileCompletion: apiBrand.profile_completion || 0,
         files: apiBrand.files_count || 0,
-        accountId: apiBrand.account_id,
+        accountId: apiBrand.account_id ? apiBrand.account_id.toString() : null,
         companyName: apiBrand.company_name,
-        country: apiBrand.country_id,
-        state: apiBrand.state_id,
+        country: apiBrand.country_id ? apiBrand.country_id.toString() : null,
+        state: apiBrand.state_id ? apiBrand.state_id.toString() : null,
         businessLocation: apiBrand.delivery_areas,
         tradeLicenseCopy: apiBrand.trade_license_file,
         vatCertificate: apiBrand.vat_certificate_file,
