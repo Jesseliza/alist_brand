@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
@@ -30,7 +30,6 @@ export default function BrandsPage() {
 
   const { searchTerm } = useSelector((state: RootState) => state.search);
   const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
-  const [mobilePage, setMobilePage] = useState(1);
   const [view, setView] = useState<"table" | "card">("table");
 
   const handleAddBrandClick = () => {
@@ -90,17 +89,6 @@ export default function BrandsPage() {
       return newCheckedRows;
     });
   };
-
-  const handleSeeMore = useCallback(() => {
-    const nextPage = mobilePage + 1;
-    dispatch(fetchMoreBrandsRequest({
-      page: nextPage,
-      search: searchTerm,
-      per_page: 12
-    }));
-    setMobilePage(nextPage);
-  }, [mobilePage, dispatch, searchTerm]);
-
 
   return (
     <div>
@@ -182,7 +170,8 @@ export default function BrandsPage() {
                     ))}
                   </div>
                 )}
-                {view === "table" && pagination && (
+                {loading && brands.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
+                {pagination && (
                   <Pagination
                     totalItems={pagination.total}
                     itemsPerPage={pagination.perPage}
@@ -201,18 +190,16 @@ export default function BrandsPage() {
                     onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
                   />
                 ))}
+                {pagination && (
+                  <Pagination
+                    totalItems={pagination.total}
+                    itemsPerPage={pagination.perPage}
+                    currentPage={pagination.currentPage}
+                    onPageChange={handlePageChange}
+                    onItemsPerPageChange={handleItemsPerPageChange}
+                  />
+                )}
               </div>
-              {pagination && brands.length < pagination.total && (
-                <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
-                  <button
-                    onClick={handleSeeMore}
-                    disabled={loading}
-                    className="disabled:text-gray-400"
-                  >
-                    {loading ? <InlineLoader /> : 'See More'}
-                  </button>
-                </div>
-              )}
             </>
           )}
         </div>
