@@ -8,6 +8,9 @@ import {
   fetchMoreBrandsRequest,
   fetchMoreBrandsSuccess,
   fetchMoreBrandsFailure,
+  fetchBrandRequest,
+  fetchBrandSuccess,
+  fetchBrandFailure,
   createBrandRequest,
   createBrandSuccess,
   createBrandFailure,
@@ -228,10 +231,68 @@ function* handleCreateBrand(action: ReturnType<typeof createBrandRequest>) {
   }
 }
 
+type FetchBrandSuccessResponse = {
+  message: string;
+  Venue: ApiBrand;
+};
+
+function* handleFetchBrand(action: ReturnType<typeof fetchBrandRequest>) {
+  try {
+    const { brandId } = action.payload;
+    const response: FetchBrandSuccessResponse | ApiError = yield call(fetchData, `/api/venue/${brandId}`);
+
+    if ('Venue' in response && response.Venue) {
+      const apiBrand = response.Venue;
+      const feBrand: Brand = {
+        brandId: apiBrand.id.toString(),
+        name: apiBrand.venue_title,
+        owner: apiBrand.accounts ? `${apiBrand.accounts.first_name} ${apiBrand.accounts.last_name}` : 'N/A',
+        logo: apiBrand.venue_logo,
+        websiteUrl: apiBrand.venue_url,
+        phoneNumber: apiBrand.venue_whatsapp_no,
+        emailAddress: apiBrand.venue_email,
+        industry: apiBrand.category?.category || 'N/A',
+        registrationDate: apiBrand.created_at,
+        offersCount: apiBrand.offers_count || 0,
+        campaignsCount: 0,
+        profileCompletion: apiBrand.profile_completion || 0,
+        files: apiBrand.files_count || 0,
+        accountId: apiBrand.account_id,
+        companyName: apiBrand.company_name,
+        country: apiBrand.country_id,
+        state: apiBrand.state_id,
+        businessLocation: apiBrand.delivery_areas,
+        tradeLicenseCopy: apiBrand.trade_license_file,
+        vatCertificate: apiBrand.vat_certificate_file,
+        instagramHandle: apiBrand.venue_instagram_url,
+        associateName: apiBrand.Venue_contact_name,
+        associateEmail: apiBrand.venue_email,
+        associatePhone: apiBrand.venue_contact_number,
+        associateFirstName: '',
+        associateLastName: '',
+        associateInitials: '',
+        associateBackground: '',
+      };
+      yield put(fetchBrandSuccess(feBrand));
+    } else {
+      const errorResponse = response as ApiError;
+      const errorMessage = errorResponse.response || 'Failed to fetch brand';
+      yield put(fetchBrandFailure(errorMessage));
+      toast.error(errorMessage);
+    }
+  } catch (error) {
+    const err = error as Error;
+    const errorMessage = err.message || 'An unknown error occurred';
+    yield put(fetchBrandFailure(errorMessage));
+    toast.error(errorMessage);
+  }
+}
+
 function* watchBrand() {
   yield takeLatest(fetchBrandsRequest.type, handleFetchBrands);
   yield takeLatest(fetchMoreBrandsRequest.type, handleFetchMoreBrands);
   yield takeLatest(createBrandRequest.type, handleCreateBrand);
+  yield takeLatest(fetchBrandRequest.type, handleFetchBrand);
 }
 
 export default function* brandSaga() {
