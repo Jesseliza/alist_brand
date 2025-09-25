@@ -10,7 +10,6 @@ import { fetchIndustries } from "@/store/common/commonSlice";
 import { RootState } from "@/store/store";
 import BrandsTable from "@/components/features/brands/BrandsTable";
 import BrandCard from "@/components/features/brands/BrandCard";
-import BrandMobileCard from "@/components/features/brands/BrandMobileCard";
 import Pagination from "@/components/general/Pagination";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
@@ -32,6 +31,7 @@ export default function BrandsPage() {
   const { searchTerm } = useSelector((state: RootState) => state.search);
   const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
   const [view, setView] = useState<"table" | "card">("table");
+  const [mobilePage, setMobilePage] = useState(1);
 
   const handleAddBrandClick = () => {
     router.push("/businesses/brands/create");
@@ -51,6 +51,7 @@ export default function BrandsPage() {
       return;
     }
 
+    setMobilePage(1);
     dispatch(fetchBrandsRequest({
       search: debouncedSearch,
       per_page: 12,
@@ -89,6 +90,16 @@ export default function BrandsPage() {
       }
       return newCheckedRows;
     });
+  };
+
+  const handleSeeMore = () => {
+    const nextPage = mobilePage + 1;
+    dispatch(fetchMoreBrandsRequest({
+      page: nextPage,
+      search: debouncedSearch,
+      per_page: 12
+    }));
+    setMobilePage(nextPage);
   };
 
   return (
@@ -182,23 +193,28 @@ export default function BrandsPage() {
                   />
                 )}
               </div>
-              <div className="md:hidden space-y-[7px]">
-                {brands.map((brand) => (
-                  <BrandMobileCard
-                    key={brand.brandId}
-                    brand={brand}
-                    checked={checkedRows.has(brand.brandId)}
-                    onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
-                  />
-                ))}
-                {pagination && (
-                  <Pagination
-                    totalItems={pagination.total}
-                    itemsPerPage={pagination.perPage}
-                    currentPage={pagination.currentPage}
-                    onPageChange={handlePageChange}
-                    onItemsPerPageChange={handleItemsPerPageChange}
-                  />
+              <div className="md:hidden">
+                <div className="grid grid-cols-2 gap-4">
+                  {brands.map((brand) => (
+                    <BrandCard
+                      key={brand.brandId}
+                      brand={brand}
+                      checked={checkedRows.has(brand.brandId)}
+                      onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
+                    />
+                  ))}
+                </div>
+                {loading && brands.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
+                {brands.length < pagination.total && !loading && (
+                  <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
+                    <button
+                      onClick={handleSeeMore}
+                      disabled={loading}
+                      className="disabled:text-gray-400"
+                    >
+                      {loading ? <InlineLoader /> : 'See More'}
+                    </button>
+                  </div>
                 )}
               </div>
             </>
