@@ -40,7 +40,7 @@ export default function BrandsPage() {
   const debouncedSearch = useDebounce(searchTerm, 500);
 
   useEffect(() => {
-    dispatch(fetchBrandsRequest({ per_page: 10, page: 1 }));
+    dispatch(fetchBrandsRequest({ per_page: 12, page: 1 }));
   }, [dispatch]);
 
   const isInitialSearchMount = useRef(true);
@@ -53,7 +53,7 @@ export default function BrandsPage() {
     setMobilePage(1);
     dispatch(fetchBrandsRequest({
       search: debouncedSearch,
-      per_page: 10,
+      per_page: 12,
       page: 1
     }));
   }, [debouncedSearch, dispatch]);
@@ -96,7 +96,7 @@ export default function BrandsPage() {
     dispatch(fetchMoreBrandsRequest({
       page: nextPage,
       search: searchTerm,
-      per_page: 10
+      per_page: 12
     }));
     setMobilePage(nextPage);
   };
@@ -176,9 +176,9 @@ export default function BrandsPage() {
               />
             </div>
           </div>
-          {loading && <Loader />}
+          {loading && brands.length === 0 && <Loader />}
           {error && <p className="text-red-500">Error: {error}</p>}
-          {!loading && !error && (
+          {!error && (
             <>
               <div className="hidden md:block">
                 {view === "table" ? (
@@ -219,15 +219,9 @@ export default function BrandsPage() {
                   />
                 ))}
               </div>
-              {pagination && brands.length < pagination.total && (
+              {loading && brands.length > 0 && (
                 <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
-                  <button
-                    onClick={handleSeeMore}
-                    disabled={loading}
-                    className="disabled:text-gray-400"
-                  >
-                    {loading ? <InlineLoader /> : 'See More'}
-                  </button>
+                  <InlineLoader />
                 </div>
               )}
             </>
