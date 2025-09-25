@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Brand } from "@/types/entities";
 import Checkbox from "@/components/general/CheckBox";
+import { generateColorFromString } from "@/utils/colorGenerator";
 
 interface BrandCardProps {
   brand: Brand;
@@ -57,8 +58,19 @@ export default function BrandCard({
           />
         </div>
         {/* Profile circle */}
-        <div className="w-[90px] h-[90px] mx-auto overflow-hidden bg-white rounded-full border-5 border-[#E1E1E1]">
-          <Image src={brand.logo} alt={brand.name} width={80} height={80} />
+        <div className="w-[90px] h-[90px] mx-auto overflow-hidden bg-white rounded-full border-5 border-[#E1E1E1] flex items-center justify-center">
+          {brand.logo ? (
+            <Image src={brand.logo} alt={brand.name} width={80} height={80} />
+          ) : (
+            <div
+              className="h-full w-full flex items-center justify-center"
+              style={{ backgroundColor: generateColorFromString(brand.name) }}
+            >
+              <span className="text-white text-3xl font-semibold">
+                {brand.name.substring(0, 2).toUpperCase()}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Brand name */}
