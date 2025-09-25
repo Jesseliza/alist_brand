@@ -15,6 +15,7 @@ import SearchInputMobile from "@/components/general/SearchInputMobile";
 import Image from "next/image";
 import Loader from "@/components/general/Loader";
 import InlineLoader from "@/components/general/InlineLoader";
+import TableCardsToggler from "@/components/general/TableCardsToggler";
 
 export default function BrandsPage() {
   const router = useRouter();
@@ -29,6 +30,11 @@ export default function BrandsPage() {
   const { searchTerm } = useSelector((state: RootState) => state.search);
   const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
   const [mobilePage, setMobilePage] = useState(1);
+  const [view, setView] = useState<"table" | "card">("table");
+
+  const handleAddBrandClick = () => {
+    router.push("/businesses/brands/create");
+  };
 
   const debouncedSearch = useDebounce(searchTerm, 500);
 
@@ -96,24 +102,35 @@ export default function BrandsPage() {
 
   return (
     <div>
-      <div className="md:hidden pt-4 flex items-center gap-[7px]">
-        <SearchInputMobile
-          value={searchTerm}
-          onChange={(e) => dispatch(setSearchTerm(e.target.value))}
-          placeholder="Search brand"
-        />
-        <div className="bg-white rounded-[11px] w-10 h-10  flex items-center justify-center aspect-square">
-          <Image
-            src="/icons/general/sort-1-light.svg"
-            alt="sort"
-            width={24.08}
-            height={14.61}
+      <div className="flex justify-between items-center pt-4">
+        <div className="md:hidden flex items-center gap-[7px]">
+          <SearchInputMobile
+            value={searchTerm}
+            onChange={(e) => dispatch(setSearchTerm(e.target.value))}
+            placeholder="Search brand"
           />
+          <div className="bg-white rounded-[11px] w-10 h-10  flex items-center justify-center aspect-square">
+            <Image
+              src="/icons/general/sort-1-light.svg"
+              alt="sort"
+              width={24.08}
+              height={14.61}
+            />
+          </div>
+        </div>
+        <div className="hidden md:block">
+          <TableCardsToggler view={view} setView={setView} />
         </div>
       </div>
       <div className="py-5.5">
         <div className="max-w-[1428px] mx-auto">
           <div className="hidden md:flex justify-end items-center mb-5.5 space-x-4">
+            <button
+              onClick={handleAddBrandClick}
+              className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
+            >
+              Add Brand
+            </button>
             <div className="w-auto">
               <ActionDropdown
                 onSelect={handleActionSelect}
@@ -123,6 +140,14 @@ export default function BrandsPage() {
             </div>
           </div>
           <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
+            <div className="relative">
+              <button
+                onClick={handleAddBrandClick}
+                className="bg-blue-500 text-white rounded-[11px] text-sm px-4 py-2"
+              >
+                Add Brand
+              </button>
+            </div>
             <div className="w-auto">
               <ActionDropdown
                 onSelect={handleActionSelect}
@@ -135,6 +160,35 @@ export default function BrandsPage() {
           {error && <p className="text-red-500">Error: {error}</p>}
           {!loading && !error && (
             <>
+              <div className="hidden md:block">
+                {view === "table" ? (
+                  <BrandsTable
+                    brands={brands}
+                    checkedRows={checkedRows}
+                    onCheckboxChange={handleCheckboxChange}
+                  />
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {brands.map((brand) => (
+                      <BrandMobileCard
+                        key={brand.brandId}
+                        brand={brand}
+                        checked={checkedRows.has(brand.brandId)}
+                        onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
+                      />
+                    ))}
+                  </div>
+                )}
+                {pagination && (
+                  <Pagination
+                    totalItems={pagination.total}
+                    itemsPerPage={pagination.perPage}
+                    currentPage={pagination.currentPage}
+                    onPageChange={handlePageChange}
+                    onItemsPerPageChange={handleItemsPerPageChange}
+                  />
+                )}
+              </div>
               <div className="md:hidden space-y-[7px]">
                 {brands.map((brand) => (
                   <BrandMobileCard
@@ -154,22 +208,6 @@ export default function BrandsPage() {
                       {loading ? <InlineLoader /> : 'See More'}
                     </button>
                   </div>
-                )}
-              </div>
-              <div className="hidden md:block">
-                <BrandsTable
-                  brands={brands}
-                  checkedRows={checkedRows}
-                  onCheckboxChange={handleCheckboxChange}
-                />
-                {pagination && (
-                  <Pagination
-                    totalItems={pagination.total}
-                    itemsPerPage={pagination.perPage}
-                    currentPage={pagination.currentPage}
-                    onPageChange={handlePageChange}
-                    onItemsPerPageChange={handleItemsPerPageChange}
-                  />
                 )}
               </div>
             </>

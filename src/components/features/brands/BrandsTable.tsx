@@ -2,6 +2,8 @@
 
 import Checkbox from "@/components/general/CheckBox";
 import { Brand } from "@/types/entities";
+import { getDisplayName } from "@/utils/brandUtils";
+import { generateColorFromString } from "@/utils/colorGenerator";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -65,12 +67,12 @@ export default function BrandsTable({
             >
               Offers
             </th>
-            <th
+            {/* <th
               scope="col"
               className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
               Profile completion
-            </th>
+            </th> */}
             <th
               scope="col"
               className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
@@ -90,19 +92,30 @@ export default function BrandsTable({
                   />
                   <Link href={`/businesses/brands/${brand.brandId}`}>
                     <div className="ml-3 flex items-center cursor-pointer">
-                      <Image
-                        src={brand.logo || '/images/default-brand.png'}
-                        alt={brand.name}
-                        width={33}
-                        height={33}
-                        className="rounded-full"
-                      />
+                      {brand.logo ? (
+                        <Image
+                          src={brand.logo}
+                          alt={brand.name}
+                          width={33}
+                          height={33}
+                          className="rounded-full"
+                        />
+                      ) : (
+                        <div
+                          className="h-[33px] w-[33px] rounded-full flex items-center justify-center"
+                          style={{ backgroundColor: generateColorFromString(brand.name) }}
+                        >
+                          <span className="text-white text-sm font-medium">
+                            {brand.name.substring(0, 2).toUpperCase()}
+                          </span>
+                        </div>
+                      )}
                       <span
                         className={`ml-4 text-[#4F4F4F] ${
                           checkedRows.has(brand.brandId) ? "font-semibold" : ""
                         }`}
                       >
-                        {brand.name}
+                        {getDisplayName(brand)}
                       </span>
                     </div>
                   </Link>
@@ -123,11 +136,13 @@ export default function BrandsTable({
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
                 {brand.offersCount}
               </td>
-              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
+              {/* <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
                 {brand.profileCompletion}%
-              </td>
+              </td> */}
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
-                {brand.files}
+                <button className="bg-blue-500 text-white rounded-[11px] text-[15px] px-4 py-1">
+                  View Files
+                </button>
               </td>
             </tr>
           ))}
