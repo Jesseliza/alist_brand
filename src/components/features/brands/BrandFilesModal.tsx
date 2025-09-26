@@ -113,7 +113,12 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
 
   useEffect(() => {
     if (pinValidationSuccess && fileToDownload) {
-      window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`, "_blank");
+      const link = document.createElement("a");
+      link.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`;
+      link.setAttribute("download", "");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
       setFileToDownload(null);
       setIsPinModalOpen(false);
       dispatch(resetPinStatus());
