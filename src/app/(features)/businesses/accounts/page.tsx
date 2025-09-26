@@ -236,13 +236,15 @@ export default function AccountsPage() {
                   checkedRows={checkedRows}
                   onCheckboxChange={handleCheckboxChange}
                 />
-                <Pagination
-                  totalItems={pagination.total}
-                  itemsPerPage={pagination.perPage}
-                  currentPage={pagination.currentPage}
-                  onPageChange={handlePageChange}
-                  onItemsPerPageChange={handleItemsPerPageChange}
-                />
+                {accounts.length > 0 && (
+                  <Pagination
+                    totalItems={pagination.total}
+                    itemsPerPage={pagination.perPage}
+                    currentPage={pagination.currentPage}
+                    onPageChange={handlePageChange}
+                    onItemsPerPageChange={handleItemsPerPageChange}
+                  />
+                )}
               </div>
             </>
           )}
