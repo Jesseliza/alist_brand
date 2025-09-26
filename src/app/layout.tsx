@@ -9,6 +9,7 @@ import "@fontsource/poppins/800.css";
 import "@fontsource/poppins/900.css";
 import { StoreProvider } from "@/store/StoreProvider";
 import ToastProvider from "@/components/general/ToastProvider";
+import AuthInitializer from "@/components/auth/AuthInitializer";
 import "./globals.css"; // ensure your Tailwind CSS entrypoint is imported
 
 export const metadata = {
@@ -31,6 +32,7 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-screen w-screen overflow-hidden font-[Poppins]">
         <StoreProvider>
+          <AuthInitializer />
           <ToastProvider />
           {children}
         </StoreProvider>
