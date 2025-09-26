@@ -17,6 +17,9 @@ import {
   updateBrandRequest,
   updateBrandSuccess,
   updateBrandFailure,
+  deleteBrandFileRequest,
+  deleteBrandFileSuccess,
+  deleteBrandFileFailure,
 } from './brandSlice';
 import { Brand } from '@/types/entities';
 
@@ -350,12 +353,33 @@ function* handleUpdateBrand(action: ReturnType<typeof updateBrandRequest>) {
   }
 }
 
+function* handleDeleteBrandFile(action: ReturnType<typeof deleteBrandFileRequest>) {
+  try {
+    const response: { message: string } | ApiError = yield call(postData, '/api/delete/venue_file', action.payload);
+
+    if ('message' in response) {
+      yield put(deleteBrandFileSuccess());
+      toast.success(response.message);
+    } else {
+      const errorMessage = response.response || 'Failed to delete file';
+      yield put(deleteBrandFileFailure(errorMessage));
+      toast.error(errorMessage);
+    }
+  } catch (error) {
+    const err = error as Error;
+    const errorMessage = err.message || 'An unknown error occurred';
+    yield put(deleteBrandFileFailure(errorMessage));
+    toast.error(errorMessage);
+  }
+}
+
 function* watchBrand() {
   yield takeLatest(fetchBrandsRequest.type, handleFetchBrands);
   yield takeLatest(fetchMoreBrandsRequest.type, handleFetchMoreBrands);
   yield takeLatest(createBrandRequest.type, handleCreateBrand);
   yield takeLatest(fetchBrandRequest.type, handleFetchBrand);
   yield takeLatest(updateBrandRequest.type, handleUpdateBrand);
+  yield takeLatest(deleteBrandFileRequest.type, handleDeleteBrandFile);
 }
 
 export default function* brandSaga() {
