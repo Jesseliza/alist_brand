@@ -205,14 +205,13 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
                   brandFiles.map((file) => (
                     <tr key={file.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
-                        <a href={file.venue_file_url} target="_blank" rel="noopener noreferrer">{file.venue_file_url}</a>
+                        <a href={`https://dev-partners.alist.ae/api/${file.venue_file_url}`} download>
+                          {file.venue_file_url}
+                        </a>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(file.created_at)}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{file.uploaded_by}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center gap-2">
-                        <button className="text-blue-600 hover:text-blue-900">
-                          Edit
-                        </button>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <button className="text-red-600 hover:text-red-900">
                           Delete
                         </button>
