@@ -167,7 +167,7 @@ export default function BrandDetails({
   useEffect(() => {
     if (pinValidationSuccess && fileToDownload) {
       const link = document.createElement("a");
-      link.href = fileToDownload;
+      link.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`;
       link.setAttribute("download", "");
       document.body.appendChild(link);
       link.click();
