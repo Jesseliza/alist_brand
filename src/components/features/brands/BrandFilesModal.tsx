@@ -72,9 +72,9 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
 
     const formData = new FormData();
     formData.append("venue_id", brandId);
-    formData.append("uploaded_by", createdBy);
+    formData.append("updatedBy", createdBy);
     files.forEach((file) => {
-      formData.append("menu_pdf[]", file);
+      formData.append("menu_pdf", file);
     });
 
     try {
