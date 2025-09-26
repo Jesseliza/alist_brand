@@ -4,10 +4,11 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Brand } from "@/types/entities";
 import SearchableDropdown from "@/components/general/dropdowns/SearchableDropdown";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { fetchAllAccounts, fetchCountries, fetchIndustries, fetchStates } from "@/store/common/commonSlice";
+import { fetchAllAccounts, fetchCountries, fetchIndustries, fetchStates, validatePinRequest, resetPinStatus } from "@/store/common/commonSlice";
+import PinModal from "@/components/general/PinModal";
 
 interface BrandDetailsProps {
   brand: Partial<Brand>;
@@ -79,10 +80,11 @@ interface FileUploadFieldProps {
   file: string | File | null | undefined;
   name: keyof Brand;
   onFileChange: (field: keyof Brand, file: File) => void;
+  onDownloadRequest: (fileUrl: string) => void;
   error?: string;
 }
 
-const FileUploadField = ({ label, file, name, onFileChange, error }: FileUploadFieldProps) => {
+const FileUploadField = ({ label, file, name, onFileChange, onDownloadRequest, error }: FileUploadFieldProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   let displayValue = '';
@@ -111,13 +113,15 @@ const FileUploadField = ({ label, file, name, onFileChange, error }: FileUploadF
 
         {showDownloadLink && (
           <div className="absolute right-3 top-1/2 -translate-y-1/2 flex-shrink-0">
-            <a
-              href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${file}`}
-              download
-              onClick={(e) => e.stopPropagation()}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDownloadRequest(file as string);
+              }}
             >
               <Image src="/icons/download.svg" alt="download file" width={20} height={15} />
-            </a>
+            </button>
           </div>
         )}
 
@@ -146,9 +150,37 @@ export default function BrandDetails({
 }: BrandDetailsProps) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { countries, states, industries, allAccounts, loading } = useSelector(
-    (state: RootState) => state.common
-  );
+  const {
+    countries,
+    states,
+    industries,
+    allAccounts,
+    loading,
+    pinValidationLoading,
+    pinValidationSuccess,
+    pinValidationError,
+  } = useSelector((state: RootState) => state.common);
+
+  const [isPinModalOpen, setIsPinModalOpen] = useState(false);
+  const [fileToDownload, setFileToDownload] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (pinValidationSuccess && fileToDownload) {
+      window.open(fileToDownload, "_blank");
+      setFileToDownload(null);
+      setIsPinModalOpen(false);
+      dispatch(resetPinStatus());
+    }
+  }, [pinValidationSuccess, fileToDownload, dispatch]);
+
+  const handlePinSubmit = (pin: string) => {
+    dispatch(validatePinRequest({ pin }));
+  };
+
+  const handleDownloadRequest = (fileUrl: string) => {
+    setFileToDownload(fileUrl);
+    setIsPinModalOpen(true);
+  };
 
   useEffect(() => {
     dispatch(fetchCountries());
@@ -285,6 +317,7 @@ export default function BrandDetails({
                       file={brand.tradeLicenseCopy}
                       name="tradeLicenseCopy"
                       onFileChange={onFileChange}
+                      onDownloadRequest={handleDownloadRequest}
                       error={errors.tradeLicenseCopy}
                     />
                   </div>
@@ -294,6 +327,7 @@ export default function BrandDetails({
                       file={brand.vatCertificate}
                       name="vatCertificate"
                       onFileChange={onFileChange}
+                      onDownloadRequest={handleDownloadRequest}
                       error={errors.vatCertificate}
                     />
                   </div>
@@ -404,6 +438,13 @@ export default function BrandDetails({
           </p>
         )}
       </div>
+      <PinModal
+        isOpen={isPinModalOpen}
+        onClose={() => setIsPinModalOpen(false)}
+        onSubmit={handlePinSubmit}
+        loading={pinValidationLoading}
+        error={pinValidationError}
+      />
     </div>
   );
 }

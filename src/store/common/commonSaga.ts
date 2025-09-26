@@ -13,6 +13,9 @@ import {
   fetchAllAccounts,
   fetchAllAccountsSuccess,
   fetchAllAccountsFailure,
+  validatePinRequest,
+  validatePinSuccess,
+  validatePinFailure,
 } from "./commonSlice";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { Option } from "@/types/common";
@@ -101,11 +104,25 @@ function* fetchAllAccountsSaga() {
   }
 }
 
+function* handleValidatePin(action: PayloadAction<{ pin: string }>) {
+  try {
+    const response = yield call(postData, "/api/validate/pin", action.payload);
+    if (response.success) {
+      yield put(validatePinSuccess());
+    } else {
+      yield put(validatePinFailure(response.message || "Invalid PIN"));
+    }
+  } catch (error) {
+    yield put(validatePinFailure((error as Error).message));
+  }
+}
+
 function* commonSaga() {
   yield takeLatest(fetchCountries.type, fetchCountriesSaga);
   yield takeLatest(fetchStates.type, fetchStatesSaga);
   yield takeLatest(fetchIndustries.type, fetchIndustriesSaga);
   yield takeLatest(fetchAllAccounts.type, fetchAllAccountsSaga);
+  yield takeLatest(validatePinRequest.type, handleValidatePin);
 }
 
 export default commonSaga;

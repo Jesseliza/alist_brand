@@ -25,7 +25,7 @@ export default function PinModal({ isOpen, onClose, onSubmit, loading, error }: 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
-        <h2 className="text-xl font-bold mb-4">Enter PIN to Download</h2>
+        <h2 className="text-xl font-bold mb-4">Pin Validation</h2>
         <form onSubmit={handleSubmit}>
           <input
             type="password"
@@ -48,7 +48,7 @@ export default function PinModal({ isOpen, onClose, onSubmit, loading, error }: 
               disabled={loading}
               className="px-4 py-2 bg-blue-500 text-white rounded-md disabled:bg-gray-400"
             >
-              {loading ? "Verifying..." : "Submit"}
+              {loading ? "Validating..." : "Validate"}
             </button>
           </div>
         </form>

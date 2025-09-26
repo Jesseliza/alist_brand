@@ -18,6 +18,9 @@ interface CommonState {
     industries: string | null;
     allAccounts: string | null;
   };
+  pinValidationLoading: boolean;
+  pinValidationSuccess: boolean;
+  pinValidationError: string | null;
 }
 
 const initialState: CommonState = {
@@ -37,6 +40,9 @@ const initialState: CommonState = {
     industries: null,
     allAccounts: null,
   },
+  pinValidationLoading: false,
+  pinValidationSuccess: false,
+  pinValidationError: null,
 };
 
 const commonSlice = createSlice({
@@ -92,6 +98,23 @@ const commonSlice = createSlice({
       state.error.allAccounts = action.payload;
       state.loading.allAccounts = false;
     },
+    validatePinRequest: (state, action: PayloadAction<{ pin: string }>) => {
+      state.pinValidationLoading = true;
+      state.pinValidationSuccess = false;
+      state.pinValidationError = null;
+    },
+    validatePinSuccess: (state) => {
+      state.pinValidationLoading = false;
+      state.pinValidationSuccess = true;
+    },
+    validatePinFailure: (state, action: PayloadAction<string>) => {
+      state.pinValidationLoading = false;
+      state.pinValidationError = action.payload;
+    },
+    resetPinStatus: (state) => {
+      state.pinValidationSuccess = false;
+      state.pinValidationError = null;
+    },
   },
 });
 
@@ -108,6 +131,10 @@ export const {
   fetchAllAccounts,
   fetchAllAccountsSuccess,
   fetchAllAccountsFailure,
+  validatePinRequest,
+  validatePinSuccess,
+  validatePinFailure,
+  resetPinStatus,
 } = commonSlice.actions;
 
 export default commonSlice.reducer;
