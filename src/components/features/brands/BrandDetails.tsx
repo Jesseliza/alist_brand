@@ -78,12 +78,12 @@ interface FileUploadFieldProps {
   label: string;
   file: string | File | null | undefined;
   name: keyof Brand;
-  isEditMode: boolean;
   onFileChange: (field: keyof Brand, file: File) => void;
   error?: string;
+  isCreateMode: boolean;
 }
 
-const FileUploadField = ({ label, file, name, isEditMode, onFileChange, error }: FileUploadFieldProps) => {
+const FileUploadField = ({ label, file, name, onFileChange, error, isCreateMode }: FileUploadFieldProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   let displayValue = '';
@@ -104,27 +104,27 @@ const FileUploadField = ({ label, file, name, isEditMode, onFileChange, error }:
           value={displayValue}
           readOnly
           placeholder="No file selected"
-          className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none truncate pr-12"
+          onClick={() => fileInputRef.current?.click()}
+          className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none truncate pr-12 cursor-pointer"
         />
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex-shrink-0">
-          {isEditMode ? (
-            <button type="button" onClick={() => fileInputRef.current?.click()} className="focus:outline-none">
-              <Image src="/icons/download.svg" alt="upload file" width={20} height={15} />
-            </button>
-          ) : (
-            typeof file === 'string' && file && (
-              <a href={file} target="_blank" rel="noopener noreferrer">
-                <Image src="/icons/download.svg" alt="download file" width={20} height={15} />
-              </a>
-            )
-          )}
-        </div>
+
+        {!isCreateMode && typeof file === 'string' && file && (
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex-shrink-0">
+            <a
+              href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${file}`}
+              download
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image src="/icons/download.svg" alt="download file" width={20} height={15} />
+            </a>
+          </div>
+        )}
+
         <input
           type="file"
           ref={fileInputRef}
           className="hidden"
           accept=".pdf"
-          disabled={!isEditMode}
           onChange={(e) => e.target.files && onFileChange(name, e.target.files[0])}
         />
       </div>
@@ -283,9 +283,9 @@ export default function BrandDetails({
                       label="Trade License Copy"
                       file={brand.tradeLicenseCopy}
                       name="tradeLicenseCopy"
-                      isEditMode={isEditMode}
                       onFileChange={onFileChange}
                       error={errors.tradeLicenseCopy}
+                      isCreateMode={isCreateMode}
                     />
                   </div>
                   <div>
@@ -293,9 +293,9 @@ export default function BrandDetails({
                       label="VAT Certificate"
                       file={brand.vatCertificate}
                       name="vatCertificate"
-                      isEditMode={isEditMode}
                       onFileChange={onFileChange}
                       error={errors.vatCertificate}
+                      isCreateMode={isCreateMode}
                     />
                   </div>
                 </div>
