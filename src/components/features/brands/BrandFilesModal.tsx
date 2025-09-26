@@ -6,6 +6,7 @@ import { RootState } from "@/store/store";
 import { deleteBrandFileRequest, resetDeleteFileStatus } from "@/store/brand/brandSlice";
 import api from "@/services/apiHelper";
 import InlineLoader from "@/components/general/InlineLoader";
+import toast from "react-hot-toast";
 
 interface BrandFile {
   id: number;
@@ -106,9 +107,30 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
   }, [deleteFileSuccess, fetchBrandFiles, dispatch]);
 
   const handleDelete = (venueFileId: number) => {
-    if (window.confirm("Are you sure you want to delete this file?")) {
-      dispatch(deleteBrandFileRequest({ venue_file_id: venueFileId }));
-    }
+    toast((t) => (
+      <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4">
+        <p className="font-semibold">Are you sure you want to delete this file?</p>
+        <div className="flex justify-end gap-2">
+          <button
+            className="px-4 py-2 bg-gray-200 rounded-md"
+            onClick={() => toast.dismiss(t.id)}
+          >
+            Cancel
+          </button>
+          <button
+            className="px-4 py-2 bg-red-500 text-white rounded-md"
+            onClick={() => {
+              dispatch(deleteBrandFileRequest({ venue_file_id: venueFileId }));
+              toast.dismiss(t.id);
+            }}
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    ), {
+      duration: 6000,
+    });
   };
 
   const formatDate = (dateString: string) => {
