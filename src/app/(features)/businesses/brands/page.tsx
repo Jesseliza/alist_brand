@@ -172,25 +172,27 @@ export default function BrandsPage() {
                     onCheckboxChange={handleCheckboxChange}
                   />
                 ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  <>
                     {brands.length === 0 ? (
-                      <div className="col-span-full text-center py-10 text-gray-500">
+                      <div className="bg-white rounded-lg shadow-md text-center py-10 text-gray-500">
                         No records found.
                       </div>
                     ) : (
-                      brands.map((brand) => (
-                        <BrandCard
-                          key={brand.brandId}
-                          brand={brand}
-                          checked={checkedRows.has(brand.brandId)}
-                          onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
-                        />
-                      ))
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {brands.map((brand) => (
+                          <BrandCard
+                            key={brand.brandId}
+                            brand={brand}
+                            checked={checkedRows.has(brand.brandId)}
+                            onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
+                          />
+                        ))}
+                      </div>
                     )}
-                  </div>
+                  </>
                 )}
                 {loading && brands.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
-                {pagination && (
+                {pagination && brands.length > 0 && (
                   <Pagination
                     totalItems={pagination.total}
                     itemsPerPage={pagination.perPage}

@@ -126,13 +126,15 @@ export default function CampaignsPage() {
                   campaigns={currentCampaigns}
                   getAccountIdFromBrandId={getAccountIdFromBrandId}
                 />
-                <Pagination
-                  totalItems={CampaignsData.length}
-                  itemsPerPage={itemsPerPage}
-                  currentPage={currentPage}
-                  onPageChange={handlePageChange}
-                  onItemsPerPageChange={handleItemsPerPageChange}
-                />
+                {currentCampaigns.length > 0 && (
+                  <Pagination
+                    totalItems={CampaignsData.length}
+                    itemsPerPage={itemsPerPage}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange}
+                    onItemsPerPageChange={handleItemsPerPageChange}
+                  />
+                )}
               </>
             ) : (
               <>
