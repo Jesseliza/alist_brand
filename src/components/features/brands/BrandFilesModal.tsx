@@ -113,12 +113,7 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
 
   useEffect(() => {
     if (pinValidationSuccess && fileToDownload) {
-      const link = document.createElement("a");
-      link.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`;
-      link.setAttribute("download", fileToDownload.split('/').pop() || "download");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`, "_blank");
       setFileToDownload(null);
       setIsPinModalOpen(false);
       dispatch(resetPinStatus());
@@ -306,7 +301,10 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
       </div>
       <PinModal
         isOpen={isPinModalOpen}
-        onClose={() => setIsPinModalOpen(false)}
+        onClose={() => {
+          setIsPinModalOpen(false);
+          dispatch(resetPinStatus());
+        }}
         onSubmit={handlePinSubmit}
         loading={pinValidationLoading}
         error={pinValidationError}
