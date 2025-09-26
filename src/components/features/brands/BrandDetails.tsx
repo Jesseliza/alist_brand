@@ -166,7 +166,7 @@ export default function BrandDetails({
 
   useEffect(() => {
     if (pinValidationSuccess && fileToDownload) {
-      window.open(fileToDownload, "_blank");
+      window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`, "_blank");
       setFileToDownload(null);
       setIsPinModalOpen(false);
       dispatch(resetPinStatus());

@@ -112,23 +112,23 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
     }
   }, [deleteFileSuccess, fetchBrandFiles, dispatch]);
 
-  useEffect(() => {
-    if (pinValidationSuccess && fileToDownload) {
-      window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`, "_blank");
-      setFileToDownload(null);
-      setIsPinModalOpen(false);
-      dispatch(resetPinStatus());
-    }
-  }, [pinValidationSuccess, fileToDownload, dispatch]);
+  // useEffect(() => {
+  //   if (pinValidationSuccess && fileToDownload) {
+  //     window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`, "_blank");
+  //     setFileToDownload(null);
+  //     setIsPinModalOpen(false);
+  //     dispatch(resetPinStatus());
+  //   }
+  // }, [pinValidationSuccess, fileToDownload, dispatch]);
 
-  const handleDownloadRequest = (fileUrl: string) => {
-    setFileToDownload(fileUrl);
-    setIsPinModalOpen(true);
-  };
+  // const handleDownloadRequest = (fileUrl: string) => {
+  //   setFileToDownload(fileUrl);
+  //   setIsPinModalOpen(true);
+  // };
 
-  const handlePinSubmit = (pin: string) => {
-    dispatch(validatePinRequest({ pin }));
-  };
+  // const handlePinSubmit = (pin: string) => {
+  //   dispatch(validatePinRequest({ pin }));
+  // };
 
   const handleDelete = (venueFileId: number) => {
     toast((t) => (
@@ -270,9 +270,9 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
                   brandFiles.map((file) => (
                     <tr key={file.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
-                        <button onClick={() => handleDownloadRequest(file.venue_file_url)} className="text-left hover:underline">
+                        <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${file.venue_file_url}`} target="_blank" rel="noopener noreferrer" className="text-left hover:underline">
                           {`${process.env.NEXT_PUBLIC_API_BASE_URL}/${file.venue_file_url}`}
-                        </button>
+                        </a>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(file.created_at)}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{file.uploaded_by}</td>
@@ -300,16 +300,6 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
           </div>
         </div>
       </div>
-      <PinModal
-        isOpen={isPinModalOpen}
-        onClose={() => {
-          setIsPinModalOpen(false);
-          dispatch(resetPinStatus());
-        }}
-        onSubmit={handlePinSubmit}
-        loading={pinValidationLoading}
-        error={pinValidationError}
-      />
     </div>
   );
 };
