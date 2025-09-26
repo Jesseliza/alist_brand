@@ -29,8 +29,9 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
   const fetchBrandFiles = useCallback(async () => {
     if (!brandId) return;
     setLoadingFiles(true);
+    setError(null);
     try {
-      const response = await api.get(`/venue/${brandId}`);
+      const response = await api.get(`/api/venue/${brandId}`);
       if (response.data && response.data.Venue && response.data.Venue.venue_files) {
         setBrandFiles(response.data.Venue.venue_files);
       }
@@ -77,7 +78,7 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
     });
 
     try {
-      await api.post("/upload/files", formData, {
+      await api.post("/api/upload/files", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -104,14 +105,18 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-transparent flex justify-center items-center z-50">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl">
+        <div className="bg-[#00A4B6] p-4 flex justify-between items-center rounded-t-lg">
+          <h3 className="text-xl font-semibold text-white">Add Venue Files</h3>
+          <button onClick={onClose} className="text-white text-2xl">&times;</button>
+        </div>
+
         <div className="p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold">Add new brand files</h3>
+          <div className="flex justify-end mb-4">
             <button
               onClick={() => setShowUploadForm(!showUploadForm)}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+              className="px-4 py-2 bg-[#00A4B6] text-white rounded-md hover:bg-[#008C9E]"
             >
               Add Files
             </button>
@@ -163,7 +168,7 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
                 <button
                   onClick={handleSave}
                   disabled={uploading}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-md disabled:bg-gray-400"
+                  className="px-4 py-2 bg-[#00A4B6] text-white rounded-md disabled:bg-gray-400 hover:bg-[#008C9E]"
                 >
                   Save
                 </button>
