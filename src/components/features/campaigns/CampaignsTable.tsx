@@ -210,7 +210,7 @@ export default function CampaignsTable({
                 </td>
                 <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
                   <button className="w-[98px] px-4.25 py-1 bg-[#00A4B6] text-white rounded-full flex justify-center items-center gap-2">
-                    <div>Copy link</div>
+                    <span>Copy link</span>
                     <Image
                       src={"/icons/general/copy-white-1.svg"}
                       alt="copy"
@@ -224,7 +224,7 @@ export default function CampaignsTable({
                     href={`/businesses/accounts/${accountId}/${campaign.brandId}/${campaign.campaignId}`}
                     className="w-[98px] px-4.25 py-1 bg-[#00A4B6] text-white rounded-full flex justify-center items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
                   >
-                    <div>View</div>
+                    <span>View</span>
                     <Image
                       src={"/icons/general/view-1.svg"}
                       alt="view"
