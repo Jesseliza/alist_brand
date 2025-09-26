@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { deleteBrandFileRequest, resetDeleteFileStatus } from "@/store/brand/brandSlice";
 import api from "@/services/apiHelper";
 import InlineLoader from "@/components/general/InlineLoader";
 
@@ -25,6 +28,9 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
   const [uploading, setUploading] = useState(false);
   const [loadingFiles, setLoadingFiles] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const dispatch = useDispatch();
+  const { deleteFileSuccess } = useSelector((state: RootState) => state.brand);
 
   const fetchBrandFiles = useCallback(async () => {
     if (!brandId) return;
@@ -92,16 +98,16 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
     }
   };
 
-  const handleDelete = async (venueFileId: number) => {
-    if (!window.confirm("Are you sure you want to delete this file?")) {
-      return;
+  useEffect(() => {
+    if (deleteFileSuccess) {
+      fetchBrandFiles();
+      dispatch(resetDeleteFileStatus());
     }
+  }, [deleteFileSuccess, fetchBrandFiles, dispatch]);
 
-    try {
-      await api.post("/api/delete/venue_file", { venue_file_id: venueFileId });
-      fetchBrandFiles(); // Refresh the list
-    } catch (err) {
-      setError("Failed to delete file.");
+  const handleDelete = (venueFileId: number) => {
+    if (window.confirm("Are you sure you want to delete this file?")) {
+      dispatch(deleteBrandFileRequest({ venue_file_id: venueFileId }));
     }
   };
 

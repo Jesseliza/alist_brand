@@ -12,6 +12,8 @@ interface BrandState {
   createSuccess: boolean;
   updateLoading: boolean;
   updateSuccess: boolean;
+  deleteFileLoading: boolean;
+  deleteFileSuccess: boolean;
 }
 
 const initialState: BrandState = {
@@ -28,6 +30,8 @@ const initialState: BrandState = {
   createSuccess: false,
   updateLoading: false,
   updateSuccess: false,
+  deleteFileLoading: false,
+  deleteFileSuccess: false,
 };
 
 const brandSlice = createSlice({
@@ -121,6 +125,22 @@ const brandSlice = createSlice({
       state.updateSuccess = false;
       state.error = null;
     },
+    deleteBrandFileRequest: (state, action: PayloadAction<{ venue_file_id: number }>) => {
+      state.deleteFileLoading = true;
+      state.deleteFileSuccess = false;
+      state.error = null;
+    },
+    deleteBrandFileSuccess: (state) => {
+      state.deleteFileLoading = false;
+      state.deleteFileSuccess = true;
+    },
+    deleteBrandFileFailure: (state, action: PayloadAction<string>) => {
+      state.deleteFileLoading = false;
+      state.error = action.payload;
+    },
+    resetDeleteFileStatus: (state) => {
+      state.deleteFileSuccess = false;
+    }
   },
 });
 
@@ -145,6 +165,10 @@ export const {
   updateBrandSuccess,
   updateBrandFailure,
   resetUpdateStatus,
+  deleteBrandFileRequest,
+  deleteBrandFileSuccess,
+  deleteBrandFileFailure,
+  resetDeleteFileStatus,
 } = brandSlice.actions;
 
 export default brandSlice.reducer;
