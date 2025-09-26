@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Modal from "@/components/general/Modal";
-import Button from "@/components/general/Button";
 import api from "@/services/apiHelper";
 import InlineLoader from "@/components/general/InlineLoader";
 
@@ -101,122 +99,136 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
     });
   };
 
+  if (!isOpen) {
+    return null;
+  }
+
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Add Venue Files"
-      containerClassName="max-w-4xl"
-    >
-      <div className="p-6">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-semibold">Add new brand files</h3>
-          <Button
-            variant="primary"
-            onClick={() => setShowUploadForm(!showUploadForm)}
-          >
-            Add Files
-          </Button>
-        </div>
-
-        {showUploadForm && (
-          <div className="p-4 border rounded-lg bg-gray-50 mb-4">
-            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-            <div className="mb-4">
-              <label
-                htmlFor="file-upload"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Add Files
-              </label>
-              <input
-                id="file-upload"
-                type="file"
-                multiple
-                accept=".pdf"
-                onChange={handleFileChange}
-                className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="created-by"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Created By
-              </label>
-              <input
-                id="created-by"
-                type="text"
-                value={createdBy}
-                onChange={(e) => setCreatedBy(e.target.value)}
-                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-            </div>
-            <div className="flex justify-end gap-2 items-center">
-              {uploading && <InlineLoader />}
-              <Button variant="secondary" onClick={resetForm} disabled={uploading}>
-                Cancel
-              </Button>
-              <Button variant="primary" onClick={handleSave} disabled={uploading}>
-                Save
-              </Button>
-            </div>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl">
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-semibold">Add new brand files</h3>
+            <button
+              onClick={() => setShowUploadForm(!showUploadForm)}
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            >
+              Add Files
+            </button>
           </div>
-        )}
 
-        <hr className="my-4" />
+          {showUploadForm && (
+            <div className="p-4 border rounded-lg bg-gray-50 mb-4">
+              {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+              <div className="mb-4">
+                <label
+                  htmlFor="file-upload"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Add Files
+                </label>
+                <input
+                  id="file-upload"
+                  type="file"
+                  multiple
+                  accept=".pdf"
+                  onChange={handleFileChange}
+                  className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="created-by"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Created By
+                </label>
+                <input
+                  id="created-by"
+                  type="text"
+                  value={createdBy}
+                  onChange={(e) => setCreatedBy(e.target.value)}
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+              <div className="flex justify-end gap-2 items-center">
+                {uploading && <InlineLoader />}
+                <button
+                  onClick={resetForm}
+                  disabled={uploading}
+                  className="px-4 py-2 bg-gray-200 rounded-md disabled:bg-gray-300"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSave}
+                  disabled={uploading}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md disabled:bg-gray-400"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          )}
 
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Link</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Uploaded By</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {loadingFiles ? (
+          <hr className="my-4" />
+
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
                 <tr>
-                  <td colSpan={4} className="text-center py-4">
-                    <InlineLoader />
-                  </td>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Link</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Uploaded By</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
-              ) : brandFiles.length === 0 ? (
-                <tr>
-                  <td colSpan={4} className="text-center py-4 text-gray-500">
-                    No files found.
-                  </td>
-                </tr>
-              ) : (
-                brandFiles.map((file) => (
-                  <tr key={file.id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
-                      <a href={file.venue_file_url} target="_blank" rel="noopener noreferrer">{file.venue_file_url}</a>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(file.created_at)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{file.uploaded_by}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center gap-2">
-                      <button className="text-blue-600 hover:text-blue-900">
-                        Edit
-                      </button>
-                      <button className="text-red-600 hover:text-red-900">
-                        Delete
-                      </button>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {loadingFiles ? (
+                  <tr>
+                    <td colSpan={4} className="text-center py-4">
+                      <InlineLoader />
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-        <div className="flex justify-end mt-4">
-            <Button variant="danger" onClick={onClose}>Close</Button>
+                ) : brandFiles.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="text-center py-4 text-gray-500">
+                      No files found.
+                    </td>
+                  </tr>
+                ) : (
+                  brandFiles.map((file) => (
+                    <tr key={file.id}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
+                        <a href={file.venue_file_url} target="_blank" rel="noopener noreferrer">{file.venue_file_url}</a>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(file.created_at)}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{file.uploaded_by}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center gap-2">
+                        <button className="text-blue-600 hover:text-blue-900">
+                          Edit
+                        </button>
+                        <button className="text-red-600 hover:text-red-900">
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+          <div className="flex justify-end mt-4">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+            >
+              Close
+            </button>
+          </div>
         </div>
       </div>
-    </Modal>
+    </div>
   );
 };
 
