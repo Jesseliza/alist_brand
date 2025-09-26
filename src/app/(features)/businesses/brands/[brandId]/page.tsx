@@ -102,8 +102,12 @@ export default function BrandPage() {
     return <Loader />;
   }
 
+  if (error && !isCreateMode) {
+    return <p className="text-red-500 text-center py-10">Error: {error}</p>;
+  }
+
   if (!brand && !isCreateMode) {
-    return <p className="text-red-500">Brand not found.</p>;
+    return <Loader />;
   }
 
   return (

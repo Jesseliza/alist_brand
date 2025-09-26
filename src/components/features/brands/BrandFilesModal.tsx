@@ -4,9 +4,11 @@ import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { deleteBrandFileRequest, resetDeleteFileStatus } from "@/store/brand/brandSlice";
+import { validatePinRequest, resetPinStatus } from "@/store/common/commonSlice";
 import api from "@/services/apiHelper";
 import InlineLoader from "@/components/general/InlineLoader";
 import toast from "react-hot-toast";
+import PinModal from "@/components/general/PinModal";
 
 interface BrandFile {
   id: number;
@@ -29,9 +31,12 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
   const [uploading, setUploading] = useState(false);
   const [loadingFiles, setLoadingFiles] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isPinModalOpen, setIsPinModalOpen] = useState(false);
+  const [fileToDownload, setFileToDownload] = useState<string | null>(null);
 
   const dispatch = useDispatch();
   const { deleteFileSuccess } = useSelector((state: RootState) => state.brand);
+  const { pinValidationLoading, pinValidationSuccess, pinValidationError } = useSelector((state: RootState) => state.common);
 
   const fetchBrandFiles = useCallback(async () => {
     if (!brandId) return;
@@ -105,6 +110,24 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
       dispatch(resetDeleteFileStatus());
     }
   }, [deleteFileSuccess, fetchBrandFiles, dispatch]);
+
+  useEffect(() => {
+    if (pinValidationSuccess && fileToDownload) {
+      window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`, "_blank");
+      setFileToDownload(null);
+      setIsPinModalOpen(false);
+      dispatch(resetPinStatus());
+    }
+  }, [pinValidationSuccess, fileToDownload, dispatch]);
+
+  const handleDownloadRequest = (fileUrl: string) => {
+    setFileToDownload(fileUrl);
+    setIsPinModalOpen(true);
+  };
+
+  const handlePinSubmit = (pin: string) => {
+    dispatch(validatePinRequest({ pin }));
+  };
 
   const handleDelete = (venueFileId: number) => {
     toast((t) => (
@@ -246,9 +269,9 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
                   brandFiles.map((file) => (
                     <tr key={file.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
-                        <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${file.venue_file_url}`} target="_blank" rel="noopener noreferrer">
+                        <button onClick={() => handleDownloadRequest(file.venue_file_url)} className="text-left hover:underline">
                           {`${process.env.NEXT_PUBLIC_API_BASE_URL}/${file.venue_file_url}`}
-                        </a>
+                        </button>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(file.created_at)}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{file.uploaded_by}</td>
@@ -257,7 +280,7 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
                           onClick={() => handleDelete(file.id)}
                           className="text-red-600 hover:text-red-900"
                         >
-                          Delete
+                          <Image src="/icons/campaign/add-campaign/remove-channel.svg" alt="delete file" width={20} height={20} />
                         </button>
                       </td>
                     </tr>
@@ -276,6 +299,13 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
           </div>
         </div>
       </div>
+      <PinModal
+        isOpen={isPinModalOpen}
+        onClose={() => setIsPinModalOpen(false)}
+        onSubmit={handlePinSubmit}
+        loading={pinValidationLoading}
+        error={pinValidationError}
+      />
     </div>
   );
 };
