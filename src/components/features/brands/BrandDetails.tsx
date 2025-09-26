@@ -165,18 +165,29 @@ export default function BrandDetails({
   const [fileToDownload, setFileToDownload] = useState<string | null>(null);
 
   useEffect(() => {
-    if (pinValidationSuccess && fileToDownload) {
-      const link = document.createElement("a");
-      const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`;
-      link.href = url;
-      link.setAttribute("download", fileToDownload.split('/').pop() || "download");
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      setFileToDownload(null);
-      setIsPinModalOpen(false);
-      dispatch(resetPinStatus());
-    }
+    const downloadFile = async () => {
+      if (pinValidationSuccess && fileToDownload) {
+        try {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`);
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", fileToDownload.split('/').pop() || "download");
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(url);
+        } catch (error) {
+          console.error("Download failed:", error);
+        } finally {
+          setFileToDownload(null);
+          setIsPinModalOpen(false);
+          dispatch(resetPinStatus());
+        }
+      }
+    };
+    downloadFile();
   }, [pinValidationSuccess, fileToDownload, dispatch]);
 
   const handlePinSubmit = (pin: string) => {

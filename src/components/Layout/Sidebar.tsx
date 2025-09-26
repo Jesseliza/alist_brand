@@ -30,13 +30,17 @@ export default function Sidebar({
   const [isMounted, setIsMounted] = useState(false);
 
   const filteredSidebarConfig = sidebarConfig.map((section) => {
-    if (user?.registration_type !== "admin") {
-      return {
-        ...section,
-        items: section.items.filter((item) => item.label !== "Accounts"),
-      };
-    }
-    return section;
+    const filteredItems = section.items.filter(item => {
+      if (item.label === "Accounts") {
+        return user?.registration_type === "admin";
+      }
+      return true;
+    });
+
+    return {
+      ...section,
+      items: filteredItems,
+    };
   }).filter(section => section.items.length > 0);
 
   // Use controlled or internal state
