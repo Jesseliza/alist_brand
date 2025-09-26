@@ -169,7 +169,8 @@ export default function BrandsTable({
                 </button>
               </td>
             </tr>
-          ))}
+            ))
+          )}
         </tbody>
       </table>
     </div>
