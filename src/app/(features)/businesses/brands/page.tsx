@@ -140,6 +140,7 @@ export default function BrandsPage() {
                 onSelect={handleActionSelect}
                 showUpdate={checkedRows.size === 1}
                 disabled={checkedRows.size === 0}
+                excludeActions={['delete', 'active', 'inactive']}
               />
             </div>
           </div>
@@ -157,6 +158,7 @@ export default function BrandsPage() {
                 onSelect={handleActionSelect}
                 showUpdate={checkedRows.size === 1}
                 disabled={checkedRows.size === 0}
+                excludeActions={['delete', 'active', 'inactive']}
               />
             </div>
           </div>
