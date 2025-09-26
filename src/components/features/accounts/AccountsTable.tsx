@@ -160,7 +160,8 @@ export default function AccountsTable({
                 {account.signUpDate ? formatDate(account.signUpDate) : 'N/A'}
               </td>
             </tr>
-          ))}
+            ))
+          )}
         </tbody>
       </table>
     </div>
