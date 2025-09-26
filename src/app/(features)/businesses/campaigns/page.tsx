@@ -101,17 +101,23 @@ export default function CampaignsPage() {
             </div>
           )}
           <div className="md:hidden space-y-[7px]">
-            {CampaignsData.map((campaign) => {
-              const accountId = getAccountIdFromBrandId(campaign.brandId);
-              return (
-                <Link
-                  key={campaign.campaignId}
-                  href={`/businesses/accounts/${accountId}/${campaign.brandId}/${campaign.campaignId}`}
-                >
-                  <CampaignsMobileCard campaign={campaign} />
-                </Link>
-              );
-            })}
+            {CampaignsData.length === 0 ? (
+              <div className="text-center py-10 text-gray-500">
+                No records found.
+              </div>
+            ) : (
+              CampaignsData.map((campaign) => {
+                const accountId = getAccountIdFromBrandId(campaign.brandId);
+                return (
+                  <Link
+                    key={campaign.campaignId}
+                    href={`/businesses/accounts/${accountId}/${campaign.brandId}/${campaign.campaignId}`}
+                  >
+                    <CampaignsMobileCard campaign={campaign} />
+                  </Link>
+                );
+              })
+            )}
           </div>
           <div className="hidden md:block">
             {view === "table" ? (
@@ -131,17 +137,23 @@ export default function CampaignsPage() {
             ) : (
               <>
                 <div className="grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center mb-8">
-                  {CampaignsData.map((campaign) => {
-                    const accountId = getAccountIdFromBrandId(campaign.brandId);
-                    return (
-                      <Link
-                        key={campaign.campaignId}
-                        href={`/businesses/accounts/${accountId}/${campaign.brandId}/${campaign.campaignId}`}
-                      >
-                        <CampaignCard campaign={campaign} />
-                      </Link>
-                    );
-                  })}
+                  {CampaignsData.length === 0 ? (
+                    <div className="col-span-full text-center py-10 text-gray-500">
+                      No records found.
+                    </div>
+                  ) : (
+                    CampaignsData.map((campaign) => {
+                      const accountId = getAccountIdFromBrandId(campaign.brandId);
+                      return (
+                        <Link
+                          key={campaign.campaignId}
+                          href={`/businesses/accounts/${accountId}/${campaign.brandId}/${campaign.campaignId}`}
+                        >
+                          <CampaignCard campaign={campaign} />
+                        </Link>
+                      );
+                    })
+                  )}
                 </div>
               </>
             )}

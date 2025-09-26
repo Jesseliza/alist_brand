@@ -48,9 +48,10 @@ function* handleLogin(action: ReturnType<typeof loginRequest>) {
         phoneNumber: account.phone,
         country_code: account.country_code,
         accountType: account.account_type as AccountType,
+        registration_type: account.registration_type,
         signUpDate: account.created_at,
         status: account.status as "active" | "inactive",
-        avatarInitials: `${account.first_name.charAt(0)}${account.last_name.charAt(0)}`,
+        avatarInitials: `${account.first_name.charAt(0)}${account.last_name ? account.last_name.charAt(0) : ''}`.toUpperCase(),
         avatarBackground: '#000000', // Default background color
         subscriptionCount: 0,
         brandsCount: 0,

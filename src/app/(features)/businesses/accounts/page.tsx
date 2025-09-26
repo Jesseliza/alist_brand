@@ -204,15 +204,21 @@ export default function AccountsPage() {
           {!loading && !error && (
             <>
               <div className="md:hidden space-y-[7px]">
-                {accounts.map((account) => (
-                  <AccountCard
-                    key={account.accountId}
-                    account={account}
-                    checked={checkedRows.has(account.accountId)}
-                    onCheckboxChange={() => handleCheckboxChange(account.accountId)}
-                  />
-                ))}
-                {accounts.length < pagination.total && (
+                {accounts.length === 0 ? (
+                  <div className="text-center py-10 text-gray-500">
+                    No records found.
+                  </div>
+                ) : (
+                  accounts.map((account) => (
+                    <AccountCard
+                      key={account.accountId}
+                      account={account}
+                      checked={checkedRows.has(account.accountId)}
+                      onCheckboxChange={() => handleCheckboxChange(account.accountId)}
+                    />
+                  ))
+                )}
+                {accounts.length > 0 && accounts.length < pagination.total && (
                   <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
                     <button
                       onClick={handleSeeMore}
