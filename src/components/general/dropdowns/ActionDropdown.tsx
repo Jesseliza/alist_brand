@@ -6,47 +6,57 @@ interface ActionDropdownProps {
   onSelect?: (value: string) => void;
   showUpdate?: boolean;
   disabled?: boolean;
+  excludeActions?: string[];
 }
 
 export default function ActionDropdown({
   onSelect,
   showUpdate,
   disabled,
+  excludeActions = [],
 }: ActionDropdownProps) {
-  const options = [
-    ...(showUpdate ? [{
-      value: "update",
+  const allOptions = [
+    ...(showUpdate
+      ? [
+          {
+            value: "update",
+            label: (
+              <div className="flex items-center px-3 py-2 text-[#6E6E6E]">
+                <span>Update</span>
+              </div>
+            ),
+          },
+        ]
+      : []),
+    {
+      value: "delete",
       label: (
         <div className="flex items-center px-3 py-2 text-[#6E6E6E]">
-          <span>Update</span>
+          <span>Delete</span>
         </div>
       ),
-    }] : []),
-    // {
-    //   value: "delete",
-    //   label: (
-    //     <div className="flex items-center px-3 py-2 text-[#6E6E6E]">
-    //       <span>Delete</span>
-    //     </div>
-    //   ),
-    // },
-    // {
-    //   value: "active",
-    //   label: (
-    //     <div className="flex items-center px-3 py-2 text-[#6E6E6E]">
-    //       <span>Active</span>
-    //     </div>
-    //   ),
-    // },
-    // {
-    //   value: "inactive",
-    //   label: (
-    //     <div className="flex items-center px-3 py-2 text-[#6E6E6E]">
-    //       <span>Inactive</span>
-    //     </div>
-    //   ),
-    // },
+    },
+    {
+      value: "active",
+      label: (
+        <div className="flex items-center px-3 py-2 text-[#6E6E6E]">
+          <span>Active</span>
+        </div>
+      ),
+    },
+    {
+      value: "inactive",
+      label: (
+        <div className="flex items-center px-3 py-2 text-[#6E6E6E]">
+          <span>Inactive</span>
+        </div>
+      ),
+    },
   ];
+
+  const options = allOptions.filter(
+    (option) => !excludeActions.includes(option.value)
+  );
 
   const title = (
     <div className="text-[18px] px-6 text-white leading-[27px]">
