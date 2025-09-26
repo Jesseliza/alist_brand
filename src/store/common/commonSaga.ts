@@ -87,7 +87,6 @@ function* fetchAllAccountsSaga() {
       search: "",
       status: "active",
       account_type: "individual",
-      per_page: 20,
     };
     const response: AccountApiResponse = yield call(postData, "/api/all/accounts", payload);
     if (response && response.accounts) {
