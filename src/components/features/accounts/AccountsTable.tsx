@@ -88,8 +88,15 @@ export default function AccountsTable({
         </thead>
 
         <tbody className="bg-white">
-          {accounts.map((account) => (
-            <tr key={account.accountId} className="odd:bg-[#F8F8F8]">
+          {accounts.length === 0 ? (
+            <tr>
+              <td colSpan={8} className="py-10 text-center text-gray-500">
+                No records found.
+              </td>
+            </tr>
+          ) : (
+            accounts.map((account) => (
+              <tr key={account.accountId} className="odd:bg-[#F8F8F8]">
               <td className="px-4.75 py-2.5 whitespace-nowrap">
                 <div className="flex items-center">
                   <Checkbox

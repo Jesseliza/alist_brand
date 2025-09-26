@@ -173,14 +173,20 @@ export default function BrandsPage() {
                   />
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {brands.map((brand) => (
-                      <BrandCard
-                        key={brand.brandId}
-                        brand={brand}
-                        checked={checkedRows.has(brand.brandId)}
-                        onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
-                      />
-                    ))}
+                    {brands.length === 0 ? (
+                      <div className="col-span-full text-center py-10 text-gray-500">
+                        No records found.
+                      </div>
+                    ) : (
+                      brands.map((brand) => (
+                        <BrandCard
+                          key={brand.brandId}
+                          brand={brand}
+                          checked={checkedRows.has(brand.brandId)}
+                          onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
+                        />
+                      ))
+                    )}
                   </div>
                 )}
                 {loading && brands.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
@@ -195,16 +201,22 @@ export default function BrandsPage() {
                 )}
               </div>
               <div className="md:hidden space-y-[7px]">
-                {brands.map((brand) => (
-                  <BrandMobileCard
-                    key={brand.brandId}
-                    brand={brand}
-                    checked={checkedRows.has(brand.brandId)}
-                    onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
-                  />
-                ))}
+                {brands.length === 0 ? (
+                  <div className="text-center py-10 text-gray-500">
+                    No records found.
+                  </div>
+                ) : (
+                  brands.map((brand) => (
+                    <BrandMobileCard
+                      key={brand.brandId}
+                      brand={brand}
+                      checked={checkedRows.has(brand.brandId)}
+                      onCheckboxChange={() => handleCheckboxChange(brand.brandId)}
+                    />
+                  ))
+                )}
                 {loading && brands.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
-                {brands.length < pagination.total && !loading && (
+                {brands.length > 0 && brands.length < pagination.total && !loading && (
                   <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
                     <button
                       onClick={handleSeeMore}

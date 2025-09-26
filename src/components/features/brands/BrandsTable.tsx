@@ -89,8 +89,15 @@ export default function BrandsTable({
           </tr>
         </thead>
         <tbody className="bg-white">
-          {brands.map((brand) => (
-            <tr key={brand.brandId} className="odd:bg-[#F8F8F8]">
+          {brands.length === 0 ? (
+            <tr>
+              <td colSpan={7} className="py-10 text-center text-gray-500">
+                No records found.
+              </td>
+            </tr>
+          ) : (
+            brands.map((brand) => (
+              <tr key={brand.brandId} className="odd:bg-[#F8F8F8]">
               <td className="px-4.75 py-2.5 whitespace-nowrap">
                 <div className="flex items-center">
                   <Checkbox

@@ -101,10 +101,17 @@ export default function CampaignsTable({
         </thead>
 
         <tbody className="bg-white">
-          {campaigns.map((campaign) => {
-            const accountId = getAccountIdFromBrandId(campaign.brandId);
-            return (
-              <tr key={campaign.campaignId} className="odd:bg-[#F8F8F8]">
+          {campaigns.length === 0 ? (
+            <tr>
+              <td colSpan={7} className="py-10 text-center text-gray-500">
+                No records found.
+              </td>
+            </tr>
+          ) : (
+            campaigns.map((campaign) => {
+              const accountId = getAccountIdFromBrandId(campaign.brandId);
+              return (
+                <tr key={campaign.campaignId} className="odd:bg-[#F8F8F8]">
                 <td className="px-4.75 py-2.5 whitespace-nowrap">
                   <div className="flex items-center">
                     <Checkbox

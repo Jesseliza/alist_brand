@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 import { sidebarConfig } from "@/utils/sidebar-config";
 
 const IconContainer = ({ children }: { children: React.ReactNode }) => (
@@ -22,9 +24,20 @@ export default function Sidebar({
   setCollapsed: setControlledCollapsed,
   setIsMobileMenuOpen,
 }: SidebarProps) {
+  const { user } = useSelector((state: RootState) => state.auth);
   const [internalCollapsed, setInternalCollapsed] = useState(false);
   const [windowWidth, setWindowWidth] = useState(1920); // Default for SSR
   const [isMounted, setIsMounted] = useState(false);
+
+  const filteredSidebarConfig = sidebarConfig.map((section) => {
+    if (user?.registration_type !== "admin") {
+      return {
+        ...section,
+        items: section.items.filter((item) => item.label !== "Accounts"),
+      };
+    }
+    return section;
+  }).filter(section => section.items.length > 0);
 
   // Use controlled or internal state
   const collapsed =
@@ -97,7 +110,7 @@ export default function Sidebar({
         </div>
       </div>
       <nav className="flex-1 pl-[25px] pr-[25px] xl:pl-[25px] xl:pr-[30px]">
-        {sidebarConfig.map((section, sectionIndex) => (
+        {filteredSidebarConfig.map((section, sectionIndex) => (
           <div key={sectionIndex} className="mb-7.25">
             {section.title && (
               <p

@@ -47,6 +47,9 @@ export type Account = {
   /** Account type - Individual or Agency */
   accountType: AccountType;
 
+  /** Registration type - e.g., "admin", "account" */
+  registration_type: string;
+
   /** When the account was created */
   signUpDate: string | null;
 
