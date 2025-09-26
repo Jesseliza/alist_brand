@@ -205,8 +205,8 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
                   brandFiles.map((file) => (
                     <tr key={file.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
-                        <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${file.venue_file_url}`} download>
-                          {file.venue_file_url}
+                        <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${file.venue_file_url}`} target="_blank" rel="noopener noreferrer">
+                          {`${process.env.NEXT_PUBLIC_API_BASE_URL}/${file.venue_file_url}`}
                         </a>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(file.created_at)}</td>
