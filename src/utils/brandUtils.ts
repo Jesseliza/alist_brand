@@ -9,10 +9,7 @@ export const transformApiVenueToBrand = (apiVenue: any): Brand => {
     brandId: apiVenue.id.toString(),
     name: apiVenue.venue_title,
     companyName: apiVenue.company_name,
-    accountId:
-      apiVenue.accounts && apiVenue.accounts.length > 0
-        ? apiVenue.accounts[0].id.toString()
-        : "",
+    accountId: apiVenue.accounts.length > 0 ? apiVenue.accounts[0].id.toString() : "",
     country: apiVenue.country_id,
     state: apiVenue.state_id,
     industry: apiVenue.category_id,
