@@ -166,7 +166,12 @@ export default function BrandDetails({
 
   useEffect(() => {
     if (pinValidationSuccess && fileToDownload) {
-      window.open(fileToDownload, "_blank");
+      const link = document.createElement("a");
+      link.href = fileToDownload;
+      link.setAttribute("download", "");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
       setFileToDownload(null);
       setIsPinModalOpen(false);
       dispatch(resetPinStatus());
