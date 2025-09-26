@@ -9,6 +9,7 @@ import api from "@/services/apiHelper";
 import InlineLoader from "@/components/general/InlineLoader";
 import toast from "react-hot-toast";
 import PinModal from "@/components/general/PinModal";
+import Image from "next/image";
 
 interface BrandFile {
   id: number;
