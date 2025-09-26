@@ -205,7 +205,7 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
                   brandFiles.map((file) => (
                     <tr key={file.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
-                        <a href={`https://dev-partners.alist.ae/api/${file.venue_file_url}`} download>
+                        <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${file.venue_file_url}`} download>
                           {file.venue_file_url}
                         </a>
                       </td>
