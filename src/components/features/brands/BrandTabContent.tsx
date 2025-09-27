@@ -2,7 +2,6 @@ import BrandDetails from "@/components/features/brands/BrandDetails";
 import BrandCampaigns from "@/components/features/brands/BrandCampaigns";
 import { TabContentProps } from "@/components/general/UnifiedTabs";
 import { Brand } from "@/types/entities";
-import { useParams } from "next/navigation";
 
 interface BrandTabContentProps extends TabContentProps {
   brand: Partial<Brand> & {
@@ -19,8 +18,6 @@ export default function BrandTabContent({
   activeTab,
   brand,
 }: BrandTabContentProps) {
-  const params = useParams();
-  const accountId = params.accountId as string;
 
   const renderContent = () => {
     switch (activeTab) {
@@ -41,7 +38,7 @@ export default function BrandTabContent({
           <div>
             <BrandCampaigns
               brandId={brand.brandId || ""}
-              accountId={accountId}
+              accountId={brand.accountId || ""}
             />
           </div>
         );
