@@ -109,7 +109,7 @@ const transformVenueToBrand = (venue: ApiVenue, industries: Option[]): Brand => 
     };
 };
 
-function* ensureIndustriesFetched(): Generator<Effect, Option[], any> {
+function* ensureIndustriesFetched(): Generator<Effect, Option[], unknown> {
     let industries: Option[] = yield select(getIndustries);
     if (!industries || industries.length === 0) {
         yield put(fetchIndustries());
