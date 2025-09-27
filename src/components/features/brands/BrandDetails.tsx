@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Brand } from "@/types/entities";
 import SearchableDropdown from "@/components/general/dropdowns/SearchableDropdown";

@@ -17,7 +17,7 @@ import Link from "next/link";
 export default function CampaignsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [view, setView] = useState<"table" | "cards">("table");
+  const [view, setView] = useState<"table" | "card">("table");
   const [search, setSearch] = useState("");
 
   // Function to get accountId from brandId
