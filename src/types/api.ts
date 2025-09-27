@@ -38,3 +38,10 @@ export interface IndustryApiResponse extends ApiResponse {
 export interface AccountApiResponse extends ApiResponse {
     accounts: Account[];
 }
+
+export interface PaginationState {
+    currentPage: number;
+    lastPage: number;
+    perPage: number;
+    total: number;
+}

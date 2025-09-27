@@ -294,7 +294,7 @@ function* handleFetchBrand(action: ReturnType<typeof fetchBrandRequest>) {
         associateInitials: '',
         associateBackground: '',
         Venue_contact_name: apiBrand.Venue_contact_name || null,
-        venue_email: apiBrand.venue_email,
+        venue_email: apiBrand.venue_email || null,
         Venue: {
           food_offers: apiBrand.food_offers || [],
         },
