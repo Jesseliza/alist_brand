@@ -37,7 +37,7 @@ export default function BrandTabContent({
         return (
           <div>
             <BrandCampaigns
-              foodOffers={brand.food_offers || []}
+              foodOffers={brand.Venue?.food_offers || []}
               brandName={brand.name || ""}
               brandLogo={brand.logo || ""}
               accountId={brand.accountId || ""}
