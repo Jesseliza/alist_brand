@@ -66,7 +66,7 @@ export default function BrandLayout({
     <div>
       <BrandHeader
         name={brand.name}
-        subtitle={brand.businessLocation}
+        subtitle={brand.businessLocation || undefined}
         logo={brand.logo}
         activeTab={isCampaignPage ? "Campaigns" : activeTab}
         onTabChange={handleTabChange}

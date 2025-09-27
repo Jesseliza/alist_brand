@@ -23,20 +23,20 @@ export const transformApiVenueToBrand = (apiVenue: any): Brand => {
     associatePhone: apiVenue.venue_contact_number,
     tradeLicenseCopy: apiVenue.trade_license_file,
     vatCertificate: apiVenue.vat_certificate_file,
-    logo: null, // Placeholder for logo, as it's not in the API response
-    owner: "", // This is a required string, so empty is fine.
-    phoneNumber: null, // Placeholder for phone number, as it's not in the API response
-    emailAddress: null, // Placeholder for email address, as it's not in the API response
-    businessLocation: null, // Placeholder for business location, as it's not in the API response
-    associateFirstName: "", // Placeholder
-    associateLastName: "", // Placeholder
-    associateInitials: "", // Placeholder
-    associateBackground: "", // Placeholder
+    logo: null,
+    owner: "",
+    phoneNumber: null,
+    emailAddress: null,
+    businessLocation: null,
+    associateFirstName: "",
+    associateLastName: "",
+    associateInitials: "",
+    associateBackground: "",
     registrationDate: apiVenue.created_at,
-    offersCount: 0, // Placeholder
-    campaignsCount: 0, // Placeholder
-    profileCompletion: 0, // Placeholder
-    files: 0, // Placeholder
+    offersCount: 0,
+    campaignsCount: 0,
+    profileCompletion: 0,
+    files: 0,
     Venue_contact_name: apiVenue.Venue_contact_name || null,
     venue_email: apiVenue.venue_email || null,
     Venue: {
