@@ -13,10 +13,6 @@ interface BrandState {
   pagination: PaginationState;
   loading: boolean;
   error: string | null;
-  createLoading: boolean;
-  createSuccess: boolean;
-  updateLoading: boolean;
-  updateSuccess: boolean;
   deleteFileLoading: boolean;
   deleteFileSuccess: boolean;
 }
@@ -31,10 +27,6 @@ const initialState: BrandState = {
   },
   loading: false,
   error: null,
-  createLoading: false,
-  createSuccess: false,
-  updateLoading: false,
-  updateSuccess: false,
   deleteFileLoading: false,
   deleteFileSuccess: false,
 };
@@ -81,23 +73,6 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    createBrandRequest: (state, action: PayloadAction<BrandPayload>) => {
-      state.createLoading = true;
-      state.createSuccess = false;
-      state.error = null;
-    },
-    createBrandSuccess: (state) => {
-      state.createLoading = false;
-      state.createSuccess = true;
-    },
-    createBrandFailure: (state, action: PayloadAction<string>) => {
-      state.createLoading = false;
-      state.error = action.payload;
-    },
-    resetCreateStatus: (state) => {
-      state.createSuccess = false;
-      state.error = null;
-    },
     updateBrandField: (state, action: PayloadAction<{ field: keyof Brand; value: string }>) => {
       if (state.brand) {
         state.brand = { ...state.brand, [action.payload.field]: action.payload.value };
@@ -106,23 +81,6 @@ const brandSlice = createSlice({
     initializeNewBrand: (state) => {
       state.brand = {};
       state.loading = false;
-      state.error = null;
-    },
-    updateBrandRequest: (state, action: PayloadAction<BrandPayload>) => {
-      state.updateLoading = true;
-      state.updateSuccess = false;
-      state.error = null;
-    },
-    updateBrandSuccess: (state) => {
-      state.updateLoading = false;
-      state.updateSuccess = true;
-    },
-    updateBrandFailure: (state, action: PayloadAction<string>) => {
-      state.updateLoading = false;
-      state.error = action.payload;
-    },
-    resetUpdateStatus: (state) => {
-      state.updateSuccess = false;
       state.error = null;
     },
     deleteBrandFileRequest: (state, action: PayloadAction<{ venue_file_id: number }>) => {
@@ -154,16 +112,8 @@ export const {
   fetchBrandRequest,
   fetchBrandSuccess,
   fetchBrandFailure,
-  createBrandRequest,
-  createBrandSuccess,
-  createBrandFailure,
-  resetCreateStatus,
   updateBrandField,
   initializeNewBrand,
-  updateBrandRequest,
-  updateBrandSuccess,
-  updateBrandFailure,
-  resetUpdateStatus,
   deleteBrandFileRequest,
   deleteBrandFileSuccess,
   deleteBrandFileFailure,
