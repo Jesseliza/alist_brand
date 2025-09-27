@@ -37,12 +37,12 @@ export default function BrandTabContent({
           />
         );
       case "Campaigns":
-        if (!brand.brandId) {
-          return null;
-        }
         return (
           <div>
-            <BrandCampaigns brandId={brand.brandId} accountId={accountId} />
+            <BrandCampaigns
+              brandId={brand.brandId || ""}
+              accountId={accountId}
+            />
           </div>
         );
       default:
