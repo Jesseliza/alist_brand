@@ -36,7 +36,13 @@ export default function BrandTabContent({
       case "Campaigns":
         return (
           <div>
-            <BrandCampaigns />
+            <BrandCampaigns
+              foodOffers={brand.food_offers || []}
+              brandName={brand.name || ""}
+              brandLogo={brand.logo || ""}
+              accountId={brand.accountId || ""}
+              brandId={brand.brandId || ""}
+            />
           </div>
         );
       default:
