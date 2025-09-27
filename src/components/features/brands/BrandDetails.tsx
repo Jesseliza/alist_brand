@@ -161,6 +161,7 @@ export default function BrandDetails({
     pinValidationSuccess,
     pinValidationError,
   } = useSelector((state: RootState) => state.common);
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const [isPinModalOpen, setIsPinModalOpen] = useState(false);
   const [fileToDownload, setFileToDownload] = useState<string | null>(null);
@@ -255,7 +256,7 @@ export default function BrandDetails({
                     selectedValue={brand.accountId || ""}
                     onValueChange={(value) => onFieldChange("accountId", value)}
                     placeholder="Select an account"
-                    disabled={loading.allAccounts}
+                    disabled={loading.allAccounts || (user?.registration_type !== 'admin')}
                   />
                   {errors.accountId && <p className="text-red-500 text-xs mt-1">{errors.accountId}</p>}
                 </div>

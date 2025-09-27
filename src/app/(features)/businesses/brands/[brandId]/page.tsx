@@ -29,6 +29,7 @@ export default function BrandPage() {
   const { brand, loading, createLoading, createSuccess, updateLoading, updateSuccess, error } = useSelector(
     (state: RootState) => state.brand
   );
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof Brand, string>>>({});
 
@@ -40,6 +41,12 @@ export default function BrandPage() {
       dispatch(fetchBrandRequest({ brandId: brandId as string }));
     }
   }, [brandId, isCreateMode, dispatch]);
+
+  useEffect(() => {
+    if (isCreateMode && user && user.registration_type !== 'admin') {
+      dispatch(updateBrandField({ field: 'accountId', value: user.accountId }));
+    }
+  }, [isCreateMode, user, dispatch]);
 
   useEffect(() => {
     if (createSuccess) {
