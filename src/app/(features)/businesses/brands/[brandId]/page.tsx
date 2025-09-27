@@ -32,6 +32,7 @@ export default function BrandPage() {
   const { user } = useSelector((state: RootState) => state.auth);
 
   const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof Brand, string>>>({});
+  const [activeTab, setActiveTab] = useState("Business Details");
 
   useEffect(() => {
     dispatch(fetchIndustries());
@@ -139,12 +140,13 @@ export default function BrandPage() {
           // subtitle={brand?.businessLocation || ""}
           logo={brand?.logo}
           tabs={["Business Details", "Campaigns"]}
-          activeTab="Business Details"
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
         />
       )}
       <div className="pb-6">
         <BrandTabContent
-          activeTab="Business Details"
+          activeTab={activeTab}
           brand={{
             ...brand,
             onFieldChange: handleFieldChange,
