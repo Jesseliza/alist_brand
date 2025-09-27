@@ -94,8 +94,8 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
       resetForm();
       fetchBrandFiles(); // Refresh the list
     } catch (err) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      setError((err as any).response?.data?.message || "An error occurred while uploading files.");
+      const error = err as { response?: { data?: { message?: string } } };
+      setError(error.response?.data?.message || "An error occurred while uploading files.");
     } finally {
       setUploading(false);
     }
