@@ -102,7 +102,7 @@ const brandSlice = createSlice({
       state.createSuccess = false;
       state.error = null;
     },
-    updateBrandField: (state, action: PayloadAction<{ field: keyof Brand; value: string }>) => {
+    updateBrandField: (state, action: PayloadAction<{ field: keyof Brand; value: string | File }>) => {
       if (state.brand) {
         state.brand = { ...state.brand, [action.payload.field]: action.payload.value };
       }

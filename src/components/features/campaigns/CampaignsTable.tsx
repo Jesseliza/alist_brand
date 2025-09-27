@@ -234,9 +234,8 @@ export default function CampaignsTable({
                   </Link>
                 </td>
               </tr>
-              );
-            })
-          )}
+            );
+          }))}
         </tbody>
       </table>
     </div>
