@@ -168,6 +168,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
             brandsCount: apiAccount.venues_count || 0,
             campaignsCount: 0,
             status: apiAccount.status,
+            registration_type: "accounts",
           };
         });
 
@@ -226,6 +227,7 @@ function* handleFetchMoreAccounts(action: ReturnType<typeof fetchMoreAccountsReq
             brandsCount: apiAccount.venues_count || 0,
             campaignsCount: 0,
             status: apiAccount.status,
+            registration_type: "accounts",
           };
         });
 
@@ -300,6 +302,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
           brandsCount: apiAccount.venues_count,
           campaignsCount: 0,
           status: apiAccount.status,
+          registration_type: "accounts",
         };
 
         yield put(createAccountSuccess(feAccount));
@@ -374,6 +377,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
           brandsCount: apiAccount.venues_count || 0,
           campaignsCount: 0,
           status: apiAccount.status,
+          registration_type: "accounts",
         };
         yield put(updateAccountSuccess(feAccount));
         toast.success(response.message);
@@ -436,6 +440,7 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
           brandsCount: apiAccount.venues_count || 0,
           campaignsCount: 0,
           status: apiAccount.status,
+          registration_type: "accounts",
         };
         yield put(fetchAccountByIdSuccess(feAccount));
       } else {
