@@ -4,15 +4,7 @@ import { AccountsData } from "./AccountsData";
 
 // Function to populate associate information from account data
 function populateAssociateInfo(
-  brand: Omit<
-    Brand,
-    | "associateFirstName"
-    | "associateLastName"
-    | "associateEmail"
-    | "associatePhone"
-    | "associateInitials"
-    | "associateBackground"
-  >
+  brand: (typeof rawBrandsData)[number]
 ): Brand {
   const account = AccountsData.find((acc) => acc.accountId === brand.accountId);
 
@@ -20,23 +12,43 @@ function populateAssociateInfo(
     // Fallback if account not found
     return {
       ...brand,
-      associateFirstName: "Unknown",
-      associateLastName: "Account",
+      owner: "Unknown Owner",
+      country: "AE",
+      state: "Dubai",
+      associateName: "Unknown Associate",
       associateEmail: "unknown@account.com",
       associatePhone: "+971-50-000-0000",
+      associateFirstName: "Unknown",
+      associateLastName: "Account",
       associateInitials: "UA",
       associateBackground: "#6c757d",
+      registrationDate: new Date().toISOString(),
+      files: 0,
+      Venue_contact_name: null,
+      venue_email: null,
+      Venue: { food_offers: [] },
     };
   }
 
+  const associateName = `${account.firstName} ${account.lastName}`;
+
   return {
     ...brand,
-    associateFirstName: account.firstName,
-    associateLastName: account.lastName,
+    owner: associateName,
+    country: "AE",
+    state: "Dubai",
+    associateName,
     associateEmail: account.emailAddress,
     associatePhone: account.phoneNumber,
+    associateFirstName: account.firstName,
+    associateLastName: account.lastName,
     associateInitials: account.avatarInitials,
     associateBackground: account.avatarBackground,
+    registrationDate: new Date().toISOString(),
+    files: 0,
+    Venue_contact_name: null,
+    venue_email: null,
+    Venue: { food_offers: [] },
   };
 }
 import onethousand from "@/assets/images/brands/1847-4.png";
