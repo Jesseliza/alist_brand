@@ -81,7 +81,7 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    createBrandRequest: (state, _action: PayloadAction<BrandPayload>) => {
+    createBrandRequest: (state) => {
       state.createLoading = true;
       state.createSuccess = false;
       state.error = null;
@@ -108,7 +108,7 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
-    updateBrandRequest: (state, _action: PayloadAction<BrandPayload>) => {
+    updateBrandRequest: (state) => {
       state.updateLoading = true;
       state.updateSuccess = false;
       state.error = null;
