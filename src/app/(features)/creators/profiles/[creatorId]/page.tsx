@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { CreatorsData } from "@/data/CreatorsData";
 import { Creator } from "@/types/entities";
-import Loader from "@/components/general/Loader";
 
 export default function CreatorProfilePage() {
   const router = useRouter();
@@ -39,7 +38,11 @@ export default function CreatorProfilePage() {
 
   // Show loading state while creator data is being fetched
   if (!creator) {
-    return <Loader />;
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <p className="text-gray-500">Loading creator details...</p>
+      </div>
+    );
   }
 
   return (

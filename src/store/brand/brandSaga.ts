@@ -20,7 +20,6 @@ import {
   deleteBrandFileRequest,
   deleteBrandFileSuccess,
   deleteBrandFileFailure,
-  BrandPayload,
 } from './brandSlice';
 import { Brand } from '@/types/entities';
 
@@ -209,7 +208,7 @@ function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest
   }
 }
 
-function* handleCreateBrand(action: { type: string; payload: BrandPayload }) {
+function* handleCreateBrand(action: ReturnType<typeof createBrandRequest>) {
   try {
     const brand = action.payload;
     const formData = new FormData();
@@ -225,11 +224,11 @@ function* handleCreateBrand(action: { type: string; payload: BrandPayload }) {
     formData.append('venue_email', brand.associateEmail || '');
     formData.append('venue_contact_number', brand.associatePhone || '');
 
-    if (brand.tradeLicenseFile) {
-      formData.append('trade_license_file', brand.tradeLicenseFile);
+    if ((brand as any).tradeLicenseFile) {
+      formData.append('trade_license_file', (brand as any).tradeLicenseFile);
     }
-    if (brand.vatCertificateFile) {
-      formData.append('vat_certificate_file', brand.vatCertificateFile);
+    if ((brand as any).vatCertificateFile) {
+      formData.append('vat_certificate_file', (brand as any).vatCertificateFile);
     }
 
     const response: { message: string } | ApiError = yield call(postData, '/api/add/venue', formData);
@@ -307,7 +306,7 @@ function* handleFetchBrand(action: ReturnType<typeof fetchBrandRequest>) {
   }
 }
 
-function* handleUpdateBrand(action: { type: string; payload: BrandPayload }) {
+function* handleUpdateBrand(action: ReturnType<typeof updateBrandRequest>) {
   try {
     const brand = action.payload;
     const brandId = brand.brandId;
@@ -329,11 +328,11 @@ function* handleUpdateBrand(action: { type: string; payload: BrandPayload }) {
     formData.append('venue_email', brand.associateEmail || '');
     formData.append('venue_contact_number', brand.associatePhone || '');
 
-    if (brand.tradeLicenseFile instanceof File) {
-      formData.append('trade_license_file', brand.tradeLicenseFile);
+    if ((brand as any).tradeLicenseFile) {
+      formData.append('trade_license_file', (brand as any).tradeLicenseFile);
     }
-    if (brand.vatCertificateFile instanceof File) {
-      formData.append('vat_certificate_file', brand.vatCertificateFile);
+    if ((brand as any).vatCertificateFile) {
+      formData.append('vat_certificate_file', (brand as any).vatCertificateFile);
     }
 
     const response: { message: string } | ApiError = yield call(postData, `/api/venue/${brandId}`, formData);

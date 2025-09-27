@@ -2,11 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Brand } from '@/types/entities';
 import { PaginationState } from '@/types/api';
 
-export interface BrandPayload extends Partial<Brand> {
-  tradeLicenseFile?: File | null;
-  vatCertificateFile?: File | null;
-}
-
 interface BrandState {
   brands: Brand[];
   brand: Brand | null;
@@ -43,8 +38,7 @@ const brandSlice = createSlice({
   name: 'brand',
   initialState,
   reducers: {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    fetchBrandsRequest: (state, _action: PayloadAction<{ page: number; per_page: number; search?: string }>) => {
+    fetchBrandsRequest: (state, action: PayloadAction<{ page: number; per_page: number; search?: string }>) => {
       state.loading = true;
       state.error = null;
     },
@@ -57,8 +51,7 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    fetchMoreBrandsRequest: (state, _action: PayloadAction<{ page: number; per_page: number; search?: string }>) => {
+    fetchMoreBrandsRequest: (state, action: PayloadAction<{ page: number; per_page: number; search?: string }>) => {
       state.loading = true;
       state.error = null;
     },
@@ -71,8 +64,7 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    fetchBrandRequest: (state, _action: PayloadAction<{ brandId: string }>) => {
+    fetchBrandRequest: (state, action: PayloadAction<{ brandId: string }>) => {
       state.loading = true;
       state.error = null;
     },
@@ -84,8 +76,7 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    createBrandRequest: (state, _action: PayloadAction<BrandPayload>) => {
+    createBrandRequest: (state, action: PayloadAction<Partial<Brand>>) => {
       state.createLoading = true;
       state.createSuccess = false;
       state.error = null;
@@ -102,7 +93,7 @@ const brandSlice = createSlice({
       state.createSuccess = false;
       state.error = null;
     },
-    updateBrandField: (state, action: PayloadAction<{ field: keyof Brand; value: string | File }>) => {
+    updateBrandField: (state, action: PayloadAction<{ field: keyof Brand; value: string }>) => {
       if (state.brand) {
         state.brand = { ...state.brand, [action.payload.field]: action.payload.value };
       }
@@ -112,8 +103,7 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    updateBrandRequest: (state, _action: PayloadAction<BrandPayload>) => {
+    updateBrandRequest: (state, action: PayloadAction<Partial<Brand>>) => {
       state.updateLoading = true;
       state.updateSuccess = false;
       state.error = null;
@@ -130,8 +120,7 @@ const brandSlice = createSlice({
       state.updateSuccess = false;
       state.error = null;
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    deleteBrandFileRequest: (state, _action: PayloadAction<{ venue_file_id: number }>) => {
+    deleteBrandFileRequest: (state, action: PayloadAction<{ venue_file_id: number }>) => {
       state.deleteFileLoading = true;
       state.deleteFileSuccess = false;
       state.error = null;

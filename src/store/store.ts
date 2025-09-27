@@ -8,12 +8,7 @@ const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      thunk: false,
-      serializableCheck: {
-        ignoredActions: ['brand/updateBrandField'],
-      },
-    }).concat(sagaMiddleware),
+    getDefaultMiddleware({ thunk: false, serializableCheck: false }).concat(sagaMiddleware),
 });
 
 sagaMiddleware.run(rootSaga);

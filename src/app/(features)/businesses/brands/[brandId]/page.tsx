@@ -29,8 +29,10 @@ export default function BrandPage() {
   const { brand, loading, createLoading, createSuccess, updateLoading, updateSuccess, error } = useSelector(
     (state: RootState) => state.brand
   );
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof Brand, string>>>({});
+  const [activeTab, setActiveTab] = useState("Business Details");
 
   useEffect(() => {
     dispatch(fetchIndustries());
@@ -40,6 +42,12 @@ export default function BrandPage() {
       dispatch(fetchBrandRequest({ brandId: brandId as string }));
     }
   }, [brandId, isCreateMode, dispatch]);
+
+  useEffect(() => {
+    if (isCreateMode && user && user.registration_type !== 'admin') {
+      dispatch(updateBrandField({ field: 'accountId', value: user.accountId }));
+    }
+  }, [isCreateMode, user, dispatch]);
 
   useEffect(() => {
     if (createSuccess) {
@@ -52,34 +60,39 @@ export default function BrandPage() {
     }
   }, [createSuccess, updateSuccess, router, dispatch]);
 
-  const handleFieldChange = (field: keyof Brand, value: string | File) => {
+  const handleFieldChange = (field: keyof Brand, value: string) => {
     dispatch(updateBrandField({ field, value }));
   };
 
-  const handleFileChange = (field: keyof Brand, file: File) => {
-    dispatch(updateBrandField({ field, value: file }));
-  };
-
-  const handleSave = () => {
+  const handleSave = (files: {
+    tradeLicenseFile: File | null;
+    vatCertificateFile: File | null;
+  }) => {
     if (brand) {
       const newErrors: Partial<Record<keyof Brand, string>> = {};
       const requiredFields: (keyof Brand)[] = [
-        'name', 'companyName', 'accountId', 'country', 'state', 'industry'
+        "name",
+        "companyName",
+        "accountId",
+        "country",
+        "state",
+        "industry",
       ];
 
       requiredFields.forEach((field) => {
         if (!brand[field]) {
           const label = field.replace(/([A-Z])/g, " $1");
-          const capitalizedLabel = label.charAt(0).toUpperCase() + label.slice(1);
+          const capitalizedLabel =
+            label.charAt(0).toUpperCase() + label.slice(1);
           newErrors[field] = `${capitalizedLabel} is required.`;
         }
       });
 
-      if (isCreateMode && !brand.tradeLicenseCopy) {
+      if (isCreateMode && !brand.tradeLicenseCopy && !files.tradeLicenseFile) {
         newErrors.tradeLicenseCopy = "Trade License copy is required.";
       }
 
-      if (isCreateMode && !brand.vatCertificate) {
+      if (isCreateMode && !brand.vatCertificate && !files.vatCertificateFile) {
         newErrors.vatCertificate = "VAT Certificate is required.";
       }
 
@@ -89,10 +102,16 @@ export default function BrandPage() {
         return;
       }
 
+      const payload = {
+        ...brand,
+        tradeLicenseFile: files.tradeLicenseFile,
+        vatCertificateFile: files.vatCertificateFile,
+      };
+
       if (isCreateMode) {
-        dispatch(createBrandRequest(brand));
+        dispatch(createBrandRequest(payload));
       } else {
-        dispatch(updateBrandRequest(brand));
+        dispatch(updateBrandRequest(payload));
       }
     }
   };
@@ -121,16 +140,16 @@ export default function BrandPage() {
           // subtitle={brand?.businessLocation || ""}
           logo={brand?.logo}
           tabs={["Business Details", "Campaigns"]}
-          activeTab="Business Details"
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
         />
       )}
       <div className="pb-6">
         <BrandTabContent
-          activeTab="Business Details"
+          activeTab={activeTab}
           brand={{
             ...brand,
             onFieldChange: handleFieldChange,
-            onFileChange: handleFileChange,
             isEditMode: true,
             onSave: handleSave,
             isSaving: createLoading || updateLoading,

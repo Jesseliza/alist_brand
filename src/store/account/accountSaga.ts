@@ -1,4 +1,4 @@
-import { call, put, takeLatest, all, select, Effect } from "redux-saga/effects";
+import { call, put, takeLatest, all, select } from "redux-saga/effects";
 import toast from "react-hot-toast";
 import { postData, deleteData, fetchData } from "@/services/commonService";
 import { generateColorFromString } from "@/utils/colorGenerator";
@@ -36,38 +36,8 @@ import { Industry, IndustryApiResponse } from "@/types/api";
 
 const getIndustries = (state: RootState) => state.common.industries;
 
-// Define a type for the venue object from the API
-interface ApiVenue {
-    id: number;
-    venue_title: string;
-    account_id?: number;
-    venue_logo?: string | null;
-    venue_contact_number?: string | null;
-    venue_email?: string | null;
-    category_id?: number | null;
-    company_name?: string | null;
-    trade_license_file?: string | null;
-    vat_certificate_file?: string | null;
-    venue_instagram_url?: string | null;
-    venue_url?: string | null;
-    Venue_contact_name?: string | null;
-    created_at?: string;
-    delivery_areas?: string | null; // Mapped to businessLocation
-    offers_count?: number;
-    profile_completion?: number;
-    // The following fields are used in transform but might not be in the API response for a venue under an account
-    businessLocation?: string;
-    associateFirstName?: string;
-    associateLastName?: string;
-    associateEmail?: string;
-    associatePhone?: string;
-    campaignsCount?: number;
-    country?: string;
-    state?: string;
-}
-
-
-const transformVenueToBrand = (venue: ApiVenue, industries: Option[]): Brand => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const transformVenueToBrand = (venue: any, industries: Option[]): Brand => {
     const industry = industries.find(
         (ind) => ind.value === venue.category_id?.toString()
     );
@@ -81,7 +51,7 @@ const transformVenueToBrand = (venue: ApiVenue, industries: Option[]): Brand => 
         emailAddress: venue.venue_email || "",
         industry: industry ? industry.label : "N/A",
         companyName: venue.company_name || "",
-        businessLocation: venue.delivery_areas || venue.businessLocation || "",
+        businessLocation: venue.businessLocation || "",
         tradeLicenseCopy: venue.trade_license_file || "",
         vatCertificate: venue.vat_certificate_file || "",
         instagramHandle: venue.venue_instagram_url || "",
@@ -95,9 +65,9 @@ const transformVenueToBrand = (venue: ApiVenue, industries: Option[]): Brand => 
                 venue.venue_title?.split(" ")?.[1]?.[0] || ""
             }`.toUpperCase() || "",
         associateBackground: generateColorFromString(venue.venue_title || ""),
-        offersCount: venue.offers_count || 0,
+        offersCount: venue.offersCount || 0,
         campaignsCount: venue.campaignsCount || 0,
-        profileCompletion: venue.profile_completion || 0,
+        profileCompletion: venue.profileCompletion || 0,
         country: venue.country || "",
         state: venue.state || "",
         associateName: venue.Venue_contact_name || "",
@@ -109,7 +79,7 @@ const transformVenueToBrand = (venue: ApiVenue, industries: Option[]): Brand => 
     };
 };
 
-function* ensureIndustriesFetched(): Generator<Effect, Option[], unknown> {
+function* ensureIndustriesFetched(): Generator<any, Option[], any> {
     let industries: Option[] = yield select(getIndustries);
     if (!industries || industries.length === 0) {
         yield put(fetchIndustries());
@@ -138,8 +108,9 @@ interface ApiAccount {
     country_code: string;
     account_type: string;
     status: "active" | "inactive";
-    venues: ApiVenue[];
-    venues_count: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    venues: any[];
+  venues_count: number;
     created_at: string;
 }
 
@@ -179,7 +150,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
         const { data, current_page, last_page, per_page, total } = response.accounts;
 
         const feAccounts: Account[] = data.map((apiAccount: ApiAccount) => {
-          const brands = apiAccount.venues ? apiAccount.venues.map((venue: ApiVenue) => transformVenueToBrand(venue, industries)) : [];
+          const brands = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
           return {
             accountId: apiAccount.id.toString(),
             firstName: apiAccount.first_name,
@@ -237,7 +208,7 @@ function* handleFetchMoreAccounts(action: ReturnType<typeof fetchMoreAccountsReq
         const { data, current_page, last_page, per_page, total } = response.accounts;
 
         const feAccounts: Account[] = data.map((apiAccount: ApiAccount) => {
-          const brands = apiAccount.venues ? apiAccount.venues.map((venue: ApiVenue) => transformVenueToBrand(venue, industries)) : [];
+          const brands = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
           return {
             accountId: apiAccount.id.toString(),
             firstName: apiAccount.first_name,
@@ -310,7 +281,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         const apiAccount = response.account;
 
         const industries: Option[] = yield call(ensureIndustriesFetched);
-        const feBrands: Brand[] = apiAccount.venues ? apiAccount.venues.map((venue: ApiVenue) => transformVenueToBrand(venue, industries)) : [];
+        const feBrands: Brand[] = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
 
         const feAccount: Account = {
           accountId: apiAccount.id.toString(),
@@ -383,7 +354,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
       if ('account' in response && response.account) {
         const apiAccount = response.account;
         const industries: Option[] = yield call(ensureIndustriesFetched);
-        const feBrands: Brand[] = apiAccount.venues ? apiAccount.venues.map((venue: ApiVenue) => transformVenueToBrand(venue, industries)) : [];
+        const feBrands: Brand[] = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
         const feAccount: Account = {
           accountId: apiAccount.id.toString(),
           firstName: apiAccount.first_name,
@@ -447,7 +418,7 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
       if ('account' in response && response.account) {
         const apiAccount = response.account;
         const industries: Option[] = yield call(ensureIndustriesFetched);
-        const feBrands: Brand[] = apiAccount.venues ? apiAccount.venues.map((venue: ApiVenue) => transformVenueToBrand(venue, industries)) : [];
+        const feBrands: Brand[] = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
         const feAccount: Account = {
           accountId: apiAccount.id.toString(),
           firstName: apiAccount.first_name,

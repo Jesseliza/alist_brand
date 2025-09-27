@@ -14,8 +14,10 @@ interface BrandDetailsProps {
   brand: Partial<Brand>;
   isEditMode: boolean;
   onFieldChange: (field: keyof Brand, value: string) => void;
-  onFileChange: (field: keyof Brand, file: File) => void;
-  onSave: () => void;
+  onSave: (files: {
+    tradeLicenseFile: File | null;
+    vatCertificateFile: File | null;
+  }) => void;
   isSaving: boolean;
   isCreateMode: boolean;
   errors?: Partial<Record<keyof Brand, string>>;
@@ -79,7 +81,7 @@ interface FileUploadFieldProps {
   label: string;
   file: string | File | null | undefined;
   name: keyof Brand;
-  onFileChange: (field: keyof Brand, file: File) => void;
+  onFileChange: (file: File) => void;
   onDownloadRequest: (fileUrl: string) => void;
   error?: string;
 }
@@ -130,7 +132,7 @@ const FileUploadField = ({ label, file, name, onFileChange, onDownloadRequest, e
           ref={fileInputRef}
           className="hidden"
           accept=".pdf"
-          onChange={(e) => e.target.files && onFileChange(name, e.target.files[0])}
+          onChange={(e) => e.target.files && onFileChange(e.target.files[0])}
         />
       </div>
       {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
@@ -142,7 +144,6 @@ export default function BrandDetails({
   brand,
   isEditMode,
   onFieldChange,
-  onFileChange,
   onSave,
   isSaving,
   isCreateMode,
@@ -160,9 +161,12 @@ export default function BrandDetails({
     pinValidationSuccess,
     pinValidationError,
   } = useSelector((state: RootState) => state.common);
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const [isPinModalOpen, setIsPinModalOpen] = useState(false);
   const [fileToDownload, setFileToDownload] = useState<string | null>(null);
+  const [tradeLicenseFile, setTradeLicenseFile] = useState<File | null>(null);
+  const [vatCertificateFile, setVatCertificateFile] = useState<File | null>(null);
 
   useEffect(() => {
     if (pinValidationSuccess && fileToDownload) {
@@ -252,7 +256,7 @@ export default function BrandDetails({
                     selectedValue={brand.accountId || ""}
                     onValueChange={(value) => onFieldChange("accountId", value)}
                     placeholder="Select an account"
-                    disabled={loading.allAccounts}
+                    disabled={loading.allAccounts || (user?.registration_type !== 'admin')}
                   />
                   {errors.accountId && <p className="text-red-500 text-xs mt-1">{errors.accountId}</p>}
                 </div>
@@ -314,9 +318,9 @@ export default function BrandDetails({
                   <div>
                     <FileUploadField
                       label="Trade License Copy"
-                      file={brand.tradeLicenseCopy}
+                      file={tradeLicenseFile || brand.tradeLicenseCopy}
                       name="tradeLicenseCopy"
-                      onFileChange={onFileChange}
+                      onFileChange={setTradeLicenseFile}
                       onDownloadRequest={handleDownloadRequest}
                       error={errors.tradeLicenseCopy}
                     />
@@ -324,9 +328,9 @@ export default function BrandDetails({
                   <div>
                     <FileUploadField
                       label="VAT Certificate"
-                      file={brand.vatCertificate}
+                      file={vatCertificateFile || brand.vatCertificate}
                       name="vatCertificate"
-                      onFileChange={onFileChange}
+                      onFileChange={setVatCertificateFile}
                       onDownloadRequest={handleDownloadRequest}
                       error={errors.vatCertificate}
                     />
@@ -424,7 +428,12 @@ export default function BrandDetails({
               Cancel
             </button>
             <button
-              onClick={onSave}
+              onClick={() =>
+                onSave({
+                  tradeLicenseFile,
+                  vatCertificateFile,
+                })
+              }
               disabled={isSaving}
               className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
             >
