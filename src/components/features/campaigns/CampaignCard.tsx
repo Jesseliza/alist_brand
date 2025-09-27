@@ -75,12 +75,14 @@ export default function CampaignCard({ campaign }: { campaign: Campaign }) {
           />
         )}
         <div className="w-[90px] h-[90px] absolute top-[39px] left-[24px] bg-white rounded-full border-5 border-[#E1E1E1]">
-          <Image
-            src={logoSrc}
-            alt="Brand logo"
-            fill
-            className="object-cover rounded-full aspect-square"
-          />
+          {logoSrc && (
+            <Image
+              src={logoSrc}
+              alt="Brand logo"
+              fill
+              className="object-cover rounded-full aspect-square"
+            />
+          )}
         </div>
       </div>
 

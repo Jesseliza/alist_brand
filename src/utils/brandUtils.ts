@@ -12,7 +12,7 @@ export const transformApiVenueToBrand = (apiVenue: any): Brand => {
     accountId:
       apiVenue.accounts && apiVenue.accounts.length > 0
         ? apiVenue.accounts[0].id.toString()
-        : "",
+        : null,
     country: apiVenue.country_id,
     state: apiVenue.state_id,
     industry: apiVenue.category_id,
@@ -23,11 +23,11 @@ export const transformApiVenueToBrand = (apiVenue: any): Brand => {
     associatePhone: apiVenue.venue_contact_number,
     tradeLicenseCopy: apiVenue.trade_license_file,
     vatCertificate: apiVenue.vat_certificate_file,
-    logo: "", // Placeholder for logo, as it's not in the API response
-    owner: "", // Placeholder for owner, as it's not in the API response
-    phoneNumber: "", // Placeholder for phone number, as it's not in the API response
-    emailAddress: "", // Placeholder for email address, as it's not in the API response
-    businessLocation: "", // Placeholder for business location, as it's not in the API response
+    logo: null, // Placeholder for logo, as it's not in the API response
+    owner: "", // This is a required string, so empty is fine.
+    phoneNumber: null, // Placeholder for phone number, as it's not in the API response
+    emailAddress: null, // Placeholder for email address, as it's not in the API response
+    businessLocation: null, // Placeholder for business location, as it's not in the API response
     associateFirstName: "", // Placeholder
     associateLastName: "", // Placeholder
     associateInitials: "", // Placeholder
