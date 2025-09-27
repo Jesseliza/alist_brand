@@ -8,7 +8,6 @@ interface BrandTabContentProps extends TabContentProps {
   brand: Partial<Brand> & {
     isEditMode: boolean;
     onFieldChange: (field: keyof Brand, value: string) => void;
-    onFileChange: (field: keyof Brand, file: File) => void;
     onSave: () => void;
     isSaving: boolean;
     isCreateMode: boolean;
@@ -31,7 +30,6 @@ export default function BrandTabContent({
             brand={brand}
             isEditMode={brand.isEditMode}
             onFieldChange={brand.onFieldChange}
-            onFileChange={brand.onFileChange}
             onSave={brand.onSave}
             isSaving={brand.isSaving}
             isCreateMode={brand.isCreateMode}

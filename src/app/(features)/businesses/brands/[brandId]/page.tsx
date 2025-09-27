@@ -13,7 +13,6 @@ import {
   fetchBrandRequest,
   initializeNewBrand,
   updateBrandField,
-  updateBrandFile,
   updateBrandRequest,
   resetUpdateStatus,
 } from "@/store/brand/brandSlice";
@@ -57,30 +56,35 @@ export default function BrandPage() {
     dispatch(updateBrandField({ field, value }));
   };
 
-  const handleFileChange = (field: keyof Brand, file: File) => {
-    dispatch(updateBrandFile({ field, file }));
-  };
-
-  const handleSave = () => {
+  const handleSave = (files: {
+    tradeLicenseFile: File | null;
+    vatCertificateFile: File | null;
+  }) => {
     if (brand) {
       const newErrors: Partial<Record<keyof Brand, string>> = {};
       const requiredFields: (keyof Brand)[] = [
-        'name', 'companyName', 'accountId', 'country', 'state', 'industry'
+        "name",
+        "companyName",
+        "accountId",
+        "country",
+        "state",
+        "industry",
       ];
 
       requiredFields.forEach((field) => {
         if (!brand[field]) {
           const label = field.replace(/([A-Z])/g, " $1");
-          const capitalizedLabel = label.charAt(0).toUpperCase() + label.slice(1);
+          const capitalizedLabel =
+            label.charAt(0).toUpperCase() + label.slice(1);
           newErrors[field] = `${capitalizedLabel} is required.`;
         }
       });
 
-      if (isCreateMode && !brand.tradeLicenseCopy) {
+      if (isCreateMode && !brand.tradeLicenseCopy && !files.tradeLicenseFile) {
         newErrors.tradeLicenseCopy = "Trade License copy is required.";
       }
 
-      if (isCreateMode && !brand.vatCertificate) {
+      if (isCreateMode && !brand.vatCertificate && !files.vatCertificateFile) {
         newErrors.vatCertificate = "VAT Certificate is required.";
       }
 
@@ -90,10 +94,16 @@ export default function BrandPage() {
         return;
       }
 
+      const payload = {
+        ...brand,
+        tradeLicenseFile: files.tradeLicenseFile,
+        vatCertificateFile: files.vatCertificateFile,
+      };
+
       if (isCreateMode) {
-        dispatch(createBrandRequest(brand));
+        dispatch(createBrandRequest(payload));
       } else {
-        dispatch(updateBrandRequest(brand));
+        dispatch(updateBrandRequest(payload));
       }
     }
   };
@@ -131,7 +141,6 @@ export default function BrandPage() {
           brand={{
             ...brand,
             onFieldChange: handleFieldChange,
-            onFileChange: handleFileChange,
             isEditMode: true,
             onSave: handleSave,
             isSaving: createLoading || updateLoading,
