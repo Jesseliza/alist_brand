@@ -100,7 +100,41 @@ const brandSlice = createSlice({
       }
     },
     initializeNewBrand: (state) => {
-      state.brand = {};
+      state.brand = {
+        brandId: '',
+        accountId: '',
+        name: '',
+        owner: '',
+        logo: '',
+        phoneNumber: '',
+        emailAddress: '',
+        industry: '',
+        companyName: '',
+        country: '',
+        state: '',
+        businessLocation: '',
+        tradeLicenseCopy: '',
+        vatCertificate: '',
+        instagramHandle: '',
+        websiteUrl: '',
+        associateName: '',
+        associateEmail: '',
+        associatePhone: '',
+        associateFirstName: '',
+        associateLastName: '',
+        associateInitials: '',
+        associateBackground: '',
+        registrationDate: '',
+        offersCount: 0,
+        campaignsCount: 0,
+        profileCompletion: 0,
+        files: 0,
+        Venue_contact_name: null,
+        venue_email: null,
+        Venue: {
+          food_offers: [],
+        },
+      };
       state.loading = false;
       state.error = null;
     },
