@@ -293,6 +293,8 @@ function* handleFetchBrand(action: ReturnType<typeof fetchBrandRequest>) {
         associateLastName: '',
         associateInitials: '',
         associateBackground: '',
+        Venue_contact_name: apiBrand.Venue_contact_name || null,
+        venue_email: apiBrand.venue_email,
         Venue: {
           food_offers: apiBrand.food_offers || [],
         },
