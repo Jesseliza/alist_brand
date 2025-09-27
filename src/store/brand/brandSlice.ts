@@ -43,7 +43,8 @@ const brandSlice = createSlice({
   name: 'brand',
   initialState,
   reducers: {
-    fetchBrandsRequest: (state) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    fetchBrandsRequest: (state, _action: PayloadAction<{ page: number; per_page: number; search?: string }>) => {
       state.loading = true;
       state.error = null;
     },
@@ -56,7 +57,8 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    fetchMoreBrandsRequest: (state) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    fetchMoreBrandsRequest: (state, _action: PayloadAction<{ page: number; per_page: number; search?: string }>) => {
       state.loading = true;
       state.error = null;
     },
@@ -69,7 +71,8 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    fetchBrandRequest: (state) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    fetchBrandRequest: (state, _action: PayloadAction<{ brandId: string }>) => {
       state.loading = true;
       state.error = null;
     },
@@ -81,7 +84,8 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    createBrandRequest: (state) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    createBrandRequest: (state, _action: PayloadAction<BrandPayload>) => {
       state.createLoading = true;
       state.createSuccess = false;
       state.error = null;
@@ -108,7 +112,8 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
-    updateBrandRequest: (state) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    updateBrandRequest: (state, _action: PayloadAction<BrandPayload>) => {
       state.updateLoading = true;
       state.updateSuccess = false;
       state.error = null;
@@ -125,7 +130,8 @@ const brandSlice = createSlice({
       state.updateSuccess = false;
       state.error = null;
     },
-    deleteBrandFileRequest: (state) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    deleteBrandFileRequest: (state, _action: PayloadAction<{ venue_file_id: number }>) => {
       state.deleteFileLoading = true;
       state.deleteFileSuccess = false;
       state.error = null;
