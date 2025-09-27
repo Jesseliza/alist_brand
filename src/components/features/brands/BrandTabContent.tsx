@@ -8,7 +8,10 @@ interface BrandTabContentProps extends TabContentProps {
   brand: Partial<Brand> & {
     isEditMode: boolean;
     onFieldChange: (field: keyof Brand, value: string) => void;
-    onSave: () => void;
+    onSave: (files: {
+      tradeLicenseFile: File | null;
+      vatCertificateFile: File | null;
+    }) => void;
     isSaving: boolean;
     isCreateMode: boolean;
     errors?: Partial<Record<keyof Brand, string>>;
