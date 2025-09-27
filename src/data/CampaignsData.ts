@@ -58,7 +58,7 @@ function getBrandDetails(brandId: string | number): {
 } {
   const brand = brandsData.find((b) => b.brandId === brandId.toString());
   return brand
-    ? { brandLogo: brand.logo, brandName: brand.name }
+    ? { brandLogo: brand.logo || dunkin.src, brandName: brand.name }
     : { brandLogo: dunkin.src, brandName: "Default Brand" };
 }
 
