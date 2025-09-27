@@ -25,7 +25,7 @@ export default function BrandMobileCard({
 
   const { industries } = useSelector((state: RootState) => state.common);
   const industryMap = new Map(industries.map((i) => [i.value, i.label]));
-  const industryName = industryMap.get(brand.industry) || 'N/A';
+  const industryName = brand.industry ? (industryMap.get(brand.industry) || 'N/A') : 'N/A';
 
   const items = [
     {
