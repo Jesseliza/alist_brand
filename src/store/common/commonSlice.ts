@@ -61,7 +61,8 @@ const commonSlice = createSlice({
       state.error.countries = action.payload;
       state.loading.countries = false;
     },
-    fetchStates: (state) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    fetchStates: (state, _action: PayloadAction<string>) => {
       state.loading.states = true;
       state.error.states = null;
     },
@@ -97,7 +98,8 @@ const commonSlice = createSlice({
       state.error.allAccounts = action.payload;
       state.loading.allAccounts = false;
     },
-    validatePinRequest: (state) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    validatePinRequest: (state, _action: PayloadAction<{ pin: string }>) => {
       state.pinValidationLoading = true;
       state.pinValidationSuccess = false;
       state.pinValidationError = null;
