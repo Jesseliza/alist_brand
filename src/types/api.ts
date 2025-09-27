@@ -45,3 +45,7 @@ export interface PaginationState {
     perPage: number;
     total: number;
 }
+
+export interface ValidatePinResponse extends ApiResponse {
+    success: boolean;
+}
