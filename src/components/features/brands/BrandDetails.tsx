@@ -149,7 +149,6 @@ export default function BrandDetails({
   isCreateMode,
   errors = {},
 }: BrandDetailsProps) {
-  const router = useRouter();
   const dispatch = useDispatch();
   const {
     countries,

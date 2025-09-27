@@ -2,6 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Brand } from '@/types/entities';
 import { PaginationState } from '@/types/api';
 
+export interface BrandPayload extends Partial<Brand> {
+  tradeLicenseFile?: File | null;
+  vatCertificateFile?: File | null;
+}
+
 interface BrandState {
   brands: Brand[];
   brand: Brand | null;
@@ -76,7 +81,7 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    createBrandRequest: (state, action: PayloadAction<Partial<Brand>>) => {
+    createBrandRequest: (state, action: PayloadAction<BrandPayload>) => {
       state.createLoading = true;
       state.createSuccess = false;
       state.error = null;
@@ -103,7 +108,7 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
-    updateBrandRequest: (state, action: PayloadAction<Partial<Brand>>) => {
+    updateBrandRequest: (state, action: PayloadAction<BrandPayload>) => {
       state.updateLoading = true;
       state.updateSuccess = false;
       state.error = null;

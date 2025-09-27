@@ -20,6 +20,7 @@ import {
   deleteBrandFileRequest,
   deleteBrandFileSuccess,
   deleteBrandFileFailure,
+  BrandPayload,
 } from './brandSlice';
 import { Brand } from '@/types/entities';
 
@@ -224,11 +225,11 @@ function* handleCreateBrand(action: ReturnType<typeof createBrandRequest>) {
     formData.append('venue_email', brand.associateEmail || '');
     formData.append('venue_contact_number', brand.associatePhone || '');
 
-    if ((brand as any).tradeLicenseFile) {
-      formData.append('trade_license_file', (brand as any).tradeLicenseFile);
+    if (brand.tradeLicenseFile) {
+      formData.append('trade_license_file', brand.tradeLicenseFile);
     }
-    if ((brand as any).vatCertificateFile) {
-      formData.append('vat_certificate_file', (brand as any).vatCertificateFile);
+    if (brand.vatCertificateFile) {
+      formData.append('vat_certificate_file', brand.vatCertificateFile);
     }
 
     const response: { message: string } | ApiError = yield call(postData, '/api/add/venue', formData);
@@ -328,11 +329,11 @@ function* handleUpdateBrand(action: ReturnType<typeof updateBrandRequest>) {
     formData.append('venue_email', brand.associateEmail || '');
     formData.append('venue_contact_number', brand.associatePhone || '');
 
-    if ((brand as any).tradeLicenseFile) {
-      formData.append('trade_license_file', (brand as any).tradeLicenseFile);
+    if (brand.tradeLicenseFile) {
+      formData.append('trade_license_file', brand.tradeLicenseFile);
     }
-    if ((brand as any).vatCertificateFile) {
-      formData.append('vat_certificate_file', (brand as any).vatCertificateFile);
+    if (brand.vatCertificateFile) {
+      formData.append('vat_certificate_file', brand.vatCertificateFile);
     }
 
     const response: { message: string } | ApiError = yield call(postData, `/api/venue/${brandId}`, formData);
