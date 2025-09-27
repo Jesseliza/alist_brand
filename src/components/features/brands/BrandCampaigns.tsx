@@ -2,36 +2,85 @@
 
 import CampaignCard from "../campaigns/CampaignCard";
 import BrandCampaignMobileCard from "./BrandCampaignMobileCard";
-import { CampaignsData } from "@/data/CampaignsData";
-import { brandsData } from "@/data/BrandsData";
 import { useRouter } from "next/navigation";
-import { Campaign } from "@/types/entities";
+import { Campaign, CampaignType, CreatorApprovalType, OfferType } from "@/types/entities";
+import { FoodOffer } from "@/types/entities/brand";
+import placeholderImage from "@/assets/images/campaigns/10.jpg";
 
-interface BrandCampaignsProps {}
+interface BrandCampaignsProps {
+  foodOffers: FoodOffer[];
+  brandName: string;
+  brandLogo: string;
+  accountId: string;
+  brandId: string;
+}
 
-export default function BrandCampaigns({}: BrandCampaignsProps) {
+const transformFoodOfferToCampaign = (
+  offer: FoodOffer,
+  brandName: string,
+  brandLogo: string,
+  brandId: string,
+): Campaign => {
+  const startDate = new Date(offer.start_date);
+  const endDate = new Date(offer.end_date);
+  const timeDiff = endDate.getTime() - startDate.getTime();
+  const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+  const campaignType: CampaignType = 'Delivery';
+  const offerType: OfferType = 'Barter';
+
+  return {
+    campaignId: offer.campaign_id,
+    brandId: brandId,
+    subscriptionId: `sub_${offer.campaign_id}`,
+    title: offer.offer_title,
+    thumbnailUrl: placeholderImage.src,
+    campaignType: campaignType,
+    offerType: offerType,
+    brandLogo: brandLogo,
+    brandName: brandName,
+    creatorApprovalType: offer.account_status === "Approved" ? "Automated" : "Manual",
+    advancedVisibility: {
+      duration: daysRemaining > 0 ? daysRemaining : 0,
+      unit: "Days",
+    },
+    payments: [],
+    offerDescription: offer.description,
+    campaignMessage: '',
+    channels: [],
+    rulesAndGuidelines: '',
+    audienceDefinition: 'Broad',
+    potentialReach: 0,
+    ageRange: { min: 18, max: 65 },
+    excludedLanguages: [],
+    followersTierRange: 'Any',
+    influencerTags: [],
+    creatorStatusFilters: [],
+    voucherValue: parseFloat(offer.amount),
+    voucherCurrency: 'AED',
+    campaignStats: { creators: 0, impressions: 0, reach: 0, posts: 0, reviews: 0 },
+    campaignDetails: { walkIn: '', barter: '', price: '', approval: '', restricted: '', date: '' },
+    campaignGuidelines: [],
+    campaignPlan: { planName: '', planType: '', nextBillAmount: 0, nextBillCurrency: '', nextBillDate: '', paymentDate: '', cardType: '', cardIcon: '', cardEnding: '' },
+    createdAt: new Date(offer.created_at),
+    updatedAt: new Date(offer.updated_at),
+  };
+};
+
+export default function BrandCampaigns({
+  foodOffers,
+  brandName,
+  brandLogo,
+  accountId,
+  brandId,
+}: BrandCampaignsProps) {
   const router = useRouter();
 
-  const brandAccountMap = new Map<string, string>();
-  brandsData.forEach((brand) => {
-    brandAccountMap.set(brand.brandId, brand.accountId);
-  });
-
-  const handleCampaignClick = (campaign: Campaign) => {
-    const campaignAccountId = brandAccountMap.get(campaign.brandId);
-    if (campaignAccountId) {
-      router.push(
-        `/businesses/accounts/${campaignAccountId}/${campaign.brandId}/${campaign.campaignId}`
-      );
-    } else {
-      // Fallback for safety, though data should be consistent
-      console.error(`Account ID not found for brand ID: ${campaign.brandId}`);
-    }
+  const handleCampaignClick = (campaignId: string) => {
+    router.push(`/businesses/accounts/${accountId}/${brandId}/${campaignId}`);
   };
 
-  const brandCampaigns = CampaignsData;
-
-  if (brandCampaigns.length === 0) {
+  if (!foodOffers || foodOffers.length === 0) {
     return (
       <div className="py-6">
         <div className="max-w-[1428px] mx-auto">
@@ -43,6 +92,10 @@ export default function BrandCampaigns({}: BrandCampaignsProps) {
     );
   }
 
+  const brandCampaigns = foodOffers.map((offer) =>
+    transformFoodOfferToCampaign(offer, brandName, brandLogo, brandId)
+  );
+
   return (
     <div className="py-6">
       <div className="hidden md:block">
@@ -50,7 +103,7 @@ export default function BrandCampaigns({}: BrandCampaignsProps) {
           {brandCampaigns.map((campaign) => (
             <div
               key={campaign.campaignId}
-              onClick={() => handleCampaignClick(campaign)}
+              onClick={() => handleCampaignClick(campaign.campaignId)}
               className="cursor-pointer"
             >
               <CampaignCard campaign={campaign} />
@@ -62,7 +115,7 @@ export default function BrandCampaigns({}: BrandCampaignsProps) {
         {brandCampaigns.map((campaign) => (
           <div
             key={campaign.campaignId}
-            onClick={() => handleCampaignClick(campaign)}
+            onClick={() => handleCampaignClick(campaign.campaignId)}
             className="cursor-pointer"
           >
             <BrandCampaignMobileCard campaign={campaign} />
