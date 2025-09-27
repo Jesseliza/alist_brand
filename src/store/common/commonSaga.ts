@@ -28,6 +28,7 @@ import {
   State,
   Industry,
   Account,
+  ValidatePinResponse,
 } from "@/types/api";
 
 function* fetchCountriesSaga() {
@@ -103,7 +104,7 @@ function* fetchAllAccountsSaga() {
 
 function* handleValidatePin(action: PayloadAction<{ pin: string }>) {
   try {
-    const response = yield call(postData, "/api/validate/pin", action.payload);
+    const response: ValidatePinResponse = yield call(postData, "/api/validate/pin", action.payload);
     if (response.success) {
       yield put(validatePinSuccess());
     } else {
