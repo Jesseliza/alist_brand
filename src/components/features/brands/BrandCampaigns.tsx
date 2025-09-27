@@ -20,10 +20,7 @@ export default function BrandCampaigns({
     router.push(`/businesses/accounts/${accountId}/${brandId}/${campaignId}`);
   };
 
-  // Filter campaigns by brandId
-  const brandCampaigns = CampaignsData.filter(
-    (campaign) => campaign.brandId === brandId
-  );
+  const brandCampaigns = CampaignsData;
 
   if (brandCampaigns.length === 0) {
     return (
