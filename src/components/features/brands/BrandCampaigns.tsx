@@ -100,9 +100,9 @@ export default function BrandCampaigns({
     <div className="py-6">
       <div className="hidden md:block">
         <div className="max-w-[1428px] py-10 mx-auto grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center">
-          {brandCampaigns.map((campaign) => (
+          {brandCampaigns.map((campaign, index) => (
             <div
-              key={campaign.campaignId}
+              key={`${campaign.campaignId}-${index}`}
               onClick={() => handleCampaignClick(campaign.campaignId)}
               className="cursor-pointer"
             >
@@ -112,9 +112,9 @@ export default function BrandCampaigns({
         </div>
       </div>
       <div className="md:hidden flex flex-col gap-1.25">
-        {brandCampaigns.map((campaign) => (
+        {brandCampaigns.map((campaign, index) => (
           <div
-            key={campaign.campaignId}
+            key={`${campaign.campaignId}-${index}`}
             onClick={() => handleCampaignClick(campaign.campaignId)}
             className="cursor-pointer"
           >

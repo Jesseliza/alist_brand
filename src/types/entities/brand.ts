@@ -77,33 +77,33 @@ export type Venue = {
 
 export type Brand = {
   brandId: string;
-  accountId: string; // FK to Account
-  name: string; // Display name (e.g. "Dunkin'")
-  owner: string; // Owner of the brand
-  logo: string; // Brand image URL
-  phoneNumber: string; // Main contact number
-  emailAddress: string; // Contact email
-  industry: string; // Category (e.g. "Food & Drinks")
-  companyName: string; // Legal name on trade license
-  country: string; // Country code
-  state: string; // State or province
-  businessLocation: string; // Business location
-  tradeLicenseCopy: string | File; // File reference (e.g. PDF)
-  vatCertificate: string | File; // File reference (e.g. PDF)
-  instagramHandle: string; // Social media username
-  websiteUrl: string; // Public website
-  associateName: string; // On brand contact person's name
-  associateEmail: string; // On brand contact person's email
-  associatePhone: string; // On brand contact person's phone
+  accountId: string | null;
+  name: string;
+  owner: string;
+  logo: string | null;
+  phoneNumber: string | null;
+  emailAddress: string | null;
+  industry: string | null;
+  companyName: string | null;
+  country: string | null;
+  state: string | null;
+  businessLocation: string | null;
+  tradeLicenseCopy: string | File | null;
+  vatCertificate: string | File | null;
+  instagramHandle: string | null;
+  websiteUrl: string | null;
+  associateName: string | null;
+  associateEmail: string | null;
+  associatePhone: string | null;
   associateFirstName: string;
   associateLastName: string;
   associateInitials: string;
   associateBackground: string;
   registrationDate: string;
-  offersCount: number; // (Derived) Number of "offers" or activities scheduled under Brand
-  campaignsCount: number; // (Derived) Number of Campaigns this Brand runs
-  profileCompletion: number; // (Derived) How complete the Brand's profile is for the UI
-  files: number; // Number of files associated with the brand
+  offersCount: number;
+  campaignsCount: number;
+  profileCompletion: number;
+  files: number;
   Venue_contact_name: string | null;
   venue_email: string | null;
   Venue: Venue;
