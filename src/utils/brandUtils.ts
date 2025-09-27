@@ -37,5 +37,10 @@ export const transformApiVenueToBrand = (apiVenue: any): Brand => {
     campaignsCount: 0, // Placeholder
     profileCompletion: 0, // Placeholder
     files: 0, // Placeholder
+    Venue_contact_name: apiVenue.Venue_contact_name || null,
+    venue_email: apiVenue.venue_email || null,
+    Venue: {
+      food_offers: apiVenue.food_offers || [],
+    },
   };
 };
