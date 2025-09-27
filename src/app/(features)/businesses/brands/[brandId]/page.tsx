@@ -7,17 +7,16 @@ import { Brand } from "@/types/entities";
 import BrandTabContent from "@/components/features/brands/BrandTabContent";
 import BrandHeader from "@/components/features/brands/BrandHeader";
 import Loader from "@/components/general/Loader";
+import toast from "react-hot-toast";
 import {
-  createBrandRequest,
-  resetCreateStatus,
   fetchBrandRequest,
   initializeNewBrand,
   updateBrandField,
-  updateBrandRequest,
-  resetUpdateStatus,
+  BrandPayload,
 } from "@/store/brand/brandSlice";
 import { RootState } from "@/store/store";
 import { fetchIndustries } from "@/store/common/commonSlice";
+import api from "@/services/apiHelper";
 
 export default function BrandPage() {
   const params = useParams();
@@ -26,13 +25,15 @@ export default function BrandPage() {
   const { brandId } = params;
   const isCreateMode = brandId === "create";
 
-  const { brand, loading, createLoading, createSuccess, updateLoading, updateSuccess, error } = useSelector(
+  const { brand, loading, error } = useSelector(
     (state: RootState) => state.brand
   );
   const { user } = useSelector((state: RootState) => state.auth);
 
   const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof Brand, string>>>({});
   const [activeTab, setActiveTab] = useState("Business Details");
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     dispatch(fetchIndustries());
@@ -49,70 +50,86 @@ export default function BrandPage() {
     }
   }, [isCreateMode, user, dispatch]);
 
-  useEffect(() => {
-    if (createSuccess) {
-      router.push("/businesses/brands");
-      dispatch(resetCreateStatus());
-    }
-    if (updateSuccess) {
-      router.push("/businesses/brands");
-      dispatch(resetUpdateStatus());
-    }
-  }, [createSuccess, updateSuccess, router, dispatch]);
 
   const handleFieldChange = (field: keyof Brand, value: string) => {
     dispatch(updateBrandField({ field, value }));
   };
 
-  const handleSave = (files: {
+  const handleSave = async (files: {
     tradeLicenseFile: File | null;
     vatCertificateFile: File | null;
   }) => {
-    if (brand) {
-      const newErrors: Partial<Record<keyof Brand, string>> = {};
-      const requiredFields: (keyof Brand)[] = [
-        "name",
-        "companyName",
-        "accountId",
-        "country",
-        "state",
-        "industry",
-      ];
+    if (!brand) return;
 
-      requiredFields.forEach((field) => {
-        if (!brand[field]) {
-          const label = field.replace(/([A-Z])/g, " $1");
-          const capitalizedLabel =
-            label.charAt(0).toUpperCase() + label.slice(1);
-          newErrors[field] = `${capitalizedLabel} is required.`;
-        }
-      });
+    const newErrors: Partial<Record<keyof Brand, string>> = {};
+    const requiredFields: (keyof Brand)[] = [
+      "name",
+      "companyName",
+      "accountId",
+      "country",
+      "state",
+      "industry",
+    ];
 
-      if (isCreateMode && !brand.tradeLicenseCopy && !files.tradeLicenseFile) {
-        newErrors.tradeLicenseCopy = "Trade License copy is required.";
+    requiredFields.forEach((field) => {
+      if (!brand[field]) {
+        const label = field.replace(/([A-Z])/g, " $1");
+        const capitalizedLabel = label.charAt(0).toUpperCase() + label.slice(1);
+        newErrors[field] = `${capitalizedLabel} is required.`;
       }
+    });
 
-      if (isCreateMode && !brand.vatCertificate && !files.vatCertificateFile) {
-        newErrors.vatCertificate = "VAT Certificate is required.";
-      }
+    if (isCreateMode && !brand.tradeLicenseCopy && !files.tradeLicenseFile) {
+      newErrors.tradeLicenseCopy = "Trade License copy is required.";
+    }
+    if (isCreateMode && !brand.vatCertificate && !files.vatCertificateFile) {
+      newErrors.vatCertificate = "VAT Certificate is required.";
+    }
+    setValidationErrors(newErrors);
 
-      setValidationErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
 
-      if (Object.keys(newErrors).length > 0) {
-        return;
-      }
+    setIsSaving(true);
+    setSaveError(null);
 
-      const payload = {
-        ...brand,
-        tradeLicenseFile: files.tradeLicenseFile,
-        vatCertificateFile: files.vatCertificateFile,
-      };
+    const formData = new FormData();
+    formData.append("venue_title", brand.name || "");
+    formData.append("company_name", brand.companyName || "");
+    formData.append("account_id", brand.accountId || "");
+    formData.append("country_id", brand.country || "");
+    formData.append("state_id", brand.state || "");
+    formData.append("category_id", brand.industry || "");
+    formData.append("venue_instagram_url", brand.instagramHandle || "");
+    formData.append("venue_url", brand.websiteUrl || "");
+    formData.append("Venue_contact_name", brand.associateName || "");
+    formData.append("venue_email", brand.associateEmail || "");
+    formData.append("venue_contact_number", brand.associatePhone || "");
 
-      if (isCreateMode) {
-        dispatch(createBrandRequest(payload));
+    if (files.tradeLicenseFile) {
+      formData.append("trade_license_file", files.tradeLicenseFile);
+    }
+    if (files.vatCertificateFile) {
+      formData.append("vat_certificate_file", files.vatCertificateFile);
+    }
+
+    try {
+      const endpoint = isCreateMode ? "/api/add/venue" : `/api/venue/${brandId}`;
+      const response = await api.post(endpoint, formData);
+
+      if (response.data.message) {
+        toast.success(response.data.message);
+        router.push("/businesses/brands");
       } else {
-        dispatch(updateBrandRequest(payload));
+        throw new Error("An unexpected error occurred.");
       }
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.message || "An error occurred while saving the brand.";
+      setSaveError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -152,7 +169,7 @@ export default function BrandPage() {
             onFieldChange: handleFieldChange,
             isEditMode: true,
             onSave: handleSave,
-            isSaving: createLoading || updateLoading,
+            isSaving: isSaving,
             isCreateMode: isCreateMode,
             errors: validationErrors,
           }}
