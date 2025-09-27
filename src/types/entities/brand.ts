@@ -71,6 +71,10 @@ export type FoodOffer = {
   whatsapp_no: string | null;
 };
 
+export type Venue = {
+  food_offers: FoodOffer[];
+};
+
 export type Brand = {
   brandId: string;
   accountId: string; // FK to Account
@@ -102,5 +106,5 @@ export type Brand = {
   files: number; // Number of files associated with the brand
   Venue_contact_name: string | null;
   venue_email: string | null;
-  food_offers: FoodOffer[];
+  Venue: Venue;
 };
