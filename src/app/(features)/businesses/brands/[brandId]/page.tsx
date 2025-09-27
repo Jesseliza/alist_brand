@@ -12,7 +12,6 @@ import {
   fetchBrandRequest,
   initializeNewBrand,
   updateBrandField,
-  BrandPayload,
 } from "@/store/brand/brandSlice";
 import { RootState } from "@/store/store";
 import { fetchIndustries } from "@/store/common/commonSlice";
@@ -33,7 +32,6 @@ export default function BrandPage() {
   const [validationErrors, setValidationErrors] = useState<Partial<Record<keyof Brand, string>>>({});
   const [activeTab, setActiveTab] = useState("Business Details");
   const [isSaving, setIsSaving] = useState(false);
-  const [saveError, setSaveError] = useState<string | null>(null);
 
   useEffect(() => {
     dispatch(fetchIndustries());
@@ -124,9 +122,8 @@ export default function BrandPage() {
       } else {
         throw new Error("An unexpected error occurred.");
       }
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.message || "An error occurred while saving the brand.";
-      setSaveError(errorMessage);
+    } catch (err) {
+      const errorMessage = (err as any).response?.data?.message || "An error occurred while saving the brand.";
       toast.error(errorMessage);
     } finally {
       setIsSaving(false);

@@ -79,6 +79,7 @@ const transformVenueToBrand = (venue: any, industries: Option[]): Brand => {
     };
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function* ensureIndustriesFetched(): Generator<any, Option[], any> {
     let industries: Option[] = yield select(getIndustries);
     if (!industries || industries.length === 0) {
@@ -150,6 +151,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
         const { data, current_page, last_page, per_page, total } = response.accounts;
 
         const feAccounts: Account[] = data.map((apiAccount: ApiAccount) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const brands = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
           return {
             accountId: apiAccount.id.toString(),
@@ -208,6 +210,7 @@ function* handleFetchMoreAccounts(action: ReturnType<typeof fetchMoreAccountsReq
         const { data, current_page, last_page, per_page, total } = response.accounts;
 
         const feAccounts: Account[] = data.map((apiAccount: ApiAccount) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const brands = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
           return {
             accountId: apiAccount.id.toString(),
@@ -281,6 +284,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         const apiAccount = response.account;
 
         const industries: Option[] = yield call(ensureIndustriesFetched);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const feBrands: Brand[] = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
 
         const feAccount: Account = {
@@ -354,6 +358,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
       if ('account' in response && response.account) {
         const apiAccount = response.account;
         const industries: Option[] = yield call(ensureIndustriesFetched);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const feBrands: Brand[] = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
         const feAccount: Account = {
           accountId: apiAccount.id.toString(),
@@ -418,6 +423,7 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
       if ('account' in response && response.account) {
         const apiAccount = response.account;
         const industries: Option[] = yield call(ensureIndustriesFetched);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const feBrands: Brand[] = apiAccount.venues ? apiAccount.venues.map((venue: any) => transformVenueToBrand(venue, industries)) : [];
         const feAccount: Account = {
           accountId: apiAccount.id.toString(),

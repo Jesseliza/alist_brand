@@ -14,7 +14,6 @@ import {
   deleteBrandFileRequest,
   deleteBrandFileSuccess,
   deleteBrandFileFailure,
-  BrandPayload,
 } from './brandSlice';
 import { Brand } from '@/types/entities';
 

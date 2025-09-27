@@ -4,6 +4,7 @@ export const getDisplayName = (brand: Brand): string => {
   return brand.name || "Unnamed Brand";
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const transformApiVenueToBrand = (apiVenue: any): Brand => {
   return {
     brandId: apiVenue.id.toString(),
