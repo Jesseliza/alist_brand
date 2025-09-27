@@ -21,7 +21,7 @@ import {
   deleteBrandFileSuccess,
   deleteBrandFileFailure,
 } from './brandSlice';
-import { Brand } from '@/types/entities';
+import { Brand, FoodOffer } from '@/types/entities';
 
 interface ApiBrand {
   id: number;
@@ -52,6 +52,7 @@ interface ApiBrand {
   vat_certificate_file?: string | null;
   venue_instagram_url?: string | null;
   venue_contact_number?: string | null;
+  food_offers?: FoodOffer[];
 }
 
 type ApiError = {
@@ -290,6 +291,9 @@ function* handleFetchBrand(action: ReturnType<typeof fetchBrandRequest>) {
         associateLastName: '',
         associateInitials: '',
         associateBackground: '',
+        Venue: {
+          food_offers: apiBrand.food_offers || [],
+        },
       };
       yield put(fetchBrandSuccess(feBrand));
     } else {
