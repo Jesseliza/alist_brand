@@ -3,21 +3,30 @@
 import CampaignCard from "../campaigns/CampaignCard";
 import BrandCampaignMobileCard from "./BrandCampaignMobileCard";
 import { CampaignsData } from "@/data/CampaignsData";
+import { brandsData } from "@/data/BrandsData";
 import { useRouter } from "next/navigation";
+import { Campaign } from "@/types/entities";
 
-interface BrandCampaignsProps {
-  brandId: string;
-  accountId: string;
-}
+interface BrandCampaignsProps {}
 
-export default function BrandCampaigns({
-  brandId,
-  accountId,
-}: BrandCampaignsProps) {
+export default function BrandCampaigns({}: BrandCampaignsProps) {
   const router = useRouter();
 
-  const handleCampaignClick = (campaignId: string) => {
-    router.push(`/businesses/accounts/${accountId}/${brandId}/${campaignId}`);
+  const brandAccountMap = new Map<string, string>();
+  brandsData.forEach((brand) => {
+    brandAccountMap.set(brand.brandId, brand.accountId);
+  });
+
+  const handleCampaignClick = (campaign: Campaign) => {
+    const campaignAccountId = brandAccountMap.get(campaign.brandId);
+    if (campaignAccountId) {
+      router.push(
+        `/businesses/accounts/${campaignAccountId}/${campaign.brandId}/${campaign.campaignId}`
+      );
+    } else {
+      // Fallback for safety, though data should be consistent
+      console.error(`Account ID not found for brand ID: ${campaign.brandId}`);
+    }
   };
 
   const brandCampaigns = CampaignsData;
@@ -41,7 +50,7 @@ export default function BrandCampaigns({
           {brandCampaigns.map((campaign) => (
             <div
               key={campaign.campaignId}
-              onClick={() => handleCampaignClick(campaign.campaignId)}
+              onClick={() => handleCampaignClick(campaign)}
               className="cursor-pointer"
             >
               <CampaignCard campaign={campaign} />
@@ -53,7 +62,7 @@ export default function BrandCampaigns({
         {brandCampaigns.map((campaign) => (
           <div
             key={campaign.campaignId}
-            onClick={() => handleCampaignClick(campaign.campaignId)}
+            onClick={() => handleCampaignClick(campaign)}
             className="cursor-pointer"
           >
             <BrandCampaignMobileCard campaign={campaign} />
