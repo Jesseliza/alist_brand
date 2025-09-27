@@ -98,7 +98,7 @@ const commonSlice = createSlice({
       state.error.allAccounts = action.payload;
       state.loading.allAccounts = false;
     },
-    validatePinRequest: (state, action: PayloadAction<{ pin: string }>) => {
+    validatePinRequest: (state, _action: PayloadAction<{ pin: string }>) => {
       state.pinValidationLoading = true;
       state.pinValidationSuccess = false;
       state.pinValidationError = null;

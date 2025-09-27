@@ -35,7 +35,7 @@ const brandSlice = createSlice({
   name: 'brand',
   initialState,
   reducers: {
-    fetchBrandsRequest: (state, action: PayloadAction<{ page: number; per_page: number; search?: string }>) => {
+    fetchBrandsRequest: (state, _action: PayloadAction<{ page: number; per_page: number; search?: string }>) => {
       state.loading = true;
       state.error = null;
     },
@@ -48,7 +48,7 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    fetchMoreBrandsRequest: (state, action: PayloadAction<{ page: number; per_page: number; search?: string }>) => {
+    fetchMoreBrandsRequest: (state, _action: PayloadAction<{ page: number; per_page: number; search?: string }>) => {
       state.loading = true;
       state.error = null;
     },
@@ -61,7 +61,7 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    fetchBrandRequest: (state, action: PayloadAction<{ brandId: string }>) => {
+    fetchBrandRequest: (state, _action: PayloadAction<{ brandId: string }>) => {
       state.loading = true;
       state.error = null;
     },
@@ -83,7 +83,7 @@ const brandSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
-    deleteBrandFileRequest: (state, action: PayloadAction<{ venue_file_id: number }>) => {
+    deleteBrandFileRequest: (state, _action: PayloadAction<{ venue_file_id: number }>) => {
       state.deleteFileLoading = true;
       state.deleteFileSuccess = false;
       state.error = null;
