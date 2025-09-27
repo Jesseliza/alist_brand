@@ -43,9 +43,6 @@ export default function CampaignsPage() {
     setCurrentPage(1);
   };
 
-  const handleViewChange = (newView: "table" | "cards") => {
-    setView(newView);
-  };
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
@@ -72,8 +69,8 @@ export default function CampaignsPage() {
           </div>
           <div>
             <TableCardsToggler
-              onViewChange={handleViewChange}
-              defaultView="table"
+              view={view}
+              setView={setView}
             />
           </div>
         </div>
