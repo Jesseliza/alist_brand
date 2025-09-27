@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { sidebarConfig } from "@/utils/sidebar-config";
@@ -25,7 +24,6 @@ export default function Sidebar({
   setCollapsed: setControlledCollapsed,
   setIsMobileMenuOpen,
 }: SidebarProps) {
-  const pathname = usePathname();
   const { user } = useSelector((state: RootState) => state.auth);
   const [internalCollapsed, setInternalCollapsed] = useState(false);
   const [windowWidth, setWindowWidth] = useState(1920); // Default for SSR
@@ -128,50 +126,37 @@ export default function Sidebar({
               </p>
             )}
             <ul className={section.title ? "mt-1 space-y-1" : ""}>
-              {section.items.map((item, itemIndex) => {
-                const isActive = pathname.startsWith(item.href);
-                const iconSrc = isActive
-                  ? item.icon.src.replace("/sidebar/", "/sidebar/darkmode/")
-                  : item.icon.src;
-
-                return (
-                  <li key={itemIndex}>
-                    <Link
-                      href={item.href}
-                      onClick={() => setIsMobileMenuOpen?.(false)}
-                      className={`${
+              {section.items.map((item, itemIndex) => (
+                <li key={itemIndex}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen?.(false)}
+                    className={
+                      collapsed
+                        ? "flex items-center justify-center w-[52px] aspect-square  text-[#414141] rounded-[11px] hover:bg-[#F1F1F1]"
+                        : "flex items-center w-[227px] gap-4.5 px-[9.2px] py-[12.5px] text-[#414141] rounded-[11px] hover:bg-[#F1F1F1]"
+                    }
+                  >
+                    <IconContainer>
+                      <Image
+                        src={item.icon.src}
+                        alt={item.icon.alt}
+                        width={item.icon.width}
+                        height={item.icon.height}
+                      />
+                    </IconContainer>
+                    <span
+                      className={
                         collapsed
-                          ? "flex items-center justify-center w-[52px] aspect-square"
-                          : "flex items-center w-[227px] gap-4.5 px-[9.2px] py-[12.5px]"
-                      } rounded-[11px] ${
-                        isActive
-                          ? "bg-[#008C9E] text-white"
-                          : "text-[#414141] hover:bg-[#F1F1F1]"
-                      }`}
+                          ? "hidden"
+                          : "text-lg text-[#4F4F4F] leading-[1.5]"
+                      }
                     >
-                      <IconContainer>
-                        <Image
-                          src={iconSrc}
-                          alt={item.icon.alt}
-                          width={item.icon.width}
-                          height={item.icon.height}
-                        />
-                      </IconContainer>
-                      <span
-                        className={
-                          collapsed
-                            ? "hidden"
-                            : `text-lg leading-[1.5] ${
-                                isActive ? "text-white" : "text-[#4F4F4F]"
-                              }`
-                        }
-                      >
-                        {item.label}
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
+                      {item.label}
+                    </span>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         ))}

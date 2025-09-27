@@ -16,7 +16,7 @@ import Link from "next/link";
 export default function CreatorsProfilesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [view, setView] = useState<"table" | "card">("table");
+  const [view, setView] = useState<"table" | "cards">("table");
   const [search, setSearch] = useState("");
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -29,6 +29,10 @@ export default function CreatorsProfilesPage() {
   const handleItemsPerPageChange = (items: number) => {
     setItemsPerPage(items);
     setCurrentPage(1);
+  };
+
+  const handleViewChange = (newView: "table" | "cards") => {
+    setView(newView);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,8 +62,8 @@ export default function CreatorsProfilesPage() {
           </div>
           <div>
             <TableCardsToggler
-              view={view}
-              setView={setView}
+              onViewChange={handleViewChange}
+              defaultView="table"
             />
           </div>
         </div>

@@ -20,6 +20,7 @@ import {
   deleteBrandFileRequest,
   deleteBrandFileSuccess,
   deleteBrandFileFailure,
+  BrandPayload,
 } from './brandSlice';
 import { Brand } from '@/types/entities';
 
@@ -208,7 +209,7 @@ function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest
   }
 }
 
-function* handleCreateBrand(action: ReturnType<typeof createBrandRequest>) {
+function* handleCreateBrand(action: { type: string; payload: BrandPayload }) {
   try {
     const brand = action.payload;
     const formData = new FormData();
@@ -306,7 +307,7 @@ function* handleFetchBrand(action: ReturnType<typeof fetchBrandRequest>) {
   }
 }
 
-function* handleUpdateBrand(action: ReturnType<typeof updateBrandRequest>) {
+function* handleUpdateBrand(action: { type: string; payload: BrandPayload }) {
   try {
     const brand = action.payload;
     const brandId = brand.brandId;
@@ -328,10 +329,10 @@ function* handleUpdateBrand(action: ReturnType<typeof updateBrandRequest>) {
     formData.append('venue_email', brand.associateEmail || '');
     formData.append('venue_contact_number', brand.associatePhone || '');
 
-    if (brand.tradeLicenseFile) {
+    if (brand.tradeLicenseFile instanceof File) {
       formData.append('trade_license_file', brand.tradeLicenseFile);
     }
-    if (brand.vatCertificateFile) {
+    if (brand.vatCertificateFile instanceof File) {
       formData.append('vat_certificate_file', brand.vatCertificateFile);
     }
 
