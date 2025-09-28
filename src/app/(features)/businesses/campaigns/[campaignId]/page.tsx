@@ -37,8 +37,9 @@ export default function CampaignDetailsPage() {
     return <p className="text-red-500">Error: {error}</p>;
   }
 
-  if (!campaign) {
-    return <div>Campaign not found.</div>;
+  // Show loader if campaign is not yet available (initial load) or still loading
+  if (loading || !campaign) {
+    return <Loader />;
   }
 
   return (
