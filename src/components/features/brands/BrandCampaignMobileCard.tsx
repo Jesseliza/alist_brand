@@ -1,15 +1,15 @@
 import Image from "next/image";
-import { Campaign } from "@/types/entities";
+import { CampaignDisplay } from "@/types/entities/campaign";
 
 export default function BrandCampaignMobileCard({
   campaign,
 }: {
-  campaign: Campaign;
+  campaign: CampaignDisplay;
 }) {
-  const isActive = campaign.creatorApprovalType === "Automated";
+  const isActive = campaign.status !== "Pending";
 
   // Helper function to get display name for campaign type
-  const getCampaignTypeDisplay = (campaignType: string) => {
+  const getCampaignTypeDisplay = (campaignType?: string) => {
     switch (campaignType) {
       case "WalkIn":
         return "Walk in";
@@ -20,12 +20,12 @@ export default function BrandCampaignMobileCard({
       case "Exclusive":
         return "Exclusive";
       default:
-        return campaignType;
+        return campaignType || "N/A";
     }
   };
 
   // Helper function to get offer type display
-  const getOfferTypeDisplay = (offerType: string) => {
+  const getOfferTypeDisplay = (offerType?: string) => {
     switch (offerType) {
       case "Barter":
         return "Barter";
@@ -34,7 +34,7 @@ export default function BrandCampaignMobileCard({
       case "BarterAndPaid":
         return "Barter & Paid";
       default:
-        return offerType;
+        return offerType || "N/A";
     }
   };
 
@@ -42,14 +42,14 @@ export default function BrandCampaignMobileCard({
     <div className="bg-white rounded-[13px] p-3.5 cursor-pointer">
       <div className="flex gap-5 items-center">
         <div className="relative w-[86.31px] h-[86.31px] rounded-[10px] overflow-hidden bg-[#E1E1E1]">
-          {campaign.thumbnailUrl ? (
+          {campaign.thumbnailUrl && (
             <Image
               src={campaign.thumbnailUrl}
               alt={campaign.title}
               fill
               className="object-cover"
             />
-          ) : null}
+          )}
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
@@ -133,8 +133,7 @@ export default function BrandCampaignMobileCard({
               <p>{getOfferTypeDisplay(campaign.offerType)}</p>
             </div>
             <div className="text-[13px] leading-[1.5] font-medium text-[#757575]">
-              {campaign.advancedVisibility.duration}{" "}
-              {campaign.advancedVisibility.unit.toLowerCase()}
+              {campaign.duration ? `${campaign.duration} ${campaign.durationUnit?.toLowerCase()}` : 'N/A'}
             </div>
           </div>
         </div>
