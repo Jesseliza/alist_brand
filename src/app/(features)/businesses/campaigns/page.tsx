@@ -5,7 +5,7 @@ import CampaignCard from "@/components/features/campaigns/CampaignCard";
 import CampaignsMobileCard from "@/components/features/campaigns/CampaignMobileCard";
 import TableCardsToggler from "@/components/general/TableCardsToggler";
 import Pagination from "@/components/general/Pagination";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
@@ -19,6 +19,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/general/Loader";
 import InlineLoader from "@/components/general/InlineLoader";
+import { adaptCampaignSummaryToDisplay } from "@/utils/campaignAdapters";
 
 export default function CampaignsPage() {
   const router = useRouter();
@@ -34,6 +35,11 @@ export default function CampaignsPage() {
   const [view, setView] = useState<"table" | "card">("table");
   const [mobilePage, setMobilePage] = useState(1);
   const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
+
+  const displayCampaigns = useMemo(
+    () => campaigns.map(adaptCampaignSummaryToDisplay),
+    [campaigns]
+  );
 
   const debouncedSearch = useDebounce(searchTerm, 500);
 
@@ -159,19 +165,19 @@ export default function CampaignsPage() {
           {!error && (
             <>
               <div className="md:hidden space-y-[7px]">
-                {campaigns.length === 0 && !loading ? (
+                {displayCampaigns.length === 0 && !loading ? (
                   <div className="bg-white text-center py-10 text-gray-500">
                     No records found.
                   </div>
                 ) : (
-                  campaigns.map((campaign) => (
+                  displayCampaigns.map((campaign) => (
                     <Link key={campaign.id} href={`/businesses/campaigns/${campaign.id}`}>
                       <CampaignsMobileCard campaign={campaign} />
                     </Link>
                   ))
                 )}
-                {loading && campaigns.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
-                {pagination && campaigns.length > 0 && campaigns.length < pagination.total && !loading && (
+                {loading && displayCampaigns.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
+                {pagination && displayCampaigns.length > 0 && displayCampaigns.length < pagination.total && !loading && (
                   <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
                     <button
                       onClick={handleSeeMore}
@@ -187,11 +193,11 @@ export default function CampaignsPage() {
                 {view === "table" ? (
                   <>
                     <CampaignsTable
-                      campaigns={campaigns}
+                      campaigns={displayCampaigns}
                       checkedRows={checkedRows}
                       onCheckboxChange={handleCheckboxChange}
                     />
-                    {pagination && campaigns.length > 0 && (
+                    {pagination && displayCampaigns.length > 0 && (
                       <Pagination
                         totalItems={pagination.total}
                         itemsPerPage={pagination.per_page}
@@ -204,19 +210,19 @@ export default function CampaignsPage() {
                 ) : (
                   <>
                     <div className="grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center mb-8">
-                      {campaigns.length === 0 && !loading ? (
+                      {displayCampaigns.length === 0 && !loading ? (
                         <div className="col-span-full text-center py-10 text-gray-500 bg-white">
                           No records found.
                         </div>
                       ) : (
-                        campaigns.map((campaign) => (
+                        displayCampaigns.map((campaign) => (
                           <Link key={campaign.id} href={`/businesses/campaigns/${campaign.id}`}>
                             <CampaignCard campaign={campaign} />
                           </Link>
                         ))
                       )}
                     </div>
-                    {loading && campaigns.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
+                    {loading && displayCampaigns.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
                   </>
                 )}
               </div>

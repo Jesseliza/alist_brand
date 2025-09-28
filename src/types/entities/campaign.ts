@@ -230,3 +230,19 @@ export interface CampaignsState {
     total: number;
   } | null;
 }
+
+// Unified type for display components
+export interface CampaignDisplay {
+  id: number | string;
+  campaignId: string;
+  title: string;
+  vendorName: string;
+  status: string;
+  thumbnailUrl?: string;
+  campaignType?: 'WalkIn' | 'Delivery' | 'Online' | 'Exclusive';
+  offerType?: 'Barter' | 'Paid' | 'BarterAndPaid';
+  startDate?: string;
+  endDate?: string;
+  duration?: number;
+  durationUnit?: 'Days' | 'Hours';
+}
