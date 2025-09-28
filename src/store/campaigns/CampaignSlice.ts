@@ -6,6 +6,7 @@ const initialState: CampaignsState = {
   campaign: null,
   loading: false,
   error: null,
+  pagination: null,
 };
 
 const campaignsSlice = createSlice({
@@ -18,11 +19,30 @@ const campaignsSlice = createSlice({
     },
     getCampaignsSuccess: (state, action) => {
       state.loading = false;
-      state.campaigns = action.payload;
+      state.campaigns = action.payload.data;
+      state.pagination = {
+        current_page: action.payload.current_page,
+        last_page: action.payload.last_page,
+        per_page: action.payload.per_page,
+        total: action.payload.total,
+      };
     },
     getCampaignsFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    },
+    getMoreCampaignsStart: (state) => {
+      state.loading = true;
+    },
+    getMoreCampaignsSuccess: (state, action) => {
+      state.loading = false;
+      state.campaigns = [...state.campaigns, ...action.payload.data];
+      state.pagination = {
+        current_page: action.payload.current_page,
+        last_page: action.payload.last_page,
+        per_page: action.payload.per_page,
+        total: action.payload.total,
+      };
     },
     updateCampaignStatusStart: (state) => {
       state.loading = true;
@@ -65,6 +85,8 @@ export const {
   getCampaignsStart,
   getCampaignsSuccess,
   getCampaignsFailure,
+  getMoreCampaignsStart,
+  getMoreCampaignsSuccess,
   updateCampaignStatusStart,
   updateCampaignStatusSuccess,
   updateCampaignStatusFailure,

@@ -4,6 +4,8 @@ import {
   getCampaignsStart,
   getCampaignsSuccess,
   getCampaignsFailure,
+  getMoreCampaignsStart,
+  getMoreCampaignsSuccess,
   updateCampaignStatusStart,
   updateCampaignStatusSuccess,
   updateCampaignStatusFailure,
@@ -24,7 +26,16 @@ import {
 function* getCampaignsSaga(action: GetCampaignsAction) {
   try {
     const response = yield call(axiosInstance.post, '/api/campaigns', action.payload);
-    yield put(getCampaignsSuccess(response.data));
+    yield put(getCampaignsSuccess(response.data.venues));
+  } catch (error: any) {
+    yield put(getCampaignsFailure(error.message));
+  }
+}
+
+function* getMoreCampaignsSaga(action: GetCampaignsAction) {
+  try {
+    const response = yield call(axiosInstance.post, '/api/campaigns', action.payload);
+    yield put(getMoreCampaignsSuccess(response.data.venues));
   } catch (error: any) {
     yield put(getCampaignsFailure(error.message));
   }
@@ -33,7 +44,7 @@ function* getCampaignsSaga(action: GetCampaignsAction) {
 function* updateCampaignStatusSaga(action: UpdateCampaignStatusAction) {
   try {
     const { id, status } = action.payload;
-    yield call(axiosInstance.post, `/api/campaign/${id}/status`, { status });
+    yield call(axiosInstance.post, `/campaign/${id}/status`, { status });
     yield put(updateCampaignStatusSuccess());
   } catch (error: any) {
     yield put(updateCampaignStatusFailure(error.message));
@@ -62,6 +73,7 @@ function* updateDedicatedPageStatusSaga(action: UpdateDedicatedPageStatusAction)
 
 function* watchCampaigns() {
   yield takeLatest(getCampaignsStart.type, getCampaignsSaga);
+  yield takeLatest(getMoreCampaignsStart.type, getMoreCampaignsSaga);
   yield takeLatest(updateCampaignStatusStart.type, updateCampaignStatusSaga);
   yield takeLatest(getCampaignDetailsStart.type, getCampaignDetailsSaga);
   yield takeLatest(updateDedicatedPageStatusStart.type, updateDedicatedPageStatusSaga);

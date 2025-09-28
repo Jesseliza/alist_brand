@@ -84,7 +84,7 @@ export default function BrandCampaigns({
     return (
       <div className="py-6">
         <div className="max-w-[1428px] mx-auto">
-          <div className="flex items-center justify-center min-h-[200px]">
+          <div className="bg-white rounded-lg shadow-md flex items-center justify-center min-h-[200px]">
             <p className="text-gray-500">No campaigns found for this brand.</p>
           </div>
         </div>

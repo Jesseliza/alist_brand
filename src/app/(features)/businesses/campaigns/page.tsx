@@ -5,22 +5,56 @@ import CampaignCard from "@/components/features/campaigns/CampaignCard";
 import CampaignsMobileCard from "@/components/features/campaigns/CampaignMobileCard";
 import TableCardsToggler from "@/components/general/TableCardsToggler";
 import Pagination from "@/components/general/Pagination";
-import { CampaignsData } from "@/data/CampaignsData";
-import { brandsData } from "@/data/BrandsData";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useRouter } from "next/navigation";
+import { getCampaignsStart, getMoreCampaignsStart, updateCampaignStatusStart } from "@/store/campaigns/CampaignSlice";
+import { setSearchTerm } from "@/store/search/searchSlice";
+import { RootState } from "@/store/store";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
 import SortDropdown from "@/components/general/dropdowns/SortDropdown";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import Loader from "@/components/general/Loader";
+import InlineLoader from "@/components/general/InlineLoader";
 
 export default function CampaignsPage() {
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const dispatch = useDispatch();
+  const {
+    campaigns,
+    pagination,
+    loading,
+    error,
+  } = useSelector((state: RootState) => state.campaigns);
+
+  const { searchTerm } = useSelector((state: RootState) => state.search);
   const [view, setView] = useState<"table" | "card">("table");
-  const [search, setSearch] = useState("");
+  const [mobilePage, setMobilePage] = useState(1);
+  const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
+
+  const debouncedSearch = useDebounce(searchTerm, 500);
+
+  useEffect(() => {
+    dispatch(getCampaignsStart({ page: 1, per_page: 10 }));
+  }, [dispatch]);
+
+  const isInitialSearchMount = useRef(true);
+  useEffect(() => {
+    if (isInitialSearchMount.current) {
+      isInitialSearchMount.current = false;
+      return;
+    }
+
+    setMobilePage(1);
+    dispatch(getCampaignsStart({
+      search: debouncedSearch,
+      per_page: 10,
+      page: 1
+    }));
+  }, [debouncedSearch, dispatch]);
 
   const handleAddCampaignClick = () => {
     // TODO: Update this route when the create campaign page is available
@@ -28,31 +62,26 @@ export default function CampaignsPage() {
     console.log("Add Campaign clicked");
   };
 
-  // Function to get accountId from brandId
-  const getAccountIdFromBrandId = (brandId: string): string => {
-    const brand = brandsData.find((b) => b.brandId === brandId);
-    return brand?.accountId || "0"; // fallback to "0" if brand not found
-  };
-
-  // Calculate pagination for desktop view only
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentCampaigns = CampaignsData.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
-
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    dispatch(getCampaignsStart({
+      page,
+      search: searchTerm,
+      per_page: pagination?.per_page
+    }));
   };
 
   const handleItemsPerPageChange = (items: number) => {
-    setItemsPerPage(items);
-    setCurrentPage(1);
+    dispatch(getCampaignsStart({ search: searchTerm, per_page: items, page: 1 }));
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+  const handleSeeMore = () => {
+    const nextPage = mobilePage + 1;
+    dispatch(getMoreCampaignsStart({
+      page: nextPage,
+      search: debouncedSearch,
+      per_page: 10
+    }));
+    setMobilePage(nextPage);
   };
 
   const handleSortSelect = (value: string) => {
@@ -60,17 +89,36 @@ export default function CampaignsPage() {
     // Add your sort logic here
   };
 
-  const handleActionSelect = (value: string) => {
-    console.log("Action selected:", value);
-    // Add your action logic here
+  const handleCheckboxChange = (campaignId: string) => {
+    setCheckedRows((prevCheckedRows) => {
+      const newCheckedRows = new Set(prevCheckedRows);
+      if (newCheckedRows.has(campaignId)) {
+        newCheckedRows.delete(campaignId);
+      } else {
+        newCheckedRows.add(campaignId);
+      }
+      return newCheckedRows;
+    });
   };
+
+  const handleActionSelect = (value: string) => {
+    if (value === "Approved" || value === "Rejected") {
+      checkedRows.forEach((id) => {
+        dispatch(updateCampaignStatusStart({ id, status: value }));
+      });
+      setCheckedRows(new Set());
+    } else {
+      console.log("Action selected:", value);
+    }
+  };
+
   return (
     <div>
       <div className="md:hidden pt-4 flex items-center gap-[7px]">
         <SearchInputMobile
-          value={search}
-          onChange={handleSearchChange}
-          placeholder="Search brand"
+          value={searchTerm}
+          onChange={(e) => dispatch(setSearchTerm(e.target.value))}
+          placeholder="Search campaigns"
         />
         {/*
         <div className="bg-white rounded-[11px] w-10 h-10  flex items-center justify-center aspect-square">
@@ -94,7 +142,7 @@ export default function CampaignsPage() {
               Add Campaign
             </button>
             <div className="w-auto">
-              <ActionDropdown onSelect={handleActionSelect} />
+              <ActionDropdown onSelect={handleActionSelect} disabled={checkedRows.size === 0} />
             </div>
           </div>
           <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
@@ -105,66 +153,75 @@ export default function CampaignsPage() {
               Add Campaign
             </button>
           </div>
-          <div className="md:hidden space-y-[7px]">
-            {CampaignsData.length === 0 ? (
-              <div className="text-center py-10 text-gray-500">
-                No records found.
-              </div>
-            ) : (
-              CampaignsData.map((campaign) => {
-                const accountId = getAccountIdFromBrandId(campaign.brandId);
-                return (
-                  <Link
-                    key={campaign.campaignId}
-                    href={`/businesses/accounts/${accountId}/${campaign.brandId}/${campaign.campaignId}`}
-                  >
-                    <CampaignsMobileCard campaign={campaign} />
-                  </Link>
-                );
-              })
-            )}
-          </div>
-          <div className="hidden md:block">
-            {view === "table" ? (
-              <>
-                <CampaignsTable
-                  campaigns={currentCampaigns}
-                  getAccountIdFromBrandId={getAccountIdFromBrandId}
-                />
-                {currentCampaigns.length > 0 && (
-                  <Pagination
-                    totalItems={CampaignsData.length}
-                    itemsPerPage={itemsPerPage}
-                    currentPage={currentPage}
-                    onPageChange={handlePageChange}
-                    onItemsPerPageChange={handleItemsPerPageChange}
-                  />
+
+          {loading && campaigns.length === 0 && <Loader />}
+          {error && <p className="text-red-500">Error: {error}</p>}
+          {!error && (
+            <>
+              <div className="md:hidden space-y-[7px]">
+                {campaigns.length === 0 && !loading ? (
+                  <div className="bg-white text-center py-10 text-gray-500">
+                    No records found.
+                  </div>
+                ) : (
+                  campaigns.map((campaign) => (
+                    <Link key={campaign.id} href={`/businesses/campaigns/${campaign.id}`}>
+                      <CampaignsMobileCard campaign={campaign} />
+                    </Link>
+                  ))
                 )}
-              </>
-            ) : (
-              <>
-                <div className="grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center mb-8">
-                  {CampaignsData.length === 0 ? (
-                    <div className="col-span-full text-center py-10 text-gray-500">
-                      No records found.
+                {loading && campaigns.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
+                {pagination && campaigns.length > 0 && campaigns.length < pagination.total && !loading && (
+                  <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
+                    <button
+                      onClick={handleSeeMore}
+                      disabled={loading}
+                      className="disabled:text-gray-400"
+                    >
+                      {loading ? <InlineLoader /> : 'See More'}
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div className="hidden md:block">
+                {view === "table" ? (
+                  <>
+                    <CampaignsTable
+                      campaigns={campaigns}
+                      checkedRows={checkedRows}
+                      onCheckboxChange={handleCheckboxChange}
+                    />
+                    {pagination && campaigns.length > 0 && (
+                      <Pagination
+                        totalItems={pagination.total}
+                        itemsPerPage={pagination.per_page}
+                        currentPage={pagination.current_page}
+                        onPageChange={handlePageChange}
+                        onItemsPerPageChange={handleItemsPerPageChange}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <div className="grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center mb-8">
+                      {campaigns.length === 0 && !loading ? (
+                        <div className="col-span-full text-center py-10 text-gray-500 bg-white">
+                          No records found.
+                        </div>
+                      ) : (
+                        campaigns.map((campaign) => (
+                          <Link key={campaign.id} href={`/businesses/campaigns/${campaign.id}`}>
+                            <CampaignCard campaign={campaign} />
+                          </Link>
+                        ))
+                      )}
                     </div>
-                  ) : (
-                    CampaignsData.map((campaign) => {
-                      const accountId = getAccountIdFromBrandId(campaign.brandId);
-                      return (
-                        <Link
-                          key={campaign.campaignId}
-                          href={`/businesses/accounts/${accountId}/${campaign.brandId}/${campaign.campaignId}`}
-                        >
-                          <CampaignCard campaign={campaign} />
-                        </Link>
-                      );
-                    })
-                  )}
-                </div>
-              </>
-            )}
-          </div>
+                    {loading && campaigns.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
+                  </>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
