@@ -1,12 +1,26 @@
+"use client";
+
 import Image from "next/image";
+import { useDispatch } from "react-redux";
 import { Campaign } from "@/types/entities";
 import CampaignStats from "./Overview/CampaignStats";
 import CampaignCreators from "./Overview/CampaignCreators";
 import CampaignDetails from "./Overview/CampaignDetails";
 import CampaignGuidlines from "./Overview/CampaignGuidlines";
 import CampaignPlans from "./Overview/CampaignPlans";
+import { updateCampaignStatusStart } from "@/store/campaigns/CampaignSlice";
 
-export default function Overview({ campaign }: { campaign: Campaign }) {
+export default function Overview({ campaign, campaignId }: { campaign: Campaign, campaignId: string }) {
+  const dispatch = useDispatch();
+
+  const handleApprove = () => {
+    dispatch(updateCampaignStatusStart({ id: campaignId, status: "Approved" }));
+  };
+
+  const handleReject = () => {
+    dispatch(updateCampaignStatusStart({ id: campaignId, status: "Rejected" }));
+  };
+
   return (
     <div className="max-w-[774px] mx-auto mt-[13px] pb-[100px]">
       <div className="flex bg-[#F8F8F8] rounded-[13px] overflow-hidden">
@@ -60,6 +74,21 @@ export default function Overview({ campaign }: { campaign: Campaign }) {
         <CampaignGuidlines campaign={campaign} />
       </div>
       <CampaignPlans campaign={campaign} />
+
+      <div className="mt-6 flex space-x-4">
+        <button
+          onClick={handleApprove}
+          className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+        >
+          Approve
+        </button>
+        <button
+          onClick={handleReject}
+          className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+        >
+          Reject
+        </button>
+      </div>
     </div>
   );
 }
