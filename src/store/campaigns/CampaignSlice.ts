@@ -19,7 +19,7 @@ const campaignsSlice = createSlice({
     },
     getCampaignsSuccess: (state, action) => {
       state.loading = false;
-      state.campaigns = action.payload.data;
+      state.campaigns = action.payload.data || [];
       state.pagination = {
         current_page: action.payload.current_page,
         last_page: action.payload.last_page,
