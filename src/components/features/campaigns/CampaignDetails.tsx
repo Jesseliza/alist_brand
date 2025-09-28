@@ -3,19 +3,24 @@
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { Campaign } from "@/types/entities";
+import { updateCampaignStatusStart } from "@/store/campaigns/CampaignSlice";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
 import Availabilites from "./tabs/Availabilites";
 import Posts from "./tabs/Posts";
 import Reviews from "./tabs/Reviews";
+import RejectionModal from "@/components/general/modals/RejectionModal";
 
 const tabs = ["Creators", "Overview", "Availabilites", "Posts", "Reviews"];
 
 export default function CampaignDetails({ campaign, campaignId }: { campaign: Campaign, campaignId: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const dispatch = useDispatch();
   const [selectedIndex, setSelectedIndex] = useState(1); // Default to Overview (index 1)
+  const [isRejectionModalOpen, setRejectionModalOpen] = useState(false);
 
   // Get tab from URL or default to Overview
   const getTabFromURL = useCallback(() => {
@@ -39,8 +44,50 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
     setSelectedIndex(getTabFromURL());
   }, [searchParams, getTabFromURL]);
 
+  const handleApprove = () => {
+    dispatch(updateCampaignStatusStart({ id: campaignId, status: "Approved" }));
+  };
+
+  const handleReject = () => {
+    setRejectionModalOpen(true);
+  };
+
+  const handleRejectSubmit = (reason: string) => {
+    dispatch(
+      updateCampaignStatusStart({
+        id: campaignId,
+        status: "Rejected",
+        reason,
+      })
+    );
+    setRejectionModalOpen(false);
+  };
+
   return (
     <div>
+      {campaign.offer_status === "Draft" && (
+        <div className="max-w-[966px] mx-auto md:px-4 mt-4">
+          <div className="flex justify-end space-x-2 mb-2">
+            <button
+              onClick={handleApprove}
+              className="bg-green-500 text-white px-3 py-1 text-sm rounded-md hover:bg-green-600"
+            >
+              Approve
+            </button>
+            <button
+              onClick={handleReject}
+              className="bg-red-500 text-white px-3 py-1 text-sm rounded-md hover:bg-red-600"
+            >
+              Reject
+            </button>
+          </div>
+        </div>
+      )}
+      <RejectionModal
+        isOpen={isRejectionModalOpen}
+        onClose={() => setRejectionModalOpen(false)}
+        onSubmit={handleRejectSubmit}
+      />
       <TabGroup selectedIndex={selectedIndex} onChange={handleTabChange}>
         <div className="max-w-[966px] mx-auto md:px-4 mt-4">
           <TabList className="flex bg-[#F8F8F8] rounded-[13px] p-[5px]">
