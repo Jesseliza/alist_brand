@@ -1,220 +1,162 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useDebounce } from "@/hooks/useDebounce";
-import { useRouter } from "next/navigation";
-import { fetchCampaignsRequest, fetchMoreCampaignsRequest } from "@/store/campaign/campaignSlice";
-import { setSearchTerm } from "@/store/search/searchSlice";
-import { RootState } from "@/store/store";
 import CampaignsTable from "@/components/features/campaigns/CampaignsTable";
 import CampaignCard from "@/components/features/campaigns/CampaignCard";
 import CampaignsMobileCard from "@/components/features/campaigns/CampaignMobileCard";
+import TableCardsToggler from "@/components/general/TableCardsToggler";
 import Pagination from "@/components/general/Pagination";
-import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
+import { CampaignsData } from "@/data/CampaignsData";
+import { brandsData } from "@/data/BrandsData";
+import { useState } from "react";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
+import SortDropdown from "@/components/general/dropdowns/SortDropdown";
+import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import Image from "next/image";
 import Link from "next/link";
-import Loader from "@/components/general/Loader";
-import InlineLoader from "@/components/general/InlineLoader";
-import TableCardsToggler from "@/components/general/TableCardsToggler";
 
 export default function CampaignsPage() {
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const {
-    campaigns,
-    pagination,
-    loading,
-    error,
-  } = useSelector((state: RootState) => state.campaign);
-
-  const { searchTerm } = useSelector((state: RootState) => state.search);
-  const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [view, setView] = useState<"table" | "card">("table");
-  const [mobilePage, setMobilePage] = useState(1);
+  const [search, setSearch] = useState("");
 
-  const debouncedSearch = useDebounce(searchTerm, 500);
+  // Function to get accountId from brandId
+  const getAccountIdFromBrandId = (brandId: string): string => {
+    const brand = brandsData.find((b) => b.brandId === brandId);
+    return brand?.accountId || "0"; // fallback to "0" if brand not found
+  };
 
-  useEffect(() => {
-    dispatch(fetchCampaignsRequest({ per_page: 12, page: 1, search: '' }));
-  }, [dispatch]);
-
-  const isInitialSearchMount = useRef(true);
-  useEffect(() => {
-    if (isInitialSearchMount.current) {
-      isInitialSearchMount.current = false;
-      return;
-    }
-
-    setMobilePage(1);
-    dispatch(fetchCampaignsRequest({
-      search: debouncedSearch,
-      per_page: 12,
-      page: 1
-    }));
-  }, [debouncedSearch, dispatch]);
+  // Calculate pagination for desktop view only
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentCampaigns = CampaignsData.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const handlePageChange = (page: number) => {
-    dispatch(fetchCampaignsRequest({
-      page,
-      search: searchTerm,
-      per_page: pagination.perPage
-    }));
+    setCurrentPage(page);
   };
 
   const handleItemsPerPageChange = (items: number) => {
-    dispatch(fetchCampaignsRequest({ search: searchTerm, per_page: items, page: 1 }));
+    setItemsPerPage(items);
+    setCurrentPage(1);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const handleSortSelect = (value: string) => {
+    console.log("Sort selected:", value);
+    // Add your sort logic here
   };
 
   const handleActionSelect = (value: string) => {
-    if (value === "update") {
-      if (checkedRows.size === 1) {
-        const campaignId = checkedRows.values().next().value;
-        // router.push(`/businesses/campaigns/${campaignId}`);
-      }
-    }
+    console.log("Action selected:", value);
+    // Add your action logic here
   };
-
-  const handleCheckboxChange = (campaignId: string) => {
-    setCheckedRows((prevCheckedRows) => {
-      const newCheckedRows = new Set(prevCheckedRows);
-      if (newCheckedRows.has(campaignId)) {
-        newCheckedRows.delete(campaignId);
-      } else {
-        newCheckedRows.add(campaignId);
-      }
-      return newCheckedRows;
-    });
-  };
-
-  const handleSeeMore = () => {
-    const nextPage = mobilePage + 1;
-    dispatch(fetchMoreCampaignsRequest({
-      page: nextPage,
-      search: debouncedSearch,
-      per_page: 12
-    }));
-    setMobilePage(nextPage);
-  };
-
   return (
     <div>
-      <div className="flex justify-between items-center pt-4">
-        <div className="md:hidden flex items-center gap-[7px]">
-          <SearchInputMobile
-            value={searchTerm}
-            onChange={(e) => dispatch(setSearchTerm(e.target.value))}
-            placeholder="Search campaign"
-          />
-          <div className="bg-white rounded-[11px] w-10 h-10  flex items-center justify-center aspect-square">
-            <Image
-              src="/icons/general/sort-1-light.svg"
-              alt="sort"
-              width={24.08}
-              height={14.61}
+      <div className="py-[13px] bg-white hidden md:block relative">
+        <div
+          className="absolute inset-0 bg-white"
+          style={{ left: "-100vw", right: "-100vw" }}
+        />
+        <div className="max-w-[1428px] mx-auto flex items-center justify-between relative z-10">
+          <div className="text-[18px] leading-[27px] w-[147px]">
+            <SortDropdown onSelect={handleSortSelect} />
+          </div>
+          <div>
+            <TableCardsToggler
+              view={view}
+              setView={setView}
             />
           </div>
         </div>
-        <div className="hidden md:block">
-          {/* This will be moved */}
+      </div>
+      <div className="md:hidden pt-4 flex items-center gap-[7px]">
+        <SearchInputMobile
+          value={search}
+          onChange={handleSearchChange}
+          placeholder="Search brand"
+        />
+        <div className="bg-white rounded-[11px] w-10 h-10  flex items-center justify-center aspect-square">
+          <Image
+            src="/icons/general/sort-1-light.svg"
+            alt="sort"
+            width={24.08}
+            height={14.61}
+          />
         </div>
       </div>
       <div className="py-5.5">
         <div className="max-w-[1428px] mx-auto">
-          <div className="hidden md:flex justify-end items-center mb-5.5 space-x-4">
-            <TableCardsToggler view={view} setView={setView} />
-            <div className="w-auto">
-              <ActionDropdown
-                onSelect={handleActionSelect}
-                showUpdate={checkedRows.size === 1}
-                disabled={checkedRows.size === 0}
-                excludeActions={['delete', 'active', 'inactive']}
-              />
+          {view === "table" && (
+            <div className="w-[137px] ml-auto mb-5.5 hidden md:block">
+              <ActionDropdown onSelect={handleActionSelect} />
             </div>
+          )}
+          <div className="md:hidden space-y-[7px]">
+            {CampaignsData.length === 0 ? (
+              <div className="text-center py-10 text-gray-500">
+                No records found.
+              </div>
+            ) : (
+              CampaignsData.map((campaign) => {
+                const accountId = getAccountIdFromBrandId(campaign.brandId);
+                return (
+                  <Link
+                    key={campaign.campaignId}
+                    href={`/businesses/accounts/${accountId}/${campaign.brandId}/${campaign.campaignId}`}
+                  >
+                    <CampaignsMobileCard campaign={campaign} />
+                  </Link>
+                );
+              })
+            )}
           </div>
-          <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
-            <div className="w-auto">
-              <ActionDropdown
-                onSelect={handleActionSelect}
-                showUpdate={checkedRows.size === 1}
-                disabled={checkedRows.size === 0}
-                excludeActions={['delete', 'active', 'inactive']}
-              />
-            </div>
-          </div>
-          {loading && campaigns.length === 0 && <Loader />}
-          {error && <p className="text-red-500">Error: {error}</p>}
-          {!error && (
-            <>
-              <div className="hidden md:block">
-                {view === "table" ? (
-                  <CampaignsTable
-                    campaigns={campaigns}
-                    checkedRows={checkedRows}
-                    onCheckboxChange={handleCheckboxChange}
-                  />
-                ) : (
-                  <>
-                    {campaigns.length === 0 ? (
-                      <div className="bg-white rounded-lg shadow-md text-center py-10 text-gray-500">
-                        No records found.
-                      </div>
-                    ) : (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {campaigns.map((campaign) => (
-                          <CampaignCard
-                            key={campaign.id}
-                            campaign={campaign}
-                            checked={checkedRows.has(campaign.campaign_id)}
-                            onCheckboxChange={() => handleCheckboxChange(campaign.campaign_id)}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </>
-                )}
-                {loading && campaigns.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
-                {pagination && campaigns.length > 0 && (
+          <div className="hidden md:block">
+            {view === "table" ? (
+              <>
+                <CampaignsTable
+                  campaigns={currentCampaigns}
+                  getAccountIdFromBrandId={getAccountIdFromBrandId}
+                />
+                {currentCampaigns.length > 0 && (
                   <Pagination
-                    totalItems={pagination.total}
-                    itemsPerPage={pagination.perPage}
-                    currentPage={pagination.currentPage}
+                    totalItems={CampaignsData.length}
+                    itemsPerPage={itemsPerPage}
+                    currentPage={currentPage}
                     onPageChange={handlePageChange}
                     onItemsPerPageChange={handleItemsPerPageChange}
                   />
                 )}
-              </div>
-              <div className="md:hidden space-y-[7px]">
-                {campaigns.length === 0 ? (
-                  <div className="text-center py-10 text-gray-500">
-                    No records found.
-                  </div>
-                ) : (
-                  campaigns.map((campaign) => (
-                    <CampaignsMobileCard
-                      key={campaign.id}
-                      campaign={campaign}
-                      checked={checkedRows.has(campaign.campaign_id)}
-                      onCheckboxChange={() => handleCheckboxChange(campaign.campaign_id)}
-                    />
-                  ))
-                )}
-                {loading && campaigns.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
-                {campaigns.length > 0 && campaigns.length < pagination.total && !loading && (
-                  <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
-                    <button
-                      onClick={handleSeeMore}
-                      disabled={loading}
-                      className="disabled:text-gray-400"
-                    >
-                      {loading ? <InlineLoader /> : 'See More'}
-                    </button>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
+              </>
+            ) : (
+              <>
+                <div className="grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center mb-8">
+                  {CampaignsData.length === 0 ? (
+                    <div className="col-span-full text-center py-10 text-gray-500">
+                      No records found.
+                    </div>
+                  ) : (
+                    CampaignsData.map((campaign) => {
+                      const accountId = getAccountIdFromBrandId(campaign.brandId);
+                      return (
+                        <Link
+                          key={campaign.campaignId}
+                          href={`/businesses/accounts/${accountId}/${campaign.brandId}/${campaign.campaignId}`}
+                        >
+                          <CampaignCard campaign={campaign} />
+                        </Link>
+                      );
+                    })
+                  )}
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

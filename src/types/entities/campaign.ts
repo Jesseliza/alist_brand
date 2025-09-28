@@ -1,152 +1,162 @@
-export interface Venue {
-  id: number;
-  account_id: string | null;
-  venue_title: string;
-  company_name: string | null;
-  logo: string | null;
-  banner: string | null;
-  phone_number: string | null;
-  email_address: string | null;
-  trade_license: string | null;
-  trade_license_expiry: string | null;
-  vat_certificate: string | null;
-  address: string | null;
-  latitude: string | null;
-  longitude: string | null;
-  instagram_handle: string | null;
-  website_url: string | null;
-  status: string | null;
-  contact_person_name: string | null;
-  contact_person_email: string | null;
-  contact_person_phone: string | null;
-  city: string | null;
-  state: string | null;
-  country: string | null;
-  created_at: string;
-  updated_at: string;
-  deleted_at: string | null;
-  deleted_by: string | null;
-  updated_by: number | null;
-  created_by: number | null;
-  account_manager: number | null;
-  brand_id: number;
-  commission_rate: string;
-  auto_payment: number;
-  auto_payment_card_id: number | null;
-  auto_payment_day: string | null;
-  auto_payment_fail_notif: number;
-  industry_id: number;
-  sub_industry_id: number | null;
-  notif_new_offer: number;
-  notif_new_review: number;
-  notif_offer_no_show: number;
-  notif_offer_cancel: number;
-  notif_offer_remind: number;
-  notif_monthly_report: number;
-  contact_person_is_alist: number;
-  contact_person_ref_id: number | null;
-  is_all_outlet_same: number;
-  is_contract_signed: number;
-  zomoato_url: string | null;
-  talabat_url: string | null;
-  deliveroo_url: string | null;
-  google_map_url: string | null;
-  other_map_url: string | null;
-  account_type: string;
-  sub_account_type: string | null;
-  is_physical_signed: number;
-  is_digital_signed: number;
-  is_paid: number;
-  business_location: string | null;
-  venue_code: string;
-  start_date: string | null;
-  end_date: string | null;
-  contract_period: string | null;
-  payment_terms: string | null;
-  other_venue_documents: string | null;
-  is_outlets_feature: number;
-  is_auto_renewal: number;
-  renewal_date: string | null;
-  renewal_price: string | null;
-  renewal_period: string | null;
-  is_master_venue: number;
-  master_venue_id: number | null;
-  is_sub_venue: number;
-  is_old_venue: number;
-  is_new_venue: number;
-}
+import { CampaignPost } from './campaignPost';
 
-export interface Campaign {
-  id: number;
-  offer_title: string;
-  restaurant_name: number;
-  campaign_id: string;
-  social_media_id: number;
-  banner_image: string;
-  start_date: string;
-  end_date: string;
-  offer_usage: number;
-  description: string;
-  email_text: string;
-  credibility_range: string | null;
-  date_valid_text: string;
-  rule_1: string;
-  rule_2: string;
-  rule_3: string;
-  review_url: string | null;
-  restaurant_website: string | null;
-  whatsapp_no: string | null;
-  amount: string;
-  currency_id: number;
-  instagram_followers: string;
-  account_status: string;
-  offer_status: string;
-  offer_notify: number;
-  minimum_user_count: number | null;
-  no_of_tables: number | null;
-  offer_gender: string;
-  user_types: string;
-  is_offer_blogger: number;
-  is_offer_instagram_verified: number;
-  is_offer_special: number;
-  is_offer_is_prive: number;
-  max_age: number;
-  min_age: number;
-  influencer_types: string;
-  created_at: string;
-  updated_at: string;
-  reminder_custom_date: string;
-  skip_invitation: number;
-  notification_text: string | null;
-  start_offer_block: string | null;
-  end_offer_block: string | null;
-  is_dedicated: number;
-  dedicated_offer_id: number | null;
-  venue_offer_banner: number;
-  custom_btn_url: string | null;
-  custom_btn_icon: string | null;
-  custom_btn_title: string | null;
-  insight_required: number;
-  is_groupX: number;
-  offer_location: string | null;
-  location_country_id: number | null;
-  calendar_custom_days: number;
-  dress_code: string | null;
-  group_id: number | null;
-  mobile_redemption_title: string | null;
-  mobile_redemption_text: string | null;
-  schedule_publish_time: string | null;
-  phone_campaign_message: string | null;
-  phone_campaign_mentions: string | null;
-  phone_review_text: string | null;
-  phone_review_comments: string | null;
-  offer_start_time: string | null;
-  offer_end_time: string | null;
-  offer_display_start_time: string;
-  offer_display_end_time: string;
-  offer_available_start_date: string | null;
-  offer_available_end_date: string | null;
-  skip_stories: number;
-  is_offer_dummy: number;
-  venue: Venue;
-}
+// Campaign type enums
+export type CampaignType = "WalkIn" | "Delivery" | "Online" | "Exclusive";
+export type OfferType = "Barter" | "Paid" | "BarterAndPaid";
+export type TimeUnit = "Days" | "Hours";
+export type ChannelType =
+  | "InstagramStories"
+  | "GoogleReviews"
+  | "InstagramPosts"
+  | "TikTokVideos"
+  | "YouTubeVideos"
+  | "BlogPosts";
+export type AudienceDefinition = "Specific" | "Broad";
+export type CreatorApprovalType = "Automated" | "Manual";
+export type CreatorStatusFilter =
+  | "InstagramVerified"
+  | "TikTokVerified"
+  | "YouTubeVerified"
+  | "SnapchatVerified";
+
+// Payment arrangement type
+export type PaymentArrangement = {
+  arrangement: OfferType;
+  currency: string;
+  amount: number;
+};
+
+// Channel configuration type
+export type ChannelConfig = {
+  type: ChannelType;
+  config: Record<string, unknown>; // Flexible config object
+  url: string;
+};
+
+// Age range type
+export type AgeRange = {
+  min: number;
+  max: number;
+};
+
+// Followers tier range type (can be string or object)
+export type FollowersTierRange = string | { min: number; max: number };
+
+// Advanced visibility type
+export type AdvancedVisibility = {
+  duration: number;
+  unit: TimeUnit;
+};
+
+// Campaign stats type
+export type CampaignStats = {
+  creators: number | string;
+  impressions: number | string;
+  reach: number | string;
+  posts: number | string;
+  reviews: number | string;
+};
+
+// Campaign details type
+export type CampaignDetails = {
+  walkIn: string;
+  barter: string;
+  price: string;
+  approval: string;
+  restricted: string;
+  date: string;
+};
+
+// Campaign guideline type
+export type CampaignGuideline = {
+  platform: string;
+  platformIcon: string;
+  requirements: string;
+  rules: {
+    label: string;
+    value: string;
+    highlight?: string;
+  }[];
+};
+
+// Campaign plan type
+export type CampaignPlan = {
+  planName: string;
+  planType: string;
+  nextBillAmount: number;
+  nextBillCurrency: string;
+  nextBillDate: string;
+  paymentDate: string;
+  cardType: string;
+  cardIcon: string;
+  cardEnding: string;
+};
+
+// Campaign post type - moved to ./campaignPost.ts to avoid naming conflict
+
+// Main Campaign type - Expanded version
+export type Campaign = {
+  // Primary identifiers
+  campaignId: string; // UUID / string
+  brandId: string; // UUID / string (FK)
+  subscriptionId: string; // UUID / string (FK)
+
+  // Basic campaign info
+  title: string;
+  thumbnailUrl: string;
+  campaignType: CampaignType;
+  offerType: OfferType;
+
+  // Brand information (derived from brandId)
+  brandLogo: string;
+  brandName: string;
+
+  // Payment details
+  payments: PaymentArrangement[];
+
+  // Campaign content
+  offerDescription: string;
+  advancedVisibility: AdvancedVisibility;
+  campaignMessage: string;
+
+  // Channels configuration
+  channels: ChannelConfig[];
+
+  // Campaign rules
+  rulesAndGuidelines: string;
+
+  // Audience targeting
+  audienceDefinition: AudienceDefinition;
+  potentialReach: number;
+  ageRange: AgeRange;
+  excludedLanguages: string[];
+  followersTierRange: FollowersTierRange;
+  influencerTags: string[];
+  creatorStatusFilters: CreatorStatusFilter[];
+
+  // Creator approval
+  creatorApprovalType: CreatorApprovalType;
+
+  // Voucher details
+  voucherValue: number;
+  voucherCurrency: string;
+
+  // Campaign statistics
+  campaignStats: CampaignStats;
+
+  // Campaign details
+  campaignDetails: CampaignDetails;
+
+  // Campaign guidelines
+  campaignGuidelines: CampaignGuideline[];
+
+  // Campaign plan
+  campaignPlan: CampaignPlan;
+
+  // Campaign posts
+  campaignPosts?: CampaignPost[];
+
+  // Timestamps
+  createdAt: Date;
+  updatedAt: Date;
+};
