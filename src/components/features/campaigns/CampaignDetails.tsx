@@ -14,22 +14,18 @@ import Reviews from "./tabs/Reviews";
 
 const tabs = ["Creators", "Overview", "Availabilites", "Posts", "Reviews"];
 
-export default function CampaignDetails({ campaign, campaignId }: { campaign: Campaign, campaignId?: string }) {
+export default function CampaignDetails({ campaign, campaignId }: { campaign: Campaign, campaignId: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
   const [selectedIndex, setSelectedIndex] = useState(1); // Default to Overview (index 1)
 
   const handleApprove = () => {
-    if (campaignId) {
-      dispatch(updateCampaignStatusStart({ id: campaignId, status: "Approved" }));
-    }
+    dispatch(updateCampaignStatusStart({ id: campaignId, status: "Approved" }));
   };
 
   const handleReject = () => {
-    if (campaignId) {
-      dispatch(updateCampaignStatusStart({ id: campaignId, status: "Rejected" }));
-    }
+    dispatch(updateCampaignStatusStart({ id: campaignId, status: "Rejected" }));
   };
 
   // Get tab from URL or default to Overview
