@@ -12,6 +12,12 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "dev-partners.alist.ae",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   async redirects() {

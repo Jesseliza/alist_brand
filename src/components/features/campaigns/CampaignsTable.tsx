@@ -20,8 +20,7 @@ export default function CampaignsTable({
     return campaign.offer_status;
   };
 
-  // TODO: Replace with the actual base URL from environment variables
-  const IMAGE_BASE_URL = "https://dev-partners.alist.ae/";
+  const IMAGE_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   return (
     <div className="overflow-x-auto">

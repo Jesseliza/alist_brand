@@ -75,7 +75,7 @@ function* handleFetchMoreCampaigns(action: ReturnType<typeof fetchMoreCampaignsR
 
     const response: FetchCampaignsSuccessResponse | ApiError = yield call(postData, endpoint, bodyPayload);
 
-    if (response.success) {
+    if (response.venues) {
       const { data, current_page, last_page, per_page, total } = (response as FetchCampaignsSuccessResponse).venues;
 
       yield put(fetchMoreCampaignsSuccess({

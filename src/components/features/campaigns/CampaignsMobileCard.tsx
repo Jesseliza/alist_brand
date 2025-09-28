@@ -16,8 +16,7 @@ export default function CampaignsMobileCard({
   checked,
   onCheckboxChange,
 }: CampaignsMobileCardProps) {
-  // TODO: Replace with the actual base URL from environment variables
-  const IMAGE_BASE_URL = "https://dev-partners.alist.ae/";
+  const IMAGE_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const handleWrapperClick = (e: React.MouseEvent) => {
     e.stopPropagation();

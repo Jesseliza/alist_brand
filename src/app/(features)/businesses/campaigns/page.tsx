@@ -71,7 +71,7 @@ export default function CampaignsPage() {
     if (value === "update") {
       if (checkedRows.size === 1) {
         const campaignId = checkedRows.values().next().value;
-        // router.push(`/businesses/campaigns/${campaignId}`);
+        router.push(`/businesses/campaigns/${campaignId}`);
       }
     }
   };
