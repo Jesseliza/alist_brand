@@ -13,12 +13,20 @@ import SortDropdown from "@/components/general/dropdowns/SortDropdown";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function CampaignsPage() {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [view, setView] = useState<"table" | "card">("table");
   const [search, setSearch] = useState("");
+
+  const handleAddCampaignClick = () => {
+    // TODO: Update this route when the create campaign page is available
+    // router.push("/businesses/campaigns/create");
+    console.log("Add Campaign clicked");
+  };
 
   // Function to get accountId from brandId
   const getAccountIdFromBrandId = (brandId: string): string => {
@@ -58,29 +66,13 @@ export default function CampaignsPage() {
   };
   return (
     <div>
-      <div className="py-[13px] bg-white hidden md:block relative">
-        <div
-          className="absolute inset-0 bg-white"
-          style={{ left: "-100vw", right: "-100vw" }}
-        />
-        <div className="max-w-[1428px] mx-auto flex items-center justify-between relative z-10">
-          <div className="text-[18px] leading-[27px] w-[147px]">
-            <SortDropdown onSelect={handleSortSelect} />
-          </div>
-          <div>
-            <TableCardsToggler
-              view={view}
-              setView={setView}
-            />
-          </div>
-        </div>
-      </div>
       <div className="md:hidden pt-4 flex items-center gap-[7px]">
         <SearchInputMobile
           value={search}
           onChange={handleSearchChange}
           placeholder="Search brand"
         />
+        {/*
         <div className="bg-white rounded-[11px] w-10 h-10  flex items-center justify-center aspect-square">
           <Image
             src="/icons/general/sort-1-light.svg"
@@ -89,14 +81,30 @@ export default function CampaignsPage() {
             height={14.61}
           />
         </div>
+        */}
       </div>
       <div className="py-5.5">
         <div className="max-w-[1428px] mx-auto">
-          {view === "table" && (
-            <div className="w-[137px] ml-auto mb-5.5 hidden md:block">
+          <div className="hidden md:flex justify-end items-center mb-5.5 space-x-4">
+            <TableCardsToggler view={view} setView={setView} />
+            <button
+              onClick={handleAddCampaignClick}
+              className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
+            >
+              Add Campaign
+            </button>
+            <div className="w-auto">
               <ActionDropdown onSelect={handleActionSelect} />
             </div>
-          )}
+          </div>
+          <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
+            <button
+              onClick={handleAddCampaignClick}
+              className="bg-blue-500 text-white rounded-[11px] text-sm px-4 py-2"
+            >
+              Add Campaign
+            </button>
+          </div>
           <div className="md:hidden space-y-[7px]">
             {CampaignsData.length === 0 ? (
               <div className="text-center py-10 text-gray-500">
