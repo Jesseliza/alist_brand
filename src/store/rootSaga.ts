@@ -2,6 +2,7 @@ import { all } from 'redux-saga/effects';
 import authSaga from './auth/authSaga';
 import accountSaga from './account/accountSaga';
 import brandSaga from './brand/brandSaga';
+import campaignSaga from './campaign/campaignSaga';
 import commonSaga from './common/commonSaga';
 
 export default function* rootSaga() {
@@ -9,6 +10,7 @@ export default function* rootSaga() {
     authSaga(),
     accountSaga(),
     brandSaga(),
+    campaignSaga(),
     commonSaga(),
   ]);
 }
