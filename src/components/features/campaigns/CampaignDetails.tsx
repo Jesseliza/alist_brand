@@ -57,7 +57,7 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
       updateCampaignStatusStart({
         id: campaignId,
         status: "Rejected",
-        reason,
+        rejectReason: reason,
       })
     );
     setRejectionModalOpen(false);
