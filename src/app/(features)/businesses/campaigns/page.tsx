@@ -115,7 +115,7 @@ export default function CampaignsPage() {
     }
   };
 
-  const displayCampaigns = campaigns.map(adaptCampaignSummaryToDisplay);
+  const displayCampaigns = (campaigns || []).map(adaptCampaignSummaryToDisplay);
 
   return (
     <div>
