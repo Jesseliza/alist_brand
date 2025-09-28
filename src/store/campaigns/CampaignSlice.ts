@@ -13,7 +13,7 @@ const campaignsSlice = createSlice({
   name: 'campaigns',
   initialState,
   reducers: {
-    getCampaignsStart: (state) => {
+    getCampaignsStart: (state, action) => {
       state.loading = true;
       state.error = null;
     },
@@ -31,7 +31,7 @@ const campaignsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    getMoreCampaignsStart: (state) => {
+    getMoreCampaignsStart: (state, action) => {
       state.loading = true;
     },
     getMoreCampaignsSuccess: (state, action) => {

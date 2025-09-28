@@ -26,7 +26,7 @@ import {
 function* getCampaignsSaga(action: GetCampaignsAction) {
   try {
     const response = yield call(axiosInstance.post, '/api/campaigns', action.payload);
-    yield put(getCampaignsSuccess(response.data.venues));
+    yield put(getCampaignsSuccess(response.data));
   } catch (error: any) {
     yield put(getCampaignsFailure(error.message));
   }
@@ -35,7 +35,7 @@ function* getCampaignsSaga(action: GetCampaignsAction) {
 function* getMoreCampaignsSaga(action: GetCampaignsAction) {
   try {
     const response = yield call(axiosInstance.post, '/api/campaigns', action.payload);
-    yield put(getMoreCampaignsSuccess(response.data.venues));
+    yield put(getMoreCampaignsSuccess(response.data));
   } catch (error: any) {
     yield put(getCampaignsFailure(error.message));
   }

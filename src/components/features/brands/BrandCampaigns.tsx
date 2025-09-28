@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import CampaignCard from "../campaigns/CampaignCard";
-import CampaignsMobileCard from "../campaigns/CampaignsMobileCard";
+import BrandCampaignMobileCard from "./BrandCampaignMobileCard";
 import { FoodOffer } from "@/types/entities/brand";
 import { adaptFoodOfferToDisplay } from "@/utils/campaignAdapters";
 
@@ -11,7 +11,6 @@ interface BrandCampaignsProps {
   foodOffers: FoodOffer[];
   brandName: string;
   brandLogo: string;
-  accountId: string;
   brandId: string;
 }
 
@@ -19,7 +18,6 @@ export default function BrandCampaigns({
   foodOffers,
   brandName,
   brandLogo,
-  accountId,
   brandId,
 }: BrandCampaignsProps) {
   const router = useRouter();
@@ -29,7 +27,10 @@ export default function BrandCampaigns({
   };
 
   const displayCampaigns = useMemo(
-    () => foodOffers.map((offer) => adaptFoodOfferToDisplay(offer, brandName, brandId, brandLogo)),
+    () =>
+      foodOffers.map((offer) =>
+        adaptFoodOfferToDisplay(offer, brandName, brandId, brandLogo)
+      ),
     [foodOffers, brandName, brandId, brandLogo]
   );
 
@@ -67,7 +68,7 @@ export default function BrandCampaigns({
             onClick={() => handleCampaignClick(campaign.id)}
             className="cursor-pointer"
           >
-            <CampaignsMobileCard campaign={campaign} />
+            <BrandCampaignMobileCard campaign={campaign} />
           </div>
         ))}
       </div>

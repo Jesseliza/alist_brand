@@ -86,11 +86,13 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
             <div
               className="h-full w-full flex items-center justify-center"
               style={{
-                backgroundColor: generateColorFromString(brandName || title),
+                backgroundColor: generateColorFromString(
+                  brandName || title || ""
+                ),
               }}
             >
               <span className="text-white text-3xl font-semibold">
-                {getInitials(brandName || title)}
+                {getInitials(brandName || title || "")}
               </span>
             </div>
           )}

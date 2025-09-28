@@ -22,6 +22,31 @@ export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): Campaig
   };
 };
 
+export const adaptCampaignToDisplay = (campaign: Campaign): CampaignDisplay => {
+  // NOTE: The Campaign type does not have a status field, but other related objects do.
+  // We are assuming the detailed campaign object from the API also contains an `account_status`
+  // property to align with the CampaignDisplay type.
+  const campaignWithStatus = campaign as Campaign & { account_status: string };
+
+  return {
+    id: campaign.campaignId,
+    campaignId: campaign.campaignId,
+    title: campaign.title,
+    vendorName: campaign.brandName,
+    status: campaignWithStatus.account_status || 'Pending', // Default to Pending if not available
+    thumbnailUrl: campaign.thumbnailUrl,
+    brandLogo: campaign.brandLogo,
+    brandName: campaign.brandName,
+    creatorApprovalType: campaign.creatorApprovalType,
+    campaignType: campaign.campaignType,
+    offerType: campaign.offerType,
+    startDate: campaign.createdAt.toString(), // The full Campaign object doesn't have a specific start date
+    endDate: undefined, // The full Campaign object doesn't have a specific end date
+    duration: campaign.advancedVisibility?.duration,
+    durationUnit: campaign.advancedVisibility?.unit,
+  };
+};
+
 export const adaptFoodOfferToDisplay = (
   offer: FoodOffer,
   brandName: string,
