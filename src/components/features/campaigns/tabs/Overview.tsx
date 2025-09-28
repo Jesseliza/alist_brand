@@ -1,17 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useDispatch } from "react-redux";
 import { Campaign } from "@/types/entities";
 import CampaignStats from "./Overview/CampaignStats";
 import CampaignCreators from "./Overview/CampaignCreators";
 import CampaignDetails from "./Overview/CampaignDetails";
 import CampaignGuidlines from "./Overview/CampaignGuidlines";
 import CampaignPlans from "./Overview/CampaignPlans";
-import {
-  updateCampaignStatusStart,
-  updateDedicatedPageStatusStart,
-} from "@/store/campaigns/CampaignSlice";
 
 export default function Overview({
   campaign,
@@ -20,35 +15,6 @@ export default function Overview({
   campaign: Campaign;
   campaignId: string;
 }) {
-  const dispatch = useDispatch();
-
-  const handleApprove = () => {
-    dispatch(updateCampaignStatusStart({ id: campaignId, status: "Approved" }));
-  };
-
-  const handleReject = () => {
-    dispatch(updateCampaignStatusStart({ id: campaignId, status: "Rejected" }));
-  };
-
-  const handleApproveDedicatedPage = () => {
-    // Assuming the dedicated page ID is the same as the campaign ID for now.
-    // This might need to be adjusted if the API provides a separate dedicated page ID.
-    dispatch(updateDedicatedPageStatusStart({ id: campaignId, status: 1 }));
-  };
-
-  const handleRejectDedicatedPage = () => {
-    const rejectReason = prompt("Please provide a reason for rejection:");
-    if (rejectReason) {
-      dispatch(
-        updateDedicatedPageStatusStart({
-          id: campaignId,
-          status: 0,
-          rejectReason,
-        })
-      );
-    }
-  };
-
   return (
     <div className="max-w-[774px] mx-auto mt-[13px] pb-[100px]">
       <div className="flex bg-[#F8F8F8] rounded-[13px] overflow-hidden">
@@ -106,24 +72,6 @@ export default function Overview({
         <CampaignGuidlines campaign={campaign} />
       </div>
       <CampaignPlans campaign={campaign} />
-
-      <div className="mt-8">
-        <h3 className="text-lg font-semibold mb-2">Dedicated Page Actions</h3>
-        <div className="flex space-x-4">
-          <button
-            onClick={handleApproveDedicatedPage}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-          >
-            Approve Dedicated Page
-          </button>
-          <button
-            onClick={handleRejectDedicatedPage}
-            className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600"
-          >
-            Reject Dedicated Page
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
