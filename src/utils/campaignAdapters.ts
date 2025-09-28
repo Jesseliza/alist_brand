@@ -1,4 +1,4 @@
-import { CampaignSummary, CampaignDisplay } from "@/types/entities/campaign";
+import { Campaign, CampaignSummary, CampaignDisplay } from "@/types/entities/campaign";
 import { FoodOffer } from "@/types/entities/brand";
 import placeholderImage from "@/assets/images/campaigns/10.jpg";
 
