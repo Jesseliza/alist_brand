@@ -1,8 +1,7 @@
 import Image from "next/image";
-import { useState } from "react";
 
 interface CampaignCreatorCardProps {
-  id: string;
+  id: string; // This will be the offerUserId
   image: string;
   name: string;
   instagramName: string;
@@ -11,8 +10,9 @@ interface CampaignCreatorCardProps {
     credibility: string;
     engagement: string;
   };
-  approved?: boolean;
-  onDelete?: (id: string) => void;
+  status: string; // 'Approved', 'Rejected', 'Pending'
+  onApprove: (id: string) => void;
+  onReject: (id: string) => void;
 }
 
 export default function CampaignCreatorCard({
@@ -21,18 +21,55 @@ export default function CampaignCreatorCard({
   name,
   instagramName,
   stats,
-  approved = false,
-  onDelete,
+  status,
+  onApprove,
+  onReject,
 }: CampaignCreatorCardProps) {
-  const [isApproved, setIsApproved] = useState(approved);
-
   const handleApprove = () => {
-    setIsApproved(true);
+    onApprove(id);
   };
 
   const handleReject = () => {
-    if (onDelete) {
-      onDelete(id);
+    onReject(id);
+  };
+
+  const renderStatus = () => {
+    switch (status) {
+      case "Approved":
+        return (
+          <div className="flex-1 flex items-center md:justify-center gap-2 text-[#00A4B6] py-[7px] md:rounded-[13px] rounded-[11px] text-[13px] leading-[20px] font-medium h-[38px]">
+            <Image
+              src="/icons/campaign/details/creators-and-posts/verified-check.svg"
+              alt="Approved"
+              width={10.62}
+              height={9.09}
+            />
+            <p>Approved</p>
+          </div>
+        );
+      case "Rejected":
+        return (
+          <div className="flex-1 flex items-center md:justify-center gap-2 text-red-500 py-[7px] md:rounded-[13px] rounded-[11px] text-[13px] leading-[20px] font-medium h-[38px]">
+            <p>Rejected</p>
+          </div>
+        );
+      default: // "Pending" or other statuses
+        return (
+          <>
+            <button
+              onClick={handleApprove}
+              className="flex-1 bg-[#00A4B6] text-white py-[7px] md:rounded-[13px] rounded-[11px] md:text-[16px] text-[15px] leading-[23px] h-[38px]"
+            >
+              Approve
+            </button>
+            <button
+              onClick={handleReject}
+              className="flex-1 bg-[#747474] text-white py-[7px] md:rounded-[13px] rounded-[11px] md:text-[16px] text-[15px] leading-[23px] h-[38px]"
+            >
+              Reject
+            </button>
+          </>
+        );
     }
   };
 
@@ -97,32 +134,7 @@ export default function CampaignCreatorCard({
 
         {/* Action buttons or Approved text */}
         <div className="flex md:gap-[9px] gap-2 md:pb-[9px] md:pl-[9px] md:pr-[9px] pr-3">
-          {isApproved ? (
-            <div className="flex-1 flex items-center md:justify-center gap-2  text-[#00A4B6] py-[7px] md:rounded-[13px] rounded-[11px]  text-[13px] leading-[20px] font-medium h-[38px]">
-              <Image
-                src="/icons/campaign/details/creators-and-posts/verified-check.svg"
-                alt="Approved"
-                width={10.62}
-                height={9.09}
-              />
-              <p>Approved</p>
-            </div>
-          ) : (
-            <>
-              <button
-                onClick={handleApprove}
-                className="flex-1 bg-[#00A4B6] text-white py-[7px] md:rounded-[13px] rounded-[11px] md:text-[16px] text-[15px] leading-[23px] h-[38px]"
-              >
-                Approve
-              </button>
-              <button
-                onClick={handleReject}
-                className="flex-1 bg-[#747474] text-white py-[7px] md:rounded-[13px] rounded-[11px] md:text-[16px] text-[15px] leading-[23px] h-[38px]"
-              >
-                Reject
-              </button>
-            </>
-          )}
+          {renderStatus()}
         </div>
       </div>
     </article>
