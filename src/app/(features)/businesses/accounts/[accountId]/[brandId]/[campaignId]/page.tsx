@@ -58,7 +58,7 @@ export default function CampaignDetailsPage() {
           </button>
         </div>
 
-        <CampaignDetails campaign={campaign} />
+        <CampaignDetails campaign={campaign} campaignId={params.campaignId as string} />
       </div>
     </div>
   );
