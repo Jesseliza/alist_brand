@@ -156,6 +156,7 @@ export type Campaign = {
   // Campaign posts
   campaignPosts?: CampaignPost[];
   offer_status?: string;
+  is_dedicated?: number;
 
   // Timestamps
   createdAt: Date;

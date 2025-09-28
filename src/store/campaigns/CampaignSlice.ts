@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   CampaignsState,
+  GetCampaignsPayload,
   GetCampaignDetailsPayload,
   UpdateCampaignStatusPayload,
 } from '../../types/entities/campaign';
@@ -17,7 +18,10 @@ const campaignsSlice = createSlice({
   name: 'campaigns',
   initialState,
   reducers: {
-    getCampaignsStart: (state, action) => {
+    getCampaignsStart: (
+      state,
+      action: PayloadAction<GetCampaignsPayload>
+    ) => {
       state.loading = true;
       state.error = null;
     },
@@ -35,7 +39,10 @@ const campaignsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    getMoreCampaignsStart: (state, action) => {
+    getMoreCampaignsStart: (
+      state,
+      action: PayloadAction<GetCampaignsPayload>
+    ) => {
       state.loading = true;
     },
     getMoreCampaignsSuccess: (state, action) => {
