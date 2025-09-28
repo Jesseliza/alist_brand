@@ -239,6 +239,9 @@ export interface CampaignDisplay {
   vendorName: string;
   status: string;
   thumbnailUrl?: string;
+  brandLogo?: string | null;
+  brandName?: string;
+  creatorApprovalType?: 'Automated' | 'Manual';
   campaignType?: 'WalkIn' | 'Delivery' | 'Online' | 'Exclusive';
   offerType?: 'Barter' | 'Paid' | 'BarterAndPaid';
   startDate?: string;

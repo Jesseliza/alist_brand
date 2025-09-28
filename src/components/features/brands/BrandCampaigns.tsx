@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import CampaignCard from "../campaigns/CampaignCard";
-import BrandCampaignMobileCard from "./BrandCampaignMobileCard";
+import CampaignsMobileCard from "../campaigns/CampaignsMobileCard";
 import { FoodOffer } from "@/types/entities/brand";
 import { adaptFoodOfferToDisplay } from "@/utils/campaignAdapters";
 
@@ -24,13 +24,13 @@ export default function BrandCampaigns({
 }: BrandCampaignsProps) {
   const router = useRouter();
 
-  const handleCampaignClick = (campaignId: string) => {
-    router.push(`/businesses/accounts/${accountId}/${brandId}/${campaignId}`);
+  const handleCampaignClick = (campaignId: string | number) => {
+    router.push(`/businesses/campaigns/${campaignId}`);
   };
 
   const displayCampaigns = useMemo(
-    () => foodOffers.map((offer) => adaptFoodOfferToDisplay(offer, brandName, brandId)),
-    [foodOffers, brandName, brandId]
+    () => foodOffers.map((offer) => adaptFoodOfferToDisplay(offer, brandName, brandId, brandLogo)),
+    [foodOffers, brandName, brandId, brandLogo]
   );
 
   if (!displayCampaigns || displayCampaigns.length === 0) {
@@ -52,7 +52,7 @@ export default function BrandCampaigns({
           {displayCampaigns.map((campaign, index) => (
             <div
               key={`${campaign.campaignId}-${index}`}
-              onClick={() => handleCampaignClick(campaign.campaignId)}
+              onClick={() => handleCampaignClick(campaign.id)}
               className="cursor-pointer"
             >
               <CampaignCard campaign={campaign} />
@@ -64,10 +64,10 @@ export default function BrandCampaigns({
         {displayCampaigns.map((campaign, index) => (
           <div
             key={`${campaign.campaignId}-${index}`}
-            onClick={() => handleCampaignClick(campaign.campaignId)}
+            onClick={() => handleCampaignClick(campaign.id)}
             className="cursor-pointer"
           >
-            <BrandCampaignMobileCard campaign={campaign} />
+            <CampaignsMobileCard campaign={campaign} />
           </div>
         ))}
       </div>
