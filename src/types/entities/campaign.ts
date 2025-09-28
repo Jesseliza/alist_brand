@@ -198,6 +198,26 @@ export interface UpdateDedicatedPageStatusPayload {
   rejectReason?: string;
 }
 
+// API Responses
+export interface CampaignsApiResponse {
+  data: {
+    venues: {
+      data: CampaignSummary[];
+      current_page: number;
+      last_page: number;
+      per_page: number;
+      total: number;
+    };
+  };
+}
+
+export interface CampaignDetailsApiResponse {
+  data: {
+    data: Campaign;
+  };
+}
+
+
 // Redux Actions
 export interface GetCampaignsAction {
   type: string;
