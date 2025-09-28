@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import Checkbox from "@/components/general/CheckBox";
 import { Brand } from "@/types/entities";
-import { getDisplayName } from "@/utils/brandUtils";
 import { generateColorFromString } from "@/utils/colorGenerator";
 import { getInitials } from "@/utils/text";
 import Link from "next/link";
@@ -136,7 +135,7 @@ export default function BrandsTable({
                                 : ""
                             }`}
                           >
-                            {getDisplayName(brand)}
+                            {brand.name}
                           </span>
                         </div>
                       </Link>
@@ -152,7 +151,7 @@ export default function BrandsTable({
                     {brand.emailAddress}
                   </td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                    {brand.industry ? industryMap.get(brand.industry) || "N/A" : "N/A"}
+                    {industryMap.get(brand.industry) || "N/A"}
                   </td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
                     {brand.offersCount}
