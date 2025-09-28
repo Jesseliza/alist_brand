@@ -11,13 +11,22 @@ export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): Campaig
     status: summary.account_status,
     startDate: summary.start_date,
     endDate: summary.end_date,
+    thumbnailUrl: placeholderImage.src,
+    brandLogo: null,
+    brandName: summary.venue.venue_title,
+    creatorApprovalType: summary.account_status === "Approved" ? "Automated" : "Manual",
+    campaignType: 'Delivery',
+    offerType: 'Barter',
+    duration: 0,
+    durationUnit: 'Days',
   };
 };
 
 export const adaptFoodOfferToDisplay = (
   offer: FoodOffer,
   brandName: string,
-  brandId: string
+  brandId: string,
+  brandLogo: string
 ): CampaignDisplay => {
   const startDate = new Date(offer.start_date);
   const endDate = new Date(offer.end_date);
@@ -31,8 +40,11 @@ export const adaptFoodOfferToDisplay = (
     vendorName: brandName,
     status: offer.account_status,
     thumbnailUrl: placeholderImage.src,
-    campaignType: 'Delivery', // Assuming default, as this is not in FoodOffer
-    offerType: 'Barter', // Assuming default
+    brandLogo: brandLogo,
+    brandName: brandName,
+    creatorApprovalType: offer.account_status === "Approved" ? "Automated" : "Manual",
+    campaignType: 'Delivery',
+    offerType: 'Barter',
     startDate: offer.start_date,
     endDate: offer.end_date,
     duration: daysRemaining > 0 ? daysRemaining : 0,

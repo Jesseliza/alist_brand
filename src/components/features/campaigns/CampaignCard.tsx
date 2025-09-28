@@ -1,51 +1,178 @@
+import Image from "next/image";
 import { CampaignDisplay } from "@/types/entities/campaign";
+import { generateColorFromString } from "@/utils/colorGenerator";
+import { getInitials } from "@/utils/text";
 
 export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }) {
-  const { title, vendorName, status } = campaign;
-  const isActive = status !== "Pending";
+  const {
+    title,
+    vendorName,
+    status,
+    thumbnailUrl,
+    brandLogo,
+    brandName,
+    campaignType,
+    offerType,
+    duration,
+    durationUnit,
+  } = campaign;
+
+  const isActive = status !== "Pending" && status !== "pending";
+
+  const getCampaignTypeDisplay = (type?: string) => {
+    switch (type) {
+      case "WalkIn":
+        return "Walk in";
+      case "Delivery":
+        return "Delivery";
+      case "Online":
+        return "Online";
+      case "Exclusive":
+        return "Exclusive";
+      default:
+        return type || "N/A";
+    }
+  };
+
+  const getModeIcon = () => {
+    if (campaignType === "WalkIn") {
+      return isActive
+        ? "/icons/campaign/card/walk-approved.svg"
+        : "/icons/campaign/card/walk-pending-light.svg";
+    } else if (campaignType === "Delivery") {
+      return isActive
+        ? "/icons/campaign/card/delivery-approved.svg"
+        : "/icons/campaign/card/delivery-pending-light.svg";
+    }
+    return isActive
+      ? "/icons/campaign/card/delivery-approved.svg"
+      : "/icons/campaign/card/delivery-pending-light.svg";
+  };
+
+  const getBarterIcon = () => {
+    return isActive
+      ? "/icons/campaign/card/barter-approved.svg"
+      : "/icons/campaign/card/barter-pending-light.svg";
+  };
 
   const handleEditClick = () => {
-    // TODO: Implement edit functionality
     console.log("Edit clicked for campaign:", campaign.id);
   };
 
   const handleRemoveClick = () => {
-    // TODO: Implement remove functionality
     console.log("Remove clicked for campaign:", campaign.id);
   };
 
   return (
-    <article className="w-full bg-white rounded-[13px] overflow-hidden shadow-md p-4 flex flex-col h-full">
-      <div className="flex-grow">
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="text-[15px] font-medium leading-[23px] text-[#4F4F4F] pr-2">
+    <article className="w-full bg-white rounded-[13px] overflow-hidden">
+      <div className="h-[90px] w-full relative bg-[#E1E1E1]">
+        {thumbnailUrl && (
+          <Image
+            src={thumbnailUrl}
+            alt={`${title} header`}
+            fill
+            className="object-cover"
+          />
+        )}
+        <div className="w-[90px] h-[90px] absolute top-[39px] left-[24px] bg-white rounded-full border-5 border-[#E1E1E1] flex items-center justify-center overflow-hidden">
+          {brandLogo ? (
+            <Image
+              src={brandLogo}
+              alt="Brand logo"
+              fill
+              className="object-cover rounded-full aspect-square"
+            />
+          ) : (
+            <div
+              className="h-full w-full flex items-center justify-center"
+              style={{
+                backgroundColor: generateColorFromString(brandName || title),
+              }}
+            >
+              <span className="text-white text-3xl font-semibold">
+                {getInitials(brandName || title)}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="pt-[35px] pb-[15px] px-[21px]">
+        <div className="">
+          <h3 className="text-[15px] font-medium leading-[23px] text-[#4F4F4F]">
             {title}
           </h3>
-          <div
-            className={`px-3 py-1 text-xs rounded-full text-white flex-shrink-0 ${
-              isActive ? "bg-[#00CC86]" : "bg-[#636363]"
-            }`}
-          >
-            {status}
+        </div>
+        <div className="flex items-center justify-between mb-[15px]">
+          <p className="text-[13px] text-[#414141] leading-[20px]">
+            By {vendorName}
+          </p>
+          <div className="flex gap-[4.5px] items-center">
+            <Image
+              src={isActive ? "/icons/campaign/card/active-light.svg" : "/icons/campaign/card/pending-light.svg"}
+              alt={status}
+              width={11.6}
+              height={11.6}
+            />
+            <p className="text-[13px] text-[#787878] leading-[20px]">
+              {isActive ? "Active" : "Pending"}
+            </p>
           </div>
         </div>
-        <p className="text-[13px] text-[#414141] leading-[20px] mb-4">
-          By {vendorName}
-        </p>
-      </div>
-      <div className="flex gap-[9px] mt-auto">
-        <button
-          onClick={handleEditClick}
-          className="flex-1 bg-[#00A4B6] text-[15px] text-white py-[9px] rounded-[11px] font-medium leading-[23px]"
-        >
-          Edit
-        </button>
-        <button
-          onClick={handleRemoveClick}
-          className="flex-1 bg-[#787878] text-[15px]  text-white py-[9px] rounded-[11px] font-medium leading-[23px]"
-        >
-          Remove
-        </button>
+        <hr className="border-[#F2F2F2] mb-[15px]" />
+        <div className="grid grid-cols-3 gap-[9px] mb-[13px]">
+          <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
+            <div className="h-[30.65px] flex items-center justify-center">
+              <Image
+                src={getModeIcon()}
+                alt={campaignType || "Campaign"}
+                width={campaignType === "WalkIn" ? 18.04 : 31.87}
+                height={campaignType === "WalkIn" ? 29.65 : 30.65}
+              />
+            </div>
+            <span className="text-[12px] text-[#414141] leading-[20px]">
+              {getCampaignTypeDisplay(campaignType)}
+            </span>
+          </div>
+          <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
+            <div className="h-[30.65px] flex items-center justify-center">
+              <Image
+                src={getBarterIcon()}
+                alt="Barter"
+                width={24}
+                height={25.83}
+              />
+            </div>
+            <span className="text-[12px] text-[#414141] font-medium">
+              {offerType ?? 'N/A'}
+            </span>
+          </div>
+          <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
+            <div className="h-[30.65px] flex items-center justify-center">
+              <span
+                className={`text-[21px] font-bold leading-[31px] ${
+                  isActive ? "text-[#00A4B6]" : "text-[#505050]"
+                }`}
+              >
+                {duration ?? 'N/A'}
+              </span>
+            </div>
+            <span className="text-[12px] text-[#414141] font-medium">
+              {durationUnit ?? ''}
+            </span>
+          </div>
+        </div>
+        <div className="flex gap-[9px]">
+          <button
+            onClick={handleEditClick}
+            className="flex-1 bg-[#00A4B6] text-[15px] text-white py-[9px] rounded-[11px] font-medium leading-[23px]">
+            Edit
+          </button>
+          <button
+            onClick={handleRemoveClick}
+            className="flex-1 bg-[#787878] text-[15px]  text-white py-[9px] rounded-[11px] font-medium leading-[23px]">
+            Remove
+          </button>
+        </div>
       </div>
     </article>
   );

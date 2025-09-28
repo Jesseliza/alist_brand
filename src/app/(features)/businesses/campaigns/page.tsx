@@ -2,9 +2,10 @@
 
 import CampaignsTable from "@/components/features/campaigns/CampaignsTable";
 import CampaignCard from "@/components/features/campaigns/CampaignCard";
-import CampaignsMobileCard from "@/components/features/campaigns/CampaignMobileCard";
+import CampaignsMobileCard from "@/components/features/campaigns/CampaignsMobileCard";
 import TableCardsToggler from "@/components/general/TableCardsToggler";
 import Pagination from "@/components/general/Pagination";
+import { adaptCampaignSummaryToDisplay } from "@/utils/campaignAdapters";
 import { useEffect, useState, useRef, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -13,13 +14,10 @@ import { getCampaignsStart, getMoreCampaignsStart, updateCampaignStatusStart } f
 import { setSearchTerm } from "@/store/search/searchSlice";
 import { RootState } from "@/store/store";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
-import SortDropdown from "@/components/general/dropdowns/SortDropdown";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
-import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/general/Loader";
 import InlineLoader from "@/components/general/InlineLoader";
-import { adaptCampaignSummaryToDisplay } from "@/utils/campaignAdapters";
 
 export default function CampaignsPage() {
   const router = useRouter();
@@ -35,11 +33,6 @@ export default function CampaignsPage() {
   const [view, setView] = useState<"table" | "card">("table");
   const [mobilePage, setMobilePage] = useState(1);
   const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
-
-  const displayCampaigns = useMemo(
-    () => campaigns.map(adaptCampaignSummaryToDisplay),
-    [campaigns]
-  );
 
   const debouncedSearch = useDebounce(searchTerm, 500);
 
@@ -61,6 +54,11 @@ export default function CampaignsPage() {
       page: 1
     }));
   }, [debouncedSearch, dispatch]);
+
+  const displayCampaigns = useMemo(
+    () => campaigns.map(adaptCampaignSummaryToDisplay),
+    [campaigns]
+  );
 
   const handleAddCampaignClick = () => {
     // TODO: Update this route when the create campaign page is available
@@ -88,11 +86,6 @@ export default function CampaignsPage() {
       per_page: 10
     }));
     setMobilePage(nextPage);
-  };
-
-  const handleSortSelect = (value: string) => {
-    console.log("Sort selected:", value);
-    // Add your sort logic here
   };
 
   const handleCheckboxChange = (campaignId: string) => {
@@ -126,16 +119,6 @@ export default function CampaignsPage() {
           onChange={(e) => dispatch(setSearchTerm(e.target.value))}
           placeholder="Search campaigns"
         />
-        {/*
-        <div className="bg-white rounded-[11px] w-10 h-10  flex items-center justify-center aspect-square">
-          <Image
-            src="/icons/general/sort-1-light.svg"
-            alt="sort"
-            width={24.08}
-            height={14.61}
-          />
-        </div>
-        */}
       </div>
       <div className="py-5.5">
         <div className="max-w-[1428px] mx-auto">
@@ -160,7 +143,7 @@ export default function CampaignsPage() {
             </button>
           </div>
 
-          {loading && campaigns.length === 0 && <Loader />}
+          {loading && displayCampaigns.length === 0 && <Loader />}
           {error && <p className="text-red-500">Error: {error}</p>}
           {!error && (
             <>
@@ -175,18 +158,6 @@ export default function CampaignsPage() {
                       <CampaignsMobileCard campaign={campaign} />
                     </Link>
                   ))
-                )}
-                {loading && displayCampaigns.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
-                {pagination && displayCampaigns.length > 0 && displayCampaigns.length < pagination.total && !loading && (
-                  <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
-                    <button
-                      onClick={handleSeeMore}
-                      disabled={loading}
-                      className="disabled:text-gray-400"
-                    >
-                      {loading ? <InlineLoader /> : 'See More'}
-                    </button>
-                  </div>
                 )}
               </div>
               <div className="hidden md:block">
@@ -222,7 +193,6 @@ export default function CampaignsPage() {
                         ))
                       )}
                     </div>
-                    {loading && displayCampaigns.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
                   </>
                 )}
               </div>
