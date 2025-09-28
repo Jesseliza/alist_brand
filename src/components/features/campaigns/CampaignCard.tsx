@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { Campaign } from "@/types/entities";
+import { generateColorFromString } from "@/utils/colorGenerator";
+import { getInitials } from "@/utils/text";
 
 export default function CampaignCard({ campaign }: { campaign: Campaign }) {
   // Map Campaign properties to component state
@@ -74,14 +76,25 @@ export default function CampaignCard({ campaign }: { campaign: Campaign }) {
             className="object-cover"
           />
         )}
-        <div className="w-[90px] h-[90px] absolute top-[39px] left-[24px] bg-white rounded-full border-5 border-[#E1E1E1]">
-          {logoSrc && (
+        <div className="w-[90px] h-[90px] absolute top-[39px] left-[24px] bg-white rounded-full border-5 border-[#E1E1E1] flex items-center justify-center overflow-hidden">
+          {logoSrc ? (
             <Image
               src={logoSrc}
               alt="Brand logo"
               fill
               className="object-cover rounded-full aspect-square"
             />
+          ) : (
+            <div
+              className="h-full w-full flex items-center justify-center"
+              style={{
+                backgroundColor: generateColorFromString(campaign.brandName),
+              }}
+            >
+              <span className="text-white text-3xl font-semibold">
+                {getInitials(campaign.brandName)}
+              </span>
+            </div>
           )}
         </div>
       </div>
