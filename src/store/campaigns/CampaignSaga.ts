@@ -26,7 +26,7 @@ import {
 function* getCampaignsSaga(action: GetCampaignsAction) {
   try {
     const response = yield call(axiosInstance.post, '/api/campaigns', action.payload);
-    yield put(getCampaignsSuccess(response.data.venues));
+    yield put(getCampaignsSuccess(response.data));
   } catch (error: any) {
     yield put(getCampaignsFailure(error.message));
   }
@@ -35,7 +35,7 @@ function* getCampaignsSaga(action: GetCampaignsAction) {
 function* getMoreCampaignsSaga(action: GetCampaignsAction) {
   try {
     const response = yield call(axiosInstance.post, '/api/campaigns', action.payload);
-    yield put(getMoreCampaignsSuccess(response.data.venues));
+    yield put(getMoreCampaignsSuccess(response.data));
   } catch (error: any) {
     yield put(getCampaignsFailure(error.message));
   }
@@ -43,8 +43,8 @@ function* getMoreCampaignsSaga(action: GetCampaignsAction) {
 
 function* updateCampaignStatusSaga(action: UpdateCampaignStatusAction) {
   try {
-    const { id, ...payload } = action.payload;
-    yield call(axiosInstance.post, `/api/campaign/${id}/status`, payload);
+    const { id, status } = action.payload;
+    yield call(axiosInstance.post, `/campaign/${id}/status`, { status });
     yield put(updateCampaignStatusSuccess());
   } catch (error: any) {
     yield put(updateCampaignStatusFailure(error.message));
@@ -55,7 +55,7 @@ function* getCampaignDetailsSaga(action: GetCampaignDetailsAction) {
   try {
     const { id } = action.payload;
     const response = yield call(axiosInstance.get, `/api/campaign/${id}`);
-    yield put(getCampaignDetailsSuccess(response.data.data));
+    yield put(getCampaignDetailsSuccess(response.data));
   } catch (error: any) {
     yield put(getCampaignDetailsFailure(error.message));
   }
