@@ -1,4 +1,4 @@
-import { Campaign, CampaignSummary, CampaignDisplay } from "@/types/entities/campaign";
+import { Campaign, CampaignSummary, CampaignDisplay, TimeUnit } from "@/types/entities/campaign";
 import { FoodOffer } from "@/types/entities/brand";
 import placeholderImage from "@/assets/images/campaigns/10.jpg";
 
@@ -34,7 +34,7 @@ export const adaptCampaignToDisplay = (campaign: Campaign): CampaignDisplay => {
   const campaignWithStatus = campaign as Campaign & { account_status: string };
 
   let duration;
-  let durationUnit;
+  let durationUnit: TimeUnit | undefined;
 
   if (campaign.start_date && campaign.end_date) {
     const startDate = new Date(campaign.start_date);
