@@ -6,6 +6,10 @@ interface CampaignPlansProps {
 }
 
 export default function CampaignPlans({ campaign }: CampaignPlansProps) {
+  if (!campaign?.campaignPlan) {
+    return null;
+  }
+
   return (
     <div>
       <div className=" mt-5 mb-4">
