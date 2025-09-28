@@ -12,7 +12,7 @@ import Reviews from "./tabs/Reviews";
 
 const tabs = ["Creators", "Overview", "Availabilites", "Posts", "Reviews"];
 
-export default function CampaignDetails({ campaign }: { campaign: Campaign }) {
+export default function CampaignDetails({ campaign, campaignId }: { campaign: Campaign, campaignId: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [selectedIndex, setSelectedIndex] = useState(1); // Default to Overview (index 1)
@@ -64,7 +64,7 @@ export default function CampaignDetails({ campaign }: { campaign: Campaign }) {
           {tabs.map((tab) => (
             <TabPanel key={tab}>
               {tab === "Creators" && <Creators campaign={campaign} />}
-              {tab === "Overview" && <Overview campaign={campaign} />}
+              {tab === "Overview" && <Overview campaign={campaign} campaignId={campaignId} />}
               {tab === "Availabilites" && <Availabilites />}
               {tab === "Posts" && <Posts campaign={campaign} />}
               {tab === "Reviews" && <Reviews campaign={campaign} />}

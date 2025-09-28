@@ -1,23 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "next/navigation";
-import { getCampaignDetailsStart, updateCampaignStatusStart } from "@/store/campaigns/CampaignSlice";
+import { useParams, useRouter } from "next/navigation";
+import { getCampaignDetailsStart } from "@/store/campaigns/CampaignSlice";
 import { RootState } from "@/store/store";
 import Loader from "@/components/general/Loader";
-import UnifiedTabs from "@/components/general/UnifiedTabs";
+import CampaignDetails from "@/components/features/campaigns/CampaignDetails";
+import Image from "next/image";
 
 export default function CampaignDetailsPage() {
   const dispatch = useDispatch();
   const params = useParams();
+  const router = useRouter();
   const { campaignId } = params;
 
   const { campaign, loading, error } = useSelector(
     (state: RootState) => state.campaigns
   );
-
-  const [activeTab, setActiveTab] = useState("Overview");
 
   useEffect(() => {
     if (campaignId) {
@@ -25,16 +25,8 @@ export default function CampaignDetailsPage() {
     }
   }, [dispatch, campaignId]);
 
-  const handleApprove = () => {
-    if (campaignId) {
-      dispatch(updateCampaignStatusStart({ id: campaignId as string, status: "Approved" }));
-    }
-  };
-
-  const handleReject = () => {
-    if (campaignId) {
-      dispatch(updateCampaignStatusStart({ id: campaignId as string, status: "Rejected" }));
-    }
+  const handleBackClick = () => {
+    router.back();
   };
 
   if (loading) {
@@ -50,42 +42,32 @@ export default function CampaignDetailsPage() {
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">{campaign?.title || "Campaign Details"}</h1>
-
-      <UnifiedTabs
-        tabs={["Overview"]}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
-
-      {activeTab === "Overview" && (
-        <div className="pt-6">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Campaign Overview</h2>
-            <div className="space-y-2">
-              <p><strong>ID:</strong> {campaign?.campaignId || campaignId}</p>
-              <p><strong>Status:</strong> {campaign?.creatorApprovalType || "N/A"}</p>
-              <p><strong>Brand:</strong> {campaign?.brandName || "N/A"}</p>
-              <p><strong>Offer Type:</strong> {campaign?.offerType || "N/A"}</p>
-            </div>
-            <div className="mt-6 flex space-x-4">
-              <button
-                onClick={handleApprove}
-                className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
-              >
-                Approve
-              </button>
-              <button
-                onClick={handleReject}
-                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-              >
-                Reject
-              </button>
-            </div>
-          </div>
+    <div className="py-6">
+      <div className="max-w-[1428px] mx-auto bg-white rounded-[13px]">
+        <div className="flex items-center justify-between py-[20.5px] px-[27px] border-b border-[#E2E2E2]">
+          <button onClick={handleBackClick} className="cursor-pointer">
+            <Image
+              src="/icons/campaign/details/back-arrow.svg"
+              alt="back"
+              width={35}
+              height={35}
+            />
+          </button>
+          <h4 className="text-[18px] leading-[27px] font-semibold text-[#4F4F4F]">
+            {campaign.title}
+          </h4>
+          <button className="cursor-pointer">
+            <Image
+              src="/icons/campaign/details/menu-dots.svg"
+              alt="share"
+              width={35}
+              height={35}
+            />
+          </button>
         </div>
-      )}
+
+        <CampaignDetails campaign={campaign} campaignId={campaignId as string} />
+      </div>
     </div>
   );
 }
