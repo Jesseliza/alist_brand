@@ -174,13 +174,13 @@ export default function CampaignsPage() {
                 )}
                 {pagination &&
                   pagination.current_page < pagination.last_page && (
-                    <div className="text-center mt-4">
+                    <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
                       <button
                         onClick={handleSeeMore}
                         disabled={loading}
-                        className="bg-blue-500 text-white rounded-lg px-4 py-2 w-full"
+                        className="disabled:text-gray-400"
                       >
-                        {loading ? <InlineLoader /> : "See More"}
+                        {loading ? <InlineLoader /> : 'See More'}
                       </button>
                     </div>
                   )}
