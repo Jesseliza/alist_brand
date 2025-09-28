@@ -55,7 +55,7 @@ const campaignsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    getCampaignDetailsStart: (state) => {
+    getCampaignDetailsStart: (state, action) => {
       state.loading = true;
       state.error = null;
     },
