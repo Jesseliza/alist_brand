@@ -3,6 +3,11 @@ import { FoodOffer } from "@/types/entities/brand";
 import placeholderImage from "@/assets/images/campaigns/10.jpg";
 
 export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): CampaignDisplay => {
+  const startDate = new Date(summary.start_date);
+  const endDate = new Date(summary.end_date);
+  const timeDiff = endDate.getTime() - startDate.getTime();
+  const daysDuration = Math.round(timeDiff / (1000 * 3600 * 24)) + 1;
+
   return {
     id: summary.id,
     campaignId: summary.campaign_id,
@@ -17,7 +22,7 @@ export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): Campaig
     creatorApprovalType: summary.account_status === "Approved" ? "Automated" : "Manual",
     campaignType: 'Delivery',
     offerType: 'Barter',
-    duration: 0,
+    duration: daysDuration > 0 ? daysDuration : 0,
     durationUnit: 'Days',
   };
 };
@@ -27,6 +32,21 @@ export const adaptCampaignToDisplay = (campaign: Campaign): CampaignDisplay => {
   // We are assuming the detailed campaign object from the API also contains an `account_status`
   // property to align with the CampaignDisplay type.
   const campaignWithStatus = campaign as Campaign & { account_status: string };
+
+  let duration;
+  let durationUnit;
+
+  if (campaign.start_date && campaign.end_date) {
+    const startDate = new Date(campaign.start_date);
+    const endDate = new Date(campaign.end_date);
+    const timeDiff = endDate.getTime() - startDate.getTime();
+    const daysDuration = Math.round(timeDiff / (1000 * 3600 * 24)) + 1;
+    duration = daysDuration > 0 ? daysDuration : 0;
+    durationUnit = 'Days';
+  } else {
+    duration = campaign.advancedVisibility?.duration;
+    durationUnit = campaign.advancedVisibility?.unit;
+  }
 
   return {
     id: campaign.campaignId,
@@ -40,10 +60,10 @@ export const adaptCampaignToDisplay = (campaign: Campaign): CampaignDisplay => {
     creatorApprovalType: campaign.creatorApprovalType,
     campaignType: campaign.campaignType,
     offerType: campaign.offerType,
-    startDate: campaign.createdAt.toString(), // The full Campaign object doesn't have a specific start date
-    endDate: undefined, // The full Campaign object doesn't have a specific end date
-    duration: campaign.advancedVisibility?.duration,
-    durationUnit: campaign.advancedVisibility?.unit,
+    startDate: campaign.start_date || campaign.createdAt.toString(),
+    endDate: campaign.end_date,
+    duration: duration,
+    durationUnit: durationUnit,
   };
 };
 
@@ -56,7 +76,7 @@ export const adaptFoodOfferToDisplay = (
   const startDate = new Date(offer.start_date);
   const endDate = new Date(offer.end_date);
   const timeDiff = endDate.getTime() - startDate.getTime();
-  const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  const daysDuration = Math.round(timeDiff / (1000 * 3600 * 24)) + 1;
 
   return {
     id: offer.id,
@@ -72,7 +92,7 @@ export const adaptFoodOfferToDisplay = (
     offerType: 'Barter',
     startDate: offer.start_date,
     endDate: offer.end_date,
-    duration: daysRemaining > 0 ? daysRemaining : 0,
+    duration: daysDuration > 0 ? daysDuration : 0,
     durationUnit: 'Days',
   };
 };

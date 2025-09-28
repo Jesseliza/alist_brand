@@ -157,7 +157,7 @@ export default function CampaignsPage() {
           {error && <p className="text-red-500">Error: {error}</p>}
           {!error && (
             <>
-              <div className="md:hidden space-y-[7px]">
+              <div className="md:hidden space-y-4">
                 {displayCampaigns.length === 0 && !loading ? (
                   <div className="bg-white text-center py-10 text-gray-500">
                     No records found.
