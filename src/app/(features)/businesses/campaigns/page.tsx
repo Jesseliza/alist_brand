@@ -131,7 +131,11 @@ export default function CampaignsPage() {
               Add Campaign
             </button>
             <div className="w-auto">
-              <ActionDropdown onSelect={handleActionSelect} disabled={checkedRows.size === 0} />
+              <ActionDropdown
+                onSelect={handleActionSelect}
+                disabled={checkedRows.size === 0}
+                excludeActions={['delete', 'active', 'inactive']}
+              />
             </div>
           </div>
           <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
