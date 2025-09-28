@@ -2,15 +2,19 @@
 
 import CampaignsTable from "@/components/features/campaigns/CampaignsTable";
 import CampaignCard from "@/components/features/campaigns/CampaignCard";
-import CampaignsMobileCard from "@/components/features/campaigns/CampaignsMobileCard";
+import CampaignMobileCard from "@/components/features/campaigns/CampaignMobileCard";
 import TableCardsToggler from "@/components/general/TableCardsToggler";
 import Pagination from "@/components/general/Pagination";
 import { adaptCampaignSummaryToDisplay } from "@/utils/campaignAdapters";
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
-import { getCampaignsStart, getMoreCampaignsStart, updateCampaignStatusStart } from "@/store/campaigns/CampaignSlice";
+import {
+  getCampaignsStart,
+  getMoreCampaignsStart,
+  updateCampaignStatusStart,
+} from "@/store/campaigns/CampaignSlice";
 import { setSearchTerm } from "@/store/search/searchSlice";
 import { RootState } from "@/store/store";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
@@ -22,12 +26,9 @@ import InlineLoader from "@/components/general/InlineLoader";
 export default function CampaignsPage() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const {
-    campaigns,
-    pagination,
-    loading,
-    error,
-  } = useSelector((state: RootState) => state.campaigns);
+  const { campaigns, pagination, loading, error } = useSelector(
+    (state: RootState) => state.campaigns
+  );
 
   const { searchTerm } = useSelector((state: RootState) => state.search);
   const [view, setView] = useState<"table" | "card">("table");
@@ -48,17 +49,14 @@ export default function CampaignsPage() {
     }
 
     setMobilePage(1);
-    dispatch(getCampaignsStart({
-      search: debouncedSearch,
-      per_page: 10,
-      page: 1
-    }));
+    dispatch(
+      getCampaignsStart({
+        search: debouncedSearch,
+        per_page: 10,
+        page: 1,
+      })
+    );
   }, [debouncedSearch, dispatch]);
-
-  const displayCampaigns = useMemo(
-    () => campaigns.map(adaptCampaignSummaryToDisplay),
-    [campaigns]
-  );
 
   const handleAddCampaignClick = () => {
     // TODO: Update this route when the create campaign page is available
@@ -67,24 +65,30 @@ export default function CampaignsPage() {
   };
 
   const handlePageChange = (page: number) => {
-    dispatch(getCampaignsStart({
-      page,
-      search: searchTerm,
-      per_page: pagination?.per_page
-    }));
+    dispatch(
+      getCampaignsStart({
+        page,
+        search: searchTerm,
+        per_page: pagination?.per_page,
+      })
+    );
   };
 
   const handleItemsPerPageChange = (items: number) => {
-    dispatch(getCampaignsStart({ search: searchTerm, per_page: items, page: 1 }));
+    dispatch(
+      getCampaignsStart({ search: searchTerm, per_page: items, page: 1 })
+    );
   };
 
   const handleSeeMore = () => {
     const nextPage = mobilePage + 1;
-    dispatch(getMoreCampaignsStart({
-      page: nextPage,
-      search: debouncedSearch,
-      per_page: 10
-    }));
+    dispatch(
+      getMoreCampaignsStart({
+        page: nextPage,
+        search: debouncedSearch,
+        per_page: 10,
+      })
+    );
     setMobilePage(nextPage);
   };
 
@@ -111,6 +115,8 @@ export default function CampaignsPage() {
     }
   };
 
+  const displayCampaigns = campaigns.map(adaptCampaignSummaryToDisplay);
+
   return (
     <div>
       <div className="md:hidden pt-4 flex items-center gap-[7px]">
@@ -134,7 +140,7 @@ export default function CampaignsPage() {
               <ActionDropdown
                 onSelect={handleActionSelect}
                 disabled={checkedRows.size === 0}
-                excludeActions={['delete', 'active', 'inactive']}
+                excludeActions={["delete", "active", "inactive"]}
               />
             </div>
           </div>
@@ -158,11 +164,26 @@ export default function CampaignsPage() {
                   </div>
                 ) : (
                   displayCampaigns.map((campaign) => (
-                    <Link key={campaign.id} href={`/businesses/campaigns/${campaign.id}`}>
-                      <CampaignsMobileCard campaign={campaign} />
+                    <Link
+                      key={campaign.id}
+                      href={`/businesses/campaigns/${campaign.id}`}
+                    >
+                      <CampaignMobileCard campaign={campaign} />
                     </Link>
                   ))
                 )}
+                {pagination &&
+                  pagination.current_page < pagination.last_page && (
+                    <div className="text-center mt-4">
+                      <button
+                        onClick={handleSeeMore}
+                        disabled={loading}
+                        className="bg-blue-500 text-white rounded-lg px-4 py-2 w-full"
+                      >
+                        {loading ? <InlineLoader /> : "See More"}
+                      </button>
+                    </div>
+                  )}
               </div>
               <div className="hidden md:block">
                 {view === "table" ? (
@@ -191,12 +212,24 @@ export default function CampaignsPage() {
                         </div>
                       ) : (
                         displayCampaigns.map((campaign) => (
-                          <Link key={campaign.id} href={`/businesses/campaigns/${campaign.id}`}>
+                          <Link
+                            key={campaign.id}
+                            href={`/businesses/campaigns/${campaign.id}`}
+                          >
                             <CampaignCard campaign={campaign} />
                           </Link>
                         ))
                       )}
                     </div>
+                    {pagination && displayCampaigns.length > 0 && (
+                      <Pagination
+                        totalItems={pagination.total}
+                        itemsPerPage={pagination.per_page}
+                        currentPage={pagination.current_page}
+                        onPageChange={handlePageChange}
+                        onItemsPerPageChange={handleItemsPerPageChange}
+                      />
+                    )}
                   </>
                 )}
               </div>

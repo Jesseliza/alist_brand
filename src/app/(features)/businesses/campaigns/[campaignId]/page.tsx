@@ -37,7 +37,7 @@ export default function CampaignDetailsPage() {
     return <p className="text-red-500">Error: {error}</p>;
   }
 
-  if (!campaign && !loading) {
+  if (!campaign) {
     return <div>Campaign not found.</div>;
   }
 

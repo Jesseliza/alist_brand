@@ -7,7 +7,10 @@ interface BrandTabContentProps extends TabContentProps {
   brand: Partial<Brand> & {
     isEditMode: boolean;
     onFieldChange: (field: keyof Brand, value: string) => void;
-    onSave: (files: { tradeLicenseFile: File | null; vatCertificateFile: File | null }) => void;
+    onSave: (files: {
+      tradeLicenseFile: File | null;
+      vatCertificateFile: File | null;
+    }) => void;
     isSaving: boolean;
     isCreateMode: boolean;
     errors?: Partial<Record<keyof Brand, string>>;
@@ -18,7 +21,6 @@ export default function BrandTabContent({
   activeTab,
   brand,
 }: BrandTabContentProps) {
-
   const renderContent = () => {
     switch (activeTab) {
       case "Business Details":
@@ -40,7 +42,6 @@ export default function BrandTabContent({
               foodOffers={brand.Venue?.food_offers || []}
               brandName={brand.name || ""}
               brandLogo={brand.logo || ""}
-              accountId={brand.accountId || ""}
               brandId={brand.brandId || ""}
             />
           </div>

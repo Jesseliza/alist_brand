@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { CampaignDisplay } from "@/types/entities/campaign";
 
-export default function CampaignsMobileCard({
+export default function CampaignMobileCard({
   campaign,
 }: {
   campaign: CampaignDisplay;
@@ -53,7 +53,7 @@ export default function CampaignsMobileCard({
           {thumbnailUrl && (
             <Image
               src={thumbnailUrl}
-              alt={title}
+              alt={title ?? "Campaign thumbnail"}
               fill
               className="object-cover"
             />
@@ -63,10 +63,10 @@ export default function CampaignsMobileCard({
           <div className="flex items-center gap-2 mb-2">
             <div>
               <h3 className="text-[15px] font-semibold leading-[1.5] text-[#4F4F4F] mb-1.5">
-                {title}
+                {title ?? "Untitled Campaign"}
               </h3>
               <p className="text-[13px] font-medium text-[#414141] leading-[1.5]">
-                By {vendorName}
+                By {vendorName ?? "Unknown Vendor"}
               </p>
             </div>
           </div>
