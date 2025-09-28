@@ -3,7 +3,7 @@ import authSaga from './auth/authSaga';
 import accountSaga from './account/accountSaga';
 import brandSaga from './brand/brandSaga';
 import commonSaga from './common/commonSaga';
-import campaignsSaga from './campaigns/saga';
+import campaignsSaga from './campaigns/CampaignSaga';
 
 export default function* rootSaga() {
   yield all([

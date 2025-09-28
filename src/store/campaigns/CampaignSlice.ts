@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CampaignsState } from './types';
+import { CampaignsState } from '../../types/entities/campaign';
 
 const initialState: CampaignsState = {
   campaigns: [],

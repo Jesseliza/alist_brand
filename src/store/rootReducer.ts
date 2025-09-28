@@ -4,7 +4,7 @@ import accountReducer from './account/accountSlice';
 import brandReducer from './brand/brandSlice';
 import searchReducer from './search/searchSlice';
 import commonReducer from './common/commonSlice';
-import campaignsReducer from './campaigns/slice';
+import campaignsReducer from './campaigns/CampaignSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,

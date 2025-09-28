@@ -160,3 +160,59 @@ export type Campaign = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+// Simplified campaign type for listings
+export interface CampaignSummary {
+  id: string;
+  name: string;
+  status: string;
+}
+
+// API Payloads
+export interface GetCampaignsPayload {
+  search: string;
+}
+
+export interface UpdateCampaignStatusPayload {
+  id: string;
+  status: 'Approved' | 'Rejected';
+}
+
+export interface GetCampaignDetailsPayload {
+  id: string;
+}
+
+export interface UpdateDedicatedPageStatusPayload {
+  id: string;
+  status: 0 | 1;
+  rejectReason?: string;
+}
+
+// Redux Actions
+export interface GetCampaignsAction {
+  type: string;
+  payload: GetCampaignsPayload;
+}
+
+export interface UpdateCampaignStatusAction {
+  type: string;
+  payload: UpdateCampaignStatusPayload;
+}
+
+export interface GetCampaignDetailsAction {
+  type: string;
+  payload: GetCampaignDetailsPayload;
+}
+
+export interface UpdateDedicatedPageStatusAction {
+  type: string;
+  payload: UpdateDedicatedPageStatusPayload;
+}
+
+// Redux State
+export interface CampaignsState {
+  campaigns: CampaignSummary[];
+  campaign: Campaign | null;
+  loading: boolean;
+  error: string | null;
+}
