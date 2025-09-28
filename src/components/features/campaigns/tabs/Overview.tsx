@@ -108,23 +108,6 @@ export default function Overview({
       <CampaignPlans campaign={campaign} />
 
       <div className="mt-8">
-        <h3 className="text-lg font-semibold mb-2">Campaign Actions</h3>
-        <div className="flex space-x-4">
-          <button
-            onClick={handleApprove}
-            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
-          >
-            Approve Campaign
-          </button>
-          <button
-            onClick={handleReject}
-            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-          >
-            Reject Campaign
-          </button>
-        </div>
-      </div>
-      <div className="mt-8">
         <h3 className="text-lg font-semibold mb-2">Dedicated Page Actions</h3>
         <div className="flex space-x-4">
           <button
