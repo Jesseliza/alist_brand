@@ -4,6 +4,7 @@ import accountReducer from './account/accountSlice';
 import brandReducer from './brand/brandSlice';
 import searchReducer from './search/searchSlice';
 import commonReducer from './common/commonSlice';
+import campaignsReducer from './campaigns/slice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   brand: brandReducer,
   search: searchReducer,
   common: commonReducer,
+  campaigns: campaignsReducer,
 });
 
 export default rootReducer;
