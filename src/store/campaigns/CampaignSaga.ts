@@ -13,13 +13,13 @@ import {
   updateDedicatedPageStatusStart,
   updateDedicatedPageStatusSuccess,
   updateDedicatedPageStatusFailure,
-} from './slice';
+} from './CampaignSlice';
 import {
   GetCampaignsAction,
   UpdateCampaignStatusAction,
   GetCampaignDetailsAction,
   UpdateDedicatedPageStatusAction,
-} from './types';
+} from '../../types/entities/campaign';
 
 function* getCampaignsSaga(action: GetCampaignsAction) {
   try {
