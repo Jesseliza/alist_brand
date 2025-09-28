@@ -161,16 +161,24 @@ export type Campaign = {
   updatedAt: Date;
 };
 
-// Simplified campaign type for listings
+// Simplified campaign type for listings from API
 export interface CampaignSummary {
-  id: string;
-  name: string;
-  status: string;
+  id: number;
+  offer_title: string;
+  account_status: string;
+  campaign_id: string;
+  start_date: string;
+  end_date: string;
+  venue: {
+    venue_title: string;
+  };
 }
 
 // API Payloads
 export interface GetCampaignsPayload {
-  search: string;
+  search?: string;
+  page?: number;
+  per_page?: number;
 }
 
 export interface UpdateCampaignStatusPayload {
@@ -215,4 +223,10 @@ export interface CampaignsState {
   campaign: Campaign | null;
   loading: boolean;
   error: string | null;
+  pagination: {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+  } | null;
 }
