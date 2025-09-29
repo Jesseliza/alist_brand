@@ -33,7 +33,7 @@ export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): Campaig
     brandName: summary.venue.venue_title,
     creatorApprovalType: summary.account_status === "Approved" ? "Automated" : "Manual",
     campaignType: 'Delivery',
-    offerType: 'Barter',
+    offerType: summary.venue.category?.category ?? 'N/A',
     duration: daysDuration > 0 ? daysDuration : 0,
     durationUnit: 'Days',
     copyLinkUrl,

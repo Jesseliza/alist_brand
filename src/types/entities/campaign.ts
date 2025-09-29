@@ -177,6 +177,9 @@ export interface CampaignSummary {
   is_dedicated: number;
   venue: {
     venue_title: string;
+    category?: {
+      category?: string;
+    };
   };
 }
 
@@ -269,7 +272,7 @@ export interface CampaignDisplay {
   brandName?: string;
   creatorApprovalType?: 'Automated' | 'Manual';
   campaignType?: 'WalkIn' | 'Delivery' | 'Online' | 'Exclusive';
-  offerType?: 'Barter' | 'Paid' | 'BarterAndPaid';
+  offerType?: string;
   startDate?: string;
   endDate?: string;
   duration?: number;

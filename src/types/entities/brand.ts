@@ -101,6 +101,7 @@ export type Brand = {
   associateBackground: string;
   registrationDate: string;
   offersCount: number;
+  food_offers_count: number;
   campaignsCount: number;
   profileCompletion: number;
   files: number;

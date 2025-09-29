@@ -154,7 +154,7 @@ export default function AccountsTable({
                 {account.brandsCount}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
-                {account.campaignsCount}
+                {account.food_offers_count}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                 {account.signUpDate ? formatDate(account.signUpDate) : 'N/A'}
