@@ -9,12 +9,16 @@ interface CampaignsTableProps {
   campaigns: CampaignDisplay[];
   checkedRows: Set<string>;
   onCheckboxChange: (campaignId: string) => void;
+  onSelectAll: () => void;
+  isAllSelected: boolean;
 }
 
 export default function CampaignsTable({
   campaigns,
   checkedRows,
   onCheckboxChange,
+  onSelectAll,
+  isAllSelected,
 }: CampaignsTableProps) {
   const [copiedLink, setCopiedLink] = useState<string | null>(null);
 
@@ -35,7 +39,14 @@ export default function CampaignsTable({
             <th
               scope="col"
               className="pl-3 pr-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
-            ></th>
+            >
+              <input
+                type="checkbox"
+                className="h-5 w-5 rounded-md text-blue-600 focus:ring-blue-500"
+                checked={isAllSelected}
+                onChange={onSelectAll}
+              />
+            </th>
             <th
               scope="col"
               className="px-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
