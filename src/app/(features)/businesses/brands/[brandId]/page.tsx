@@ -18,7 +18,7 @@ import {
 } from "@/store/brand/brandSlice";
 import { RootState } from "@/store/store";
 import { fetchIndustries } from "@/store/common/commonSlice";
-import { deleteData } from "@/services/commonService";
+import { deleteData, postData } from "@/services/commonService";
 import toast from "react-hot-toast";
 
 export default function BrandPage() {
