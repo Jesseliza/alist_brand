@@ -119,7 +119,7 @@ export default function CampaignsTable({
                   >
                     <div className="h-[33px] w-[70px] rounded-[6px] overflow-hidden relative flex-shrink-0">
                       <Image
-                        src={campaign.thumbnailUrl || '/images/default-banner.png'}
+                        src={campaign.thumbnailUrl || '/images/no_image.png'}
                         alt={campaign.title}
                         fill
                         className="object-cover"
