@@ -89,12 +89,6 @@ export default function CampaignsTable({
             >
               View
             </th>
-            <th
-              scope="col"
-              className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
-            >
-              Comments
-            </th>
           </tr>
         </thead>
 
@@ -103,10 +97,6 @@ export default function CampaignsTable({
             <tr key={campaign.id} className="odd:bg-[#F8F8F8]">
               <td className="px-4.75 py-2.5 whitespace-nowrap">
                 <div className="flex items-center">
-                  <Checkbox
-                    checked={checkedRows.has(campaign.id.toString())}
-                    onChange={() => onCheckboxChange(campaign.id.toString())}
-                  />
                   <Link
                     href={`/businesses/campaigns/${campaign.id}`}
                     className="flex items-center ml-3 cursor-pointer"
@@ -184,14 +174,6 @@ export default function CampaignsTable({
                     height={14.48}
                   />
                 </Link>
-              </td>
-              <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
-                <button
-                  onClick={() => console.log("Comment clicked for campaign " + campaign.id)}
-                  className="w-[110px] px-4.25 py-1 bg-[#636363] text-white rounded-full flex justify-center items-center gap-2"
-                >
-                  Comments
-                </button>
               </td>
             </tr>
           ))}
