@@ -91,21 +91,29 @@ export const adaptFoodOfferToDisplay = (
   const timeDiff = endDate.getTime() - startDate.getTime();
   const daysDuration = Math.round(timeDiff / (1000 * 3600 * 24)) + 1;
 
+  const imageUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
+  const thumbnailUrl =
+    imageUrl && offer.banner_image
+      ? `${imageUrl}/assets/uploads/foodoffers/${offer.banner_image}`
+      : "/images/no_image.png";
+
   return {
     id: offer.id,
     campaignId: offer.campaign_id,
     title: offer.offer_title,
     vendorName: brandName,
     status: offer.account_status,
-    thumbnailUrl: '/images/no_image.png',
+    thumbnailUrl,
     brandLogo: brandLogo,
     brandName: brandName,
-    creatorApprovalType: offer.account_status === "Approved" ? "Automated" : "Manual",
-    campaignType: 'Delivery',
-    offerType: 'Barter',
+    creatorApprovalType:
+      offer.account_status === "Approved" ? "Automated" : "Manual",
+    campaignType: "Delivery",
+    offerType: "Barter",
     startDate: offer.start_date,
     endDate: offer.end_date,
     duration: daysDuration > 0 ? daysDuration : 0,
-    durationUnit: 'Days',
+    durationUnit: "Days",
+    is_dedicated: offer.is_dedicated,
   };
 };
