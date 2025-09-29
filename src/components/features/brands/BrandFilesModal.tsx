@@ -170,7 +170,7 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-transparent flex justify-center items-center z-50">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl">
         <div className="bg-[#00A4B6] p-4 flex justify-between items-center rounded-t-lg">
           <h3 className="text-xl font-semibold text-white">Add Venue Files</h3>

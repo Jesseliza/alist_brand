@@ -29,7 +29,7 @@ export default function PinModal({ isOpen, onClose, onSubmit, loading, error }: 
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-transparent flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
         <h2 className="text-xl font-bold mb-4">Pin Validation</h2>
         <form onSubmit={handleSubmit}>
