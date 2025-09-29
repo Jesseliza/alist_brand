@@ -5,7 +5,7 @@ import CampaignCreatorCard from "./Creators/CampaignCreatorCard";
 import Pagination from "@/components/general/Pagination";
 import { updateCreatorStatus } from "@/services/commonService";
 import RejectReasonModal from "../RejectReasonModal";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const ITEMS_PER_PAGE = 6;
 
