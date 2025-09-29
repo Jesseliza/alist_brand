@@ -18,7 +18,6 @@ import {
 import { setSearchTerm } from "@/store/search/searchSlice";
 import { RootState } from "@/store/store";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
-import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import Link from "next/link";
 import Loader from "@/components/general/Loader";
 import InlineLoader from "@/components/general/InlineLoader";
@@ -33,7 +32,6 @@ export default function CampaignsPage() {
   const { searchTerm } = useSelector((state: RootState) => state.search);
   const [view, setView] = useState<"table" | "card">("table");
   const [mobilePage, setMobilePage] = useState(1);
-  const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
 
   const debouncedSearch = useDebounce(searchTerm, 500);
 
@@ -92,27 +90,6 @@ export default function CampaignsPage() {
     setMobilePage(nextPage);
   };
 
-  const handleCheckboxChange = (campaignId: string) => {
-    setCheckedRows((prevCheckedRows) => {
-      const newCheckedRows = new Set(prevCheckedRows);
-      if (newCheckedRows.has(campaignId)) {
-        newCheckedRows.delete(campaignId);
-      } else {
-        newCheckedRows.add(campaignId);
-      }
-      return newCheckedRows;
-    });
-  };
-
-  const handleActionSelect = (value: string) => {
-    if (value === "update") {
-      const selectedId = checkedRows.values().next().value;
-      router.push(`/businesses/campaigns/${selectedId}/edit`);
-      setCheckedRows(new Set());
-    } else {
-      console.log("Action selected:", value);
-    }
-  };
 
   const displayCampaigns = campaigns.map(adaptCampaignSummaryToDisplay);
 
@@ -181,8 +158,6 @@ export default function CampaignsPage() {
                   <>
                     <CampaignsTable
                       campaigns={displayCampaigns}
-                      checkedRows={checkedRows}
-                      onCheckboxChange={handleCheckboxChange}
                     />
                     {pagination && displayCampaigns.length > 0 && (
                       <Pagination

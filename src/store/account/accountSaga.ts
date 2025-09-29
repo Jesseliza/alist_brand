@@ -168,7 +168,6 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
             subscriptionCount: 0,
             brandsCount: apiAccount.venues_count || 0,
             campaignsCount: apiAccount.food_offers_count || 0,
-            food_offers_count: apiAccount.food_offers_count || 0,
             status: apiAccount.status,
             registration_type: "accounts",
           };
@@ -228,7 +227,6 @@ function* handleFetchMoreAccounts(action: ReturnType<typeof fetchMoreAccountsReq
             subscriptionCount: 0,
             brandsCount: apiAccount.venues_count || 0,
             campaignsCount: apiAccount.food_offers_count || 0,
-            food_offers_count: apiAccount.food_offers_count || 0,
             status: apiAccount.status,
             registration_type: "accounts",
           };
@@ -304,7 +302,6 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
           subscriptionCount: 0,
           brandsCount: apiAccount.venues_count,
           campaignsCount: apiAccount.food_offers_count || 0,
-          food_offers_count: apiAccount.food_offers_count || 0,
           status: apiAccount.status,
           registration_type: "accounts",
         };
@@ -380,7 +377,6 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
           subscriptionCount: 0,
           brandsCount: apiAccount.venues_count || 0,
           campaignsCount: apiAccount.food_offers_count || 0,
-          food_offers_count: apiAccount.food_offers_count || 0,
           status: apiAccount.status,
           registration_type: "accounts",
         };
@@ -444,7 +440,6 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
           subscriptionCount: 0,
           brandsCount: apiAccount.venues_count || 0,
           campaignsCount: apiAccount.food_offers_count || 0,
-          food_offers_count: apiAccount.food_offers_count || 0,
           status: apiAccount.status,
           registration_type: "accounts",
         };
