@@ -97,10 +97,10 @@ export default function CampaignsTable({
             <tr key={campaign.id} className="odd:bg-[#F8F8F8]">
               <td className="px-4.75 py-2.5 whitespace-nowrap">
                 <div className="flex items-center">
-                  <Checkbox
+                  {/* <Checkbox
                     checked={checkedRows.has(campaign.id.toString())}
                     onChange={() => onCheckboxChange(campaign.id.toString())}
-                  />
+                  /> */}
                   <Link
                     href={`/businesses/campaigns/${campaign.id}`}
                     className="flex items-center ml-3 cursor-pointer"
