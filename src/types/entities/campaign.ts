@@ -155,6 +155,7 @@ export type Campaign = {
 
   // Campaign posts
   campaignPosts?: CampaignPost[];
+  account_status?: string;
   offer_status?: string;
   is_dedicated?: number;
   start_date?: string;
@@ -193,6 +194,7 @@ export interface GetCampaignsPayload {
 export interface UpdateCampaignStatusPayload {
   id: string;
   status: 'Approved' | 'Rejected';
+  rejectReason?: string;
 }
 
 export interface GetCampaignDetailsPayload {

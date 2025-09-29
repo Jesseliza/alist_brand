@@ -16,6 +16,7 @@ export default function CampaignMobileCard({
     durationUnit,
     startDate,
     endDate,
+    is_dedicated,
   } = campaign;
 
   const getCampaignTypeDisplay = (type?: string) => {
@@ -76,7 +77,7 @@ export default function CampaignMobileCard({
                 width={10.01}
                 height={10.01}
               />
-              <p>{getOfferTypeDisplay(offerType)}</p>
+              <p>{is_dedicated === 1 ? "Dedicated" : "Normal"}</p>
             </div>
             <div
               className={`text-[#757575] inline-flex items-center justify-center gap-1.5 `}
@@ -114,7 +115,7 @@ export default function CampaignMobileCard({
                 />
               )}
               <span className="text-[13px] leading-[1.5]">
-                {getCampaignTypeDisplay(campaignType)}
+                {getOfferTypeDisplay(offerType)}
               </span>
             </div>
             <div className="text-[13px] leading-[1.5] text-[#757575]">

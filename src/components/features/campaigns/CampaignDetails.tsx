@@ -3,9 +3,11 @@
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Campaign } from "@/types/entities";
+import { RootState } from "@/store/store";
 import { updateCampaignStatusStart } from "@/store/campaigns/CampaignSlice";
+import RejectReasonModal from "./RejectReasonModal";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
 import Availabilites from "./tabs/Availabilites";
@@ -18,14 +20,21 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
+  const { loading } = useSelector((state: RootState) => state.campaigns);
   const [selectedIndex, setSelectedIndex] = useState(1); // Default to Overview (index 1)
+  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
   const handleApprove = () => {
     dispatch(updateCampaignStatusStart({ id: campaignId, status: "Approved" }));
   };
 
   const handleReject = () => {
-    dispatch(updateCampaignStatusStart({ id: campaignId, status: "Rejected" }));
+    setIsRejectModalOpen(true);
+  };
+
+  const handleRejectSubmit = (reason: string) => {
+    dispatch(updateCampaignStatusStart({ id: campaignId, status: "Rejected", rejectReason: reason }));
+    setIsRejectModalOpen(false);
   };
 
   // Get tab from URL or default to Overview
@@ -102,6 +111,12 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
           ))}
         </TabPanels>
       </TabGroup>
+      <RejectReasonModal
+        isOpen={isRejectModalOpen}
+        onClose={() => setIsRejectModalOpen(false)}
+        onSubmit={handleRejectSubmit}
+        loading={loading}
+      />
     </div>
   );
 }
