@@ -9,7 +9,7 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
     title,
     vendorName,
     status,
-    banner_image,
+    thumbnailUrl,
     brandLogo,
     brandName,
     campaignType,
@@ -21,7 +21,6 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
   } = campaign;
 
   const [copied, setCopied] = useState(false);
-  const [imageError, setImageError] = useState(false);
 
   const getCampaignTypeDisplay = (type?: string) => {
     switch (type) {
@@ -40,21 +39,21 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
 
   const getModeIcon = () => {
     if (campaignType === "WalkIn") {
-      return status === "Approved"
+      return status === 'Approved'
         ? "/icons/campaign/card/walk-approved.svg"
         : "/icons/campaign/card/walk-pending-light.svg";
     } else if (campaignType === "Delivery") {
-      return status === "Approved"
+      return status === 'Approved'
         ? "/icons/campaign/card/delivery-approved.svg"
         : "/icons/campaign/card/delivery-pending-light.svg";
     }
-    return status === "Approved"
+    return status === 'Approved'
       ? "/icons/campaign/card/delivery-approved.svg"
       : "/icons/campaign/card/delivery-pending-light.svg";
   };
 
   const getBarterIcon = () => {
-    return status === "Approved"
+    return status === 'Approved'
       ? "/icons/campaign/card/barter-approved.svg"
       : "/icons/campaign/card/barter-pending-light.svg";
   };
@@ -71,36 +70,14 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
     }
   };
 
-  const statusConfig: { [key: string]: { icon: string; color: string } } = {
-    Approved: {
-      icon: "/icons/campaign/card/active-light.svg",
-      color: "text-green-500",
-    },
-    Rejected: {
-      icon: "/icons/campaign/card/rejected-red.svg",
-      color: "text-red-500",
-    },
-    Pending: {
-      icon: "/icons/campaign/card/pending-light.svg",
-      color: "text-[#787878]",
-    },
-  };
-
-  const currentStatus = statusConfig[status] || statusConfig.Pending;
-
-  const imageUrl = banner_image
-    ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${banner_image}`
-    : "/images/no_image.png";
-
   return (
     <article className="w-full bg-white rounded-[13px] overflow-hidden">
       <div className="h-[90px] w-full relative bg-[#E1E1E1]">
         <Image
-          src={imageError ? '/images/no_image.png' : imageUrl}
+          src={thumbnailUrl || '/images/no_image.png'}
           alt={`${title} header`}
           fill
           className="object-cover"
-          onError={() => setImageError(true)}
         />
         <div className="w-[90px] h-[90px] absolute top-[39px] left-[24px] bg-white rounded-full border-5 border-[#E1E1E1] flex items-center justify-center overflow-hidden">
           {brandLogo ? (
@@ -138,12 +115,12 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
           </p>
           <div className="flex gap-[4.5px] items-center">
             <Image
-              src={currentStatus.icon}
+              src={status === 'Approved' ? "/icons/campaign/card/active-light.svg" : "/icons/campaign/card/pending-light.svg"}
               alt={status}
               width={11.6}
               height={11.6}
             />
-            <p className={`text-[13px] leading-[20px] ${currentStatus.color}`}>
+            <p className="text-[13px] text-[#787878] leading-[20px]">
               {status}
             </p>
           </div>

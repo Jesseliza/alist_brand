@@ -7,7 +7,6 @@ import CampaignCreators from "./Overview/CampaignCreators";
 import CampaignDetails from "./Overview/CampaignDetails";
 import CampaignGuidlines from "./Overview/CampaignGuidlines";
 import CampaignPlans from "./Overview/CampaignPlans";
-import { useState } from "react";
 
 export default function Overview({
   campaign,
@@ -16,13 +15,6 @@ export default function Overview({
   campaign: Campaign;
   campaignId: string;
 }) {
-  const [imageError, setImageError] = useState(false);
-  const bannerImage = (campaign as any).banner_image;
-
-  const imageUrl = bannerImage
-    ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${bannerImage}`
-    : "/images/no_image.png";
-
   return (
     <div className="max-w-[774px] mx-auto mt-[13px] pb-[100px]">
       <div className="flex bg-[#F8F8F8] rounded-[13px] overflow-hidden">
@@ -53,12 +45,11 @@ export default function Overview({
           {/* image */}
           <div className="w-[204] h-[204px] rounded-[11px] aspect-square overflow-hidden">
             <Image
-              src={imageError ? '/images/no_image.png' : imageUrl}
+              src={(campaign as any).banner_image ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${(campaign as any).banner_image}` : '/images/no_image.png'}
               alt={campaign.title ?? "Campaign thumbnail"}
               className="w-full h-full object-cover rounded-[11px]"
               width={204}
               height={204}
-              onError={() => setImageError(true)}
             />
           </div>
         </div>
