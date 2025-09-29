@@ -22,7 +22,7 @@ const RejectReasonModal = ({ isOpen, onClose, onSubmit, loading }: RejectReasonM
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50"
+      className="fixed inset-0 bg-transparent flex justify-center items-center z-50"
       onClick={onClose}
     >
       <div
