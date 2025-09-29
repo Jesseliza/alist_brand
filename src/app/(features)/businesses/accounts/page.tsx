@@ -2,9 +2,15 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
-import { fetchAccountsRequest, bulkDeleteAccountsRequest, bulkUpdateStatusRequest, fetchMoreAccountsRequest } from "@/store/account/accountSlice";
+import {
+  fetchAccountsRequest,
+  bulkDeleteAccountsRequest,
+  bulkUpdateStatusRequest,
+  fetchMoreAccountsRequest,
+} from "@/store/account/accountSlice";
 import { setSearchTerm } from "@/store/search/searchSlice";
 import { RootState } from "@/store/store";
 import AccountsTable from "@/components/features/accounts/AccountsTable";
@@ -53,11 +59,13 @@ export default function AccountsPage() {
 
     setMobilePage(1); // Reset page number
     // Debounced search effect
-    dispatch(fetchAccountsRequest({
-      search: debouncedSearch,
-      per_page: 10,
-      page: 1
-    }));
+    dispatch(
+      fetchAccountsRequest({
+        search: debouncedSearch,
+        per_page: 10,
+        page: 1,
+      })
+    );
   }, [debouncedSearch, dispatch]);
 
   useEffect(() => {
@@ -73,15 +81,19 @@ export default function AccountsPage() {
   }, [bulkUpdateStatusInProgress, bulkUpdateStatusError]);
 
   const handlePageChange = (page: number) => {
-    dispatch(fetchAccountsRequest({
-      page,
-      search: searchTerm,
-      per_page: pagination.perPage
-    }));
+    dispatch(
+      fetchAccountsRequest({
+        page,
+        search: searchTerm,
+        per_page: pagination.perPage,
+      })
+    );
   };
 
   const handleItemsPerPageChange = (items: number) => {
-    dispatch(fetchAccountsRequest({ search: searchTerm, per_page: items, page: 1 }));
+    dispatch(
+      fetchAccountsRequest({ search: searchTerm, per_page: items, page: 1 })
+    );
   };
 
   // const handleSortSelect = (value: string) => {
@@ -103,12 +115,23 @@ export default function AccountsPage() {
     }
     if (value === "delete") {
       if (checkedRows.size > 0) {
-        dispatch(bulkDeleteAccountsRequest({ account_ids: Array.from(checkedRows) }));
+        const account_ids = Array.from(checkedRows);
+        const promise = dispatch(bulkDeleteAccountsRequest({ account_ids }));
+        toast.promise(promise, {
+          loading: "Deleting accounts...",
+          success: "Accounts deleted successfully!",
+          error: "Failed to delete accounts.",
+        });
       }
     }
     if (value === "active" || value === "inactive") {
       if (checkedRows.size > 0) {
-        dispatch(bulkUpdateStatusRequest({ account_ids: Array.from(checkedRows), status: value }));
+        dispatch(
+          bulkUpdateStatusRequest({
+            account_ids: Array.from(checkedRows),
+            status: value,
+          })
+        );
       }
     }
   };
@@ -127,11 +150,13 @@ export default function AccountsPage() {
 
   const handleSeeMore = () => {
     const nextPage = mobilePage + 1;
-    dispatch(fetchMoreAccountsRequest({
-      page: nextPage,
-      search: searchTerm,
-      per_page: 10
-    }));
+    dispatch(
+      fetchMoreAccountsRequest({
+        page: nextPage,
+        search: searchTerm,
+        per_page: 10,
+      })
+    );
     setMobilePage(nextPage);
   };
 
@@ -214,7 +239,9 @@ export default function AccountsPage() {
                       key={account.accountId}
                       account={account}
                       checked={checkedRows.has(account.accountId)}
-                      onCheckboxChange={() => handleCheckboxChange(account.accountId)}
+                      onCheckboxChange={() =>
+                        handleCheckboxChange(account.accountId)
+                      }
                     />
                   ))
                 )}
@@ -225,7 +252,7 @@ export default function AccountsPage() {
                       disabled={loading}
                       className="disabled:text-gray-400"
                     >
-                      {loading ? <InlineLoader /> : 'See More'}
+                      {loading ? <InlineLoader /> : "See More"}
                     </button>
                   </div>
                 )}
