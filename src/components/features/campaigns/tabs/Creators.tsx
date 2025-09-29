@@ -1,32 +1,39 @@
 "use client";
 import { useState, useMemo } from "react";
-import { Campaign } from "@/types/entities";
+import { Campaign, OfferUser } from "@/types/entities";
 import CampaignCreatorCard from "./Creators/CampaignCreatorCard";
 import Pagination from "@/components/general/Pagination";
+import { updateCreatorStatus } from "@/services/commonService";
+import RejectReasonModal from "../RejectReasonModal";
+import { toast } from "react-toastify";
 
 const ITEMS_PER_PAGE = 6;
 
 export default function Creators({ campaign }: { campaign: Campaign }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [creators, setCreators] = useState(
+  const [creators, setCreators] = useState<OfferUser[]>(
     campaign?.dedicated_offer?.offer_users || []
   );
+  const [selectedCreatorId, setSelectedCreatorId] = useState<string | null>(
+    null
+  );
+  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const mappedCreators = useMemo(() => {
     return creators
       .filter((offerUser) => offerUser.user)
       .map((offerUser) => ({
         id: offerUser.user.id.toString(),
-        image: offerUser.user.profile_photo || "/images/creators/profile.png",
+        image: offerUser.user.profile_picture || "",
         name: offerUser.user.name,
-        instagramName: offerUser.user.instagram_handle || "N/A",
-        // TODO: Fetch real creator stats when the API is available.
+        instagramName: offerUser.user.instagram_url || "N/A",
         stats: {
-          followers: "N/A",
-          credibility: "N/A",
-          engagement: "N/A",
+          followers: offerUser.user.instagram_followers?.toString() || "N/A",
+          credibility: offerUser.user.credibility || "N/A",
+          engagement: "N/A", // As requested
         },
-        approved: offerUser.status === 1, // Assuming 1 is approved
+        approved: offerUser.status === 1,
       }));
   }, [creators]);
 
@@ -35,12 +42,46 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
     return mappedCreators.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [mappedCreators, currentPage]);
 
-  const handleDelete = (id: string) => {
-    const updatedCreators = creators.filter((creator) => {
-      // Keep the creator if the user object is missing or if the ID doesn't match.
-      return !creator.user || creator.user.id.toString() !== id;
-    });
-    setCreators(updatedCreators);
+  const handleApprove = async (id: string) => {
+    setLoading(true);
+    const response = await updateCreatorStatus(id, 1);
+    if (response.success) {
+      toast.success("Creator approved successfully!");
+      setCreators((prev) =>
+        prev.map((c) =>
+          c.user.id.toString() === id ? { ...c, status: 1 } : c
+        )
+      );
+    } else {
+      toast.error(response.response || "Failed to approve creator.");
+    }
+    setLoading(false);
+  };
+
+  const handleReject = (id: string) => {
+    setSelectedCreatorId(id);
+    setIsRejectModalOpen(true);
+  };
+
+  const handleRejectSubmit = async (rejectReason: string) => {
+    if (!selectedCreatorId) return;
+    setLoading(true);
+    const response = await updateCreatorStatus(
+      selectedCreatorId,
+      0,
+      rejectReason
+    );
+    if (response.success) {
+      toast.success("Creator rejected successfully!");
+      setCreators((prev) =>
+        prev.filter((c) => c.user.id.toString() !== selectedCreatorId)
+      );
+      setIsRejectModalOpen(false);
+      setSelectedCreatorId(null);
+    } else {
+      toast.error(response.response || "Failed to reject creator.");
+    }
+    setLoading(false);
   };
 
   if (campaign?.is_dedicated !== 1) {
@@ -71,7 +112,9 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
                 <CampaignCreatorCard
                   key={creator.id}
                   {...creator}
-                  onDelete={handleDelete}
+                  onApprove={handleApprove}
+                  onReject={handleReject}
+                  loading={loading && selectedCreatorId === creator.id}
                 />
               ))}
             </div>
@@ -90,6 +133,12 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
           </div>
         )}
       </div>
+      <RejectReasonModal
+        isOpen={isRejectModalOpen}
+        onClose={() => setIsRejectModalOpen(false)}
+        onSubmit={handleRejectSubmit}
+        loading={loading}
+      />
     </div>
   );
 }
