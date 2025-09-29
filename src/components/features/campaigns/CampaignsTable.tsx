@@ -41,7 +41,7 @@ export default function CampaignsTable({
               scope="col"
               className="pl-3 pr-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
-              <CheckBox checked={isAllSelected} onChange={onSelectAll} />
+              {/* <CheckBox checked={isAllSelected} onChange={onSelectAll} /> */}
             </th>
             <th
               scope="col"
