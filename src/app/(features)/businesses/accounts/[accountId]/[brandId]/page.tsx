@@ -2,7 +2,8 @@
 
 import { useSearchParams, useParams } from "next/navigation";
 import BrandTabContent from "@/components/features/brands/BrandTabContent";
-import { brandsData } from "@/data/BrandsData";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 import { Brand } from "@/types/entities";
 import { useState, useEffect } from "react";
 import Loader from "@/components/general/Loader";
@@ -10,6 +11,8 @@ import Loader from "@/components/general/Loader";
 export default function BusinessAccountBrandPage() {
   const searchParams = useSearchParams();
   const params = useParams();
+  const { selectedAccount } = useSelector((state: RootState) => state.account);
+
   const [activeTab, setActiveTab] = useState(
     searchParams.get("tab") || "Business Details"
   );
@@ -20,9 +23,11 @@ export default function BusinessAccountBrandPage() {
   // Fetch brand data based on brandId from URL
   useEffect(() => {
     const brandId = params.brandId as string;
-    const foundBrand = brandsData.find((b) => b.brandId === brandId);
-    setBrand(foundBrand || null);
-  }, [params.brandId]);
+    if (selectedAccount && selectedAccount.brands) {
+      const foundBrand = selectedAccount.brands.find((b) => b.brandId === brandId);
+      setBrand(foundBrand || null);
+    }
+  }, [params.brandId, selectedAccount]);
 
   // Update active tab when URL changes
   useEffect(() => {
