@@ -39,6 +39,23 @@ const campaignsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    bulkDeleteCampaignsStart: (
+      state,
+      action: PayloadAction<{ ids: string[] }>
+    ) => {
+      state.loading = true;
+      state.error = null;
+    },
+    bulkDeleteCampaignsSuccess: (state, action: PayloadAction<string[]>) => {
+      state.loading = false;
+      state.campaigns = state.campaigns.filter(
+        (campaign) => !action.payload.includes(campaign.id.toString())
+      );
+    },
+    bulkDeleteCampaignsFailure: (state, action: PayloadAction<any>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
     getMoreCampaignsStart: (
       state,
       action: PayloadAction<GetCampaignsPayload>
@@ -113,6 +130,9 @@ export const {
   updateDedicatedPageStatusStart,
   updateDedicatedPageStatusSuccess,
   updateDedicatedPageStatusFailure,
+  bulkDeleteCampaignsStart,
+  bulkDeleteCampaignsSuccess,
+  bulkDeleteCampaignsFailure,
 } = campaignsSlice.actions;
 
 export default campaignsSlice.reducer;

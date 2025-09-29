@@ -177,15 +177,12 @@ export default function CampaignCard({
             </span>
           </div>
         </div>
-        <div className="flex gap-[9px]">
+        <div className="flex">
           <button
             onClick={handleCopyClick}
-            className="flex-1 bg-[#00A4B6] text-[15px] text-white py-[9px] rounded-[11px] font-medium leading-[23px]"
+            className="w-full bg-[#00A4B6] text-[15px] text-white py-[9px] rounded-[11px] font-medium leading-[23px]"
           >
             {copied ? "Copied!" : "Copy Link"}
-          </button>
-          <button className="flex-1 bg-[#787878] text-[15px]  text-white py-[9px] rounded-[11px] font-medium leading-[23px]">
-            Edit
           </button>
         </div>
       </div>

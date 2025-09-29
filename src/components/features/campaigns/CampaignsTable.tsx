@@ -7,10 +7,14 @@ import Link from "next/link";
 
 interface CampaignsTableProps {
   campaigns: CampaignDisplay[];
+  checkedRows: Set<string>;
+  onCheckboxChange: (campaignId: string) => void;
 }
 
 export default function CampaignsTable({
   campaigns,
+  checkedRows,
+  onCheckboxChange,
 }: CampaignsTableProps) {
   const [copiedLink, setCopiedLink] = useState<string | null>(null);
 
@@ -30,7 +34,11 @@ export default function CampaignsTable({
           <tr>
             <th
               scope="col"
-              className="px-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap pl-8"
+              className="pl-3 pr-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+            ></th>
+            <th
+              scope="col"
+              className="px-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
               Campaign
             </th>
@@ -76,7 +84,15 @@ export default function CampaignsTable({
         <tbody className="bg-white">
           {campaigns.map((campaign) => (
             <tr key={campaign.id} className="odd:bg-[#F8F8F8]">
-              <td className="px-2 py-2.5 whitespace-nowrap pl-8">
+              <td className="pl-3 pr-2 py-2.5 whitespace-nowrap">
+                <input
+                  type="checkbox"
+                  className="h-5 w-5 rounded-md text-blue-600 focus:ring-blue-500"
+                  checked={checkedRows.has(campaign.id.toString())}
+                  onChange={() => onCheckboxChange(campaign.id.toString())}
+                />
+              </td>
+              <td className="px-2 py-2.5 whitespace-nowrap">
                 <div className="flex items-center">
                   <Link
                     href={`/businesses/campaigns/${campaign.id}`}
