@@ -65,7 +65,7 @@ export default function CampaignCard({
   const handleRemoveClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onRemove(campaign.campaignId);
+    onRemove(campaign.id.toString());
   };
 
   return (
