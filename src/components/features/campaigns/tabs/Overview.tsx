@@ -44,15 +44,13 @@ export default function Overview({
 
           {/* image */}
           <div className="w-[204] h-[204px] rounded-[11px] aspect-square overflow-hidden">
-            {campaign.thumbnailUrl && (
-              <Image
-                src={campaign.thumbnailUrl}
-                alt={campaign.title ?? "Campaign thumbnail"}
-                className="w-full h-full object-cover rounded-[11px]"
-                width={204}
-                height={204}
-              />
-            )}
+            <Image
+              src={campaign.thumbnailUrl || '/images/default-banner.png'}
+              alt={campaign.title ?? "Campaign thumbnail"}
+              className="w-full h-full object-cover rounded-[11px]"
+              width={204}
+              height={204}
+            />
           </div>
         </div>
       </div>
