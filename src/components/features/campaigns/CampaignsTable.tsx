@@ -97,10 +97,10 @@ export default function CampaignsTable({
             <tr key={campaign.id} className="odd:bg-[#F8F8F8]">
               <td className="px-4.75 py-2.5 whitespace-nowrap">
                 <div className="flex items-center">
-                  {/* <Checkbox
+                  <Checkbox
                     checked={checkedRows.has(campaign.id.toString())}
                     onChange={() => onCheckboxChange(campaign.id.toString())}
-                  /> */}
+                  />
                   <Link
                     href={`/businesses/campaigns/${campaign.id}`}
                     className="flex items-center ml-3 cursor-pointer"
@@ -130,54 +130,8 @@ export default function CampaignsTable({
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                 {campaign.vendorName}
               </td>
-              <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
-                <div
-                  className={`w-[98px] max-w-[98px] truncate px-3 py-1 rounded-full text-white inline-flex items-center justify-center gap-1.5 ${
-                    campaign.campaignType === "WalkIn"
-                      ? "bg-[#00A4B6]"
-                      : campaign.campaignType === "Delivery"
-                      ? "bg-[#FF9900]"
-                      : campaign.campaignType === "Online"
-                      ? "bg-[#15A1FF]"
-                      : campaign.campaignType === "Exclusive"
-                      ? "bg-[#B400FF]"
-                      : "bg-[#636363]"
-                  }`}
-                >
-                  {campaign.campaignType === "WalkIn" && (
-                    <Image
-                      src="/icons/general/walk-in-1.svg"
-                      alt="walk in"
-                      width={10.88}
-                      height={17.88}
-                    />
-                  )}
-                  {campaign.campaignType === "Delivery" && (
-                    <Image
-                      src="/icons/general/delivery-1.svg"
-                      alt="delivery"
-                      width={17}
-                      height={16.54}
-                    />
-                  )}
-                  {campaign.campaignType === "Online" && (
-                    <Image
-                      src="/icons/general/online-1.svg"
-                      alt="online"
-                      width={14.48}
-                      height={14.48}
-                    />
-                  )}
-                  {campaign.campaignType === "Exclusive" && (
-                    <Image
-                      src="/icons/general/exclusive-1.svg"
-                      alt="exclusive"
-                      width={15.35}
-                      height={13.24}
-                    />
-                  )}
-                  <span>{getCampaignTypeDisplay(campaign.campaignType)}</span>
-                </div>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
+                {campaign.is_dedicated === 1 ? "Dedicated" : "Normal"}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                 {campaign.offerType ?? 'N/A'}

@@ -17,40 +17,11 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
     duration,
     durationUnit,
     copyLinkUrl,
+    is_dedicated,
   } = campaign;
 
   const [copied, setCopied] = useState(false);
   const isActive = status !== "Pending" && status !== "pending";
-
-  const getCampaignTypeDisplay = (type?: string) => {
-    switch (type) {
-      case "WalkIn":
-        return "Walk in";
-      case "Delivery":
-        return "Delivery";
-      case "Online":
-        return "Online";
-      case "Exclusive":
-        return "Exclusive";
-      default:
-        return type || "N/A";
-    }
-  };
-
-  const getModeIcon = () => {
-    if (campaignType === "WalkIn") {
-      return isActive
-        ? "/icons/campaign/card/walk-approved.svg"
-        : "/icons/campaign/card/walk-pending-light.svg";
-    } else if (campaignType === "Delivery") {
-      return isActive
-        ? "/icons/campaign/card/delivery-approved.svg"
-        : "/icons/campaign/card/delivery-pending-light.svg";
-    }
-    return isActive
-      ? "/icons/campaign/card/delivery-approved.svg"
-      : "/icons/campaign/card/delivery-pending-light.svg";
-  };
 
   const getBarterIcon = () => {
     return isActive
@@ -131,16 +102,10 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
         <div className="grid grid-cols-3 gap-[9px] mb-[13px]">
           <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
             <div className="h-[30.65px] flex items-center justify-center">
-              <Image
-                src={getModeIcon()}
-                alt={campaignType || "Campaign"}
-                width={campaignType === "WalkIn" ? 18.04 : 31.87}
-                height={campaignType === "WalkIn" ? 29.65 : 30.65}
-              />
+              <span className="text-[12px] text-[#414141] font-medium">
+                {is_dedicated === 1 ? "Dedicated" : "Normal"}
+              </span>
             </div>
-            <span className="text-[12px] text-[#414141] leading-[20px]">
-              {getCampaignTypeDisplay(campaignType)}
-            </span>
           </div>
           <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
             <div className="h-[30.65px] flex items-center justify-center">

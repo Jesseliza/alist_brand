@@ -20,10 +20,11 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
         image: offerUser.user.profile_photo || "/images/creators/profile.png",
         name: offerUser.user.name,
         instagramName: offerUser.user.instagram_handle || "N/A",
+        // TODO: Fetch real creator stats when the API is available.
         stats: {
-          followers: "0", // Placeholder
-          credibility: "0%", // Placeholder
-          engagement: "0%", // Placeholder
+          followers: "N/A",
+          credibility: "N/A",
+          engagement: "N/A",
         },
         approved: offerUser.status === 1, // Assuming 1 is approved
       }));
