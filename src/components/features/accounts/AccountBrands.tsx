@@ -21,7 +21,7 @@ export default function AccountBrands({ brands, accountId }: AccountBrandsProps)
       {brands.map((brand) => (
         <Link
           key={brand.brandId}
-          href={`/businesses/accounts/${accountId}/${brand.brandId}`}
+          href={`/businesses/brands/${brand.brandId}`}
         >
           <AccountBrandCard brand={brand} />
         </Link>

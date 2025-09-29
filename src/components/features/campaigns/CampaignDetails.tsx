@@ -52,7 +52,8 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
 
   return (
     <div>
-      {campaign.offer_status === "Draft" && (
+      {campaign.offer_status === "Draft" &&
+        campaign.account_status === "Pending" && (
         <div className="max-w-[966px] mx-auto md:px-4 mt-4">
           <div className="flex justify-end space-x-2 mb-2">
             <button
