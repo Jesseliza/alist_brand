@@ -12,6 +12,7 @@ interface BrandCampaignsProps {
   brandName: string;
   brandLogo: string;
   brandId: string;
+  onRemoveCampaign: (id: string) => void;
 }
 
 export default function BrandCampaigns({
@@ -19,6 +20,7 @@ export default function BrandCampaigns({
   brandName,
   brandLogo,
   brandId,
+  onRemoveCampaign,
 }: BrandCampaignsProps) {
   const router = useRouter();
 
@@ -56,7 +58,12 @@ export default function BrandCampaigns({
               onClick={() => handleCampaignClick(campaign.id)}
               className="cursor-pointer"
             >
-              <CampaignCard campaign={campaign} />
+              <CampaignCard
+                campaign={campaign}
+                onRemove={() => onRemoveCampaign(campaign.id.toString())}
+                checked={false}
+                onCheckboxChange={() => {}}
+              />
             </div>
           ))}
         </div>

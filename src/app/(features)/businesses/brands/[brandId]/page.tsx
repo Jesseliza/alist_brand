@@ -18,6 +18,8 @@ import {
 } from "@/store/brand/brandSlice";
 import { RootState } from "@/store/store";
 import { fetchIndustries } from "@/store/common/commonSlice";
+import { deleteData } from "@/services/commonService";
+import { toast } from "react-toastify";
 
 export default function BrandPage() {
   const params = useParams();
@@ -128,6 +130,32 @@ export default function BrandPage() {
     return <Loader />;
   }
 
+  const handleRemoveCampaign = (campaignId: string) => {
+    const confirmDelete = () => {
+      toast.dismiss(toastId);
+      deleteData(`/food-offers/${campaignId}`).then((res) => {
+        if (res.success) {
+          toast.success("Campaign deleted successfully");
+          if (brandId) {
+            dispatch(fetchBrandRequest({ brandId: brandId as string }));
+          }
+        } else {
+          toast.error("Failed to delete campaign");
+        }
+      });
+    };
+
+    const toastId = toast.info("Are you sure you want to delete this campaign?", {
+      closeButton: ({ closeToast }) => (
+        <div className="flex gap-x-2">
+          <button onClick={confirmDelete} className="bg-red-500 text-white px-2 py-1 rounded">Yes</button>
+          <button onClick={closeToast} className="bg-gray-300 px-2 py-1 rounded">No</button>
+        </div>
+      ),
+      autoClose: false,
+    });
+  };
+
   return (
     <div className="pt-6">
       {isCreateMode ? (
@@ -154,6 +182,7 @@ export default function BrandPage() {
             isSaving: createLoading || updateLoading,
             isCreateMode: isCreateMode,
             errors: validationErrors,
+            onRemoveCampaign: handleRemoveCampaign,
           }}
         />
       </div>

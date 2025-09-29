@@ -14,6 +14,7 @@ interface BrandTabContentProps extends TabContentProps {
     isSaving: boolean;
     isCreateMode: boolean;
     errors?: Partial<Record<keyof Brand, string>>;
+    onRemoveCampaign: (id: string) => void;
   };
 }
 
@@ -43,6 +44,7 @@ export default function BrandTabContent({
               brandName={brand.name || ""}
               brandLogo={brand.logo || ""}
               brandId={brand.brandId || ""}
+              onRemoveCampaign={brand.onRemoveCampaign}
             />
           </div>
         );

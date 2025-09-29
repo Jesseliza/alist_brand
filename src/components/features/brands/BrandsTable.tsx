@@ -108,7 +108,7 @@ export default function BrandsTable({
                         <div className="ml-3 flex items-center cursor-pointer">
                           {brand.logo ? (
                             <Image
-                              src={brand.logo}
+                              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/venues/${brand.logo}`}
                               alt={brand.name}
                               width={33}
                               height={33}
