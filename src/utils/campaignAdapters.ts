@@ -37,6 +37,7 @@ export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): Campaig
     duration: daysDuration > 0 ? daysDuration : 0,
     durationUnit: 'Days',
     copyLinkUrl,
+    is_dedicated: summary.is_dedicated,
   };
 };
 
