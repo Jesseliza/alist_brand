@@ -43,6 +43,10 @@ export default function BrandsPage() {
   useEffect(() => {
     dispatch(fetchBrandsRequest({ per_page: 12, page: 1 }));
     dispatch(fetchIndustries());
+
+    return () => {
+      dispatch(setSearchTerm(""));
+    };
   }, [dispatch]);
 
   const isInitialSearchMount = useRef(true);

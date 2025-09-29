@@ -45,6 +45,10 @@ export default function CampaignsPage() {
 
   useEffect(() => {
     dispatch(getCampaignsStart({ page: 1, per_page: 10 }));
+
+    return () => {
+      dispatch(setSearchTerm(""));
+    };
   }, [dispatch]);
 
   const isInitialSearchMount = useRef(true);
@@ -64,19 +68,6 @@ export default function CampaignsPage() {
     );
   }, [debouncedSearch, dispatch]);
 
-  useEffect(() => {
-    if (bulkDeleteLoading) {
-      toast.loading("Deleting campaigns...", { id: "bulk-delete" });
-    }
-  }, [bulkDeleteLoading]);
-
-  useEffect(() => {
-    if (!bulkDeleteLoading && !bulkDeleteError) {
-      toast.success("Campaigns deleted successfully!", { id: "bulk-delete" });
-    } else if (bulkDeleteError) {
-      toast.error("Failed to delete campaigns.", { id: "bulk-delete" });
-    }
-  }, [bulkDeleteLoading, bulkDeleteError]);
 
   const handleAddCampaignClick = () => {
     // TODO: Update this route when the create campaign page is available
@@ -124,21 +115,91 @@ export default function CampaignsPage() {
     });
   };
 
+  const handleSelectAll = () => {
+    if (checkedRows.size === displayCampaigns.length) {
+      setCheckedRows(new Set());
+    } else {
+      const allCampaignIds = new Set(
+        displayCampaigns.map((c) => c.id.toString())
+      );
+      setCheckedRows(allCampaignIds);
+    }
+  };
+
   const handleActionSelect = (value: string) => {
     if (value === "delete") {
       if (checkedRows.size > 0) {
-        const ids = Array.from(checkedRows);
-        dispatch(bulkDeleteCampaignsStart({ ids }));
-        setCheckedRows(new Set());
+        toast(
+          (t) => (
+            <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4">
+              <p className="font-semibold">
+                Are you sure you want to delete the selected campaigns?
+              </p>
+              <div className="flex justify-end gap-2">
+                <button
+                  className="px-4 py-2 bg-gray-200 rounded-md"
+                  onClick={() => toast.dismiss(t.id)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 bg-red-500 text-white rounded-md"
+                  onClick={() => {
+                    const ids = Array.from(checkedRows);
+                    dispatch(bulkDeleteCampaignsStart({ ids }));
+                    setCheckedRows(new Set());
+                    toast.dismiss(t.id);
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ),
+          {
+            duration: 6000,
+          }
+        );
       }
     }
   };
 
   const handleRemove = (id: string) => {
-    dispatch(bulkDeleteCampaignsStart({ ids: [id] }));
+    toast(
+      (t) => (
+        <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4">
+          <p className="font-semibold">
+            Are you sure you want to delete this campaign?
+          </p>
+          <div className="flex justify-end gap-2">
+            <button
+              className="px-4 py-2 bg-gray-200 rounded-md"
+              onClick={() => toast.dismiss(t.id)}
+            >
+              Cancel
+            </button>
+            <button
+              className="px-4 py-2 bg-red-500 text-white rounded-md"
+              onClick={() => {
+                dispatch(bulkDeleteCampaignsStart({ ids: [id] }));
+                toast.dismiss(t.id);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      ),
+      {
+        duration: 6000,
+      }
+    );
   };
 
   const displayCampaigns = campaigns.map(adaptCampaignSummaryToDisplay);
+
+  const isAllSelected =
+    displayCampaigns.length > 0 && checkedRows.size === displayCampaigns.length;
 
   return (
     <div>
@@ -214,6 +275,8 @@ export default function CampaignsPage() {
                       campaigns={displayCampaigns}
                       checkedRows={checkedRows}
                       onCheckboxChange={handleCheckboxChange}
+                      onSelectAll={handleSelectAll}
+                      isAllSelected={isAllSelected}
                     />
                     {pagination && displayCampaigns.length > 0 && (
                       <Pagination
