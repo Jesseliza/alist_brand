@@ -38,7 +38,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
     setCreators((prevCreators) =>
       prevCreators.filter((creator) => {
         if (!creator.user) {
-          return true; // Keep creators that don't have a user object
+          return true;
         }
         return creator.user.id.toString() !== id;
       })

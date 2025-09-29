@@ -108,10 +108,6 @@ export default function CampaignsPage() {
     if (value === "update") {
       const selectedId = checkedRows.values().next().value;
       router.push(`/businesses/campaigns/${selectedId}/edit`);
-    } else if (value === "Approved" || value === "Rejected") {
-      checkedRows.forEach((id) => {
-        dispatch(updateCampaignStatusStart({ id, status: value }));
-      });
       setCheckedRows(new Set());
     } else {
       console.log("Action selected:", value);
@@ -143,8 +139,7 @@ export default function CampaignsPage() {
               <ActionDropdown
                 onSelect={handleActionSelect}
                 disabled={checkedRows.size === 0}
-                showUpdate={checkedRows.size === 1}
-                excludeActions={["delete", "active", "inactive"]}
+                actions={checkedRows.size === 1 ? ["update"] : []}
               />
             </div>
           </div>

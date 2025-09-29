@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Image from "next/image";
 import { CampaignDisplay } from "@/types/entities/campaign";
 import { generateColorFromString } from "@/utils/colorGenerator";
@@ -15,8 +16,10 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
     offerType,
     duration,
     durationUnit,
+    copyLinkUrl,
   } = campaign;
 
+  const [copied, setCopied] = useState(false);
   const isActive = status !== "Pending" && status !== "pending";
 
   const getCampaignTypeDisplay = (type?: string) => {
@@ -59,8 +62,12 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
     console.log("Edit clicked for campaign:", campaign.id);
   };
 
-  const handleRemoveClick = () => {
-    console.log("Remove clicked for campaign:", campaign.id);
+  const handleCopyClick = () => {
+    if (copyLinkUrl) {
+      navigator.clipboard.writeText(copyLinkUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   return (
@@ -165,14 +172,15 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
         </div>
         <div className="flex gap-[9px]">
           <button
-            onClick={handleEditClick}
-            className="flex-1 bg-[#00A4B6] text-[15px] text-white py-[9px] rounded-[11px] font-medium leading-[23px]">
-            Edit
+            onClick={handleCopyClick}
+            className="flex-1 bg-[#00A4B6] text-[15px] text-white py-[9px] rounded-[11px] font-medium leading-[23px]"
+          >
+            {copied ? "Copied!" : "Copy Link"}
           </button>
           <button
-            onClick={handleRemoveClick}
+            onClick={handleEditClick}
             className="flex-1 bg-[#787878] text-[15px]  text-white py-[9px] rounded-[11px] font-medium leading-[23px]">
-            Remove
+            Edit
           </button>
         </div>
       </div>

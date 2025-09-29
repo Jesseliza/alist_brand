@@ -173,6 +173,7 @@ export interface CampaignSummary {
   campaign_id: string;
   start_date: string;
   end_date: string;
+  banner_image: string;
   venue: {
     venue_title: string;
   };
@@ -272,4 +273,5 @@ export interface CampaignDisplay {
   endDate?: string;
   duration?: number;
   durationUnit?: 'Days' | 'Hours';
+  copyLinkUrl?: string;
 }
