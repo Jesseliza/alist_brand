@@ -27,9 +27,14 @@ import InlineLoader from "@/components/general/InlineLoader";
 export default function CampaignsPage() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { campaigns, pagination, loading, error } = useSelector(
-    (state: RootState) => state.campaigns
-  );
+  const {
+    campaigns,
+    pagination,
+    loading,
+    error,
+    bulkDeleteLoading,
+    bulkDeleteError,
+  } = useSelector((state: RootState) => state.campaigns);
 
   const { searchTerm } = useSelector((state: RootState) => state.search);
   const [view, setView] = useState<"table" | "card">("table");
@@ -58,6 +63,20 @@ export default function CampaignsPage() {
       })
     );
   }, [debouncedSearch, dispatch]);
+
+  useEffect(() => {
+    if (bulkDeleteLoading) {
+      toast.loading("Deleting campaigns...", { id: "bulk-delete" });
+    }
+  }, [bulkDeleteLoading]);
+
+  useEffect(() => {
+    if (!bulkDeleteLoading && !bulkDeleteError) {
+      toast.success("Campaigns deleted successfully!", { id: "bulk-delete" });
+    } else if (bulkDeleteError) {
+      toast.error("Failed to delete campaigns.", { id: "bulk-delete" });
+    }
+  }, [bulkDeleteLoading, bulkDeleteError]);
 
   const handleAddCampaignClick = () => {
     // TODO: Update this route when the create campaign page is available
@@ -109,15 +128,14 @@ export default function CampaignsPage() {
     if (value === "delete") {
       if (checkedRows.size > 0) {
         const ids = Array.from(checkedRows);
-        const promise = dispatch(bulkDeleteCampaignsStart({ ids }));
-        toast.promise(promise, {
-          loading: "Deleting campaigns...",
-          success: "Campaigns deleted successfully!",
-          error: "Failed to delete campaigns.",
-        });
+        dispatch(bulkDeleteCampaignsStart({ ids }));
         setCheckedRows(new Set());
       }
     }
+  };
+
+  const handleRemove = (id: string) => {
+    dispatch(bulkDeleteCampaignsStart({ ids: [id] }));
   };
 
   const displayCampaigns = campaigns.map(adaptCampaignSummaryToDisplay);
@@ -226,6 +244,7 @@ export default function CampaignsPage() {
                               onCheckboxChange={() =>
                                 handleCheckboxChange(campaign.id.toString())
                               }
+                              onRemove={handleRemove}
                             />
                           </Link>
                         ))
