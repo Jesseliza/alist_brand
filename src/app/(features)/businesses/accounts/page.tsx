@@ -73,18 +73,6 @@ export default function AccountsPage() {
     );
   }, [debouncedSearch, dispatch]);
 
-  useEffect(() => {
-    const wasInProgress = prevBulkDeleteInProgress.current;
-    if (wasInProgress && !bulkDeleteInProgress) {
-      if (bulkDeleteError) {
-        toast.error(`Failed to delete accounts: ${bulkDeleteError}`);
-      } else {
-        toast.success("Accounts deleted successfully!");
-        setCheckedRows(new Set());
-      }
-    }
-    prevBulkDeleteInProgress.current = bulkDeleteInProgress;
-  }, [bulkDeleteInProgress, bulkDeleteError]);
 
   useEffect(() => {
     if (!bulkUpdateStatusInProgress && !bulkUpdateStatusError) {
@@ -145,6 +133,7 @@ export default function AccountsPage() {
                   onClick={() => {
                     const account_ids = Array.from(checkedRows);
                     dispatch(bulkDeleteAccountsRequest({ account_ids }));
+                    setCheckedRows(new Set());
                     toast.dismiss(t.id);
                   }}
                 >

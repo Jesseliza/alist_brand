@@ -96,7 +96,7 @@ function* updateDedicatedPageStatusSaga(
 function* bulkDeleteCampaignsSaga(action: PayloadAction<{ ids: string[] }>) {
   try {
     const { ids } = action.payload;
-    yield call(axiosInstance.post, "/api/campaigns/bulk-delete", { ids });
+    yield call(axiosInstance.post, "/api/campaign/delete", { ids });
     yield put(bulkDeleteCampaignsSuccess(ids));
   } catch (error: any) {
     yield put(bulkDeleteCampaignsFailure(error.message));
