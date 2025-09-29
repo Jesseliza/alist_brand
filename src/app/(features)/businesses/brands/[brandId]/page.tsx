@@ -16,9 +16,9 @@ import {
   updateBrandRequest,
   resetUpdateStatus,
 } from "@/store/brand/brandSlice";
+import { bulkDeleteCampaignsStart } from "@/store/campaigns/CampaignSlice";
 import { RootState } from "@/store/store";
 import { fetchIndustries } from "@/store/common/commonSlice";
-import { deleteData, postData } from "@/services/commonService";
 import toast from "react-hot-toast";
 
 export default function BrandPage() {
@@ -30,6 +30,9 @@ export default function BrandPage() {
 
   const { brand, loading, createLoading, createSuccess, updateLoading, updateSuccess, error } = useSelector(
     (state: RootState) => state.brand
+  );
+  const { bulkDeleteLoading, bulkDeleteError } = useSelector(
+    (state: RootState) => state.campaigns
   );
   const { user } = useSelector((state: RootState) => state.auth);
 
@@ -130,6 +133,22 @@ export default function BrandPage() {
     return <Loader />;
   }
 
+  const [prevBulkDeleteLoading, setPrevBulkDeleteLoading] = useState(false);
+
+  useEffect(() => {
+    if (prevBulkDeleteLoading && !bulkDeleteLoading) {
+      if (bulkDeleteError) {
+        toast.error(bulkDeleteError.message || "Failed to delete campaign.");
+      } else {
+        toast.success("Campaign deleted successfully.");
+        if (brandId) {
+          dispatch(fetchBrandRequest({ brandId: brandId as string }));
+        }
+      }
+    }
+    setPrevBulkDeleteLoading(bulkDeleteLoading);
+  }, [bulkDeleteLoading, bulkDeleteError, prevBulkDeleteLoading, brandId, dispatch]);
+
   const handleRemoveCampaign = (campaignId: string) => {
     toast(
       (t) => (
@@ -147,18 +166,7 @@ export default function BrandPage() {
             <button
               className="px-4 py-2 bg-red-500 text-white rounded-md"
               onClick={() => {
-                postData(`/api/campaign/bulk-delete`, { ids: [campaignId] }).then((res) => {
-                  if (res.success) {
-                    toast.success("Campaign deleted successfully");
-                    if (brandId) {
-                      dispatch(
-                        fetchBrandRequest({ brandId: brandId as string })
-                      );
-                    }
-                  } else {
-                    toast.error(res.message || "Failed to delete campaign");
-                  }
-                });
+                dispatch(bulkDeleteCampaignsStart({ ids: [campaignId] }));
                 toast.dismiss(t.id);
               }}
             >
