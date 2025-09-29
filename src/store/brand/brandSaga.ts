@@ -52,6 +52,7 @@ interface ApiBrand {
   vat_certificate_file?: string | null;
   venue_instagram_url?: string | null;
   venue_contact_number?: string | null;
+  food_offers_count?: number;
   food_offers?: FoodOffer[];
 }
 
@@ -90,11 +91,12 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
         owner: apiBrand.accounts ? `${apiBrand.accounts.first_name} ${apiBrand.accounts.last_name}` : 'N/A',
         logo: apiBrand.venue_logo,
         websiteUrl: apiBrand.venue_url,
-        phoneNumber: apiBrand.venue_whatsapp_no,
+        phoneNumber: apiBrand.venue_contact_number || apiBrand.venue_whatsapp_no,
         emailAddress: apiBrand.venue_email,
         industry: apiBrand.category ? apiBrand.category.id.toString() : null,
         registrationDate: apiBrand.created_at,
         offersCount: apiBrand.offers_count || 0,
+        food_offers_count: apiBrand.food_offers_count || 0,
         campaignsCount: 0,
         profileCompletion: apiBrand.profile_completion || 0,
         files: apiBrand.files_count || 0,
@@ -160,11 +162,12 @@ function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest
         owner: apiBrand.accounts ? `${apiBrand.accounts.first_name} ${apiBrand.accounts.last_name}` : 'N/A',
         logo: apiBrand.venue_logo,
         websiteUrl: apiBrand.venue_url,
-        phoneNumber: apiBrand.venue_whatsapp_no,
+        phoneNumber: apiBrand.venue_contact_number || apiBrand.venue_whatsapp_no,
         emailAddress: apiBrand.venue_email,
         industry: apiBrand.category ? apiBrand.category.id.toString() : null,
         registrationDate: apiBrand.created_at,
         offersCount: apiBrand.offers_count || 0,
+        food_offers_count: apiBrand.food_offers_count || 0,
         campaignsCount: 0,
         profileCompletion: apiBrand.profile_completion || 0,
         files: apiBrand.files_count || 0,

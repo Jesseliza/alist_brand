@@ -89,6 +89,12 @@ export default function CampaignsTable({
             >
               View
             </th>
+            <th
+              scope="col"
+              className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+            >
+              Comments
+            </th>
           </tr>
         </thead>
 
@@ -106,14 +112,12 @@ export default function CampaignsTable({
                     className="flex items-center ml-3 cursor-pointer"
                   >
                     <div className="h-[33px] w-[70px] rounded-[6px] overflow-hidden relative flex-shrink-0">
-                      {campaign.thumbnailUrl && (
-                        <Image
-                          src={campaign.thumbnailUrl}
-                          alt={campaign.title}
-                          fill
-                          className="object-cover"
-                        />
-                      )}
+                      <Image
+                        src={campaign.thumbnailUrl || '/images/default-banner.png'}
+                        alt={campaign.title}
+                        fill
+                        className="object-cover"
+                      />
                     </div>
                     <span
                       className={`ml-3 text-[#4F4F4F] ${
@@ -180,6 +184,14 @@ export default function CampaignsTable({
                     height={14.48}
                   />
                 </Link>
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
+                <button
+                  onClick={() => console.log("Comment clicked for campaign " + campaign.id)}
+                  className="w-[110px] px-4.25 py-1 bg-[#636363] text-white rounded-full flex justify-center items-center gap-2"
+                >
+                  Comments
+                </button>
               </td>
             </tr>
           ))}

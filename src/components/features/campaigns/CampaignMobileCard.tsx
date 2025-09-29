@@ -50,14 +50,12 @@ export default function CampaignMobileCard({
     <div className="bg-white rounded-[13px] p-3.5 cursor-pointer">
       <div className="flex gap-5 items-center">
         <div className="relative w-[86.31px] h-[86.31px] rounded-[10px] overflow-hidden bg-[#E1E1E1]">
-          {thumbnailUrl && (
-            <Image
-              src={thumbnailUrl}
-              alt={title ?? "Campaign thumbnail"}
-              fill
-              className="object-cover"
-            />
-          )}
+          <Image
+            src={thumbnailUrl || '/images/default-banner.png'}
+            alt={title ?? "Campaign thumbnail"}
+            fill
+            className="object-cover"
+          />
         </div>
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">

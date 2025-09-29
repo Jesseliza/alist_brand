@@ -150,6 +150,13 @@ export default function CampaignsPage() {
             >
               Add Campaign
             </button>
+            <div className="w-auto">
+              <ActionDropdown
+                onSelect={handleActionSelect}
+                disabled={checkedRows.size === 0}
+                actions={checkedRows.size === 1 ? ["update"] : []}
+              />
+            </div>
           </div>
 
           {loading && displayCampaigns.length === 0 && <Loader />}
