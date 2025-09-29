@@ -1,6 +1,5 @@
 import { Campaign, CampaignSummary, CampaignDisplay, TimeUnit } from "@/types/entities/campaign";
 import { FoodOffer } from "@/types/entities/brand";
-import placeholderImage from "@/assets/images/campaigns/10.jpg";
 
 export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): CampaignDisplay => {
   const startDate = new Date(summary.start_date);
@@ -14,7 +13,7 @@ export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): Campaig
   const thumbnailUrl =
     imageUrl && summary.banner_image
       ? `${imageUrl}/assets/uploads/foodoffers/${summary.banner_image}`
-      : placeholderImage.src;
+      : '/images/default-banner.png';
 
   const copyLinkUrl = createLinkUrl
     ? `${createLinkUrl}/offerView/${summary.campaign_id}`
@@ -68,7 +67,7 @@ export const adaptCampaignToDisplay = (campaign: Campaign): CampaignDisplay => {
     title: campaign.title,
     vendorName: campaign.brandName,
     status: campaignWithStatus.account_status || 'Pending', // Default to Pending if not available
-    thumbnailUrl: campaign.thumbnailUrl,
+    thumbnailUrl: campaign.thumbnailUrl || '/images/default-banner.png',
     brandLogo: campaign.brandLogo,
     brandName: campaign.brandName,
     creatorApprovalType: campaign.creatorApprovalType,
@@ -98,7 +97,7 @@ export const adaptFoodOfferToDisplay = (
     title: offer.offer_title,
     vendorName: brandName,
     status: offer.account_status,
-    thumbnailUrl: placeholderImage.src,
+    thumbnailUrl: '/images/default-banner.png',
     brandLogo: brandLogo,
     brandName: brandName,
     creatorApprovalType: offer.account_status === "Approved" ? "Automated" : "Manual",

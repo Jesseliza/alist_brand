@@ -69,6 +69,15 @@ export default function CampaignMobileCard({
             </div>
           </div>
           <div className="flex items-center justify-between">
+            <div className="text-[13px] leading-[1.5] text-[#757575] inline-flex items-center justify-center gap-1.5 ">
+              <Image
+                src="/icons/general/barter-1-dark.svg"
+                alt="barter"
+                width={10.01}
+                height={10.01}
+              />
+              <p>{getOfferTypeDisplay(offerType)}</p>
+            </div>
             <div
               className={`text-[#757575] inline-flex items-center justify-center gap-1.5 `}
             >
@@ -107,15 +116,6 @@ export default function CampaignMobileCard({
               <span className="text-[13px] leading-[1.5]">
                 {getCampaignTypeDisplay(campaignType)}
               </span>
-            </div>
-            <div className="text-[13px] leading-[1.5] text-[#757575] inline-flex items-center justify-center gap-1.5 ">
-              <Image
-                src="/icons/general/barter-1-dark.svg"
-                alt="barter"
-                width={10.01}
-                height={10.01}
-              />
-              <p>{getOfferTypeDisplay(offerType)}</p>
             </div>
             <div className="text-[13px] leading-[1.5] text-[#757575]">
               {duration ? `${duration} ${durationUnit?.toLowerCase() ?? ''}` : `${startDate ?? ''} - ${endDate ?? ''}`}

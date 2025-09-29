@@ -167,7 +167,8 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
             avatarBackground: generateColorFromString(apiAccount.first_name || ''),
             subscriptionCount: 0,
             brandsCount: apiAccount.venues_count || 0,
-            campaignsCount: apiAccount.food_offers_count || 0,
+            campaignsCount: 0,
+            food_offers_count: apiAccount.food_offers_count || 0,
             status: apiAccount.status,
             registration_type: "accounts",
           };
@@ -226,7 +227,8 @@ function* handleFetchMoreAccounts(action: ReturnType<typeof fetchMoreAccountsReq
             avatarBackground: generateColorFromString(apiAccount.first_name || ''),
             subscriptionCount: 0,
             brandsCount: apiAccount.venues_count || 0,
-            campaignsCount: apiAccount.food_offers_count || 0,
+            campaignsCount: 0,
+            food_offers_count: apiAccount.food_offers_count || 0,
             status: apiAccount.status,
             registration_type: "accounts",
           };
@@ -301,7 +303,8 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
           avatarBackground: "#CCCCCC",
           subscriptionCount: 0,
           brandsCount: apiAccount.venues_count,
-          campaignsCount: apiAccount.food_offers_count || 0,
+          campaignsCount: 0,
+          food_offers_count: apiAccount.food_offers_count || 0,
           status: apiAccount.status,
           registration_type: "accounts",
         };
@@ -376,7 +379,8 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
           avatarBackground: generateColorFromString(apiAccount.first_name || ""),
           subscriptionCount: 0,
           brandsCount: apiAccount.venues_count || 0,
-          campaignsCount: apiAccount.food_offers_count || 0,
+          campaignsCount: 0,
+          food_offers_count: apiAccount.food_offers_count || 0,
           status: apiAccount.status,
           registration_type: "accounts",
         };
@@ -439,7 +443,8 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
           avatarBackground: generateColorFromString(apiAccount.first_name || ''),
           subscriptionCount: 0,
           brandsCount: apiAccount.venues_count || 0,
-          campaignsCount: apiAccount.food_offers_count || 0,
+          campaignsCount: 0,
+          food_offers_count: apiAccount.food_offers_count || 0,
           status: apiAccount.status,
           registration_type: "accounts",
         };
