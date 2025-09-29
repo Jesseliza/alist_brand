@@ -147,7 +147,7 @@ export default function BrandPage() {
             <button
               className="px-4 py-2 bg-red-500 text-white rounded-md"
               onClick={() => {
-                postData(`/api/campaign/bulk-delete`, { id: [campaignId] }).then((res) => {
+                postData(`/api/campaign/bulk-delete`, { ids: [campaignId] }).then((res) => {
                   if (res.success) {
                     toast.success("Campaign deleted successfully");
                     if (brandId) {
