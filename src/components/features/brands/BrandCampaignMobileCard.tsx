@@ -5,8 +5,10 @@ import { CampaignDisplay } from "@/types/entities/campaign";
 
 export default function BrandCampaignMobileCard({
   campaign,
+  onRemove,
 }: {
   campaign: CampaignDisplay;
+  onRemove: (id: string) => void;
 }) {
   const {
     title,
@@ -61,12 +63,26 @@ export default function BrandCampaignMobileCard({
           )}
         </div>
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center justify-between gap-2 mb-2">
             <div>
               <h3 className="text-[15px] font-semibold leading-[1.5] text-[#4F4F4F] mb-1.5">
                 {title ?? "Untitled Campaign"}
               </h3>
             </div>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onRemove(campaign.id.toString());
+              }}
+              className="p-1"
+            >
+              <Image
+                src="/icons/campaign/add-campaign/remove-channel.svg"
+                alt="delete campaign"
+                width={20}
+                height={20}
+              />
+            </button>
           </div>
           <div className="flex items-center justify-between">
             <div

@@ -75,7 +75,10 @@ export default function BrandCampaigns({
             onClick={() => handleCampaignClick(campaign.id)}
             className="cursor-pointer"
           >
-            <BrandCampaignMobileCard campaign={campaign} />
+            <BrandCampaignMobileCard
+              campaign={campaign}
+              onRemove={() => onRemoveCampaign(campaign.id.toString())}
+            />
           </div>
         ))}
       </div>
