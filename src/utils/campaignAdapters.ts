@@ -13,7 +13,7 @@ export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): Campaig
 
   const thumbnailUrl =
     imageUrl && summary.banner_image
-      ? `${imageUrl}/assets/uploads/foodoffers/thumbnail/${summary.banner_image}`
+      ? `${imageUrl}/assets/uploads/foodoffers/${summary.banner_image}`
       : placeholderImage.src;
 
   const copyLinkUrl = createLinkUrl
