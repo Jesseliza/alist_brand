@@ -10,6 +10,7 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
     vendorName,
     status,
     thumbnailUrl,
+    banner_image,
     brandLogo,
     brandName,
     campaignType,
@@ -74,7 +75,7 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
     <article className="w-full bg-white rounded-[13px] overflow-hidden">
       <div className="h-[90px] w-full relative bg-[#E1E1E1]">
         <Image
-          src={thumbnailUrl || '/images/no_image.png'}
+          src={banner_image || '/images/no_image.png'}
           alt={`${title} header`}
           fill
           className="object-cover"
@@ -115,12 +116,26 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
           </p>
           <div className="flex gap-[4.5px] items-center">
             <Image
-              src={status === 'Approved' ? "/icons/campaign/card/active-light.svg" : "/icons/campaign/card/pending-light.svg"}
+              src={
+                status === "Approved"
+                  ? "/icons/tick-circle.svg"
+                  : status === "Rejected"
+                  ? "/icons/danger.svg"
+                  : "/icons/campaign/card/pending-light.svg"
+              }
               alt={status}
               width={11.6}
               height={11.6}
             />
-            <p className="text-[13px] text-[#787878] leading-[20px]">
+            <p
+              className={`text-[13px] leading-[20px] ${
+                status === "Approved"
+                  ? "text-green-500"
+                  : status === "Rejected"
+                  ? "text-red-500"
+                  : "text-[#787878]"
+              }`}
+            >
               {status}
             </p>
           </div>

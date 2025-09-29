@@ -4,21 +4,41 @@ import { useState } from "react";
 import Image from "next/image";
 import { CampaignDisplay } from "@/types/entities/campaign";
 import Link from "next/link";
+import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 
 interface CampaignsTableProps {
   campaigns: CampaignDisplay[];
 }
 
 export default function CampaignsTable({
-  campaigns
+  campaigns,
 }: CampaignsTableProps) {
   const [copiedLink, setCopiedLink] = useState<string | null>(null);
+  const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
 
   const handleCopyLink = (url: string, campaignId: string) => {
     if (url) {
       navigator.clipboard.writeText(url);
       setCopiedLink(campaignId);
       setTimeout(() => setCopiedLink(null), 2000);
+    }
+  };
+
+  const handleCheckboxChange = (campaignId: string) => {
+    setCheckedRows((prevCheckedRows) => {
+      const newCheckedRows = new Set(prevCheckedRows);
+      if (newCheckedRows.has(campaignId)) {
+        newCheckedRows.delete(campaignId);
+      } else {
+        newCheckedRows.add(campaignId);
+      }
+      return newCheckedRows;
+    });
+  };
+
+  const handleActionSelect = (value: string) => {
+    if (value === "delete") {
+      console.log("Delete action triggered for campaigns:", Array.from(checkedRows));
     }
   };
 
@@ -44,7 +64,18 @@ export default function CampaignsTable({
           <tr>
             <th
               scope="col"
-              className="px-4.75 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+              className="pl-3 pr-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+            >
+              <input
+                type="checkbox"
+                className="h-5 w-5 rounded-md text-blue-600 focus:ring-blue-500"
+                // onChange={handleSelectAll}
+                // checked={checkedRows.size > 0 && checkedRows.size === campaigns.length}
+              />
+            </th>
+            <th
+              scope="col"
+              className="px-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
               Campaign
             </th>
@@ -84,17 +115,35 @@ export default function CampaignsTable({
             >
               View
             </th>
+            <th
+              scope="col"
+              className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+            >
+              <ActionDropdown
+                onSelect={handleActionSelect}
+                actions={["delete"]}
+                disabled={checkedRows.size === 0}
+              />
+            </th>
           </tr>
         </thead>
 
         <tbody className="bg-white">
           {campaigns.map((campaign) => (
             <tr key={campaign.id} className="odd:bg-[#F8F8F8]">
-              <td className="px-4.75 py-2.5 whitespace-nowrap">
+              <td className="pl-3 pr-2 py-2.5 whitespace-nowrap">
+                <input
+                  type="checkbox"
+                  className="h-5 w-5 rounded-md text-blue-600 focus:ring-blue-500"
+                  checked={checkedRows.has(campaign.id.toString())}
+                  onChange={() => handleCheckboxChange(campaign.id.toString())}
+                />
+              </td>
+              <td className="px-2 py-2.5 whitespace-nowrap">
                 <div className="flex items-center">
                   <Link
                     href={`/businesses/campaigns/${campaign.id}`}
-                    className="flex items-center ml-3 cursor-pointer"
+                    className="flex items-center cursor-pointer"
                   >
                     <div className="h-[33px] w-[70px] rounded-[6px] overflow-hidden relative flex-shrink-0">
                       <Image
