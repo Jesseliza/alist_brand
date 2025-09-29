@@ -8,6 +8,7 @@ import Pagination from "@/components/general/Pagination";
 import { adaptCampaignSummaryToDisplay } from "@/utils/campaignAdapters";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
 import {
@@ -106,9 +107,16 @@ export default function CampaignsPage() {
 
   const handleActionSelect = (value: string) => {
     if (value === "delete") {
-      checkedRows.forEach((id) => {
-        dispatch(deleteCampaignStart({ id }));
+      const promises = Array.from(checkedRows).map((id) =>
+        dispatch(deleteCampaignStart({ id }))
+      );
+
+      toast.promise(Promise.all(promises), {
+        loading: "Deleting campaigns...",
+        success: "Campaigns deleted successfully",
+        error: "Error deleting campaigns",
       });
+
       setCheckedRows(new Set());
     }
   };
@@ -177,7 +185,7 @@ export default function CampaignsPage() {
                         disabled={loading}
                         className="disabled:text-gray-400"
                       >
-                        {loading ? <InlineLoader /> : 'See More'}
+                        {loading ? <InlineLoader /> : "See More"}
                       </button>
                     </div>
                   )}
@@ -185,11 +193,7 @@ export default function CampaignsPage() {
               <div className="hidden md:block">
                 {view === "table" ? (
                   <>
-                    <CampaignsTable
-                      campaigns={displayCampaigns}
-                      checkedRows={checkedRows}
-                      onCheckboxChange={handleCheckboxChange}
-                    />
+                    <CampaignsTable campaigns={displayCampaigns} />
                     {pagination && displayCampaigns.length > 0 && (
                       <Pagination
                         totalItems={pagination.total}
@@ -213,7 +217,13 @@ export default function CampaignsPage() {
                             key={campaign.id}
                             href={`/businesses/campaigns/${campaign.id}`}
                           >
-                            <CampaignCard campaign={campaign} />
+                            <CampaignCard
+                              campaign={campaign}
+                              checked={checkedRows.has(campaign.id.toString())}
+                              onCheckboxChange={() =>
+                                handleCheckboxChange(campaign.id.toString())
+                              }
+                            />
                           </Link>
                         ))
                       )}

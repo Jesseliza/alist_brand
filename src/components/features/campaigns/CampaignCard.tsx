@@ -3,8 +3,23 @@ import Image from "next/image";
 import { CampaignDisplay } from "@/types/entities/campaign";
 import { generateColorFromString } from "@/utils/colorGenerator";
 import { getInitials } from "@/utils/text";
+import CheckBox from "@/components/general/CheckBox";
 
-export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }) {
+interface CampaignCardProps {
+  campaign: CampaignDisplay;
+  checked: boolean;
+  onCheckboxChange: () => void;
+}
+
+export default function CampaignCard({
+  campaign,
+  checked,
+  onCheckboxChange,
+}: CampaignCardProps) {
+  const handleWrapperClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   const {
     title,
     vendorName,
@@ -22,45 +37,28 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
 
   const [copied, setCopied] = useState(false);
 
-  const getCampaignTypeDisplay = (type?: string) => {
-    switch (type) {
-      case "WalkIn":
-        return "Walk in";
-      case "Delivery":
-        return "Delivery";
-      case "Online":
-        return "Online";
-      case "Exclusive":
-        return "Exclusive";
-      default:
-        return type || "N/A";
-    }
-  };
 
   const getModeIcon = () => {
     if (campaignType === "WalkIn") {
-      return status === 'Approved'
+      return status === "Approved"
         ? "/icons/campaign/card/walk-approved.svg"
         : "/icons/campaign/card/walk-pending-light.svg";
     } else if (campaignType === "Delivery") {
-      return status === 'Approved'
+      return status === "Approved"
         ? "/icons/campaign/card/delivery-approved.svg"
         : "/icons/campaign/card/delivery-pending-light.svg";
     }
-    return status === 'Approved'
+    return status === "Approved"
       ? "/icons/campaign/card/delivery-approved.svg"
       : "/icons/campaign/card/delivery-pending-light.svg";
   };
 
   const getBarterIcon = () => {
-    return status === 'Approved'
+    return status === "Approved"
       ? "/icons/campaign/card/barter-approved.svg"
       : "/icons/campaign/card/barter-pending-light.svg";
   };
 
-  const handleEditClick = () => {
-    console.log("Edit clicked for campaign:", campaign.id);
-  };
 
   const handleCopyClick = () => {
     if (copyLinkUrl) {
@@ -71,10 +69,17 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
   };
 
   return (
-    <article className="w-full bg-white rounded-[13px] overflow-hidden">
+    <article className="w-full bg-white rounded-[13px] overflow-hidden relative">
+      <div onClick={handleWrapperClick} className="absolute top-2 right-2 z-10">
+        <CheckBox
+          checked={checked}
+          onChange={onCheckboxChange}
+          onClick={(e) => e.stopPropagation()}
+        />
+      </div>
       <div className="h-[90px] w-full relative bg-[#E1E1E1]">
         <Image
-          src={thumbnailUrl || '/images/no_image.png'}
+          src={thumbnailUrl || "/images/no_image.png"}
           alt={`${title} header`}
           fill
           className="object-cover"
@@ -115,7 +120,11 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
           </p>
           <div className="flex gap-[4.5px] items-center">
             <Image
-              src={status === 'Approved' ? "/icons/campaign/card/active-light.svg" : "/icons/campaign/card/pending-light.svg"}
+              src={
+                status === "Approved"
+                  ? "/icons/campaign/card/active-light.svg"
+                  : "/icons/campaign/card/pending-light.svg"
+              }
               alt={status}
               width={11.6}
               height={11.6}
@@ -150,21 +159,21 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
               />
             </div>
             <span className="text-[12px] text-[#414141] font-medium">
-              {offerType ?? 'N/A'}
+              {offerType ?? "N/A"}
             </span>
           </div>
           <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
             <div className="h-[30.65px] flex items-center justify-center">
               <span
                 className={`text-[21px] font-bold leading-[31px] ${
-                  status === 'Approved' ? "text-[#00A4B6]" : "text-[#505050]"
+                  status === "Approved" ? "text-[#00A4B6]" : "text-[#505050]"
                 }`}
               >
-                {duration ?? 'N/A'}
+                {duration ?? "N/A"}
               </span>
             </div>
             <span className="text-[12px] text-[#414141] font-medium">
-              {durationUnit ?? ''}
+              {durationUnit ?? ""}
             </span>
           </div>
         </div>
@@ -175,9 +184,7 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
           >
             {copied ? "Copied!" : "Copy Link"}
           </button>
-          <button
-            onClick={handleEditClick}
-            className="flex-1 bg-[#787878] text-[15px]  text-white py-[9px] rounded-[11px] font-medium leading-[23px]">
+          <button className="flex-1 bg-[#787878] text-[15px]  text-white py-[9px] rounded-[11px] font-medium leading-[23px]">
             Edit
           </button>
         </div>

@@ -7,14 +7,10 @@ import Link from "next/link";
 
 interface CampaignsTableProps {
   campaigns: CampaignDisplay[];
-  checkedRows: Set<string>;
-  onCheckboxChange: (campaignId: string) => void;
 }
 
 export default function CampaignsTable({
   campaigns,
-  checkedRows,
-  onCheckboxChange,
 }: CampaignsTableProps) {
   const [copiedLink, setCopiedLink] = useState<string | null>(null);
 
@@ -26,20 +22,6 @@ export default function CampaignsTable({
     }
   };
 
-  const getCampaignTypeDisplay = (campaignType?: string) => {
-    switch (campaignType) {
-      case "WalkIn":
-        return "Walk in";
-      case "Delivery":
-        return "Delivery";
-      case "Online":
-        return "Online";
-      case "Exclusive":
-        return "Exclusive";
-      default:
-        return campaignType || "N/A";
-    }
-  };
 
   return (
     <div className="overflow-x-auto">
@@ -48,16 +30,7 @@ export default function CampaignsTable({
           <tr>
             <th
               scope="col"
-              className="pl-3 pr-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
-            >
-              <input
-                type="checkbox"
-                className="h-5 w-5 rounded-md text-blue-600 focus:ring-blue-500"
-              />
-            </th>
-            <th
-              scope="col"
-              className="px-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+              className="px-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap pl-8"
             >
               Campaign
             </th>
@@ -103,15 +76,7 @@ export default function CampaignsTable({
         <tbody className="bg-white">
           {campaigns.map((campaign) => (
             <tr key={campaign.id} className="odd:bg-[#F8F8F8]">
-              <td className="pl-3 pr-2 py-2.5 whitespace-nowrap">
-                <input
-                  type="checkbox"
-                  className="h-5 w-5 rounded-md text-blue-600 focus:ring-blue-500"
-                  checked={checkedRows.has(campaign.id.toString())}
-                  onChange={() => onCheckboxChange(campaign.id.toString())}
-                />
-              </td>
-              <td className="px-2 py-2.5 whitespace-nowrap">
+              <td className="px-2 py-2.5 whitespace-nowrap pl-8">
                 <div className="flex items-center">
                   <Link
                     href={`/businesses/campaigns/${campaign.id}`}
@@ -119,15 +84,13 @@ export default function CampaignsTable({
                   >
                     <div className="h-[33px] w-[70px] rounded-[6px] overflow-hidden relative flex-shrink-0">
                       <Image
-                        src={campaign.thumbnailUrl || '/images/no_image.png'}
+                        src={campaign.thumbnailUrl || "/images/no_image.png"}
                         alt={campaign.title}
                         fill
                         className="object-cover"
                       />
                     </div>
-                    <span
-                      className={`ml-3 text-[#4F4F4F]`}
-                    >
+                    <span className={`ml-3 text-[#4F4F4F]`}>
                       {campaign.title}
                     </span>
                   </Link>
@@ -140,7 +103,7 @@ export default function CampaignsTable({
                 {campaign.is_dedicated === 1 ? "Dedicated" : "Normal"}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
-                {campaign.offerType ?? 'N/A'}
+                {campaign.offerType ?? "N/A"}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
                 <div
@@ -157,7 +120,12 @@ export default function CampaignsTable({
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
                 <button
-                  onClick={() => handleCopyLink(campaign.copyLinkUrl || '', campaign.id.toString())}
+                  onClick={() =>
+                    handleCopyLink(
+                      campaign.copyLinkUrl || "",
+                      campaign.id.toString()
+                    )
+                  }
                   className="w-[110px] px-4.25 py-1 bg-[#00A4B6] text-white rounded-full flex justify-center items-center gap-2"
                 >
                   {copiedLink === campaign.id.toString() ? (
