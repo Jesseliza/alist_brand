@@ -60,7 +60,7 @@ export default function BrandCampaigns({
             >
               <CampaignCard
                 campaign={campaign}
-                onRemove={() => onRemoveCampaign(campaign.id.toString())}
+                onRemove={() => onRemoveCampaign(campaign.campaignId)}
                 checked={false}
                 onCheckboxChange={() => {}}
               />

@@ -72,7 +72,7 @@ export default function BrandCampaignMobileCard({
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                onRemove(campaign.id.toString());
+                onRemove(campaign.campaignId);
               }}
               className="p-1"
             >
