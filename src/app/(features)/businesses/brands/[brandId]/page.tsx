@@ -19,7 +19,7 @@ import {
 import { RootState } from "@/store/store";
 import { fetchIndustries } from "@/store/common/commonSlice";
 import { deleteData } from "@/services/commonService";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function BrandPage() {
   const params = useParams();
@@ -131,29 +131,46 @@ export default function BrandPage() {
   }
 
   const handleRemoveCampaign = (campaignId: string) => {
-    const confirmDelete = () => {
-      toast.dismiss(toastId);
-      deleteData(`/food-offers/${campaignId}`).then((res) => {
-        if (res.success) {
-          toast.success("Campaign deleted successfully");
-          if (brandId) {
-            dispatch(fetchBrandRequest({ brandId: brandId as string }));
-          }
-        } else {
-          toast.error("Failed to delete campaign");
-        }
-      });
-    };
-
-    const toastId = toast.info("Are you sure you want to delete this campaign?", {
-      closeButton: ({ closeToast }) => (
-        <div className="flex gap-x-2">
-          <button onClick={confirmDelete} className="bg-red-500 text-white px-2 py-1 rounded">Yes</button>
-          <button onClick={closeToast} className="bg-gray-300 px-2 py-1 rounded">No</button>
+    toast(
+      (t) => (
+        <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4">
+          <p className="font-semibold">
+            Are you sure you want to delete this campaign?
+          </p>
+          <div className="flex justify-end gap-2">
+            <button
+              className="px-4 py-2 bg-gray-200 rounded-md"
+              onClick={() => toast.dismiss(t.id)}
+            >
+              Cancel
+            </button>
+            <button
+              className="px-4 py-2 bg-red-500 text-white rounded-md"
+              onClick={() => {
+                deleteData(`/food-offers/${campaignId}`).then((res) => {
+                  if (res.success) {
+                    toast.success("Campaign deleted successfully");
+                    if (brandId) {
+                      dispatch(
+                        fetchBrandRequest({ brandId: brandId as string })
+                      );
+                    }
+                  } else {
+                    toast.error("Failed to delete campaign");
+                  }
+                });
+                toast.dismiss(t.id);
+              }}
+            >
+              Delete
+            </button>
+          </div>
         </div>
       ),
-      autoClose: false,
-    });
+      {
+        duration: 6000,
+      }
+    );
   };
 
   return (
