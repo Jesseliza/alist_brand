@@ -126,6 +126,8 @@ export default function CampaignsTable({
                   className={`w-[98px] px-4.25 py-1 rounded-full text-white ${
                     campaign.status === "Pending"
                       ? "bg-[#636363]"
+                      : campaign.status === "Rejected"
+                      ? "bg-red-500"
                       : "bg-[#00CC86]"
                   }`}
                 >
