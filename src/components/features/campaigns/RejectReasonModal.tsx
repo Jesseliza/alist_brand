@@ -21,8 +21,14 @@ const RejectReasonModal = ({ isOpen, onClose, onSubmit, loading }: RejectReasonM
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white rounded-lg shadow-lg w-full max-w-md"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="bg-[#00A4B6] p-4 flex justify-between items-center rounded-t-lg">
           <h3 className="text-xl font-semibold text-white">Reject Reason</h3>
           <button onClick={onClose} className="text-white text-2xl">&times;</button>

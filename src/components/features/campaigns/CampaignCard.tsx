@@ -21,7 +21,6 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
   } = campaign;
 
   const [copied, setCopied] = useState(false);
-  const isActive = status !== "Pending" && status !== "pending";
 
   const getCampaignTypeDisplay = (type?: string) => {
     switch (type) {
@@ -40,21 +39,21 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
 
   const getModeIcon = () => {
     if (campaignType === "WalkIn") {
-      return isActive
+      return status === 'Approved'
         ? "/icons/campaign/card/walk-approved.svg"
         : "/icons/campaign/card/walk-pending-light.svg";
     } else if (campaignType === "Delivery") {
-      return isActive
+      return status === 'Approved'
         ? "/icons/campaign/card/delivery-approved.svg"
         : "/icons/campaign/card/delivery-pending-light.svg";
     }
-    return isActive
+    return status === 'Approved'
       ? "/icons/campaign/card/delivery-approved.svg"
       : "/icons/campaign/card/delivery-pending-light.svg";
   };
 
   const getBarterIcon = () => {
-    return isActive
+    return status === 'Approved'
       ? "/icons/campaign/card/barter-approved.svg"
       : "/icons/campaign/card/barter-pending-light.svg";
   };
@@ -75,7 +74,7 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
     <article className="w-full bg-white rounded-[13px] overflow-hidden">
       <div className="h-[90px] w-full relative bg-[#E1E1E1]">
         <Image
-          src={thumbnailUrl || '/images/default-banner.png'}
+          src={thumbnailUrl || '/images/no_image.png'}
           alt={`${title} header`}
           fill
           className="object-cover"
@@ -116,13 +115,13 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
           </p>
           <div className="flex gap-[4.5px] items-center">
             <Image
-              src={isActive ? "/icons/campaign/card/active-light.svg" : "/icons/campaign/card/pending-light.svg"}
+              src={status === 'Approved' ? "/icons/campaign/card/active-light.svg" : "/icons/campaign/card/pending-light.svg"}
               alt={status}
               width={11.6}
               height={11.6}
             />
             <p className="text-[13px] text-[#787878] leading-[20px]">
-              {isActive ? "Active" : "Pending"}
+              {status}
             </p>
           </div>
         </div>
@@ -158,7 +157,7 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
             <div className="h-[30.65px] flex items-center justify-center">
               <span
                 className={`text-[21px] font-bold leading-[31px] ${
-                  isActive ? "text-[#00A4B6]" : "text-[#505050]"
+                  status === 'Approved' ? "text-[#00A4B6]" : "text-[#505050]"
                 }`}
               >
                 {duration ?? 'N/A'}
