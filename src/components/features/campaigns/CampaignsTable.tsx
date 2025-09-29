@@ -1,28 +1,46 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { CampaignDisplay } from "@/types/entities/campaign";
-import CampaignRow from "./CampaignRow";
-import CheckBox from "@/components/general/CheckBox";
+import Link from "next/link";
 
 interface CampaignsTableProps {
   campaigns: CampaignDisplay[];
-  checkedRows: Set<string>;
-  onCheckboxChange: (campaignId: string) => void;
 }
 
 export default function CampaignsTable({
   campaigns,
-  checkedRows,
-  onCheckboxChange,
 }: CampaignsTableProps) {
-  const [copiedLinkId, setCopiedLinkId] = useState<string | null>(null);
+  const [copiedLink, setCopiedLink] = useState<string | null>(null);
+  const [imageErrors, setImageErrors] = useState<Set<string | number>>(
+    new Set()
+  );
+
+  const handleImageError = (campaignId: string | number) => {
+    setImageErrors((prev) => new Set(prev).add(campaignId));
+  };
 
   const handleCopyLink = (url: string, campaignId: string) => {
     if (url) {
       navigator.clipboard.writeText(url);
-      setCopiedLinkId(campaignId);
-      setTimeout(() => setCopiedLinkId(null), 2000);
+      setCopiedLink(campaignId);
+      setTimeout(() => setCopiedLink(null), 2000);
+    }
+  };
+
+  const getCampaignTypeDisplay = (campaignType?: string) => {
+    switch (campaignType) {
+      case "WalkIn":
+        return "Walk in";
+      case "Delivery":
+        return "Delivery";
+      case "Online":
+        return "Online";
+      case "Exclusive":
+        return "Exclusive";
+      default:
+        return campaignType || "N/A";
     }
   };
 
@@ -33,17 +51,7 @@ export default function CampaignsTable({
           <tr>
             <th
               scope="col"
-              className="pl-3 pr-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
-            >
-              <CheckBox
-                // This would be for a "select all" functionality
-                // onChange={handleSelectAll}
-                // checked={checkedRows.size > 0 && checkedRows.size === campaigns.length}
-              />
-            </th>
-            <th
-              scope="col"
-              className="px-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+              className="px-4.75 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
               Campaign
             </th>
@@ -88,14 +96,92 @@ export default function CampaignsTable({
 
         <tbody className="bg-white">
           {campaigns.map((campaign) => (
-            <CampaignRow
-              key={campaign.id}
-              campaign={campaign}
-              checked={checkedRows.has(campaign.id.toString())}
-              onCheckboxChange={onCheckboxChange}
-              onCopyLink={handleCopyLink}
-              copiedLinkId={copiedLinkId}
-            />
+            <tr key={campaign.id} className="odd:bg-[#F8F8F8]">
+              <td className="px-4.75 py-2.5 whitespace-nowrap">
+                <div className="flex items-center">
+                  <Link
+                    href={`/businesses/campaigns/${campaign.id}`}
+                    className="flex items-center ml-3 cursor-pointer"
+                  >
+                    <div className="h-[33px] w-[70px] rounded-[6px] overflow-hidden relative flex-shrink-0">
+                      <Image
+                        src={
+                          imageErrors.has(campaign.id) ||
+                          !campaign.banner_image
+                            ? "/images/default-banner.png"
+                            : `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/thumbnail/${campaign.banner_image}`
+                        }
+                        alt={campaign.title}
+                        fill
+                        className="object-cover"
+                        onError={() => handleImageError(campaign.id)}
+                      />
+                    </div>
+                    <span
+                      className={`ml-3 text-[#4F4F4F]`}
+                    >
+                      {campaign.title}
+                    </span>
+                  </Link>
+                </div>
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
+                {campaign.vendorName}
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
+                {campaign.is_dedicated === 1 ? "Dedicated" : "Normal"}
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
+                {campaign.offerType ?? 'N/A'}
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
+                <div
+                  className={`w-[98px] px-4.25 py-1 rounded-full text-white ${
+                    campaign.status === "Pending"
+                      ? "bg-[#636363]"
+                      : campaign.status === "Rejected"
+                      ? "bg-red-500"
+                      : "bg-[#00CC86]"
+                  }`}
+                >
+                  {campaign.status}
+                </div>
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
+                <button
+                  onClick={() => handleCopyLink(campaign.copyLinkUrl || '', campaign.id.toString())}
+                  className="w-[110px] px-4.25 py-1 bg-[#00A4B6] text-white rounded-full flex justify-center items-center gap-2"
+                >
+                  {copiedLink === campaign.id.toString() ? (
+                    <div>Copied!</div>
+                  ) : (
+                    <>
+                      <div>Copy link</div>
+                      <Image
+                        src={"/icons/general/copy-white-1.svg"}
+                        alt="copy"
+                        width={14.48}
+                        height={14.48}
+                      />
+                    </>
+                  )}
+                </button>
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
+                <Link
+                  href={`/businesses/campaigns/${campaign.id}`}
+                  className="w-[98px] px-4.25 py-1 bg-[#00A4B6] text-white rounded-full flex justify-center items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+                >
+                  <div>View</div>
+                  <Image
+                    src={"/icons/general/view-1.svg"}
+                    alt="view"
+                    width={14.48}
+                    height={14.48}
+                  />
+                </Link>
+              </td>
+            </tr>
           ))}
         </tbody>
       </table>

@@ -40,21 +40,21 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
 
   const getModeIcon = () => {
     if (campaignType === "WalkIn") {
-      return status === 'Approved'
+      return status === "Approved"
         ? "/icons/campaign/card/walk-approved.svg"
         : "/icons/campaign/card/walk-pending-light.svg";
     } else if (campaignType === "Delivery") {
-      return status === 'Approved'
+      return status === "Approved"
         ? "/icons/campaign/card/delivery-approved.svg"
         : "/icons/campaign/card/delivery-pending-light.svg";
     }
-    return status === 'Approved'
+    return status === "Approved"
       ? "/icons/campaign/card/delivery-approved.svg"
       : "/icons/campaign/card/delivery-pending-light.svg";
   };
 
   const getBarterIcon = () => {
-    return status === 'Approved'
+    return status === "Approved"
       ? "/icons/campaign/card/barter-approved.svg"
       : "/icons/campaign/card/barter-pending-light.svg";
   };
@@ -88,11 +88,15 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
 
   const currentStatus = statusConfig[status] || statusConfig.Pending;
 
+  const imageUrl = banner_image
+    ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${banner_image}`
+    : "/images/no_image.png";
+
   return (
     <article className="w-full bg-white rounded-[13px] overflow-hidden">
       <div className="h-[90px] w-full relative bg-[#E1E1E1]">
         <Image
-          src={imageError || !banner_image ? '/images/no_image.png' : banner_image}
+          src={imageError ? '/images/no_image.png' : imageUrl}
           alt={`${title} header`}
           fill
           className="object-cover"

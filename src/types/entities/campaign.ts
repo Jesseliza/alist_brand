@@ -270,7 +270,6 @@ export interface CampaignDisplay {
   vendorName: string;
   status: string;
   thumbnailUrl?: string;
-  banner_image?: string;
   brandLogo?: string | null;
   brandName?: string;
   creatorApprovalType?: 'Automated' | 'Manual';
