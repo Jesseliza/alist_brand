@@ -112,6 +112,7 @@ interface ApiAccount {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     venues: any[];
   venues_count: number;
+    food_offers_count: number;
     created_at: string;
 }
 
@@ -167,6 +168,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
             subscriptionCount: 0,
             brandsCount: apiAccount.venues_count || 0,
             campaignsCount: 0,
+            food_offers_count: apiAccount.food_offers_count || 0,
             status: apiAccount.status,
             registration_type: "accounts",
           };
@@ -226,6 +228,7 @@ function* handleFetchMoreAccounts(action: ReturnType<typeof fetchMoreAccountsReq
             subscriptionCount: 0,
             brandsCount: apiAccount.venues_count || 0,
             campaignsCount: 0,
+            food_offers_count: apiAccount.food_offers_count || 0,
             status: apiAccount.status,
             registration_type: "accounts",
           };

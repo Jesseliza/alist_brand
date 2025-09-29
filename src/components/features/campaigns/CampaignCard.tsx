@@ -59,14 +59,12 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
   return (
     <article className="w-full bg-white rounded-[13px] overflow-hidden">
       <div className="h-[90px] w-full relative bg-[#E1E1E1]">
-        {thumbnailUrl && (
-          <Image
-            src={thumbnailUrl}
-            alt={`${title} header`}
-            fill
-            className="object-cover"
-          />
-        )}
+        <Image
+          src={thumbnailUrl || '/images/default-banner.png'}
+          alt={`${title} header`}
+          fill
+          className="object-cover"
+        />
         <div className="w-[90px] h-[90px] absolute top-[39px] left-[24px] bg-white rounded-full border-5 border-[#E1E1E1] flex items-center justify-center overflow-hidden">
           {brandLogo ? (
             <Image
