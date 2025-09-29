@@ -13,18 +13,20 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
   );
 
   const mappedCreators = useMemo(() => {
-    return creators.map((offerUser) => ({
-      id: offerUser.user.id.toString(),
-      image: offerUser.user.profile_photo || "/images/creators/profile.png",
-      name: offerUser.user.name,
-      instagramName: offerUser.user.instagram_handle || "N/A",
-      stats: {
-        followers: "0", // Placeholder
-        credibility: "0%", // Placeholder
-        engagement: "0%", // Placeholder
-      },
-      approved: offerUser.status === 1, // Assuming 1 is approved
-    }));
+    return creators
+      .filter((offerUser) => offerUser.user)
+      .map((offerUser) => ({
+        id: offerUser.user.id.toString(),
+        image: offerUser.user.profile_photo || "/images/creators/profile.png",
+        name: offerUser.user.name,
+        instagramName: offerUser.user.instagram_handle || "N/A",
+        stats: {
+          followers: "0", // Placeholder
+          credibility: "0%", // Placeholder
+          engagement: "0%", // Placeholder
+        },
+        approved: offerUser.status === 1, // Assuming 1 is approved
+      }));
   }, [creators]);
 
   const paginatedCreators = useMemo(() => {
@@ -34,7 +36,12 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
 
   const handleDelete = (id: string) => {
     setCreators((prevCreators) =>
-      prevCreators.filter((creator) => creator.user.id.toString() !== id)
+      prevCreators.filter((creator) => {
+        if (!creator.user) {
+          return true; // Keep creators that don't have a user object
+        }
+        return creator.user.id.toString() !== id;
+      })
     );
   };
 
