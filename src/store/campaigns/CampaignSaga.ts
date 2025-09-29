@@ -46,7 +46,7 @@ function* getMoreCampaignsSaga(action: GetCampaignsAction) {
 function* updateCampaignStatusSaga(action: UpdateCampaignStatusAction) {
   try {
     const { id, status } = action.payload;
-    yield call(axiosInstance.post, `/campaign/${id}/status`, { status });
+    yield call(axiosInstance.post, `/api/campaign/${id}/status`, { status });
     yield put(updateCampaignStatusSuccess());
   } catch (error: any) {
     yield put(updateCampaignStatusFailure(error.message));
