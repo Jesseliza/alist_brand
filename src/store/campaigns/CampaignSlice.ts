@@ -95,20 +95,6 @@ const campaignsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    deleteCampaignStart: (state, action: PayloadAction<{ id: string }>) => {
-      state.loading = true;
-      state.error = null;
-    },
-    deleteCampaignSuccess: (state, action: PayloadAction<{ id: string }>) => {
-      state.loading = false;
-      state.campaigns = state.campaigns.filter(
-        (campaign) => campaign.id.toString() !== action.payload.id
-      );
-    },
-    deleteCampaignFailure: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
   },
 });
 
@@ -127,9 +113,6 @@ export const {
   updateDedicatedPageStatusStart,
   updateDedicatedPageStatusSuccess,
   updateDedicatedPageStatusFailure,
-  deleteCampaignStart,
-  deleteCampaignSuccess,
-  deleteCampaignFailure,
 } = campaignsSlice.actions;
 
 export default campaignsSlice.reducer;

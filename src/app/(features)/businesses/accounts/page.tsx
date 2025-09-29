@@ -139,14 +139,6 @@ export default function AccountsPage() {
     router.push("/businesses/accounts/create");
   };
 
-  const accountActions = [];
-  if (checkedRows.size > 0) {
-    accountActions.push("delete", "active", "inactive");
-    if (checkedRows.size === 1) {
-      accountActions.unshift("update");
-    }
-  }
-
   return (
     <div>
       {/* <div className="py-[13px] bg-white hidden md:block relative">
@@ -184,7 +176,7 @@ export default function AccountsPage() {
             <div className="w-auto">
               <ActionDropdown
                 onSelect={handleActionSelect}
-                actions={accountActions}
+                showUpdate={checkedRows.size === 1}
                 disabled={checkedRows.size === 0}
               />
             </div>
@@ -202,7 +194,7 @@ export default function AccountsPage() {
             <div className="w-auto">
               <ActionDropdown
                 onSelect={handleActionSelect}
-                actions={accountActions}
+                showUpdate={checkedRows.size === 1}
                 disabled={checkedRows.size === 0}
               />
             </div>
