@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import {
   getCampaignsStart,
   getMoreCampaignsStart,
-  deleteCampaignStart,
+  bulkDeleteCampaignsStart,
 } from "@/store/campaigns/CampaignSlice";
 import { setSearchTerm } from "@/store/search/searchSlice";
 import { RootState } from "@/store/store";
@@ -107,17 +107,16 @@ export default function CampaignsPage() {
 
   const handleActionSelect = (value: string) => {
     if (value === "delete") {
-      const promises = Array.from(checkedRows).map((id) =>
-        dispatch(deleteCampaignStart({ id }))
-      );
-
-      toast.promise(Promise.all(promises), {
-        loading: "Deleting campaigns...",
-        success: "Campaigns deleted successfully",
-        error: "Error deleting campaigns",
-      });
-
-      setCheckedRows(new Set());
+      if (checkedRows.size > 0) {
+        const ids = Array.from(checkedRows);
+        const promise = dispatch(bulkDeleteCampaignsStart({ ids }));
+        toast.promise(promise, {
+          loading: "Deleting campaigns...",
+          success: "Campaigns deleted successfully!",
+          error: "Failed to delete campaigns.",
+        });
+        setCheckedRows(new Set());
+      }
     }
   };
 
@@ -193,7 +192,11 @@ export default function CampaignsPage() {
               <div className="hidden md:block">
                 {view === "table" ? (
                   <>
-                    <CampaignsTable campaigns={displayCampaigns} />
+                    <CampaignsTable
+                      campaigns={displayCampaigns}
+                      checkedRows={checkedRows}
+                      onCheckboxChange={handleCheckboxChange}
+                    />
                     {pagination && displayCampaigns.length > 0 && (
                       <Pagination
                         totalItems={pagination.total}
