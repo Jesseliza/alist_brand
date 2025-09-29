@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Checkbox from "@/components/general/CheckBox";
 import Image from "next/image";
 import { CampaignDisplay } from "@/types/entities/campaign";
@@ -16,6 +17,16 @@ export default function CampaignsTable({
   checkedRows,
   onCheckboxChange,
 }: CampaignsTableProps) {
+  const [copiedLink, setCopiedLink] = useState<string | null>(null);
+
+  const handleCopyLink = (url: string, campaignId: string) => {
+    if (url) {
+      navigator.clipboard.writeText(url);
+      setCopiedLink(campaignId);
+      setTimeout(() => setCopiedLink(null), 2000);
+    }
+  };
+
   const getCampaignTypeDisplay = (campaignType?: string) => {
     switch (campaignType) {
       case "WalkIn":
@@ -183,14 +194,23 @@ export default function CampaignsTable({
                 </div>
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
-                <button className="w-[98px] px-4.25 py-1 bg-[#00A4B6] text-white rounded-full flex justify-center items-center gap-2">
-                  <div>Copy link</div>
-                  <Image
-                    src={"/icons/general/copy-white-1.svg"}
-                    alt="copy"
-                    width={14.48}
-                    height={14.48}
-                  />
+                <button
+                  onClick={() => handleCopyLink(campaign.copyLinkUrl || '', campaign.id.toString())}
+                  className="w-[110px] px-4.25 py-1 bg-[#00A4B6] text-white rounded-full flex justify-center items-center gap-2"
+                >
+                  {copiedLink === campaign.id.toString() ? (
+                    <div>Copied!</div>
+                  ) : (
+                    <>
+                      <div>Copy link</div>
+                      <Image
+                        src={"/icons/general/copy-white-1.svg"}
+                        alt="copy"
+                        width={14.48}
+                        height={14.48}
+                      />
+                    </>
+                  )}
                 </button>
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">

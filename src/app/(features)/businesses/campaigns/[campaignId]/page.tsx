@@ -8,8 +8,6 @@ import { RootState } from "@/store/store";
 import Loader from "@/components/general/Loader";
 import CampaignDetails from "@/components/features/campaigns/CampaignDetails";
 import Image from "next/image";
-import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
-
 export default function CampaignDetailsPage() {
   const dispatch = useDispatch();
   const params = useParams();
@@ -28,12 +26,6 @@ export default function CampaignDetailsPage() {
 
   const handleBackClick = () => {
     router.back();
-  };
-
-  const handleActionSelect = (action: string) => {
-    if (action === "Update") {
-      router.push(`/businesses/campaigns/${campaignId}/edit`);
-    }
   };
 
   if (loading) {
@@ -64,11 +56,14 @@ export default function CampaignDetailsPage() {
           <h4 className="text-[18px] leading-[27px] font-semibold text-[#4F4F4F]">
             {campaign.title}
           </h4>
-          <ActionDropdown
-            onSelect={handleActionSelect}
-            actions={["Update"]}
-            excludeActions={["delete", "active", "inactive", "Approved", "Rejected"]}
-          />
+          <button className="cursor-pointer">
+            <Image
+              src="/icons/campaign/details/menu-dots.svg"
+              alt="share"
+              width={35}
+              height={35}
+            />
+          </button>
         </div>
 
         <CampaignDetails campaign={campaign} campaignId={campaignId as string} />

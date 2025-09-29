@@ -26,13 +26,14 @@ export default function Sidebar({
   setIsMobileMenuOpen,
 }: SidebarProps) {
   const pathname = usePathname();
-  const { user } = useSelector((state: RootState) => state.auth);
+  const { user, isAuthLoading } = useSelector((state: RootState) => state.auth);
   const [internalCollapsed, setInternalCollapsed] = useState(false);
   const [windowWidth, setWindowWidth] = useState(1920); // Default for SSR
   const [isMounted, setIsMounted] = useState(false);
 
+  // Wait for auth check to complete before rendering the sidebar
   const filteredSidebarConfig = sidebarConfig.map((section) => {
-    const filteredItems = section.items.filter(item => {
+    const filteredItems = section.items.filter((item) => {
       if (item.label === "Accounts") {
         return user?.registration_type === "admin";
       }
@@ -43,7 +44,7 @@ export default function Sidebar({
       ...section,
       items: filteredItems,
     };
-  }).filter(section => section.items.length > 0);
+  }).filter((section) => section.items.length > 0);
 
   // Use controlled or internal state
   const collapsed =
@@ -93,6 +94,14 @@ export default function Sidebar({
   const sidebarClass = `bg-white border-r border-solid border-[#E2E2E2] h-screen flex flex-col transition-[width] duration-300 overflow-x-hidden ${
     collapsed ? "w-[102px]" : "w-[280px]"
   }`;
+
+  if (isAuthLoading || !isMounted) {
+    return (
+      <aside className={sidebarClass}>
+        {/* You can optionally place a lightweight sidebar skeleton here */}
+      </aside>
+    );
+  }
 
   return (
     <aside
