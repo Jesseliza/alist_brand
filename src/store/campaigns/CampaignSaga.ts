@@ -15,7 +15,11 @@ import {
   updateDedicatedPageStatusStart,
   updateDedicatedPageStatusSuccess,
   updateDedicatedPageStatusFailure,
+  deleteCampaignStart,
+  deleteCampaignSuccess,
+  deleteCampaignFailure,
 } from './CampaignSlice';
+import { PayloadAction } from '@reduxjs/toolkit';
 import {
   CampaignsApiResponse,
   CampaignDetailsApiResponse,
@@ -77,12 +81,23 @@ function* updateDedicatedPageStatusSaga(action: UpdateDedicatedPageStatusAction)
   }
 }
 
+function* deleteCampaignSaga(action: PayloadAction<{ id: string }>) {
+  try {
+    const { id } = action.payload;
+    yield call(axiosInstance.delete, `/api/campaign/${id}`);
+    yield put(deleteCampaignSuccess({ id }));
+  } catch (error: any) {
+    yield put(deleteCampaignFailure(error.message));
+  }
+}
+
 function* watchCampaigns() {
   yield takeLatest(getCampaignsStart.type, getCampaignsSaga);
   yield takeLatest(getMoreCampaignsStart.type, getMoreCampaignsSaga);
   yield takeLatest(updateCampaignStatusStart.type, updateCampaignStatusSaga);
   yield takeLatest(getCampaignDetailsStart.type, getCampaignDetailsSaga);
   yield takeLatest(updateDedicatedPageStatusStart.type, updateDedicatedPageStatusSaga);
+  yield takeLatest(deleteCampaignStart.type, deleteCampaignSaga);
 }
 
 export default function* campaignsSaga() {

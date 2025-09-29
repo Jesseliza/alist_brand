@@ -13,10 +13,11 @@ import { useRouter } from "next/navigation";
 import {
   getCampaignsStart,
   getMoreCampaignsStart,
-  updateCampaignStatusStart,
+  deleteCampaignStart,
 } from "@/store/campaigns/CampaignSlice";
 import { setSearchTerm } from "@/store/search/searchSlice";
 import { RootState } from "@/store/store";
+import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
 import Link from "next/link";
 import Loader from "@/components/general/Loader";
@@ -32,6 +33,7 @@ export default function CampaignsPage() {
   const { searchTerm } = useSelector((state: RootState) => state.search);
   const [view, setView] = useState<"table" | "card">("table");
   const [mobilePage, setMobilePage] = useState(1);
+  const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
 
   const debouncedSearch = useDebounce(searchTerm, 500);
 
@@ -90,6 +92,26 @@ export default function CampaignsPage() {
     setMobilePage(nextPage);
   };
 
+  const handleCheckboxChange = (campaignId: string) => {
+    setCheckedRows((prevCheckedRows) => {
+      const newCheckedRows = new Set(prevCheckedRows);
+      if (newCheckedRows.has(campaignId)) {
+        newCheckedRows.delete(campaignId);
+      } else {
+        newCheckedRows.add(campaignId);
+      }
+      return newCheckedRows;
+    });
+  };
+
+  const handleActionSelect = (value: string) => {
+    if (value === "delete") {
+      checkedRows.forEach((id) => {
+        dispatch(deleteCampaignStart({ id }));
+      });
+      setCheckedRows(new Set());
+    }
+  };
 
   const displayCampaigns = campaigns.map(adaptCampaignSummaryToDisplay);
 
@@ -112,6 +134,11 @@ export default function CampaignsPage() {
             >
               Add Campaign
             </button>
+            <ActionDropdown
+              actions={["delete"]}
+              onSelect={handleActionSelect}
+              disabled={checkedRows.size === 0}
+            />
           </div>
           <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
             <button
@@ -158,6 +185,8 @@ export default function CampaignsPage() {
                   <>
                     <CampaignsTable
                       campaigns={displayCampaigns}
+                      checkedRows={checkedRows}
+                      onCheckboxChange={handleCheckboxChange}
                     />
                     {pagination && displayCampaigns.length > 0 && (
                       <Pagination

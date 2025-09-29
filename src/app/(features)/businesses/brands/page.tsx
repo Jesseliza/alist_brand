@@ -138,9 +138,8 @@ export default function BrandsPage() {
             <div className="w-auto">
               <ActionDropdown
                 onSelect={handleActionSelect}
-                showUpdate={checkedRows.size === 1}
+                actions={checkedRows.size === 1 ? ["update"] : []}
                 disabled={checkedRows.size === 0}
-                excludeActions={['delete', 'active', 'inactive']}
               />
             </div>
           </div>
@@ -156,9 +155,8 @@ export default function BrandsPage() {
             <div className="w-auto">
               <ActionDropdown
                 onSelect={handleActionSelect}
-                showUpdate={checkedRows.size === 1}
+                actions={checkedRows.size === 1 ? ["update"] : []}
                 disabled={checkedRows.size === 0}
-                excludeActions={['delete', 'active', 'inactive']}
               />
             </div>
           </div>

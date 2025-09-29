@@ -9,7 +9,6 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
     title,
     vendorName,
     status,
-    thumbnailUrl,
     banner_image,
     brandLogo,
     brandName,
@@ -22,6 +21,7 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
   } = campaign;
 
   const [copied, setCopied] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const getCampaignTypeDisplay = (type?: string) => {
     switch (type) {
@@ -71,14 +71,32 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
     }
   };
 
+  const statusConfig: { [key: string]: { icon: string; color: string } } = {
+    Approved: {
+      icon: "/icons/campaign/card/active-light.svg",
+      color: "text-green-500",
+    },
+    Rejected: {
+      icon: "/icons/campaign/card/rejected-red.svg",
+      color: "text-red-500",
+    },
+    Pending: {
+      icon: "/icons/campaign/card/pending-light.svg",
+      color: "text-[#787878]",
+    },
+  };
+
+  const currentStatus = statusConfig[status] || statusConfig.Pending;
+
   return (
     <article className="w-full bg-white rounded-[13px] overflow-hidden">
       <div className="h-[90px] w-full relative bg-[#E1E1E1]">
         <Image
-          src={banner_image || '/images/no_image.png'}
+          src={imageError || !banner_image ? '/images/no_image.png' : banner_image}
           alt={`${title} header`}
           fill
           className="object-cover"
+          onError={() => setImageError(true)}
         />
         <div className="w-[90px] h-[90px] absolute top-[39px] left-[24px] bg-white rounded-full border-5 border-[#E1E1E1] flex items-center justify-center overflow-hidden">
           {brandLogo ? (
@@ -116,26 +134,12 @@ export default function CampaignCard({ campaign }: { campaign: CampaignDisplay }
           </p>
           <div className="flex gap-[4.5px] items-center">
             <Image
-              src={
-                status === "Approved"
-                  ? "/icons/tick-circle.svg"
-                  : status === "Rejected"
-                  ? "/icons/danger.svg"
-                  : "/icons/campaign/card/pending-light.svg"
-              }
+              src={currentStatus.icon}
               alt={status}
               width={11.6}
               height={11.6}
             />
-            <p
-              className={`text-[13px] leading-[20px] ${
-                status === "Approved"
-                  ? "text-green-500"
-                  : status === "Rejected"
-                  ? "text-red-500"
-                  : "text-[#787878]"
-              }`}
-            >
+            <p className={`text-[13px] leading-[20px] ${currentStatus.color}`}>
               {status}
             </p>
           </div>
