@@ -1,21 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import Checkbox from "@/components/general/CheckBox";
 import Image from "next/image";
 import { CampaignDisplay } from "@/types/entities/campaign";
 import Link from "next/link";
 
 interface CampaignsTableProps {
   campaigns: CampaignDisplay[];
-  checkedRows: Set<string>;
-  onCheckboxChange: (campaignId: string) => void;
 }
 
 export default function CampaignsTable({
-  campaigns,
-  checkedRows,
-  onCheckboxChange,
+  campaigns
 }: CampaignsTableProps) {
   const [copiedLink, setCopiedLink] = useState<string | null>(null);
 
@@ -110,11 +105,7 @@ export default function CampaignsTable({
                       />
                     </div>
                     <span
-                      className={`ml-3 text-[#4F4F4F] ${
-                        checkedRows.has(campaign.id.toString())
-                          ? "font-semibold"
-                          : ""
-                      }`}
+                      className={`ml-3 text-[#4F4F4F]`}
                     >
                       {campaign.title}
                     </span>

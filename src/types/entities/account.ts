@@ -65,8 +65,6 @@ export type Account = {
   /** Total campaigns across all owned brands (derived) */
   campaignsCount: number;
 
-  food_offers_count: number;
-
   /** Account status */
   status: "active" | "inactive";
 };
