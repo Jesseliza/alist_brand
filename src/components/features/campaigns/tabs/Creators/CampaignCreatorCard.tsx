@@ -1,10 +1,9 @@
 import Image from "next/image";
-import { useState } from "react";
 
 interface CampaignCreatorCardProps {
   id: string;
   image: string;
-  name: string;
+  name:string;
   instagramName: string;
   stats: {
     followers: string;
@@ -12,7 +11,9 @@ interface CampaignCreatorCardProps {
     engagement: string;
   };
   approved?: boolean;
-  onDelete?: (id: string) => void;
+  onApprove: (id: string) => void;
+  onReject: (id: string) => void;
+  loading?: boolean;
 }
 
 export default function CampaignCreatorCard({
@@ -22,18 +23,25 @@ export default function CampaignCreatorCard({
   instagramName,
   stats,
   approved = false,
-  onDelete,
+  onApprove,
+  onReject,
+  loading = false,
 }: CampaignCreatorCardProps) {
-  const [isApproved, setIsApproved] = useState(approved);
-
   const handleApprove = () => {
-    setIsApproved(true);
+    onApprove(id);
   };
 
   const handleReject = () => {
-    if (onDelete) {
-      onDelete(id);
+    onReject(id);
+  };
+
+  const getInitials = (name: string) => {
+    if (!name) return "";
+    const words = name.split(" ");
+    if (words.length > 1) {
+      return words[0].charAt(0) + words[1].charAt(0);
     }
+    return name.substring(0, 2);
   };
 
   return (
@@ -42,13 +50,19 @@ export default function CampaignCreatorCard({
       <div className="relative ">
         <div className="h-[86.54px] bg-[#E7E7E7] rounded-t-[13px] hidden md:block"></div>
         <div className="md:pl-0 md:py-0 py-6 pl-5.5  md:absolute md:left-1/2 md:transform md:-translate-x-1/2 md:-bottom-9">
-          <Image
-            src={image}
-            alt={name}
-            width={81.71}
-            height={81.71}
-            className="rounded-full border border-white"
-          />
+          {image ? (
+            <Image
+              src={image}
+              alt={name}
+              width={81.71}
+              height={81.71}
+              className="rounded-full border border-white"
+            />
+          ) : (
+            <div className="w-[81.71px] h-[81.71px] rounded-full bg-gray-300 flex items-center justify-center text-white text-2xl font-bold border border-white">
+              {getInitials(name)}
+            </div>
+          )}
         </div>
       </div>
 
@@ -86,18 +100,18 @@ export default function CampaignCreatorCard({
             </p>
             <p className="text-[11px] text-[#4F4F4F]">Credibility</p>
           </div>
-          <div className="w-[1px] h-[36.97px] bg-[#4F4F4F]"></div>
+          {/* <div className="w-[1px] h-[36.97px] bg-[#4F4F4F]"></div>
           <div className="flex-1 text-center">
             <p className="text-[18px] font-medium text-[#383838] leading-[33px]">
               {stats.engagement}
             </p>
             <p className="text-[11px] text-[#4F4F4F]">Engagement</p>
-          </div>
+          </div> */}
         </div>
 
         {/* Action buttons or Approved text */}
         <div className="flex md:gap-[9px] gap-2 md:pb-[9px] md:pl-[9px] md:pr-[9px] pr-3">
-          {isApproved ? (
+          {approved ? (
             <div className="flex-1 flex items-center md:justify-center gap-2  text-[#00A4B6] py-[7px] md:rounded-[13px] rounded-[11px]  text-[13px] leading-[20px] font-medium h-[38px]">
               <Image
                 src="/icons/campaign/details/creators-and-posts/verified-check.svg"
@@ -111,15 +125,17 @@ export default function CampaignCreatorCard({
             <>
               <button
                 onClick={handleApprove}
-                className="flex-1 bg-[#00A4B6] text-white py-[7px] md:rounded-[13px] rounded-[11px] md:text-[16px] text-[15px] leading-[23px] h-[38px]"
+                disabled={loading}
+                className="flex-1 bg-[#00A4B6] text-white py-[7px] md:rounded-[13px] rounded-[11px] md:text-[16px] text-[15px] leading-[23px] h-[38px] disabled:bg-gray-400"
               >
-                Approve
+                {loading ? "..." : "Approve"}
               </button>
               <button
                 onClick={handleReject}
-                className="flex-1 bg-[#747474] text-white py-[7px] md:rounded-[13px] rounded-[11px] md:text-[16px] text-[15px] leading-[23px] h-[38px]"
+                disabled={loading}
+                className="flex-1 bg-[#747474] text-white py-[7px] md:rounded-[13px] rounded-[11px] md:text-[16px] text-[15px] leading-[23px] h-[38px] disabled:bg-gray-400"
               >
-                Reject
+                {loading ? "..." : "Reject"}
               </button>
             </>
           )}
