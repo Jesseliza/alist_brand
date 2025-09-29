@@ -56,6 +56,12 @@ export default function CampaignsTable({
             </th>
             <th
               scope="col"
+              className="px-6 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+            >
+              Campaign type
+            </th>
+            <th
+              scope="col"
               className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
               Category
@@ -108,6 +114,9 @@ export default function CampaignsTable({
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                 {campaign.vendorName}
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
+                {campaign.is_dedicated === 1 ? "Dedicated" : "Normal"}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
                 {campaign.offerType ?? 'N/A'}

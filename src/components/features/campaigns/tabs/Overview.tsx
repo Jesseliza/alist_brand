@@ -45,7 +45,7 @@ export default function Overview({
           {/* image */}
           <div className="w-[204] h-[204px] rounded-[11px] aspect-square overflow-hidden">
             <Image
-              src={campaign.thumbnailUrl || '/images/default-banner.png'}
+              src={(campaign as any).banner_image ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${(campaign as any).banner_image}` : '/images/no_image.png'}
               alt={campaign.title ?? "Campaign thumbnail"}
               className="w-full h-full object-cover rounded-[11px]"
               width={204}
