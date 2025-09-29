@@ -7,6 +7,7 @@ interface ActionDropdownProps {
   showUpdate?: boolean;
   disabled?: boolean;
   excludeActions?: string[];
+  actions?: string[];
 }
 
 export default function ActionDropdown({
@@ -14,20 +15,9 @@ export default function ActionDropdown({
   showUpdate,
   disabled,
   excludeActions = [],
+  actions,
 }: ActionDropdownProps) {
-  const allOptions = [
-    ...(showUpdate
-      ? [
-          {
-            value: "update",
-            label: (
-              <div className="flex items-center px-3 py-2 text-[#6E6E6E]">
-                <span>Update</span>
-              </div>
-            ),
-          },
-        ]
-      : []),
+  const baseOptions = [
     {
       value: "delete",
       label: (
@@ -52,11 +42,50 @@ export default function ActionDropdown({
         </div>
       ),
     },
+    {
+      value: "Approved",
+      label: (
+        <div className="flex items-center px-3 py-2 text-[#6E6E6E]">
+          <span>Approve</span>
+        </div>
+      ),
+    },
+    {
+      value: "Rejected",
+      label: (
+        <div className="flex items-center px-3 py-2 text-[#6E6E6E]">
+          <span>Reject</span>
+        </div>
+      ),
+    },
   ];
 
-  const options = allOptions.filter(
-    (option) => !excludeActions.includes(option.value)
-  );
+  const updateOption = {
+    value: "update",
+    label: (
+      <div className="flex items-center px-3 py-2 text-[#6E6E6E]">
+        <span>Update</span>
+      </div>
+    ),
+  };
+
+  let allOptions = [...baseOptions];
+  if (showUpdate) {
+    allOptions.unshift(updateOption);
+  }
+
+  let options;
+  if (actions) {
+    const allPossibleOptions = [updateOption, ...baseOptions];
+    const lowerCaseActions = actions.map((a) => a.toLowerCase());
+    options = allPossibleOptions.filter((opt) =>
+      lowerCaseActions.includes(opt.value.toLowerCase())
+    );
+  } else {
+    options = allOptions.filter(
+      (option) => !excludeActions.includes(option.value)
+    );
+  }
 
   const title = (
     <div className="text-[18px] px-6 text-white leading-[27px]">
