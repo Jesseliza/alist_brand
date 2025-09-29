@@ -11,6 +11,15 @@ export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): Campaig
   const imageUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
   const createLinkUrl = process.env.NEXT_PUBLIC_CREATE_LINK_URL;
 
+  const thumbnailUrl =
+    imageUrl && summary.banner_image
+      ? `${imageUrl}/assets/uploads/foodoffers/thumbnail/${summary.banner_image}`
+      : placeholderImage.src;
+
+  const copyLinkUrl = createLinkUrl
+    ? `${createLinkUrl}/offerView/${summary.campaign_id}`
+    : undefined;
+
   return {
     id: summary.id,
     campaignId: summary.campaign_id,
@@ -19,9 +28,7 @@ export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): Campaig
     status: summary.account_status,
     startDate: summary.start_date,
     endDate: summary.end_date,
-    thumbnailUrl: summary.banner_image
-      ? `${imageUrl}/assets/uploads/foodoffers/thumbnail/${summary.banner_image}`
-      : placeholderImage.src,
+    thumbnailUrl,
     brandLogo: null,
     brandName: summary.venue.venue_title,
     creatorApprovalType: summary.account_status === "Approved" ? "Automated" : "Manual",
@@ -29,7 +36,7 @@ export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): Campaig
     offerType: 'Barter',
     duration: daysDuration > 0 ? daysDuration : 0,
     durationUnit: 'Days',
-    copyLinkUrl: `${createLinkUrl}/offerView/${summary.campaign_id}`,
+    copyLinkUrl,
   };
 };
 
