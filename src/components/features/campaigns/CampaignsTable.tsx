@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { CampaignDisplay } from "@/types/entities/campaign";
 import Link from "next/link";
+import CheckBox from "@/components/general/CheckBox";
 
 interface CampaignsTableProps {
   campaigns: CampaignDisplay[];
@@ -40,12 +41,7 @@ export default function CampaignsTable({
               scope="col"
               className="pl-3 pr-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
-              <input
-                type="checkbox"
-                className="h-5 w-5 rounded-md text-blue-600 focus:ring-blue-500"
-                checked={isAllSelected}
-                onChange={onSelectAll}
-              />
+              <CheckBox checked={isAllSelected} onChange={onSelectAll} />
             </th>
             <th
               scope="col"
@@ -96,9 +92,7 @@ export default function CampaignsTable({
           {campaigns.map((campaign) => (
             <tr key={campaign.id} className="odd:bg-[#F8F8F8]">
               <td className="pl-3 pr-2 py-2.5 whitespace-nowrap">
-                <input
-                  type="checkbox"
-                  className="h-5 w-5 rounded-md text-blue-600 focus:ring-blue-500"
+                <CheckBox
                   checked={checkedRows.has(campaign.id.toString())}
                   onChange={() => onCheckboxChange(campaign.id.toString())}
                 />
