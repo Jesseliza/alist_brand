@@ -12,6 +12,8 @@ const initialState: CampaignsState = {
   loading: false,
   error: null,
   pagination: null,
+  bulkDeleteLoading: false,
+  bulkDeleteError: null,
 };
 
 const campaignsSlice = createSlice({
@@ -43,18 +45,18 @@ const campaignsSlice = createSlice({
       state,
       action: PayloadAction<{ ids: string[] }>
     ) => {
-      state.loading = true;
-      state.error = null;
+      state.bulkDeleteLoading = true;
+      state.bulkDeleteError = null;
     },
     bulkDeleteCampaignsSuccess: (state, action: PayloadAction<string[]>) => {
-      state.loading = false;
+      state.bulkDeleteLoading = false;
       state.campaigns = state.campaigns.filter(
         (campaign) => !action.payload.includes(campaign.id.toString())
       );
     },
     bulkDeleteCampaignsFailure: (state, action: PayloadAction<any>) => {
-      state.loading = false;
-      state.error = action.payload;
+      state.bulkDeleteLoading = false;
+      state.bulkDeleteError = action.payload;
     },
     getMoreCampaignsStart: (
       state,

@@ -42,6 +42,7 @@ export default function AccountsPage() {
   // const [accountType, setAccountType] = useState("");
   const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
   const [mobilePage, setMobilePage] = useState(1);
+  const prevBulkDeleteInProgress = useRef(false);
 
   const debouncedSearch = useDebounce(searchTerm, 500);
   // Effect for initial load
@@ -69,9 +70,16 @@ export default function AccountsPage() {
   }, [debouncedSearch, dispatch]);
 
   useEffect(() => {
-    if (!bulkDeleteInProgress && !bulkDeleteError) {
-      setCheckedRows(new Set());
+    const wasInProgress = prevBulkDeleteInProgress.current;
+    if (wasInProgress && !bulkDeleteInProgress) {
+      if (bulkDeleteError) {
+        toast.error(`Failed to delete accounts: ${bulkDeleteError}`);
+      } else {
+        toast.success("Accounts deleted successfully!");
+        setCheckedRows(new Set());
+      }
     }
+    prevBulkDeleteInProgress.current = bulkDeleteInProgress;
   }, [bulkDeleteInProgress, bulkDeleteError]);
 
   useEffect(() => {
@@ -116,12 +124,7 @@ export default function AccountsPage() {
     if (value === "delete") {
       if (checkedRows.size > 0) {
         const account_ids = Array.from(checkedRows);
-        const promise = dispatch(bulkDeleteAccountsRequest({ account_ids }));
-        toast.promise(promise, {
-          loading: "Deleting accounts...",
-          success: "Accounts deleted successfully!",
-          error: "Failed to delete accounts.",
-        });
+        dispatch(bulkDeleteAccountsRequest({ account_ids }));
       }
     }
     if (value === "active" || value === "inactive") {

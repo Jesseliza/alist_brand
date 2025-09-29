@@ -5,13 +5,17 @@ import { Dropdown } from "@/components/general/dropdowns/Dropdown";
 interface ActionDropdownProps {
   onSelect?: (value: string) => void;
   disabled?: boolean;
+  showUpdate?: boolean;
+  excludeActions?: string[];
   actions?: string[];
 }
 
 export default function ActionDropdown({
   onSelect,
   disabled,
-  actions = [],
+  showUpdate,
+  excludeActions = [],
+  actions,
 }: ActionDropdownProps) {
   const allPossibleOptions = [
     {
@@ -48,9 +52,21 @@ export default function ActionDropdown({
     },
   ];
 
-  const options = allPossibleOptions.filter((option) =>
-    actions.includes(option.value)
-  );
+  let options = allPossibleOptions;
+
+  if (actions) {
+    options = allPossibleOptions.filter((option) =>
+      actions.includes(option.value)
+    );
+  } else {
+    options = allPossibleOptions.filter(
+      (option) => !excludeActions.includes(option.value)
+    );
+  }
+
+  if (showUpdate === false) {
+    options = options.filter((option) => option.value !== "update");
+  }
 
   const title = (
     <div className="text-[18px] px-6 text-white leading-[27px]">
@@ -69,7 +85,9 @@ export default function ActionDropdown({
       title={title}
       options={options}
       onSelect={handleSelect}
-      buttonClassName={`pt-1.25 pb-1.75 border-0 rounded-[11px] flex items-center justify-between w-full ${disabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#00A4B6]'}`}
+      buttonClassName={`pt-1.25 pb-1.75 border-0 rounded-[11px] flex items-center justify-between w-full ${
+        disabled ? "bg-gray-400 cursor-not-allowed" : "bg-[#00A4B6]"
+      }`}
       icon="/icons/general/dropdownarrow-1-white.svg"
       disabled={disabled || options.length === 0}
     />

@@ -9,12 +9,14 @@ interface CampaignCardProps {
   campaign: CampaignDisplay;
   checked: boolean;
   onCheckboxChange: () => void;
+  onRemove: (id: string) => void;
 }
 
 export default function CampaignCard({
   campaign,
   checked,
   onCheckboxChange,
+  onRemove,
 }: CampaignCardProps) {
   const handleWrapperClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -60,12 +62,10 @@ export default function CampaignCard({
   };
 
 
-  const handleCopyClick = () => {
-    if (copyLinkUrl) {
-      navigator.clipboard.writeText(copyLinkUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
+  const handleRemoveClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onRemove(campaign.id.toString());
   };
 
   return (
@@ -177,12 +177,15 @@ export default function CampaignCard({
             </span>
           </div>
         </div>
-        <div className="flex">
+        <div className="flex gap-[9px]">
+          <button className="flex-1 bg-[#787878] text-[15px]  text-white py-[9px] rounded-[11px] font-medium leading-[23px]">
+            Edit
+          </button>
           <button
-            onClick={handleCopyClick}
-            className="w-full bg-[#00A4B6] text-[15px] text-white py-[9px] rounded-[11px] font-medium leading-[23px]"
+            onClick={handleRemoveClick}
+            className="flex-1 bg-red-500 text-[15px] text-white py-[9px] rounded-[11px] font-medium leading-[23px]"
           >
-            {copied ? "Copied!" : "Copy Link"}
+            Remove
           </button>
         </div>
       </div>

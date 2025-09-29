@@ -260,6 +260,8 @@ export interface CampaignsState {
     per_page: number;
     total: number;
   } | null;
+  bulkDeleteLoading: boolean;
+  bulkDeleteError: string | null;
 }
 
 // Unified type for display components
