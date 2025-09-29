@@ -36,14 +36,11 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
   }, [mappedCreators, currentPage]);
 
   const handleDelete = (id: string) => {
-    setCreators((prevCreators) =>
-      prevCreators.filter((creator) => {
-        if (!creator.user) {
-          return true;
-        }
-        return creator.user.id.toString() !== id;
-      })
-    );
+    const updatedCreators = creators.filter((creator) => {
+      // Keep the creator if the user object is missing or if the ID doesn't match.
+      return !creator.user || creator.user.id.toString() !== id;
+    });
+    setCreators(updatedCreators);
   };
 
   if (campaign?.is_dedicated !== 1) {
