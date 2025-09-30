@@ -4,6 +4,7 @@ import {
   GetCampaignsPayload,
   GetCampaignDetailsPayload,
   UpdateCampaignStatusPayload,
+  UpdateDedicatedPageStatusPayload,
 } from '../../types/entities/campaign';
 
 const initialState: CampaignsState = {
