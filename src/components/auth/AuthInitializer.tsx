@@ -22,7 +22,14 @@ export default function AuthInitializer() {
         const token = JSON.parse(bytesToken.toString(CryptoJS.enc.Utf8));
 
         const bytesUser = CryptoJS.AES.decrypt(encryptedUser, secretPass);
-        const user: Account = JSON.parse(bytesUser.toString(CryptoJS.enc.Utf8));
+        const userObject = JSON.parse(bytesUser.toString(CryptoJS.enc.Utf8));
+
+        // Ensure backward compatibility for users with old data in localStorage
+        if (userObject.food_offers_count === undefined) {
+          userObject.food_offers_count = 0;
+        }
+
+        const user: Account = userObject;
 
         if (token && user) {
           setAuthToken(token);

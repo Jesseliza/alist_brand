@@ -301,6 +301,7 @@ function* handleFetchBrand(action: ReturnType<typeof fetchBrandRequest>) {
         Venue: {
           food_offers: apiBrand.food_offers || [],
         },
+        food_offers_count: apiBrand.food_offers_count || 0,
       };
       yield put(fetchBrandSuccess(feBrand));
     } else {

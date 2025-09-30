@@ -56,6 +56,7 @@ function* handleLogin(action: ReturnType<typeof loginRequest>) {
         subscriptionCount: 0,
         brandsCount: 0,
         campaignsCount: 0,
+        food_offers_count: account.food_offers_count || 0,
       };
 
       // Encrypt and store user data
