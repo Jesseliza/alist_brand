@@ -166,6 +166,19 @@ export type Campaign = {
   updatedAt: Date;
 };
 
+// Type for a user associated with an offer
+export type OfferUser = {
+  user: {
+    id: number | string;
+    profile_picture: string | null;
+    name: string;
+    instagram_url: string | null;
+    instagram_followers: number | null;
+    credibility: string | null;
+  };
+  status: number;
+};
+
 // Simplified campaign type for listings from API
 export interface CampaignSummary {
   id: number;
