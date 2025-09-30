@@ -16,6 +16,7 @@ export const AccountsData: Account[] = [
     signUpDate: "2023-01-15",
     status: "active",
     registration_type: "account",
+    food_offers_count: 0,
   },
   {
     accountId: "1",
@@ -32,6 +33,7 @@ export const AccountsData: Account[] = [
     signUpDate: "2023-03-10",
     status: "inactive",
     registration_type: "account",
+    food_offers_count: 0,
   },
   {
     accountId: "2",
@@ -48,5 +50,6 @@ export const AccountsData: Account[] = [
     signUpDate: "2022-11-20",
     status: "active",
     registration_type: "account",
+    food_offers_count: 0,
   },
 ];
