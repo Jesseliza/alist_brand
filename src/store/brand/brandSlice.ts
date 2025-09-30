@@ -134,6 +134,7 @@ const brandSlice = createSlice({
         Venue: {
           food_offers: [],
         },
+        food_offers_count: 0,
       };
       state.loading = false;
       state.error = null;
