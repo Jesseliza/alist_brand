@@ -77,6 +77,7 @@ export const adaptCampaignToDisplay = (campaign: Campaign): CampaignDisplay => {
     endDate: campaign.end_date,
     duration: duration,
     durationUnit: durationUnit,
+    is_dedicated: campaign.is_dedicated ?? 0,
   };
 };
 
