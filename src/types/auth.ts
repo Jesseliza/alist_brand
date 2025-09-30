@@ -40,6 +40,7 @@ export interface LoginPayload {
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
+    food_offers_count?: number;
   }
 
   /**
