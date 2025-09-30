@@ -123,18 +123,6 @@ export default function BrandPage() {
 
   const [prevBulkDeleteLoading, setPrevBulkDeleteLoading] = useState(false);
 
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error && !isCreateMode) {
-    return <p className="text-red-500 text-center py-10">Error: {error}</p>;
-  }
-
-  if (!brand && !isCreateMode) {
-    return <Loader />;
-  }
-
   useEffect(() => {
     if (prevBulkDeleteLoading && !bulkDeleteLoading) {
       if (bulkDeleteError) {
@@ -148,6 +136,18 @@ export default function BrandPage() {
     }
     setPrevBulkDeleteLoading(bulkDeleteLoading);
   }, [bulkDeleteLoading, bulkDeleteError, prevBulkDeleteLoading, brandId, dispatch]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error && !isCreateMode) {
+    return <p className="text-red-500 text-center py-10">Error: {error}</p>;
+  }
+
+  if (!brand && !isCreateMode) {
+    return <Loader />;
+  }
 
   const handleRemoveCampaign = (campaignId: string) => {
     toast(
