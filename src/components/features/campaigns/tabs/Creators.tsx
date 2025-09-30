@@ -1,10 +1,14 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Campaign, OfferUser } from "@/types/entities";
 import CampaignCreatorCard from "./Creators/CampaignCreatorCard";
 import Pagination from "@/components/general/Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { updateDedicatedPageStatusStart } from "@/store/campaigns/CampaignSlice";
+import {
+  updateDedicatedPageStatusStart,
+  resetDedicatedPageStatus,
+} from "@/store/campaigns/CampaignSlice";
+import { RootState } from "@/store/store";
 import RejectReasonModal from "../RejectReasonModal";
 import toast from "react-hot-toast";
 
@@ -20,7 +24,26 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
     null
   );
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  const {
+    dedicatedPageStatusLoading,
+    dedicatedPageStatusSuccess,
+    dedicatedPageStatusError,
+  } = useSelector((state: RootState) => state.campaigns);
+
+  useEffect(() => {
+    if (dedicatedPageStatusSuccess) {
+      toast.success("Creator status updated successfully!");
+      setIsRejectModalOpen(false);
+      dispatch(resetDedicatedPageStatus());
+    }
+    if (dedicatedPageStatusError) {
+      toast.error(
+        dedicatedPageStatusError || "Failed to update creator status."
+      );
+      dispatch(resetDedicatedPageStatus());
+    }
+  }, [dedicatedPageStatusSuccess, dedicatedPageStatusError, dispatch]);
 
   const mappedCreators = useMemo(() => {
     return creators
@@ -45,6 +68,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
   }, [mappedCreators, currentPage]);
 
   const handleApprove = async (id: string) => {
+    setSelectedCreatorId(id);
     dispatch(updateDedicatedPageStatusStart({ id: id, status: 1 }));
   };
 
@@ -55,7 +79,13 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
 
   const handleRejectSubmit = async (rejectReason: string) => {
     if (!selectedCreatorId) return;
-    dispatch(updateDedicatedPageStatusStart({ id: selectedCreatorId, status: 1, rejectReason: rejectReason }));
+    dispatch(
+      updateDedicatedPageStatusStart({
+        id: selectedCreatorId,
+        status: 2,
+        rejectReason: rejectReason,
+      })
+    );
   };
 
   if (campaign?.is_dedicated !== 1) {
@@ -88,7 +118,9 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
                   {...creator}
                   onApprove={handleApprove}
                   onReject={handleReject}
-                  loading={loading && selectedCreatorId === creator.id}
+                  loading={
+                    dedicatedPageStatusLoading && selectedCreatorId === creator.id
+                  }
                 />
               ))}
             </div>
@@ -111,7 +143,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
         isOpen={isRejectModalOpen}
         onClose={() => setIsRejectModalOpen(false)}
         onSubmit={handleRejectSubmit}
-        loading={loading}
+        loading={dedicatedPageStatusLoading}
       />
     </div>
   );

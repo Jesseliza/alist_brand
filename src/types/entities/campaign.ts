@@ -280,6 +280,9 @@ export interface CampaignsState {
   } | null;
   bulkDeleteLoading: boolean;
   bulkDeleteError: string | null;
+  dedicatedPageStatusLoading: boolean;
+  dedicatedPageStatusSuccess: boolean;
+  dedicatedPageStatusError: string | null;
 }
 
 // Unified type for display components
