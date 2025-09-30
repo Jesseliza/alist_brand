@@ -121,6 +121,8 @@ export default function BrandPage() {
     }
   };
 
+  const [prevBulkDeleteLoading, setPrevBulkDeleteLoading] = useState(false);
+
   if (loading) {
     return <Loader />;
   }
@@ -132,8 +134,6 @@ export default function BrandPage() {
   if (!brand && !isCreateMode) {
     return <Loader />;
   }
-
-  const [prevBulkDeleteLoading, setPrevBulkDeleteLoading] = useState(false);
 
   useEffect(() => {
     if (prevBulkDeleteLoading && !bulkDeleteLoading) {
