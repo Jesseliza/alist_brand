@@ -17,9 +17,6 @@ const ITEMS_PER_PAGE = 6;
 export default function Creators({ campaign }: { campaign: Campaign }) {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
-  const [creators, setCreators] = useState<OfferUser[]>(
-    campaign?.dedicated_offer?.offer_users || []
-  );
   const [selectedCreatorId, setSelectedCreatorId] = useState<string | null>(
     null
   );
@@ -35,6 +32,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
     if (dedicatedPageStatusSuccess) {
       toast.success("Creator status updated successfully!");
       setIsRejectModalOpen(false);
+      setSelectedCreatorId(null);
       dispatch(resetDedicatedPageStatus());
     }
     if (dedicatedPageStatusError) {
@@ -44,6 +42,8 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
       dispatch(resetDedicatedPageStatus());
     }
   }, [dedicatedPageStatusSuccess, dedicatedPageStatusError, dispatch]);
+
+  const creators = campaign?.dedicated_offer?.offer_users || [];
 
   const mappedCreators = useMemo(() => {
     return creators
@@ -58,7 +58,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
           credibility: offerUser.user.credibility || "N/A",
           engagement: "N/A", // As requested
         },
-        approved: offerUser.status === 1,
+        status: offerUser.status,
       }));
   }, [creators]);
 
@@ -67,9 +67,15 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
     return mappedCreators.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [mappedCreators, currentPage]);
 
-  const handleApprove = async (id: string) => {
+  const handleApprove = (id: string) => {
     setSelectedCreatorId(id);
-    dispatch(updateDedicatedPageStatusStart({ id: id, status: 1 }));
+    dispatch(
+      updateDedicatedPageStatusStart({
+        id: id,
+        status: 1,
+        campaignId: campaign.id.toString(),
+      })
+    );
   };
 
   const handleReject = (id: string) => {
@@ -77,13 +83,14 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
     setIsRejectModalOpen(true);
   };
 
-  const handleRejectSubmit = async (rejectReason: string) => {
+  const handleRejectSubmit = (rejectReason: string) => {
     if (!selectedCreatorId) return;
     dispatch(
       updateDedicatedPageStatusStart({
         id: selectedCreatorId,
         status: 0,
         rejectReason: rejectReason,
+        campaignId: campaign.id.toString(),
       })
     );
   };
