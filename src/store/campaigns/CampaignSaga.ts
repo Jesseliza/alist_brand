@@ -1,4 +1,5 @@
-import { call, put, takeLatest, all, PayloadAction } from "redux-saga/effects";
+import { call, put, takeLatest, all } from "redux-saga/effects";
+import { PayloadAction } from "@reduxjs/toolkit";
 import axiosInstance from "../../services/apiHelper";
 import {
   getCampaignsStart,
