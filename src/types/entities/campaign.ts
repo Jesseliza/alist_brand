@@ -172,6 +172,7 @@ export type Campaign = {
 
 // Type for a user associated with an offer
 export type OfferUser = {
+  id: number | string;
   user: {
     id: number | string;
     profile_picture: string | null;

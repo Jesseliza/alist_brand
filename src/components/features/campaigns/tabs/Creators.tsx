@@ -26,7 +26,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
     return creators
       .filter((offerUser) => offerUser.user)
       .map((offerUser) => ({
-        id: offerUser.user.id.toString(),
+        id: offerUser.id.toString(),
         image: offerUser.user.profile_picture || "",
         name: offerUser.user.name,
         instagramName: offerUser.user.instagram_url || "N/A",
