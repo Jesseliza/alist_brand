@@ -282,6 +282,7 @@ export interface CampaignsState {
   bulkDeleteLoading: boolean;
   bulkDeleteError: string | null;
   dedicatedPageStatusLoading: boolean;
+  statusUpdateLoading: boolean;
 }
 
 // Unified type for display components

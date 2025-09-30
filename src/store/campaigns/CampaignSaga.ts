@@ -65,8 +65,12 @@ function* updateCampaignStatusSaga(action: UpdateCampaignStatusAction) {
     }
     yield call(axiosInstance.post, `/api/campaign/${id}/status`, payload);
     yield put(updateCampaignStatusSuccess({ status }));
+    toast.success("Campaign status updated successfully!");
   } catch (error: any) {
-    yield put(updateCampaignStatusFailure(error.message));
+    const errorMessage =
+      error.response?.data?.message || "Failed to update campaign status.";
+    yield put(updateCampaignStatusFailure(errorMessage));
+    toast.error(errorMessage);
   }
 }
 

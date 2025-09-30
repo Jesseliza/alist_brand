@@ -15,6 +15,7 @@ const initialState: CampaignsState = {
   bulkDeleteLoading: false,
   bulkDeleteError: null,
   dedicatedPageStatusLoading: false,
+  statusUpdateLoading: false,
 };
 
 const campaignsSlice = createSlice({
@@ -79,20 +80,20 @@ const campaignsSlice = createSlice({
       state,
       action: PayloadAction<UpdateCampaignStatusPayload>
     ) => {
-      state.loading = true;
+      state.statusUpdateLoading = true;
       state.error = null;
     },
     updateCampaignStatusSuccess: (
       state,
       action: PayloadAction<{ status: string }>
     ) => {
-      state.loading = false;
+      state.statusUpdateLoading = false;
       if (state.campaign) {
         state.campaign.account_status = action.payload.status;
       }
     },
     updateCampaignStatusFailure: (state, action) => {
-      state.loading = false;
+      state.statusUpdateLoading = false;
       state.error = action.payload;
     },
     getCampaignDetailsStart: (
