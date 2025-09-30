@@ -15,8 +15,6 @@ const initialState: CampaignsState = {
   bulkDeleteLoading: false,
   bulkDeleteError: null,
   dedicatedPageStatusLoading: false,
-  dedicatedPageStatusSuccess: null,
-  dedicatedPageStatusError: null,
 };
 
 const campaignsSlice = createSlice({
@@ -84,8 +82,14 @@ const campaignsSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    updateCampaignStatusSuccess: (state) => {
+    updateCampaignStatusSuccess: (
+      state,
+      action: PayloadAction<{ status: string }>
+    ) => {
       state.loading = false;
+      if (state.campaign) {
+        state.campaign.account_status = action.payload.status;
+      }
     },
     updateCampaignStatusFailure: (state, action) => {
       state.loading = false;
@@ -111,20 +115,23 @@ const campaignsSlice = createSlice({
       action: PayloadAction<UpdateDedicatedPageStatusPayload>
     ) => {
       state.dedicatedPageStatusLoading = true;
-      state.dedicatedPageStatusSuccess = null;
-      state.dedicatedPageStatusError = null;
     },
-    updateDedicatedPageStatusSuccess: (state) => {
+    updateDedicatedPageStatusSuccess: (
+      state,
+      action: PayloadAction<{ id: string; status: number }>
+    ) => {
       state.dedicatedPageStatusLoading = false;
-      state.dedicatedPageStatusSuccess = { timestamp: Date.now() };
+      if (state.campaign && state.campaign.dedicated_offer) {
+        const offerUser = state.campaign.dedicated_offer.offer_users.find(
+          (user) => user.id.toString() === action.payload.id
+        );
+        if (offerUser) {
+          offerUser.status = action.payload.status;
+        }
+      }
     },
     updateDedicatedPageStatusFailure: (state, action) => {
       state.dedicatedPageStatusLoading = false;
-      state.dedicatedPageStatusError = action.payload;
-    },
-    resetDedicatedPageStatus: (state) => {
-      state.dedicatedPageStatusSuccess = null;
-      state.dedicatedPageStatusError = null;
     },
   },
 });
@@ -144,7 +151,6 @@ export const {
   updateDedicatedPageStatusStart,
   updateDedicatedPageStatusSuccess,
   updateDedicatedPageStatusFailure,
-  resetDedicatedPageStatus,
   bulkDeleteCampaignsStart,
   bulkDeleteCampaignsSuccess,
   bulkDeleteCampaignsFailure,

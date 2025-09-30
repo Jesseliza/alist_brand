@@ -282,8 +282,6 @@ export interface CampaignsState {
   bulkDeleteLoading: boolean;
   bulkDeleteError: string | null;
   dedicatedPageStatusLoading: boolean;
-  dedicatedPageStatusSuccess: { timestamp: number } | null;
-  dedicatedPageStatusError: string | null;
 }
 
 // Unified type for display components

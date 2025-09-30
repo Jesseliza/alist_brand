@@ -1,5 +1,6 @@
 import { call, put, takeLatest, all } from "redux-saga/effects";
 import { PayloadAction } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 import axiosInstance from "../../services/apiHelper";
 import {
   getCampaignsStart,
@@ -63,8 +64,7 @@ function* updateCampaignStatusSaga(action: UpdateCampaignStatusAction) {
       payload.rejectReason = rejectReason;
     }
     yield call(axiosInstance.post, `/api/campaign/${id}/status`, payload);
-    yield put(updateCampaignStatusSuccess());
-    yield put(getCampaignDetailsStart({ id }));
+    yield put(updateCampaignStatusSuccess({ status }));
   } catch (error: any) {
     yield put(updateCampaignStatusFailure(error.message));
   }
@@ -87,18 +87,19 @@ function* updateDedicatedPageStatusSaga(
   action: UpdateDedicatedPageStatusAction
 ) {
   try {
-    const { id, status, rejectReason, campaignId } = action.payload;
+    const { id, status, rejectReason } = action.payload;
     const payload: { status: number; rejectReason?: string } = { status };
     if (rejectReason) {
       payload.rejectReason = rejectReason;
     }
     yield call(axiosInstance.post, `/api/dedicated/${id}/status`, payload);
-    yield put(updateDedicatedPageStatusSuccess());
-    if (campaignId) {
-      yield put(getCampaignDetailsStart({ id: campaignId }));
-    }
+    yield put(updateDedicatedPageStatusSuccess({ id, status }));
+    toast.success("Creator status updated successfully!");
   } catch (error: any) {
-    yield put(updateDedicatedPageStatusFailure(error.message));
+    const errorMessage =
+      error.response?.data?.message || "Failed to update creator status.";
+    yield put(updateDedicatedPageStatusFailure(errorMessage));
+    toast.error(errorMessage);
   }
 }
 
