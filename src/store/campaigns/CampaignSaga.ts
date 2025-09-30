@@ -64,6 +64,7 @@ function* updateCampaignStatusSaga(action: UpdateCampaignStatusAction) {
     }
     yield call(axiosInstance.post, `/api/campaign/${id}/status`, payload);
     yield put(updateCampaignStatusSuccess());
+    yield put(getCampaignDetailsStart({ id }));
   } catch (error: any) {
     yield put(updateCampaignStatusFailure(error.message));
   }
@@ -86,9 +87,16 @@ function* updateDedicatedPageStatusSaga(
   action: UpdateDedicatedPageStatusAction
 ) {
   try {
-    const { id, ...payload } = action.payload;
+    const { id, status, rejectReason, campaignId } = action.payload;
+    const payload: { status: number; rejectReason?: string } = { status };
+    if (rejectReason) {
+      payload.rejectReason = rejectReason;
+    }
     yield call(axiosInstance.post, `/api/dedicated/${id}/status`, payload);
     yield put(updateDedicatedPageStatusSuccess());
+    if (campaignId) {
+      yield put(getCampaignDetailsStart({ id: campaignId }));
+    }
   } catch (error: any) {
     yield put(updateDedicatedPageStatusFailure(error.message));
   }

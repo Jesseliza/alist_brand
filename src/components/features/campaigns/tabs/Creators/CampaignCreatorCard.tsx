@@ -10,7 +10,7 @@ interface CampaignCreatorCardProps {
     credibility: string;
     engagement: string;
   };
-  approved?: boolean;
+  status: number | null;
   onApprove: (id: string) => void;
   onReject: (id: string) => void;
   loading?: boolean;
@@ -22,7 +22,7 @@ export default function CampaignCreatorCard({
   name,
   instagramName,
   stats,
-  approved = false,
+  status,
   onApprove,
   onReject,
   loading = false,
@@ -109,10 +109,10 @@ export default function CampaignCreatorCard({
           </div> */}
         </div>
 
-        {/* Action buttons or Approved text */}
+        {/* Action buttons or status text */}
         <div className="flex md:gap-[9px] gap-2 md:pb-[9px] md:pl-[9px] md:pr-[9px] pr-3">
-          {approved ? (
-            <div className="flex-1 flex items-center md:justify-center gap-2  text-[#00A4B6] py-[7px] md:rounded-[13px] rounded-[11px]  text-[13px] leading-[20px] font-medium h-[38px]">
+          {status === 1 ? (
+            <div className="flex-1 flex items-center md:justify-center gap-2 text-[#00A4B6] py-[7px] md:rounded-[13px] rounded-[11px] text-[13px] leading-[20px] font-medium h-[38px]">
               <Image
                 src="/icons/campaign/details/creators-and-posts/verified-check.svg"
                 alt="Approved"
@@ -120,6 +120,10 @@ export default function CampaignCreatorCard({
                 height={9.09}
               />
               <p>Approved</p>
+            </div>
+          ) : status === 0 ? (
+            <div className="flex-1 flex items-center md:justify-center gap-2 text-red-500 py-[7px] md:rounded-[13px] rounded-[11px] text-[13px] leading-[20px] font-medium h-[38px]">
+              <p>Rejected</p>
             </div>
           ) : (
             <>
