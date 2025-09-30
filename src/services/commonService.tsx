@@ -68,5 +68,8 @@ export const updateCreatorStatus = async (
   status: number,
   rejectReason?: string
 ) => {
-  return await postData(`/dedicated/${id}/status`, { status, rejectReason });
+  return await postData(`/api/dedicated/${id}/status`, {
+    status,
+    rejectReason,
+  });
 };

@@ -138,7 +138,7 @@ export default function BrandPage() {
   useEffect(() => {
     if (prevBulkDeleteLoading && !bulkDeleteLoading) {
       if (bulkDeleteError) {
-        toast.error(bulkDeleteError.message || "Failed to delete campaign.");
+        toast.error(bulkDeleteError || "Failed to delete campaign.");
       } else {
         toast.success("Campaign deleted successfully.");
         if (brandId) {
