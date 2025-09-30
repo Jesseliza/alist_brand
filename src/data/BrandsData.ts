@@ -27,6 +27,7 @@ function populateAssociateInfo(
       Venue_contact_name: null,
       venue_email: null,
       Venue: { food_offers: [] },
+      food_offers_count: 0,
     };
   }
 
@@ -49,6 +50,7 @@ function populateAssociateInfo(
     Venue_contact_name: null,
     venue_email: null,
     Venue: { food_offers: [] },
+    food_offers_count: 0,
   };
 }
 import onethousand from "@/assets/images/brands/1847-4.png";
