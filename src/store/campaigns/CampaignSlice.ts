@@ -15,7 +15,7 @@ const initialState: CampaignsState = {
   bulkDeleteLoading: false,
   bulkDeleteError: null,
   dedicatedPageStatusLoading: false,
-  dedicatedPageStatusSuccess: false,
+  dedicatedPageStatusSuccess: null,
   dedicatedPageStatusError: null,
 };
 
@@ -106,22 +106,24 @@ const campaignsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    updateDedicatedPageStatusStart: (state,action: PayloadAction<{ id: string; status: number; rejectReason?: string }>) => {
+    updateDedicatedPageStatusStart: (
+      state,
+      action: PayloadAction<UpdateDedicatedPageStatusPayload>
+    ) => {
       state.dedicatedPageStatusLoading = true;
-      state.dedicatedPageStatusSuccess = false;
+      state.dedicatedPageStatusSuccess = null;
       state.dedicatedPageStatusError = null;
     },
     updateDedicatedPageStatusSuccess: (state) => {
       state.dedicatedPageStatusLoading = false;
-      state.dedicatedPageStatusSuccess = true;
+      state.dedicatedPageStatusSuccess = { timestamp: Date.now() };
     },
     updateDedicatedPageStatusFailure: (state, action) => {
       state.dedicatedPageStatusLoading = false;
       state.dedicatedPageStatusError = action.payload;
     },
     resetDedicatedPageStatus: (state) => {
-      state.dedicatedPageStatusLoading = false;
-      state.dedicatedPageStatusSuccess = false;
+      state.dedicatedPageStatusSuccess = null;
       state.dedicatedPageStatusError = null;
     },
   },
