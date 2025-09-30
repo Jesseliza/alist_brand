@@ -25,9 +25,7 @@ export default function AuthInitializer() {
         const userObject = JSON.parse(bytesUser.toString(CryptoJS.enc.Utf8));
 
         // Ensure backward compatibility for users with old data in localStorage
-        if (userObject.food_offers_count === undefined) {
-          userObject.food_offers_count = 0;
-        }
+        userObject.food_offers_count = userObject.food_offers_count ?? 0;
 
         const user: Account = userObject;
 
