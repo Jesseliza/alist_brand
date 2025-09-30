@@ -82,7 +82,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
     dispatch(
       updateDedicatedPageStatusStart({
         id: selectedCreatorId,
-        status: 2,
+        status: 0,
         rejectReason: rejectReason,
       })
     );

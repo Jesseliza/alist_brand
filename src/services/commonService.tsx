@@ -60,3 +60,5 @@ export const deleteData = async (endpoint: string) => {
     return { success: false, response: axiosError.response?.data.response };
   }
 };
+
+// You can add more functions as needed
