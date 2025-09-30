@@ -20,7 +20,9 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
-  const { loading } = useSelector((state: RootState) => state.campaigns);
+  const { statusUpdateLoading } = useSelector(
+    (state: RootState) => state.campaigns
+  );
   const [selectedIndex, setSelectedIndex] = useState(1); // Default to Overview (index 1)
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
@@ -33,7 +35,13 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
   };
 
   const handleRejectSubmit = (reason: string) => {
-    dispatch(updateCampaignStatusStart({ id: campaignId, status: "Rejected", rejectReason: reason }));
+    dispatch(
+      updateCampaignStatusStart({
+        id: campaignId,
+        status: "Rejected",
+        rejectReason: reason,
+      })
+    );
     setIsRejectModalOpen(false);
   };
 
@@ -67,13 +75,15 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
           <div className="flex justify-end space-x-2 mb-2">
             <button
               onClick={handleApprove}
-              className="bg-green-500 text-white px-3 py-1 text-sm rounded-md hover:bg-green-600"
+              disabled={statusUpdateLoading}
+              className="bg-green-500 text-white px-3 py-1 text-sm rounded-md hover:bg-green-600 disabled:bg-gray-400"
             >
-              Approve
+              {statusUpdateLoading ? "Approving..." : "Approve"}
             </button>
             <button
               onClick={handleReject}
-              className="bg-red-500 text-white px-3 py-1 text-sm rounded-md hover:bg-red-600"
+              disabled={statusUpdateLoading}
+              className="bg-red-500 text-white px-3 py-1 text-sm rounded-md hover:bg-red-600 disabled:bg-gray-400"
             >
               Reject
             </button>
@@ -115,7 +125,7 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
         isOpen={isRejectModalOpen}
         onClose={() => setIsRejectModalOpen(false)}
         onSubmit={handleRejectSubmit}
-        loading={loading}
+        loading={statusUpdateLoading}
       />
     </div>
   );
