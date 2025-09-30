@@ -223,6 +223,7 @@ export interface UpdateDedicatedPageStatusPayload {
   id: string;
   status: 0 | 1;
   rejectReason?: string;
+  campaignId?: string;
 }
 
 // API Responses
@@ -281,7 +282,7 @@ export interface CampaignsState {
   bulkDeleteLoading: boolean;
   bulkDeleteError: string | null;
   dedicatedPageStatusLoading: boolean;
-  dedicatedPageStatusSuccess: boolean;
+  dedicatedPageStatusSuccess: { timestamp: number } | null;
   dedicatedPageStatusError: string | null;
 }
 
