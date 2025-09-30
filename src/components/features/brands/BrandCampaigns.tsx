@@ -12,7 +12,7 @@ interface BrandCampaignsProps {
   brandName: string;
   brandLogo: string;
   brandId: string;
-  onRemoveCampaign: (id: string) => void;
+  onRemoveCampaign?: (id: string) => void;
 }
 
 export default function BrandCampaigns({

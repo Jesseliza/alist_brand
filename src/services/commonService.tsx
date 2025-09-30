@@ -60,16 +60,3 @@ export const deleteData = async (endpoint: string) => {
     return { success: false, response: axiosError.response?.data.response };
   }
 };
-
-// You can add more functions as needed
-
-export const updateCreatorStatus = async (
-  id: string,
-  status: number,
-  rejectReason?: string
-) => {
-  return await postData(`/api/dedicated/${id}/status`, {
-    status,
-    rejectReason,
-  });
-};

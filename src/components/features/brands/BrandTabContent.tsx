@@ -14,7 +14,7 @@ interface BrandTabContentProps extends TabContentProps {
     isSaving: boolean;
     isCreateMode: boolean;
     errors?: Partial<Record<keyof Brand, string>>;
-    onRemoveCampaign: (id: string) => void;
+    onRemoveCampaign?: (id: string) => void;
   };
 }
 

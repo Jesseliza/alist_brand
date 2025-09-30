@@ -103,7 +103,7 @@ const campaignsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    updateDedicatedPageStatusStart: (state) => {
+    updateDedicatedPageStatusStart: (state,action: PayloadAction<{ id: string; status: number; rejectReason?: string }>) => {
       state.loading = true;
       state.error = null;
     },

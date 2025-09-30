@@ -3,7 +3,8 @@ import { useState, useMemo } from "react";
 import { Campaign, OfferUser } from "@/types/entities";
 import CampaignCreatorCard from "./Creators/CampaignCreatorCard";
 import Pagination from "@/components/general/Pagination";
-import { updateCreatorStatus } from "@/services/commonService";
+import { useDispatch, useSelector } from "react-redux";
+import { updateDedicatedPageStatusStart } from "@/store/campaigns/CampaignSlice";
 import RejectReasonModal from "../RejectReasonModal";
 import toast from "react-hot-toast";
 
@@ -11,6 +12,7 @@ const ITEMS_PER_PAGE = 6;
 
 export default function Creators({ campaign }: { campaign: Campaign }) {
   const [currentPage, setCurrentPage] = useState(1);
+  const dispatch = useDispatch();
   const [creators, setCreators] = useState<OfferUser[]>(
     campaign?.dedicated_offer?.offer_users || []
   );
@@ -43,19 +45,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
   }, [mappedCreators, currentPage]);
 
   const handleApprove = async (id: string) => {
-    setLoading(true);
-    const response = await updateCreatorStatus(id, 1);
-    if (response.success) {
-      toast.success("Creator approved successfully!");
-      setCreators((prev) =>
-        prev.map((c) =>
-          c.user.id.toString() === id ? { ...c, status: 1 } : c
-        )
-      );
-    } else {
-      toast.error(response.response || "Failed to approve creator.");
-    }
-    setLoading(false);
+    dispatch(updateDedicatedPageStatusStart({ id: id, status: 1 }));
   };
 
   const handleReject = (id: string) => {
@@ -65,23 +55,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
 
   const handleRejectSubmit = async (rejectReason: string) => {
     if (!selectedCreatorId) return;
-    setLoading(true);
-    const response = await updateCreatorStatus(
-      selectedCreatorId,
-      0,
-      rejectReason
-    );
-    if (response.success) {
-      toast.success("Creator rejected successfully!");
-      setCreators((prev) =>
-        prev.filter((c) => c.user.id.toString() !== selectedCreatorId)
-      );
-      setIsRejectModalOpen(false);
-      setSelectedCreatorId(null);
-    } else {
-      toast.error(response.response || "Failed to reject creator.");
-    }
-    setLoading(false);
+    dispatch(updateDedicatedPageStatusStart({ id: selectedCreatorId, status: 1, rejectReason: rejectReason }));
   };
 
   if (campaign?.is_dedicated !== 1) {
