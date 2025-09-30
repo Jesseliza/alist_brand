@@ -60,7 +60,9 @@ export default function BrandCampaigns({
             >
               <CampaignCard
                 campaign={campaign}
-                onRemove={() => onRemoveCampaign(campaign.id.toString())}
+                onRemove={() =>
+                  onRemoveCampaign && onRemoveCampaign(campaign.id.toString())
+                }
                 checked={false}
                 onCheckboxChange={() => {}}
               />
@@ -77,7 +79,9 @@ export default function BrandCampaigns({
           >
             <BrandCampaignMobileCard
               campaign={campaign}
-              onRemove={() => onRemoveCampaign(campaign.id.toString())}
+              onRemove={() =>
+                onRemoveCampaign && onRemoveCampaign(campaign.id.toString())
+              }
             />
           </div>
         ))}
