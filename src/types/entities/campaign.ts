@@ -161,6 +161,10 @@ export type Campaign = {
   start_date?: string;
   end_date?: string;
 
+  dedicated_offer?: {
+    offer_users: OfferUser[];
+  };
+
   // Timestamps
   createdAt: Date;
   updatedAt: Date;
