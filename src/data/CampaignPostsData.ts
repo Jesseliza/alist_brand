@@ -10,6 +10,8 @@ export const CampaignPostsData: CampaignPost[] = [
       "/images/campaign-details/posts/post1.png",
       "/images/campaign-details/posts/post2.png",
       "/images/campaign-details/posts/post3.png",
+      "/images/campaign-details/posts/post1.png",
+      "/images/campaign-details/posts/post2.png",
     ],
     likes: 150,
     comments: 25,
