@@ -1,59 +1,76 @@
 "use client";
 
 import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+// 1. Import register
+import { register } from "swiper/element/bundle";
+
 import "swiper/css";
 import "swiper/css/navigation";
 
-interface ImageSliderProps {
-  postImages: string[];
+// 2. Register Swiper elements
+register();
+
+// 3. Add type declarations for swiper-container and swiper-slide
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'swiper-container': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        navigation?: string;
+        'slides-per-view'?: string;
+        'space-between'?: string;
+        class?: string;
+        'navigation-next-el'?: string;
+        'navigation-prev-el'?: string;
+      };
+      'swiper-slide': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        key: React.Key;
+      };
+    }
+  }
 }
 
-export default function ImageSlider({ postImages }: ImageSliderProps) {
+interface ImageSliderProps {
+  images: string[];
+}
+
+const ImageSlider = ({ images }: ImageSliderProps) => {
   return (
-    <div className="relative w-full">
-      <Swiper
-        modules={[Navigation]}
-        navigation={{
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        }}
-        spaceBetween={12}
-        slidesPerView={3}
-        className="mySwiper"
+    <div className="relative">
+      {/* 4. Use swiper-container and swiper-slide elements */}
+      <swiper-container
+        navigation="true"
+        navigation-next-el=".swiper-button-next"
+        navigation-prev-el=".swiper-button-prev"
+        slides-per-view="3"
+        space-between="10"
+        class="mySwiper"
       >
-        {postImages.map((image, index) => (
-          <SwiperSlide key={index}>
-            <div className="flex-1 rounded-[13px]">
+        {images.map((src, index) => (
+          <swiper-slide key={index}>
+            <div className="relative w-full h-48">
               <Image
-                src={image}
-                alt={`Post ${index + 1}`}
-                width={119}
-                height={119}
-                className="rounded-[13px] object-cover"
+                src={src}
+                alt={`Slide ${index + 1}`}
+                fill
+                style={{ objectFit: 'cover' }}
+                className="rounded-lg"
               />
             </div>
-          </SwiperSlide>
+          </swiper-slide>
         ))}
-      </Swiper>
-      <div className="swiper-button-prev absolute left-0 top-1/2 -translate-y-1/2 z-10 cursor-pointer bg-white rounded-full">
-        <Image
-          src="/icons/campaign/details/back-arrow.svg"
-          alt="Previous"
-          width={35}
-          height={35}
-        />
+      </swiper-container>
+      <div className="swiper-button-prev absolute top-1/2 left-2 transform -translate-y-1/2 z-10 cursor-pointer">
+        <div className="text-white bg-black bg-opacity-50 rounded-full p-2">
+          &lt;
+        </div>
       </div>
-      <div className="swiper-button-next absolute right-0 top-1/2 -translate-y-1/2 z-10 cursor-pointer bg-white rounded-full">
-        <Image
-          src="/icons/campaign/details/back-arrow.svg"
-          alt="Next"
-          width={35}
-          height={35}
-          className="transform rotate-180"
-        />
+      <div className="swiper-button-next absolute top-1/2 right-2 transform -translate-y-1/2 z-10 cursor-pointer">
+        <div className="text-white bg-black bg-opacity-50 rounded-full p-2">
+          &gt;
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default ImageSlider;

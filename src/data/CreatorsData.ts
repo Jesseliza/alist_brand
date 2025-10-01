@@ -1,8 +1,8 @@
 import { Creator, CreatorTier, Gender } from "@/types/entities";
-import fullprofileImage from "@/assets/images/creators/1.jpeg";
-import fullprofileImage2 from "@/assets/images/creators/2.jpeg";
-import fullprofileImage3 from "@/assets/images/creators/3.jpeg";
-import fullprofileImage4 from "@/assets/images/creators/4.jpeg";
+import fullprofileImage from "@/assets/images/creators/1.png";
+import fullprofileImage2 from "@/assets/images/creators/2.png";
+import fullprofileImage3 from "@/assets/images/creators/3.png";
+import fullprofileImage4 from "@/assets/images/creators/4.png";
 import fullprofileImage5 from "@/assets/images/creators/5.jpeg";
 import fullprofileImage6 from "@/assets/images/creators/6.jpeg";
 import fullprofileImage7 from "@/assets/images/creators/7.jpeg";
