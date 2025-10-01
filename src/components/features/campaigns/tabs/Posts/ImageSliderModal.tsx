@@ -36,10 +36,10 @@ export default function ImageSliderModal({
 
       {/* Full-screen container to center the panel */}
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="w-full max-w-4xl h-full max-h-[90vh] rounded-lg bg-white p-2 relative">
+        <Dialog.Panel className="w-full max-w-4xl h-full max-h-[90vh] rounded-lg bg-transparent p-2 relative">
           <button
             onClick={onClose}
-            className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 text-gray-500 hover:text-gray-800"
+            className="absolute top-2 right-2 z-10 bg-transparent rounded-full p-1 text-white hover:text-gray-300"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
