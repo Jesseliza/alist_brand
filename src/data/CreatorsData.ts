@@ -1,18 +1,33 @@
 import { Creator, CreatorTier, Gender } from "@/types/entities";
-import fullprofileImage from "@/assets/images/creators/1.png";
-import fullprofileImage2 from "@/assets/images/creators/2.png";
-import fullprofileImage3 from "@/assets/images/creators/3.png";
-import fullprofileImage4 from "@/assets/images/creators/4.png";
-import fullprofileImage5 from "@/assets/images/creators/5.jpeg";
-import fullprofileImage6 from "@/assets/images/creators/6.jpeg";
-import fullprofileImage7 from "@/assets/images/creators/7.jpeg";
-import fullprofileImage8 from "@/assets/images/creators/8.jpeg";
-import fullprofileImage9 from "@/assets/images/creators/9.jpeg";
-import fullprofileImage10 from "@/assets/images/creators/10.jpeg";
-import fullprofileImage11 from "@/assets/images/creators/11.jpeg";
-import fullprofileImage12 from "@/assets/images/creators/12.jpeg";
-import fullprofileImage13 from "@/assets/images/creators/13.jpeg";
-import fullprofileImage14 from "@/assets/images/creators/14.jpeg";
+// import fullprofileImage from "@/assets/images/creators/1.png";
+// import fullprofileImage2 from "@/assets/images/creators/2.png";
+// import fullprofileImage3 from "@/assets/images/creators/3.png";
+// import fullprofileImage4 from "@/assets/images/creators/4.png";
+// import fullprofileImage5 from "@/assets/images/creators/5.jpeg";
+// import fullprofileImage6 from "@/assets/images/creators/6.jpeg";
+// import fullprofileImage7 from "@/assets/images/creators/7.jpeg";
+// import fullprofileImage8 from "@/assets/images/creators/8.jpeg";
+// import fullprofileImage9 from "@/assets/images/creators/9.jpeg";
+// import fullprofileImage10 from "@/assets/images/creators/10.jpeg";
+// import fullprofileImage11 from "@/assets/images/creators/11.jpeg";
+// import fullprofileImage12 from "@/assets/images/creators/12.jpeg";
+// import fullprofileImage13 from "@/assets/images/creators/13.jpeg";
+// import fullprofileImage14 from "@/assets/images/creators/14.jpeg";
+
+const fullprofileImage = { src: "" };
+const fullprofileImage2 = { src: "" };
+const fullprofileImage3 = { src: "" };
+const fullprofileImage4 = { src: "" };
+const fullprofileImage5 = { src: "" };
+const fullprofileImage6 = { src: "" };
+const fullprofileImage7 = { src: "" };
+const fullprofileImage8 = { src: "" };
+const fullprofileImage9 = { src: "" };
+const fullprofileImage10 = { src: "" };
+const fullprofileImage11 = { src: "" };
+const fullprofileImage12 = { src: "" };
+const fullprofileImage13 = { src: "" };
+const fullprofileImage14 = { src: "" };
 
 // Raw creator data with only creator IDs for similar creators
 const rawCreatorsData = [

@@ -71,7 +71,7 @@ export default function CampaignDetailsPost({
       </div>
       <div className="flex items-center justify-center gap-3">
         {postImages.length > 3 ? (
-          <ImageSlider postImages={postImages} />
+          <ImageSlider images={postImages} />
         ) : (
           postImages.map((image, index) => (
             <div key={index} className="flex-1 rounded-[13px]">
