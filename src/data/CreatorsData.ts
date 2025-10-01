@@ -1,18 +1,4 @@
 import { Creator, CreatorTier, Gender } from "@/types/entities";
-import fullprofileImage from "@/assets/images/creators/1.png";
-import fullprofileImage2 from "@/assets/images/creators/2.png";
-import fullprofileImage3 from "@/assets/images/creators/3.png";
-import fullprofileImage4 from "@/assets/images/creators/4.png";
-import fullprofileImage5 from "@/assets/images/creators/5.jpeg";
-import fullprofileImage6 from "@/assets/images/creators/6.jpeg";
-import fullprofileImage7 from "@/assets/images/creators/7.jpeg";
-import fullprofileImage8 from "@/assets/images/creators/8.jpeg";
-import fullprofileImage9 from "@/assets/images/creators/9.jpeg";
-import fullprofileImage10 from "@/assets/images/creators/10.jpeg";
-import fullprofileImage11 from "@/assets/images/creators/11.jpeg";
-import fullprofileImage12 from "@/assets/images/creators/12.jpeg";
-import fullprofileImage13 from "@/assets/images/creators/13.jpeg";
-import fullprofileImage14 from "@/assets/images/creators/14.jpeg";
 
 // Raw creator data with only creator IDs for similar creators
 const rawCreatorsData = [
@@ -22,7 +8,7 @@ const rawCreatorsData = [
     firstName: "Bianca",
     lastName: "Williams",
     fullName: "Bianca Williams",
-    avatarUrl: fullprofileImage.src,
+    avatarUrl: "/images/creators/1.png",
     tier: CreatorTier.MACRO, // Gold tier maps to MACRO
     verifiedPlatforms: ["Instagram", "TikTok"],
     socialHandles: [
@@ -288,7 +274,7 @@ const rawCreatorsData = [
     firstName: "Mason",
     lastName: "Wilson",
     fullName: "Mason Wilson",
-    avatarUrl: fullprofileImage2.src,
+    avatarUrl: "/images/creators/2.png",
     tier: CreatorTier.MICRO, // Silver tier maps to MICRO
     verifiedPlatforms: ["Instagram"],
     socialHandles: [
@@ -541,7 +527,7 @@ const rawCreatorsData = [
     firstName: "Emily",
     lastName: "Johnson",
     fullName: "Emily Johnson",
-    avatarUrl: fullprofileImage3.src,
+    avatarUrl: "/images/creators/3.png",
     tier: CreatorTier.MEGA, // Platinum tier maps to MEGA
     verifiedPlatforms: ["Instagram", "TikTok", "YouTube"],
     socialHandles: [
@@ -804,7 +790,7 @@ const rawCreatorsData = [
     firstName: "Michael",
     lastName: "Brown",
     fullName: "Michael Brown",
-    avatarUrl: fullprofileImage4.src,
+    avatarUrl: "/images/creators/4.png",
     tier: CreatorTier.NANO, // Bronze tier maps to NANO
     verifiedPlatforms: ["Instagram"],
     socialHandles: [
@@ -1045,7 +1031,7 @@ const rawCreatorsData = [
     firstName: "Olivia",
     lastName: "Davis",
     fullName: "Olivia Davis",
-    avatarUrl: fullprofileImage5.src,
+    avatarUrl: "/images/creators/5.jpeg",
     tier: CreatorTier.MACRO, // Gold tier maps to MACRO
     verifiedPlatforms: ["Instagram", "TikTok"],
     socialHandles: [
@@ -1305,7 +1291,7 @@ const rawCreatorsData = [
     firstName: "David",
     lastName: "Wilson",
     fullName: "David Wilson",
-    avatarUrl: fullprofileImage6.src,
+    avatarUrl: "/images/creators/6.jpeg",
     tier: CreatorTier.MICRO, // Silver tier maps to MICRO
     verifiedPlatforms: ["Instagram"],
     socialHandles: [
@@ -1558,7 +1544,7 @@ const rawCreatorsData = [
     firstName: "Sophia",
     lastName: "Thompson",
     fullName: "Sophia Thompson",
-    avatarUrl: fullprofileImage7.src,
+    avatarUrl: "/images/creators/7.jpeg",
     tier: CreatorTier.MEGA, // Platinum tier maps to MEGA
     verifiedPlatforms: ["Instagram", "TikTok", "YouTube"],
     socialHandles: [
@@ -1817,7 +1803,7 @@ const rawCreatorsData = [
     firstName: "Ethan",
     lastName: "Miller",
     fullName: "Ethan Miller",
-    avatarUrl: fullprofileImage8.src,
+    avatarUrl: "/images/creators/8.jpeg",
     tier: CreatorTier.NANO, // Bronze tier maps to NANO
     verifiedPlatforms: ["Instagram"],
     socialHandles: [
@@ -2066,7 +2052,7 @@ const rawCreatorsData = [
     firstName: "Ava",
     lastName: "Garcia",
     fullName: "Ava Garcia",
-    avatarUrl: fullprofileImage9.src,
+    avatarUrl: "/images/creators/9.jpeg",
     tier: CreatorTier.MACRO, // Gold tier maps to MACRO
     verifiedPlatforms: ["Instagram", "TikTok"],
     socialHandles: [
@@ -2320,7 +2306,7 @@ const rawCreatorsData = [
     firstName: "Alexander",
     lastName: "Rodriguez",
     fullName: "Alexander Rodriguez",
-    avatarUrl: fullprofileImage10.src,
+    avatarUrl: "/images/creators/10.jpeg",
     tier: CreatorTier.MICRO, // Silver tier maps to MICRO
     verifiedPlatforms: ["Instagram", "YouTube"],
     socialHandles: [
@@ -2574,7 +2560,7 @@ const rawCreatorsData = [
     firstName: "Chloe",
     lastName: "Martinez",
     fullName: "Chloe Martinez",
-    avatarUrl: fullprofileImage11.src,
+    avatarUrl: "/images/creators/11.jpeg",
     tier: CreatorTier.MEGA, // Platinum tier maps to MEGA
     verifiedPlatforms: ["Instagram", "TikTok", "YouTube"],
     socialHandles: [
@@ -2833,7 +2819,7 @@ const rawCreatorsData = [
     firstName: "James",
     lastName: "Anderson",
     fullName: "James Anderson",
-    avatarUrl: fullprofileImage12.src,
+    avatarUrl: "/images/creators/12.jpeg",
     tier: CreatorTier.NANO, // Bronze tier maps to NANO
     verifiedPlatforms: ["Instagram"],
     socialHandles: [
@@ -3070,7 +3056,7 @@ const rawCreatorsData = [
     firstName: "Abigail",
     lastName: "Taylor",
     fullName: "Abigail Taylor",
-    avatarUrl: fullprofileImage13.src,
+    avatarUrl: "/images/creators/13.jpeg",
     tier: CreatorTier.MACRO, // Gold tier maps to MACRO
     verifiedPlatforms: ["Instagram", "TikTok"],
     socialHandles: [
@@ -3324,7 +3310,7 @@ const rawCreatorsData = [
     firstName: "Daniel",
     lastName: "Thomas",
     fullName: "Daniel Thomas",
-    avatarUrl: fullprofileImage14.src,
+    avatarUrl: "/images/creators/14.jpeg",
     tier: CreatorTier.MICRO, // Silver tier maps to MICRO
     verifiedPlatforms: ["Instagram", "YouTube"],
     socialHandles: [
@@ -3566,7 +3552,7 @@ const rawCreatorsData = [
     firstName: "Madison",
     lastName: "Hall",
     fullName: "Madison Hall",
-    avatarUrl: fullprofileImage.src,
+    avatarUrl: "/images/creators/1.png",
     tier: CreatorTier.MEGA, // Platinum tier maps to MEGA
     verifiedPlatforms: ["Instagram", "TikTok", "LinkedIn"],
     socialHandles: [
@@ -3825,7 +3811,7 @@ const rawCreatorsData = [
     firstName: "Christopher",
     lastName: "Clark",
     fullName: "Christopher Clark",
-    avatarUrl: fullprofileImage2.src,
+    avatarUrl: "/images/creators/2.png",
     tier: CreatorTier.NANO, // Bronze tier maps to NANO
     verifiedPlatforms: ["Instagram"],
     socialHandles: [
@@ -4062,7 +4048,7 @@ const rawCreatorsData = [
     firstName: "Lily",
     lastName: "Baker",
     fullName: "Lily Baker",
-    avatarUrl: fullprofileImage3.src,
+    avatarUrl: "/images/creators/3.png",
     tier: CreatorTier.MACRO, // Gold tier maps to MACRO
     verifiedPlatforms: ["Instagram", "TikTok"],
     socialHandles: [
@@ -4304,7 +4290,7 @@ const rawCreatorsData = [
     firstName: "Andrew",
     lastName: "Wright",
     fullName: "Andrew Wright",
-    avatarUrl: fullprofileImage4.src,
+    avatarUrl: "/images/creators/4.png",
     tier: CreatorTier.MICRO, // Silver tier maps to MICRO
     verifiedPlatforms: ["Instagram", "YouTube"],
     socialHandles: [
@@ -4546,7 +4532,7 @@ const rawCreatorsData = [
     firstName: "Isabella",
     lastName: "Green",
     fullName: "Isabella Green",
-    avatarUrl: fullprofileImage3.src,
+    avatarUrl: "/images/creators/3.png",
     tier: CreatorTier.MEGA, // Platinum tier maps to MEGA
     verifiedPlatforms: ["Instagram", "TikTok", "YouTube"],
     socialHandles: [
@@ -4793,7 +4779,7 @@ const rawCreatorsData = [
     firstName: "Joshua",
     lastName: "King",
     fullName: "Joshua King",
-    avatarUrl: fullprofileImage4.src,
+    avatarUrl: "/images/creators/4.png",
     tier: CreatorTier.NANO, // Bronze tier maps to NANO
     verifiedPlatforms: ["Instagram"],
     socialHandles: [
@@ -5030,7 +5016,7 @@ const rawCreatorsData = [
     firstName: "Mia",
     lastName: "Scott",
     fullName: "Mia Scott",
-    avatarUrl: fullprofileImage.src,
+    avatarUrl: "/images/creators/1.png",
     tier: CreatorTier.MACRO, // Gold tier maps to MACRO
     verifiedPlatforms: ["Instagram", "TikTok"],
     socialHandles: [
@@ -5272,7 +5258,7 @@ const rawCreatorsData = [
     firstName: "Benjamin",
     lastName: "Adams",
     fullName: "Benjamin Adams",
-    avatarUrl: fullprofileImage2.src,
+    avatarUrl: "/images/creators/2.png",
     tier: CreatorTier.MICRO, // Silver tier maps to MICRO
     verifiedPlatforms: ["Instagram", "LinkedIn"],
     socialHandles: [
@@ -5518,7 +5504,7 @@ const rawCreatorsData = [
     firstName: "Ella",
     lastName: "Nelson",
     fullName: "Ella Nelson",
-    avatarUrl: fullprofileImage3.src,
+    avatarUrl: "/images/creators/3.png",
     tier: CreatorTier.MEGA, // Platinum tier maps to MEGA
     verifiedPlatforms: ["Instagram", "TikTok", "YouTube"],
     socialHandles: [
@@ -5769,7 +5755,7 @@ const rawCreatorsData = [
     firstName: "William",
     lastName: "Carter",
     fullName: "William Carter",
-    avatarUrl: fullprofileImage4.src,
+    avatarUrl: "/images/creators/4.png",
     tier: CreatorTier.NANO, // Bronze tier maps to NANO
     verifiedPlatforms: ["Instagram"],
     socialHandles: [
