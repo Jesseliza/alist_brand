@@ -1,5 +1,4 @@
 import Image from "next/image";
-import ImageSlider from "./ImageSlider";
 
 interface CampaignDetailsPostProps {
   authorImage: string;
@@ -70,21 +69,17 @@ export default function CampaignDetailsPost({
         </div>
       </div>
       <div className="flex items-center justify-center gap-3">
-        {postImages.length > 3 ? (
-          <ImageSlider images={postImages} />
-        ) : (
-          postImages.map((image, index) => (
-            <div key={index} className="flex-1 rounded-[13px]">
-              <Image
-                src={image}
-                alt={`Post ${index + 1}`}
-                width={119}
-                height={119}
-                className="rounded-[13px] object-cover"
-              />
-            </div>
-          ))
-        )}
+        {postImages.map((image, index) => (
+          <div key={index} className="flex-1 rounded-[13px]">
+            <Image
+              src={image}
+              alt={`Post ${index + 1}`}
+              width={119}
+              height={119}
+              className="rounded-[13px] object-cover"
+            />
+          </div>
+        ))}
       </div>
     </article>
   );
