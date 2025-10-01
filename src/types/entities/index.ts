@@ -2,7 +2,6 @@
 export * from "./account";
 export * from "./brand";
 export * from "./campaign";
-export type { OfferUser } from "./campaign";
 
 // Subscription and billing types
 export * from "./plan";
