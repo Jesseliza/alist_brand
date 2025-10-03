@@ -3,6 +3,7 @@ import {
   CampaignsState,
   GetCampaignsPayload,
   GetCampaignDetailsPayload,
+  GetCampaignReviewPostsPayload,
   UpdateCampaignStatusPayload,
   UpdateDedicatedPageStatusPayload,
 } from '../../types/entities/campaign';
@@ -17,6 +18,10 @@ const initialState: CampaignsState = {
   bulkDeleteError: null,
   dedicatedPageStatusLoading: false,
   statusUpdateLoading: false,
+  reviewPosts: [],
+  reviewPostsLoading: false,
+  reviewPostsError: null,
+  reviewPostsPagination: null,
 };
 
 const campaignsSlice = createSlice({
@@ -135,6 +140,27 @@ const campaignsSlice = createSlice({
     updateDedicatedPageStatusFailure: (state, action) => {
       state.dedicatedPageStatusLoading = false;
     },
+    getReviewPostsStart: (
+      state,
+      action: PayloadAction<GetCampaignReviewPostsPayload>
+    ) => {
+      state.reviewPostsLoading = true;
+      state.reviewPostsError = null;
+    },
+    getReviewPostsSuccess: (state, action) => {
+      state.reviewPostsLoading = false;
+      state.reviewPosts = action.payload.data;
+      state.reviewPostsPagination = {
+        current_page: action.payload.current_page,
+        last_page: action.payload.last_page,
+        per_page: action.payload.per_page,
+        total: action.payload.total,
+      };
+    },
+    getReviewPostsFailure: (state, action) => {
+      state.reviewPostsLoading = false;
+      state.reviewPostsError = action.payload;
+    },
   },
 });
 
@@ -156,6 +182,9 @@ export const {
   bulkDeleteCampaignsStart,
   bulkDeleteCampaignsSuccess,
   bulkDeleteCampaignsFailure,
+  getReviewPostsStart,
+  getReviewPostsSuccess,
+  getReviewPostsFailure,
 } = campaignsSlice.actions;
 
 export default campaignsSlice.reducer;
