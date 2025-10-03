@@ -126,12 +126,12 @@ function* bulkDeleteCampaignsSaga(action: PayloadAction<{ ids: string[] }>) {
 function* getCampaignReviewPostsSaga(action: GetCampaignReviewPostsAction) {
   try {
     const { id, page = 1, per_page = 10 } = action.payload;
-    const response: CampaignReviewPostsResponse = yield call(
+    const response: { data: CampaignReviewPostsResponse } = yield call(
       axiosInstance.post,
       `/api/campaign/review-posts/${id}`,
       { page, per_page }
     );
-    yield put(getReviewPostsSuccess(response.data));
+    yield put(getReviewPostsSuccess(response.data.data));
   } catch (error: any) {
     yield put(getReviewPostsFailure(error.message));
   }
