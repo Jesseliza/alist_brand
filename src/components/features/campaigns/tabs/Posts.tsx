@@ -1,68 +1,83 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "next/navigation";
+import { getReviewPostsStart } from "@/store/campaigns/CampaignSlice";
+import { RootState } from "@/store/store";
 import CampaignDetailsPost from "./Posts/CampaignDetailsPost";
 import Pagination from "../../../general/Pagination";
-import { usePagination } from "../../../../hooks/usePagination";
-import { Campaign, CampaignPost } from "@/types/entities";
-import { CreatorsData } from "@/data/CreatorsData";
-import { CampaignPostsData } from "@/data/CampaignPostsData";
+import Loader from "@/components/general/Loader";
+import { Campaign, CampaignReviewPost } from "@/types/entities";
 
 interface PostsProps {
   campaign: Campaign;
 }
 
-export default function Posts({ }: PostsProps) {
-  // Get campaign posts from the external data file
-  const campaignPosts = CampaignPostsData;
+const formatNumber = (num: number | null) => {
+  if (num === null) return "0";
+  if (num >= 1000) {
+    return `${(num / 1000).toFixed(1)}K`;
+  }
+  return num.toString();
+};
 
-  // Map campaign posts to the format expected by CampaignDetailsPost
-  const mappedPosts = campaignPosts.map((post: CampaignPost) => {
-    // Find the creator data for this post
-    const creator = CreatorsData.find((c) => c.creatorId === post.creatorId);
-
-    if (!creator) {
-      // Fallback if creator not found
-      return {
-        authorImage: "/images/campaign-details/posts/author1.png",
-        authorName: "Unknown Creator",
-        instagramUsername: "unknown",
-        stats: { followers: "0", reach: "0", engagement: "0%" },
-        postImages: post.imageUrls,
-      };
-    }
-
-    // Find Instagram handle
-    const instagramHandle =
-      creator.socialHandles.find((handle) => handle.platform === "Instagram")
-        ?.handle || creator.fullName.toLowerCase().replace(/\s+/g, ".");
-
-    // Format follower count
-    const formattedFollowers =
-      creator.followerCount >= 1000
-        ? `${(creator.followerCount / 1000).toFixed(0)}K`
-        : creator.followerCount.toString();
-
-    return {
-      authorImage: creator.avatarUrl,
-      authorName: creator.fullName,
-      instagramUsername: instagramHandle,
-      stats: {
-        followers: formattedFollowers,
-        reach: "6.5K", // This could be calculated from creator data if available
-        engagement: `${creator.engagementRate.toFixed(2)}%`,
-      },
-      postImages: post.imageUrls,
-    };
-  });
+export default function Posts({ campaign }: PostsProps) {
+  const dispatch = useDispatch();
+  const params = useParams();
+  const { campaignId } = params;
 
   const {
-    itemsPerPage,
-    currentPage,
-    startIndex,
-    endIndex,
-    handlePageChange,
-    handleItemsPerPageChange,
-  } = usePagination(mappedPosts.length, 12);
+    reviewPosts,
+    reviewPostsLoading,
+    reviewPostsError,
+    reviewPostsPagination,
+  } = useSelector((state: RootState) => state.campaigns);
 
-  const currentPosts = mappedPosts.slice(startIndex, endIndex);
+  useEffect(() => {
+    if (campaignId) {
+      dispatch(getReviewPostsStart({ id: campaignId as string }));
+    }
+  }, [dispatch, campaignId]);
+
+  const handlePageChange = (page: number) => {
+    if (campaignId) {
+      dispatch(
+        getReviewPostsStart({
+          id: campaignId as string,
+          page,
+          per_page: reviewPostsPagination?.per_page,
+        })
+      );
+    }
+  };
+
+  if (reviewPostsLoading) {
+    return <Loader />;
+  }
+
+  if (reviewPostsError) {
+    return <p className="text-red-500 text-center py-8">Error: {reviewPostsError}</p>;
+  }
+
+  const mappedPosts = reviewPosts.map((post: CampaignReviewPost) => {
+    const postImages = [
+      post.screenshot1,
+      post.screenshot2,
+      post.screenshot3,
+      post.screenshot4,
+    ].filter((img) => img !== null) as string[];
+
+    return {
+      authorImage: "/images/campaign-details/posts/author1.png", // Mock data, as it's not in the response
+      authorName: post.user.name,
+      instagramUsername: post.user.instagram_url || "N/A",
+      stats: {
+        followers: formatNumber(post.user.instagram_followers),
+        reach: formatNumber(post.rating),
+        engagement: "0%", // Not available in the response
+      },
+      postImages: postImages,
+    };
+  });
 
   return (
     <div>
@@ -73,22 +88,24 @@ export default function Posts({ }: PostsProps) {
             gridTemplateColumns: "repeat(auto-fit, minmax(360px, 412px))",
           }}
         >
-          {currentPosts.map((post, index) => (
+          {mappedPosts.map((post, index) => (
             <CampaignDetailsPost key={index} {...post} />
           ))}
         </div>
 
-        <div className="mt-8">
-          <Pagination
-            totalItems={mappedPosts.length}
-            itemsPerPage={itemsPerPage}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-            onItemsPerPageChange={handleItemsPerPageChange}
-            itemsPerPageOptions={[6, 12, 18, 24]}
-            fixed={false}
-          />
-        </div>
+        {reviewPostsPagination && reviewPostsPagination.total > 0 && (
+          <div className="mt-8">
+            <Pagination
+              totalItems={reviewPostsPagination.total}
+              itemsPerPage={reviewPostsPagination.per_page}
+              currentPage={reviewPostsPagination.current_page}
+              onPageChange={handlePageChange}
+              onItemsPerPageChange={() => {}}
+              itemsPerPageOptions={[]}
+              fixed={false}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

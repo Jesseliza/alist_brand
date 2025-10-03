@@ -267,6 +267,44 @@ export interface UpdateDedicatedPageStatusAction {
   payload: UpdateDedicatedPageStatusPayload;
 }
 
+// Campaign Review Post Types
+export interface CampaignReviewPostUser {
+  name: string;
+  instagram_url: string | null;
+  instagram_followers: number | null;
+}
+
+export interface CampaignReviewPost {
+  id: number;
+  rating: number; // to be used as reach
+  screenshot1: string | null;
+  screenshot2: string | null;
+  screenshot3: string | null;
+  screenshot4: string | null;
+  user: CampaignReviewPostUser;
+}
+
+export interface CampaignReviewPostsResponse {
+  data: {
+    data: CampaignReviewPost[];
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+  };
+}
+
+export interface GetCampaignReviewPostsPayload {
+  id: string;
+  page?: number;
+  per_page?: number;
+}
+
+export interface GetCampaignReviewPostsAction {
+  type: string;
+  payload: GetCampaignReviewPostsPayload;
+}
+
 // Redux State
 export interface CampaignsState {
   campaigns: CampaignSummary[];
@@ -283,6 +321,15 @@ export interface CampaignsState {
   bulkDeleteError: string | null;
   dedicatedPageStatusLoading: boolean;
   statusUpdateLoading: boolean;
+  reviewPosts: CampaignReviewPost[];
+  reviewPostsLoading: boolean;
+  reviewPostsError: string | null;
+  reviewPostsPagination: {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+  } | null;
 }
 
 // Unified type for display components

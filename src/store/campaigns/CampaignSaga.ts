@@ -20,11 +20,16 @@ import {
   bulkDeleteCampaignsStart,
   bulkDeleteCampaignsSuccess,
   bulkDeleteCampaignsFailure,
+  getReviewPostsStart,
+  getReviewPostsSuccess,
+  getReviewPostsFailure,
 } from "./CampaignSlice";
 import {
   CampaignsApiResponse,
   CampaignDetailsApiResponse,
+  CampaignReviewPostsResponse,
   GetCampaignsAction,
+  GetCampaignReviewPostsAction,
   UpdateCampaignStatusAction,
   GetCampaignDetailsAction,
   UpdateDedicatedPageStatusAction,
@@ -118,6 +123,19 @@ function* bulkDeleteCampaignsSaga(action: PayloadAction<{ ids: string[] }>) {
   }
 }
 
+function* getCampaignReviewPostsSaga(action: GetCampaignReviewPostsAction) {
+  try {
+    const { id, page = 1, per_page = 12 } = action.payload;
+    const response: CampaignReviewPostsResponse = yield call(
+      axiosInstance.get,
+      `/api/campaign/review-posts/${id}?page=${page}&per_page=${per_page}`
+    );
+    yield put(getReviewPostsSuccess(response.data));
+  } catch (error: any) {
+    yield put(getReviewPostsFailure(error.message));
+  }
+}
+
 function* watchCampaigns() {
   yield takeLatest(getCampaignsStart.type, getCampaignsSaga);
   yield takeLatest(getMoreCampaignsStart.type, getMoreCampaignsSaga);
@@ -128,6 +146,7 @@ function* watchCampaigns() {
     updateDedicatedPageStatusSaga
   );
   yield takeLatest(bulkDeleteCampaignsStart.type, bulkDeleteCampaignsSaga);
+  yield takeLatest(getReviewPostsStart.type, getCampaignReviewPostsSaga);
 }
 
 export default function* campaignsSaga() {
