@@ -64,6 +64,16 @@ export const sidebarConfig: SidebarSection[] = [
         label: "Campaigns",
         href: "/businesses/campaigns",
       },
+      {
+        icon: {
+          src: "/icons/sidebar/campaign-request.svg",
+          alt: "Campaign Request",
+          width: 24.14,
+          height: 24.12,
+        },
+        label: "Campaign Request",
+        href: "/businesses/campaign-request",
+      },
       // {
       //   icon: {
       //     src: "/icons/sidebar/activities.svg",
