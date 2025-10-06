@@ -6,11 +6,7 @@ import { RootState } from "@/store/store";
 import CampaignDetailsPost from "./Posts/CampaignDetailsPost";
 import Pagination from "../../../general/Pagination";
 import Loader from "@/components/general/Loader";
-import { Campaign, CampaignReviewPost } from "@/types/entities";
-
-interface PostsProps {
-  campaign: Campaign;
-}
+import { CampaignReviewPost } from "@/types/entities";
 
 const formatNumber = (num: number | null) => {
   if (num === null) return "0";
@@ -20,7 +16,7 @@ const formatNumber = (num: number | null) => {
   return num.toString();
 };
 
-export default function Posts({ campaign }: PostsProps) {
+export default function Posts() {
   const dispatch = useDispatch();
   const params = useParams();
   const { campaignId } = params;

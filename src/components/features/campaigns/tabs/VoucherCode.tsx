@@ -98,9 +98,6 @@ const VoucherCodeTable = () => {
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   REDEEMED DATE
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  LAST RESET
-                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -119,9 +116,8 @@ const VoucherCodeTable = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.user?.name || 'N/A'}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.offer_date}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.created_at}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.used_at || '-'}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.redem_at || '-'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.updated_at}</td>
                   </tr>
                 );
               })}
