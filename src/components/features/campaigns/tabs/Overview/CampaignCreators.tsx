@@ -15,16 +15,32 @@ const CreatorCard = ({
   name: string;
   user: string;
 }) => {
+  const getInitials = (name: string) => {
+    if (!name) return "";
+    const names = name.split(" ");
+    let initials = names[0].substring(0, 1);
+    if (names.length > 1) {
+      initials += names[names.length - 1].substring(0, 1);
+    }
+    return initials.toUpperCase();
+  };
+
   return (
     <div className="flex items-center gap-[17px] bg-[#F8F8F8] rounded-[11px] p-4">
-      <div className="w-[50.34px] h-[50.34px] rounded-full overflow-hidden">
-        <Image
-          src={imgSrc}
-          alt={name}
-          width={50.34}
-          height={50.34}
-          objectFit="cover"
-        />
+      <div className="w-[50.34px] h-[50.34px] rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
+        {imgSrc ? (
+          <Image
+            src={imgSrc}
+            alt={name}
+            width={50.34}
+            height={50.34}
+            objectFit="cover"
+          />
+        ) : (
+          <span className="text-xl font-bold text-gray-500">
+            {getInitials(name)}
+          </span>
+        )}
       </div>
 
       <div>
@@ -44,9 +60,9 @@ export default function CampaignCreators({ campaign }: CampaignCreatorsProps) {
     ) || [];
 
   const creatorCards = approvedCreators.map((offerUser) => ({
-    imgSrc:
-      offerUser.user.profile_picture ||
-      "/images/default-avatar.png",
+    imgSrc: offerUser.user.profile_picture
+      ? `${process.env.NEXT_PUBLIC_IMAGE_URL}${offerUser.user.profile_picture}`
+      : "",
     name: offerUser.user.name,
     user: offerUser.user.instagram_url || "N/A",
   }));
