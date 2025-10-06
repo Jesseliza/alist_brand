@@ -162,6 +162,13 @@ export type Campaign = {
   is_dedicated?: number;
   start_date?: string;
   end_date?: string;
+  description?: string;
+  phone_campaign_message?: string;
+  rule_1?: string;
+  rule_2?: string;
+  rule_3?: string;
+  reviews_count?: number;
+  banner_image?: string;
 
   dedicated_offer?: {
     offer_users: OfferUser[];
