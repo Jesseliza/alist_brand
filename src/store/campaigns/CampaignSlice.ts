@@ -7,6 +7,8 @@ import {
   GetVoucherCodesPayload,
   UpdateCampaignStatusPayload,
   UpdateDedicatedPageStatusPayload,
+  GetCampaignAvailabilityPayload,
+  CampaignAvailability,
 } from '../../types/entities/campaign';
 
 const initialState: CampaignsState = {
@@ -27,6 +29,9 @@ const initialState: CampaignsState = {
   voucherCodesLoading: false,
   voucherCodesError: null,
   voucherCodesPagination: null,
+  campaignAvailability: [],
+  campaignAvailabilityLoading: false,
+  campaignAvailabilityError: null,
 };
 
 const campaignsSlice = createSlice({
@@ -187,6 +192,24 @@ const campaignsSlice = createSlice({
       state.voucherCodesLoading = false;
       state.voucherCodesError = action.payload;
     },
+    getCampaignAvailabilityStart: (
+      state,
+      action: PayloadAction<GetCampaignAvailabilityPayload>
+    ) => {
+      state.campaignAvailabilityLoading = true;
+      state.campaignAvailabilityError = null;
+    },
+    getCampaignAvailabilitySuccess: (
+      state,
+      action: PayloadAction<CampaignAvailability[]>
+    ) => {
+      state.campaignAvailabilityLoading = false;
+      state.campaignAvailability = action.payload;
+    },
+    getCampaignAvailabilityFailure: (state, action: PayloadAction<string>) => {
+      state.campaignAvailabilityLoading = false;
+      state.campaignAvailabilityError = action.payload;
+    },
   },
 });
 
@@ -214,6 +237,9 @@ export const {
   getVoucherCodesStart,
   getVoucherCodesSuccess,
   getVoucherCodesFailure,
+  getCampaignAvailabilityStart,
+  getCampaignAvailabilitySuccess,
+  getCampaignAvailabilityFailure,
 } = campaignsSlice.actions;
 
 export default campaignsSlice.reducer;
