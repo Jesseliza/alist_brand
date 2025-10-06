@@ -94,7 +94,7 @@ export default function CampaignDetailsPost({
           {imagesToShow.map((image, index) => (
             <div
               key={index}
-              className="flex-1 rounded-[13px] cursor-pointer relative"
+              className="w-[119px] h-[119px] rounded-[13px] cursor-pointer relative"
               onClick={() => openModal(index)}
             >
               <Image
@@ -102,11 +102,11 @@ export default function CampaignDetailsPost({
                 alt={`Post ${index + 1}`}
                 width={119}
                 height={119}
-                className="rounded-[13px] object-cover"
+                className="rounded-[13px] object-cover w-full h-full"
               />
               {index === 2 && remainingImagesCount > 0 && (
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-[13px]">
-                  <p className="text-white text-2xl font-bold">
+                <div className="absolute inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center rounded-[13px]">
+                  <p className="text-gray-800 text-2xl font-bold">
                     +{remainingImagesCount}
                   </p>
                 </div>
