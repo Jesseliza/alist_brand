@@ -19,6 +19,17 @@ const getStatus = (voucher: VoucherCode) => {
   return { text: 'Issued', color: 'bg-green-500' };
 };
 
+const formatDate = (dateString: string | null) => {
+  if (!dateString) {
+    return '-';
+  }
+  return new Date(dateString).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+};
+
 const VoucherCodeTable = () => {
   const dispatch = useDispatch();
   const params = useParams();
@@ -115,9 +126,9 @@ const VoucherCodeTable = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.user?.name || 'N/A'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.offer_date}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.used_at || '-'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.redem_at || '-'}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(voucher.offer_date)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(voucher.used_at)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(voucher.redem_at)}</td>
                   </tr>
                 );
               })}
