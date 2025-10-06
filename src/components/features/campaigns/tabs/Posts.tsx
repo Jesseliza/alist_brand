@@ -78,8 +78,12 @@ export default function Posts({ campaign }: PostsProps) {
       authorName: post.user.name,
       instagramUsername: post.user.instagram_url || "N/A",
       stats: {
-        followers: formatNumber(post.user.instagram_followers),
-        reach: formatNumber(post.rating),
+        followers:
+          post.user.instagram_follower_range?.followers ||
+          formatNumber(post.user.instagram_followers),
+        reach: post.user.instagram_follower_range
+          ? formatNumber(post.user.instagram_follower_range.reach)
+          : formatNumber(post.rating),
         engagement: "0%", // Not available in the response
       },
       postImages: postImages,
