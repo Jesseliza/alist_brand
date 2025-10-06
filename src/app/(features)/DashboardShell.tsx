@@ -31,7 +31,7 @@ function DashboardContent({
 }) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { isAuthenticated, user, isAuthLoading } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
   const pathname = usePathname();
 
