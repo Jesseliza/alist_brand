@@ -1,52 +1,24 @@
 import Image from "next/image";
-
-interface Influencer {
-  id: string;
-  name: string;
-  profileImage: string;
-  campaigns: number;
-  engagement: number;
-}
+import { useSelector } from "react-redux";
+import {
+  selectDashboardData,
+  selectDashboardLoading,
+} from "@/store/dashboard/dashboardSlice";
+import Loader from "@/components/reusable/Loader";
 
 export default function InfluencerActivity() {
-  // Dynamic data array for influencers
-  const influencers: Influencer[] = [
-    {
-      id: "1",
-      name: "Bianca Williams",
-      profileImage: "/images/dashboard/Influencer activity/creator1.png",
-      campaigns: 15,
-      engagement: 78,
-    },
-    {
-      id: "2",
-      name: "Mason Wilson",
-      profileImage: "/images/dashboard/Influencer activity/creator2.png",
-      campaigns: 10,
-      engagement: 82,
-    },
-    {
-      id: "3",
-      name: "Bianca Williams",
-      profileImage: "/images/dashboard/Influencer activity/creator3.png",
-      campaigns: 8,
-      engagement: 65,
-    },
-    {
-      id: "4",
-      name: "Clara Johnson",
-      profileImage: "/images/dashboard/Influencer activity/creator4.png",
-      campaigns: 11,
-      engagement: 72,
-    },
-    {
-      id: "5",
-      name: "Olivia Johnson",
-      profileImage: "/images/dashboard/Influencer activity/creator1.png",
-      campaigns: 13,
-      engagement: 65,
-    },
-  ];
+  const dashboardData = useSelector(selectDashboardData);
+  const loading = useSelector(selectDashboardLoading);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-24">
+        <Image src="/icons/loader.gif" alt="Loading..." width={50} height={50} />
+      </div>
+    );
+  }
+
+  const influencers = dashboardData?.influencers || [];
 
   return (
     <div className="bg-white ">
@@ -58,13 +30,13 @@ export default function InfluencerActivity() {
                 Influencer
               </th>
               <th className="py-[7px] px-1 font-medium text-left">Campaigns</th>
-              <th className="py-[7px] px-1 font-medium  rounded-tr-[11px]">
+              {/* <th className="py-[7px] px-1 font-medium  rounded-tr-[11px]">
                 Engagement
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody>
-            {influencers.map((influencer) => (
+            {influencers.map((influencer: any) => (
               <tr
                 key={influencer.id}
                 className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
@@ -73,7 +45,7 @@ export default function InfluencerActivity() {
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
                       <Image
-                        src={influencer.profileImage}
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${influencer.profile_picture}`}
                         alt={influencer.name}
                         width={40}
                         height={40}
@@ -86,11 +58,11 @@ export default function InfluencerActivity() {
                   </div>
                 </td>
                 <td className="py-2 px-1 text-left text-gray-700">
-                  {influencer.campaigns}
+                  {influencer.food_offers_users_count}
                 </td>
-                <td className="py-2 px-1 text-left text-gray-700">
+                {/* <td className="py-2 px-1 text-left text-gray-700">
                   {influencer.engagement}%
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

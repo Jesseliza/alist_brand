@@ -1,56 +1,34 @@
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import {
+  selectDashboardData,
+  selectDashboardLoading,
+} from "@/store/dashboard/dashboardSlice";
+import Loader from "@/components/reusable/Loader";
 
 export default function LiveCampaigns() {
-  // Data defined within the component
-  const campaignData = [
-    {
-      mainImage: "/images/dashboard/live campaigns/live-campaign-1.png",
-      creatorImages: [
-        "/images/dashboard/live campaigns/1.png",
-        "/images/dashboard/live campaigns/2.png",
-        "/images/dashboard/live campaigns/3.png",
-        "/images/dashboard/live campaigns/4.png",
-        "/images/dashboard/live campaigns/5.png",
-      ],
-      title: "Weekend StayCation",
-      location: "St Regis - Bora Bora",
-      price: "AED 3,400",
-      walkIn: true,
-    },
-    {
-      mainImage: "/images/dashboard/live campaigns/live-campaign-2.png",
-      creatorImages: [
-        "/images/dashboard/live campaigns/1.png",
-        "/images/dashboard/live campaigns/4.png",
-        "/images/dashboard/live campaigns/5.png",
-      ],
-      title: "Sip & Savor: Dunkin' New Flavor Laun..",
-      location: "Dunkin - Business bay",
-      price: "AED 340",
-      walkIn: true,
-    },
-    {
-      mainImage: "/images/dashboard/live campaigns/live-campaign-3.png",
-      creatorImages: [
-        "/images/dashboard/live campaigns/6.png",
-        "/images/dashboard/live campaigns/7.png",
-      ],
-      title: "Swim with dolphins",
-      location: "Atlantis - Palm Jumeirah ",
-      price: "AED 850",
-      walkIn: true,
-    },
-  ];
+  const dashboardData = useSelector(selectDashboardData);
+  const loading = useSelector(selectDashboardLoading);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-24">
+        <Image src="/icons/loader.gif" alt="Loading..." width={50} height={50} />
+      </div>
+    );
+  }
+
+  const campaigns = dashboardData?.liveCampaigns || [];
 
   return (
     <div>
-      {campaignData.map((campaign, index) => (
+      {campaigns.map((campaign: any, index: number) => (
         <article key={index} className="p-[6px]">
           <div className="flex items-center gap-[22px]">
             <div className="w-[96.31px] h-[96.31px] rounded-[11px] overflow-hidden">
               <Image
-                src={campaign.mainImage}
-                alt={campaign.title}
+                src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${campaign.banner_image}`}
+                alt={campaign.offer_title}
                 width={96.31}
                 height={96.31}
                 className="w-full h-full object-cover"
@@ -59,10 +37,10 @@ export default function LiveCampaigns() {
             <div className="flex-1 flex items-end justify-between">
               <div>
                 <p className="text-[15px] font-semibold leading-[23px] mb-1 text-[#4F4F4F]">
-                  {campaign.title}
+                  {campaign.offer_title}
                 </p>
                 <p className="text-[15px] leading-[23px] text-[#4F4F4F] mb-2">
-                  {campaign.location}
+                  {campaign.venue?.venue_title}
                 </p>
                 <div className="flex items-center gap-[15px]">
                   <div className="flex items-center gap-[7.5px]">
@@ -75,39 +53,40 @@ export default function LiveCampaigns() {
                       />
                     </div>
                     <p className="text-[#686868] text-[13px] leading-[20px]">
-                      {campaign.price}
+                      {campaign.amount}
                     </p>
                   </div>
-                  {campaign.walkIn && (
-                    <div className="flex items-center gap-[7.5px]">
-                      <div className="w-[10.85px] flex items-center justify-center">
-                        <Image
-                          src="/icons/dashboard/walk-in.svg"
-                          alt="walk in"
-                          width={8.42}
-                          height={13.85}
-                        />
-                      </div>
-                      <p className="text-[#686868] text-[13px] leading-[20px]">
-                        Walk in
-                      </p>
+                  <div className="flex items-center gap-[7.5px]">
+                    <div className="w-[10.85px] flex items-center justify-center">
+                      <Image
+                        src="/icons/dashboard/walk-in.svg"
+                        alt="walk in"
+                        width={8.42}
+                        height={13.85}
+                      />
                     </div>
-                  )}
+                    <p className="text-[#686868] text-[13px] leading-[20px]">
+                      {campaign.venue?.category?.category}
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="flex items-center gap-[7.5px]">
-                {campaign.creatorImages.map((creatorImage, creatorIndex) => (
+                {campaign.food_offer_user.map((user: any, userIndex: number) => (
                   <div
-                    key={creatorIndex}
-                    className="w-[20.25px] h-[20.25px] flex items-center justify-center"
+                    key={userIndex}
+                    className="w-[20.25px] h-[20.25px] flex items-center justify-center relative group"
                   >
                     <Image
-                      src={creatorImage}
-                      alt={`creator ${creatorIndex + 1}`}
+                      src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${user.user.profile_picture}`}
+                      alt={user.user.name}
                       width={20.25}
                       height={20.25}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover rounded-full"
                     />
+                    <div className="absolute bottom-full mb-2 w-max px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                      {user.user.name}
+                    </div>
                   </div>
                 ))}
               </div>
