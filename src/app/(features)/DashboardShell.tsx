@@ -40,7 +40,7 @@ function DashboardContent({
     router.replace('/login');
   };
 
-  useIdleTimeout(handleIdle, 1800000);
+  useIdleTimeout(handleIdle, 1800000000);
 
   useEffect(() => {
     if (!isAuthLoading && !isAuthenticated) {
