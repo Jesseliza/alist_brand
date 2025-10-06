@@ -101,7 +101,7 @@ export default function CampaignDetailsPost({
             </p>
             <p className="text-[9px] leading-[13px] text-[#4F4F4F]">Reach</p>
           </div>
-          <div className="w-[1px] h-[18.65px] bg-[#00A4B6]"></div>
+          {/* <div className="w-[1px] h-[18.65px] bg-[#00A4B6]"></div>
           <div className="flex-1 text-center">
             <p className="text-[15px] font-medium text-[#00A4B6] leading-[22px]">
               {stats.engagement}
@@ -109,7 +109,7 @@ export default function CampaignDetailsPost({
             <p className="text-[9px] leading-[13px] text-[#4F4F4F]">
               Engagement
             </p>
-          </div>
+          </div> */}
         </div>
         <div className="flex items-center justify-center gap-3">
           {imagesToShow.map((image, index) => (
