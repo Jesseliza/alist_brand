@@ -44,7 +44,7 @@ function DashboardContent({
 
   useEffect(() => {
     if (!isAuthLoading && !isAuthenticated) {
-      router.replace('/login');
+      // router.replace('/login');
     }
   }, [isAuthenticated, isAuthLoading, router]);
   const searchParams = useSearchParams();

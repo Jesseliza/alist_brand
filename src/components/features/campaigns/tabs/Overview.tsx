@@ -10,10 +10,8 @@ import CampaignPlans from "./Overview/CampaignPlans";
 
 export default function Overview({
   campaign,
-  campaignId,
 }: {
   campaign: Campaign;
-  campaignId: string;
 }) {
   return (
     <div className="max-w-[774px] mx-auto mt-[13px] pb-[100px]">
@@ -45,7 +43,7 @@ export default function Overview({
           {/* image */}
           <div className="w-[204] h-[204px] rounded-[11px] aspect-square overflow-hidden">
             <Image
-              src={(campaign as any).banner_image ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${(campaign as any).banner_image}` : '/images/no_image.png'}
+              src={campaign.banner_image ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${campaign.banner_image}` : '/images/no_image.png'}
               alt={campaign.title ?? "Campaign thumbnail"}
               className="w-full h-full object-cover rounded-[11px]"
               width={204}
@@ -60,11 +58,11 @@ export default function Overview({
       <CampaignDetails campaign={campaign} />
       <div className="mt-[11px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
         <p className="font-medium">Description:</p>
-        <p>{campaign.offerDescription ?? "No description available."}</p>
+        <div dangerouslySetInnerHTML={{ __html: campaign.description ?? "No description available." }} />
       </div>
       <div className="mt-[12.5px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
         <p className="font-medium">Campaign Message:</p>
-        <p>{campaign.campaignMessage ?? "No message available."}</p>
+        <div dangerouslySetInnerHTML={{ __html: campaign.phone_campaign_message ?? "No message available." }} />
       </div>
       <div className="border-b border-[#E2E2E2]">
         <CampaignGuidlines campaign={campaign} />
