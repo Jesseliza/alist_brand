@@ -25,18 +25,9 @@ export default function LoginComponent() {
   const redirectUrl = searchParams.get("redirect");
 
   const isAuthenticatedRef = useRef(isAuthenticated);
-  const otpInputRef = useRef<HTMLInputElement>(null);
-
   useEffect(() => {
     isAuthenticatedRef.current = isAuthenticated;
   });
-
-  // Effect for auto-focusing the OTP input when it appears
-  useEffect(() => {
-    if (otpSent) {
-      otpInputRef.current?.focus();
-    }
-  }, [otpSent]);
 
   // Effect for handling navigation on successful login
   useEffect(() => {
@@ -133,7 +124,6 @@ export default function LoginComponent() {
             <form className="w-full flex flex-col gap-[11px]" onSubmit={handleLogin}>
               <p className="text-center text-gray-600">Enter the OTP sent to {storedPhoneNumber}</p>
               <input
-                ref={otpInputRef}
                 type="password"
                 placeholder="OTP"
                 value={otp}

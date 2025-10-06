@@ -5,7 +5,6 @@ import brandReducer from './brand/brandSlice';
 import searchReducer from './search/searchSlice';
 import commonReducer from './common/commonSlice';
 import campaignsReducer from './campaigns/CampaignSlice';
-import dashboardReducer from './dashboard/DashboardSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -14,7 +13,6 @@ const rootReducer = combineReducers({
   search: searchReducer,
   common: commonReducer,
   campaigns: campaignsReducer,
-  dashboard: dashboardReducer,
 });
 
 export default rootReducer;

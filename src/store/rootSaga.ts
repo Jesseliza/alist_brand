@@ -4,7 +4,6 @@ import accountSaga from './account/accountSaga';
 import brandSaga from './brand/brandSaga';
 import commonSaga from './common/commonSaga';
 import campaignsSaga from './campaigns/CampaignSaga';
-import dashboardSaga from './dashboard/DashboardSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -13,6 +12,5 @@ export default function* rootSaga() {
     brandSaga(),
     commonSaga(),
     campaignsSaga(),
-    dashboardSaga(),
   ]);
 }
