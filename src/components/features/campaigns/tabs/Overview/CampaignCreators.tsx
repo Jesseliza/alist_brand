@@ -1,7 +1,6 @@
 import Image from "next/image";
-import { Campaign, Creator } from "@/types/entities";
+import { Campaign } from "@/types/entities";
 import Swiper from "@/components/general/Swiper";
-import { CreatorsData } from "@/data/CreatorsData";
 
 interface CampaignCreatorsProps {
   campaign: Campaign;
@@ -39,24 +38,23 @@ const CreatorCard = ({
 };
 
 export default function CampaignCreators({ campaign }: CampaignCreatorsProps) {
-  // Filter creators by campaign ID
-  const campaignCreators = CreatorsData.filter((creator: Creator) =>
-    creator.campaignIds.includes(campaign.campaignId)
-  );
+  const approvedCreators =
+    campaign.dedicated_offer?.offer_users.filter(
+      (offerUser) => offerUser.status === 1 && offerUser.user
+    ) || [];
 
-  // Transform creator data for display
-  const creatorCards = campaignCreators.map((creator: Creator) => ({
-    imgSrc: creator.avatarUrl,
-    name: creator.fullName,
-    user:
-      creator.socialHandles[0]?.handle ||
-      creator.fullName.toLowerCase().replace(/\s+/g, "."),
+  const creatorCards = approvedCreators.map((offerUser) => ({
+    imgSrc:
+      offerUser.user.profile_picture ||
+      "/images/default-avatar.png",
+    name: offerUser.user.name,
+    user: offerUser.user.instagram_url || "N/A",
   }));
 
   return (
     <div className="mt-[13px] border-b border-[#E2E2E2] pb-5">
       <h4 className="text-center text-[15px] text-[#7E7E7E] leading-[23px] mb-[13px]">
-        Creators
+        {approvedCreators.length} Approved Creators
       </h4>
       <Swiper rows={2} gap="13px" columnGap="13px" rowGap="13px">
         {creatorCards.map(
