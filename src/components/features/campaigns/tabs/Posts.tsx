@@ -50,6 +50,18 @@ export default function Posts({ campaign }: PostsProps) {
     }
   };
 
+  const handleItemsPerPageChange = (items: number) => {
+    if (campaignId) {
+      dispatch(
+        getReviewPostsStart({
+          id: campaignId as string,
+          page: 1,
+          per_page: items,
+        })
+      );
+    }
+  };
+
   if (reviewPostsLoading) {
     return <Loader />;
   }
@@ -111,8 +123,7 @@ export default function Posts({ campaign }: PostsProps) {
               itemsPerPage={reviewPostsPagination.per_page}
               currentPage={reviewPostsPagination.current_page}
               onPageChange={handlePageChange}
-              onItemsPerPageChange={() => {}}
-              itemsPerPageOptions={[]}
+              onItemsPerPageChange={handleItemsPerPageChange}
               fixed={false}
             />
           </div>
