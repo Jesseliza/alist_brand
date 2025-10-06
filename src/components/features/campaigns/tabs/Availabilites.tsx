@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import MonthCalendar from "@/components/general/MonthCalendar";
-import Dropdown from "@/components/general/dropdowns/Dropdown";
+import { Dropdown } from "@/components/general/dropdowns/Dropdown";
 
 const monthOptions = [
   { label: "January", value: 0 },
@@ -42,10 +42,10 @@ export default function Availabilites() {
           </button>
           <div className="ml-4">
             <Dropdown
-              label="Month"
+              title="Month"
               options={monthOptions}
               onSelect={handleMonthSelect}
-              selectedValue={currentDate.getMonth()}
+              selected={currentDate.getMonth()}
             />
           </div>
         </div>
