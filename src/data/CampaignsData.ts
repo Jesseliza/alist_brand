@@ -66,6 +66,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "0",
     brandId: "0",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_african_eastern_001",
     title: "African + Eastern",
     thumbnailUrl: africanEasternCover1.src,
@@ -211,6 +213,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "1",
     brandId: "0",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_african_eastern_002",
     title: "African Eastern",
     thumbnailUrl: africanEasternCover2.src,
@@ -355,6 +359,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "2",
     brandId: "0",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_alfuttaim_001",
     title: "Al Futtaim",
     thumbnailUrl: alfuttaimCover1.src,
@@ -494,6 +500,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "3",
     brandId: "0",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_alfuttaim_002",
     title: "Al Futtaim",
     thumbnailUrl: alfuttaimCover2.src,
@@ -647,6 +655,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "4",
     brandId: "0",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_binsina_001",
     title: "Binsina",
     thumbnailUrl: binsinaCover.src,
@@ -787,6 +797,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "5",
     brandId: "34",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_bioderma_001",
     title: "Bioderma",
     thumbnailUrl: biodermaCover.src,
@@ -943,6 +955,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "6",
     brandId: "37",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_cafu_001",
     title: "Cafu",
     thumbnailUrl: cafuCover2.src,
@@ -1087,6 +1101,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "7",
     brandId: "8",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_careem_001",
     title: "Careem",
     thumbnailUrl: careemCover1.src,
@@ -1237,6 +1253,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "8",
     brandId: "38",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_casio_001",
     title: "Casio",
     thumbnailUrl: casioCover1.src,
@@ -1381,6 +1399,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "9",
     brandId: "38",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_casio_002",
     title: "Casio",
     thumbnailUrl: casioCover2.src,
@@ -1521,6 +1541,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "10",
     brandId: "42",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_cinnabon_001",
     title: "Cinnabon",
     thumbnailUrl: cinnabonCover2.src,
@@ -1671,6 +1693,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "11",
     brandId: "95",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_clarins_001",
     title: "Clarins",
     thumbnailUrl: clarinsCover1.src,
@@ -1826,6 +1850,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "12",
     brandId: "46",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_danube_001",
     title: "Danube",
     thumbnailUrl: danubeCover1.src,
@@ -1970,6 +1996,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "13",
     brandId: "46",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_danube_properties_001",
     title: "Danube Properties",
     thumbnailUrl: danubeCover3.src,
@@ -2112,6 +2140,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "14",
     brandId: "47",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_deliveroo_001",
     title: "Deliveroo",
     thumbnailUrl: deliverooCover1.src,
@@ -2266,6 +2296,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "15",
     brandId: "47",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_deliveroo_002",
     title: "Deliveroo",
     thumbnailUrl: deliverooCover2.src,
@@ -2406,6 +2438,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "16",
     brandId: "47",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_deliveroo_003",
     title: "Deliveroo",
     thumbnailUrl: deliverooCover3.src,
@@ -2560,6 +2594,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "17",
     brandId: "45",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_dq_001",
     title: "DQ",
     thumbnailUrl: dqCover2.src,
@@ -2710,6 +2746,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "18",
     brandId: "45",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_dq_002",
     title: "DQ",
     thumbnailUrl: dqCover3.src,
@@ -2855,6 +2893,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "19",
     brandId: "48",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_dubai_holding_001",
     title: "Dubai Holding",
     thumbnailUrl: dubaiHoldingCover1.src,
@@ -2999,6 +3039,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "20",
     brandId: "49",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_dunkin_001",
     title: "Dunkin",
     thumbnailUrl: dunkinCover1.src,
@@ -3149,6 +3191,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "21",
     brandId: "50",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_four_seasons_001",
     title: "Four Seasons",
     thumbnailUrl: fourSeasonsCover1.src,
@@ -3304,6 +3348,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "22",
     brandId: "50",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_four_seasons_002",
     title: "Four Seasons",
     thumbnailUrl: fourSeasonsCover2.src,
@@ -3448,6 +3494,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "23",
     brandId: "54",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_hersheys_001",
     title: "Hershey's",
     thumbnailUrl: hersheysCover1.src,
@@ -3598,6 +3646,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "24",
     brandId: "54",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_hersheys_002",
     title: "Hershey's",
     thumbnailUrl: hersheysCover2.src,
@@ -3743,6 +3793,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "25",
     brandId: "55",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_hilton_001",
     title: "Hilton",
     thumbnailUrl: hiltonCover1.src,
@@ -3898,6 +3950,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "26",
     brandId: "55",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_hilton_002",
     title: "Hilton",
     thumbnailUrl: hiltonCover2.src,
@@ -4042,6 +4096,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "27",
     brandId: "55",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_hilton_003",
     title: "Hilton",
     thumbnailUrl: hiltonCover3.src,
@@ -4192,6 +4248,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "28",
     brandId: "92",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_insurance_market_001",
     title: "InsuranceMarket",
     thumbnailUrl: insurancemarketCover2.src,
@@ -4337,6 +4395,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "29",
     brandId: "58",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_jumeirah_001",
     title: "Jumeirah",
     thumbnailUrl: jumeirahCover1.src,
@@ -4492,6 +4552,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "30",
     brandId: "60",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_kitopi_001",
     title: "Kitopi",
     thumbnailUrl: kitopiCover1.src,
@@ -4646,6 +4708,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "31",
     brandId: "61",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_landmark_group_001",
     title: "Landmark Group",
     thumbnailUrl: landmarkCover1.src,
@@ -4801,6 +4865,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "32",
     brandId: "62",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_marriott_001",
     title: "Marriott",
     thumbnailUrl: mariottCover1.src,
@@ -4955,6 +5021,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "33",
     brandId: "64",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_meydan_001",
     title: "Meydan",
     thumbnailUrl: meydanCover1.src,
@@ -5105,6 +5173,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "34",
     brandId: "64",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_meydan_002",
     title: "Meydan",
     thumbnailUrl: meydanCover2.src,
@@ -5249,6 +5319,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "35",
     brandId: "66",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_nandos_001",
     title: "Nando's",
     thumbnailUrl: nandoCover1.src,
@@ -5403,6 +5475,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "36",
     brandId: "66",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_nandos_002",
     title: "Nando's",
     thumbnailUrl: nandoCover2.src,
@@ -5548,6 +5622,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "37",
     brandId: "68",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_nikki_beach_001",
     title: "Nikki Beach",
     thumbnailUrl: nikkiCover1.src,
@@ -5702,6 +5778,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "38",
     brandId: "69",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_noon_001",
     title: "Noon",
     thumbnailUrl: noonCover1.src,
@@ -5857,6 +5935,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "39",
     brandId: "69",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_noon_002",
     title: "Noon",
     thumbnailUrl: noonCover2.src,
@@ -6001,6 +6081,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "40",
     brandId: "70",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_novomed_001",
     title: "Novomed",
     thumbnailUrl: novomedCover1.src,
@@ -6145,6 +6227,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "41",
     brandId: "70",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_novomed_002",
     title: "Novomed",
     thumbnailUrl: novomedCover2.src,
@@ -6290,6 +6374,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "42",
     brandId: "71",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_ounass_001",
     title: "Ounass",
     thumbnailUrl: ounassCover1.src,
@@ -6444,6 +6530,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "43",
     brandId: "71",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_ounass_002",
     title: "Ounass",
     thumbnailUrl: ounassCover2.src,
@@ -6589,6 +6677,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "44",
     brandId: "72",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_panda_express_001",
     title: "Panda Express",
     thumbnailUrl: pandaCover1.src,
@@ -6740,6 +6830,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "45",
     brandId: "73",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_peugeot_001",
     title: "Peugeot",
     thumbnailUrl: peugeotCover1.src,
@@ -6884,6 +6976,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "46",
     brandId: "75",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_reeses_001",
     title: "Reese's",
     thumbnailUrl: reecesCover1.src,
@@ -7039,6 +7133,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "47",
     brandId: "79",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_sivvi_001",
     title: "Sivvi",
     thumbnailUrl: sivviCover.src,
@@ -7193,6 +7289,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "48",
     brandId: "76",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_ritz_carlton_001",
     title: "The Ritz Carlton",
     thumbnailUrl: ritzCover.src,
@@ -7348,6 +7446,8 @@ const CampaignsData: Campaign[] = [
   {
     campaignId: "49",
     brandId: "85",
+    food_offer_user_count: 0,
+    food_offer_user_with_user_count: 0,
     subscriptionId: "sub_uber_001",
     title: "Uber",
     thumbnailUrl: uberCover1.src,
