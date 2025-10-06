@@ -25,14 +25,10 @@ export default function LiveCampaigns() {
       {campaigns.map((campaign: any, index: number) => (
         <article key={index} className="p-[6px]">
           <div className="flex items-center gap-[22px]">
-            <div className="w-[96.31px] h-[96.31px] rounded-[11px] overflow-hidden">
-              <Image
-                src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${campaign.banner_image}`}
-                alt={campaign.offer_title}
-                width={96.31}
-                height={96.31}
-                className="w-full h-full object-cover"
-              />
+            <div className="w-[96.31px] h-[96.31px] rounded-[11px] overflow-hidden bg-gray-200 flex items-center justify-center">
+              <span className="text-2xl font-bold text-gray-500">
+                {campaign.venue?.venue_title?.split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
+              </span>
             </div>
             <div className="flex-1 flex items-end justify-between">
               <div>
@@ -53,7 +49,7 @@ export default function LiveCampaigns() {
                       />
                     </div>
                     <p className="text-[#686868] text-[13px] leading-[20px]">
-                      {campaign.amount}
+                      AED {campaign.amount}
                     </p>
                   </div>
                   <div className="flex items-center gap-[7.5px]">
