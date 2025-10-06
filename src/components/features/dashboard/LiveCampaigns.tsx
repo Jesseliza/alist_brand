@@ -4,7 +4,7 @@ import {
   selectDashboardData,
   selectDashboardLoading,
 } from "@/store/dashboard/dashboardSlice";
-import Loader from "@/components/reusable/Loader";
+import Loader from "@/components/general/Loader";
 
 export default function LiveCampaigns() {
   const dashboardData = useSelector(selectDashboardData);
