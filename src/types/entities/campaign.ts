@@ -312,6 +312,48 @@ export interface GetCampaignReviewPostsAction {
   payload: GetCampaignReviewPostsPayload;
 }
 
+// Voucher Code Types
+export interface VoucherUser {
+  id: number;
+  name: string;
+}
+
+export interface VoucherCode {
+  id: number;
+  user_id: number | null;
+  offer_id: number;
+  offer_code: string;
+  offer_date: string;
+  tier: number;
+  block: unknown | null;
+  created_at: string;
+  updated_at: string;
+  redem_at: string | null;
+  used_at: string | null;
+  user: VoucherUser | null;
+}
+
+export interface VoucherCodesApiResponse {
+  data: {
+    data: VoucherCode[];
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+  };
+}
+
+export interface GetVoucherCodesPayload {
+  id: string;
+  page?: number;
+  per_page?: number;
+}
+
+export interface GetVoucherCodesAction {
+  type: string;
+  payload: GetVoucherCodesPayload;
+}
+
 // Redux State
 export interface CampaignsState {
   campaigns: CampaignSummary[];
@@ -332,6 +374,15 @@ export interface CampaignsState {
   reviewPostsLoading: boolean;
   reviewPostsError: string | null;
   reviewPostsPagination: {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+  } | null;
+  voucherCodes: VoucherCode[];
+  voucherCodesLoading: boolean;
+  voucherCodesError: string | null;
+  voucherCodesPagination: {
     current_page: number;
     last_page: number;
     per_page: number;

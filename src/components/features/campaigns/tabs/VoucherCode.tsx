@@ -1,31 +1,73 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'next/navigation';
+import { getVoucherCodesStart } from '@/store/campaigns/CampaignSlice';
+import { RootState } from '@/store/store';
 import Pagination from '@/components/general/Pagination';
-import { usePagination } from '@/hooks/usePagination';
+import Loader from '@/components/general/Loader';
+import { VoucherCode } from '@/types/entities';
 
-const dummyData = Array.from({ length: 30 }, (_, i) => ({
-  slNo: i + 1,
-  voucherCode: `VC-2024-${String(i + 1).padStart(3, '0')}`,
-  voucherStatus: i % 3 === 0 ? 'Issued' : i % 3 === 1 ? 'Redeemed' : 'Expired',
-  userAvailed: `User ${i + 1}`,
-  offerDate: `2024-01-${String((i % 30) + 1).padStart(2, '0')}`,
-  claimedDate: `2024-01-${String((i % 30) + 1).padStart(2, '0')}`,
-  redeemedDate: i % 3 === 1 ? `2024-01-${String((i % 30) + 1).padStart(2, '0')}` : '-',
-  lastReset: 'N/A',
-}));
+const getStatus = (voucher: VoucherCode) => {
+  if (voucher.used_at) {
+    return { text: 'Used', color: 'bg-red-500' };
+  }
+  if (voucher.redem_at) {
+    return { text: 'Redeemed', color: 'bg-yellow-500' };
+  }
+  return { text: 'Issued', color: 'bg-green-500' };
+};
 
-const VoucherCode = () => {
+const VoucherCodeTable = () => {
+  const dispatch = useDispatch();
+  const params = useParams();
+  const { campaignId } = params;
+
   const {
-    currentPage,
-    itemsPerPage,
-    handlePageChange,
-    handleItemsPerPageChange,
-    startIndex,
-    endIndex,
-  } = usePagination(dummyData.length, 10);
+    voucherCodes,
+    voucherCodesLoading,
+    voucherCodesError,
+    voucherCodesPagination,
+  } = useSelector((state: RootState) => state.campaigns);
 
-  const currentVouchers = dummyData.slice(startIndex, endIndex);
+  useEffect(() => {
+    if (campaignId) {
+      dispatch(getVoucherCodesStart({ id: campaignId as string }));
+    }
+  }, [dispatch, campaignId]);
+
+  const handlePageChange = (page: number) => {
+    if (campaignId) {
+      dispatch(
+        getVoucherCodesStart({
+          id: campaignId as string,
+          page,
+          per_page: voucherCodesPagination?.per_page,
+        })
+      );
+    }
+  };
+
+  const handleItemsPerPageChange = (items: number) => {
+    if (campaignId) {
+      dispatch(
+        getVoucherCodesStart({
+          id: campaignId as string,
+          page: 1,
+          per_page: items,
+        })
+      );
+    }
+  };
+
+  if (voucherCodesLoading) {
+    return <Loader />;
+  }
+
+  if (voucherCodesError) {
+    return <p className="text-red-500 text-center py-8">Error: {voucherCodesError}</p>;
+  }
 
   return (
     <div className="mt-4">
@@ -62,31 +104,42 @@ const VoucherCode = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {currentVouchers.map((voucher) => (
-                <tr key={voucher.slNo}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{voucher.slNo}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.voucherCode}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.voucherStatus}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.userAvailed}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.offerDate}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.claimedDate}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.redeemedDate}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.lastReset}</td>
-                </tr>
-              ))}
+              {voucherCodes.map((voucher, index) => {
+                const status = getStatus(voucher);
+                return (
+                  <tr key={voucher.id}>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {voucherCodesPagination ? (voucherCodesPagination.per_page * (voucherCodesPagination.current_page - 1)) + index + 1 : index + 1}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.offer_code}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-white ${status.color}`}>
+                        {status.text}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.user?.name || 'N/A'}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.offer_date}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.created_at}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.redem_at || '-'}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.updated_at}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
       </div>
-      <Pagination
-        totalItems={dummyData.length}
-        itemsPerPage={itemsPerPage}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-        onItemsPerPageChange={handleItemsPerPageChange}
-      />
+      {voucherCodesPagination && voucherCodesPagination.total > 0 && (
+        <Pagination
+          totalItems={voucherCodesPagination.total}
+          itemsPerPage={voucherCodesPagination.per_page}
+          currentPage={voucherCodesPagination.current_page}
+          onPageChange={handlePageChange}
+          onItemsPerPageChange={handleItemsPerPageChange}
+        />
+      )}
     </div>
   );
 };
 
-export default VoucherCode;
+export default VoucherCodeTable;

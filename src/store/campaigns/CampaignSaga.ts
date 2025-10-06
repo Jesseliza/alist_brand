@@ -23,6 +23,9 @@ import {
   getReviewPostsStart,
   getReviewPostsSuccess,
   getReviewPostsFailure,
+  getVoucherCodesStart,
+  getVoucherCodesSuccess,
+  getVoucherCodesFailure,
 } from "./CampaignSlice";
 import {
   CampaignsApiResponse,
@@ -33,6 +36,8 @@ import {
   UpdateCampaignStatusAction,
   GetCampaignDetailsAction,
   UpdateDedicatedPageStatusAction,
+  GetVoucherCodesAction,
+  VoucherCodesApiResponse,
 } from "../../types/entities/campaign";
 
 function* getCampaignsSaga(action: GetCampaignsAction) {
@@ -137,6 +142,20 @@ function* getCampaignReviewPostsSaga(action: GetCampaignReviewPostsAction) {
   }
 }
 
+function* getVoucherCodesSaga(action: GetVoucherCodesAction) {
+  try {
+    const { id, page = 1, per_page = 10 } = action.payload;
+    const response: { data: VoucherCodesApiResponse } = yield call(
+      axiosInstance.post,
+      `/api/campaign/voucher-code/${id}`,
+      { page, per_page }
+    );
+    yield put(getVoucherCodesSuccess(response.data.data));
+  } catch (error: any) {
+    yield put(getVoucherCodesFailure(error.message));
+  }
+}
+
 function* watchCampaigns() {
   yield takeLatest(getCampaignsStart.type, getCampaignsSaga);
   yield takeLatest(getMoreCampaignsStart.type, getMoreCampaignsSaga);
@@ -148,6 +167,7 @@ function* watchCampaigns() {
   );
   yield takeLatest(bulkDeleteCampaignsStart.type, bulkDeleteCampaignsSaga);
   yield takeLatest(getReviewPostsStart.type, getCampaignReviewPostsSaga);
+  yield takeLatest(getVoucherCodesStart.type, getVoucherCodesSaga);
 }
 
 export default function* campaignsSaga() {

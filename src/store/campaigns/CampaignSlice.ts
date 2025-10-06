@@ -4,6 +4,7 @@ import {
   GetCampaignsPayload,
   GetCampaignDetailsPayload,
   GetCampaignReviewPostsPayload,
+  GetVoucherCodesPayload,
   UpdateCampaignStatusPayload,
   UpdateDedicatedPageStatusPayload,
 } from '../../types/entities/campaign';
@@ -22,6 +23,10 @@ const initialState: CampaignsState = {
   reviewPostsLoading: false,
   reviewPostsError: null,
   reviewPostsPagination: null,
+  voucherCodes: [],
+  voucherCodesLoading: false,
+  voucherCodesError: null,
+  voucherCodesPagination: null,
 };
 
 const campaignsSlice = createSlice({
@@ -161,6 +166,27 @@ const campaignsSlice = createSlice({
       state.reviewPostsLoading = false;
       state.reviewPostsError = action.payload;
     },
+    getVoucherCodesStart: (
+      state,
+      action: PayloadAction<GetVoucherCodesPayload>
+    ) => {
+      state.voucherCodesLoading = true;
+      state.voucherCodesError = null;
+    },
+    getVoucherCodesSuccess: (state, action) => {
+      state.voucherCodesLoading = false;
+      state.voucherCodes = action.payload.data;
+      state.voucherCodesPagination = {
+        current_page: action.payload.current_page,
+        last_page: action.payload.last_page,
+        per_page: action.payload.per_page,
+        total: action.payload.total,
+      };
+    },
+    getVoucherCodesFailure: (state, action) => {
+      state.voucherCodesLoading = false;
+      state.voucherCodesError = action.payload;
+    },
   },
 });
 
@@ -185,6 +211,9 @@ export const {
   getReviewPostsStart,
   getReviewPostsSuccess,
   getReviewPostsFailure,
+  getVoucherCodesStart,
+  getVoucherCodesSuccess,
+  getVoucherCodesFailure,
 } = campaignsSlice.actions;
 
 export default campaignsSlice.reducer;
