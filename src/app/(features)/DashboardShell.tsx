@@ -42,11 +42,11 @@ function DashboardContent({
 
   useIdleTimeout(handleIdle, 1800000000);
 
-  useEffect(() => {
-    if (!isAuthLoading && !isAuthenticated) {
-      router.replace('/login');
-    }
-  }, [isAuthenticated, isAuthLoading, router]);
+  // useEffect(() => {
+  //   if (!isAuthLoading && !isAuthenticated) {
+  //     router.replace('/login');
+  //   }
+  // }, [isAuthenticated, isAuthLoading, router]);
   const searchParams = useSearchParams();
   const fullPath = `${pathname}${
     searchParams.toString() ? `?${searchParams.toString()}` : ""
