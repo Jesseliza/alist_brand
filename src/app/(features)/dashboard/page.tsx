@@ -3,8 +3,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BarChart from "@/components/charts/BarChart";
-import DonutChart from "@/components/charts/RingChart";
-import LineChart from "@/components/charts/LineChart";
+// import DonutChart from "@/components/charts/RingChart";
+// import LineChart from "@/components/charts/LineChart";
 import DashboardStatCards from "@/components/features/dashboard/DashboardStatCards";
 import LiveCampaigns from "@/components/features/dashboard/LiveCampaigns";
 import InfluencerActivity from "@/components/features/dashboard/InfluencerAdctivity";
@@ -50,60 +50,60 @@ const weeklyData = [
   },
 ];
 
-const segments2 = [
-  { value: 57.1, color: "#00CDE4", label: "Resolved" },
-  { value: 21.4, color: "#446CCB", label: "Pending" },
-  { value: 21.4, color: "#F36412", label: "Reported" },
-];
-const segments3 = [
-  { value: 70, color: "#00CDE4", label: "Positive" },
-  { value: 20, color: "#446CCB", label: "Neutral" },
-  { value: 10, color: "#F36412", label: "Negative" },
-];
+// const segments2 = [
+//   { value: 57.1, color: "#00CDE4", label: "Resolved" },
+//   { value: 21.4, color: "#446CCB", label: "Pending" },
+//   { value: 21.4, color: "#F36412", label: "Reported" },
+// ];
+// const segments3 = [
+//   { value: 70, color: "#00CDE4", label: "Positive" },
+//   { value: 20, color: "#446CCB", label: "Neutral" },
+//   { value: 10, color: "#F36412", label: "Negative" },
+// ];
 
-const multiSeriesChartData = {
-  xAxis: {
-    values: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"],
-  },
-  yAxis: {
-    values: [0, 500, 1000, 1500, 2000, 2500, 3000, 3500],
-  },
-  series: [
-    {
-      name: "Impressions",
-      color: "#00CDE4",
-      data: [1000, 2100, 1600, 2300, 2800, 2000, 2700],
-    },
-    {
-      name: "Reach",
-      color: "#446CCB",
-      data: [600, 1600, 1200, 1800, 2200, 1700, 2100],
-    },
-  ],
-};
+// const multiSeriesChartData = {
+//   xAxis: {
+//     values: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"],
+//   },
+//   yAxis: {
+//     values: [0, 500, 1000, 1500, 2000, 2500, 3000, 3500],
+//   },
+//   series: [
+//     {
+//       name: "Impressions",
+//       color: "#00CDE4",
+//       data: [1000, 2100, 1600, 2300, 2800, 2000, 2700],
+//     },
+//     {
+//       name: "Reach",
+//       color: "#446CCB",
+//       data: [600, 1600, 1200, 1800, 2200, 1700, 2100],
+//     },
+//   ],
+// };
 
-// Legend Labels Component
-const LegendLabels = ({
-  segments,
-}: {
-  segments: Array<{ value: number; color: string; label: string }>;
-}) => {
-  return (
-    <div className="flex items-center gap-2 justify-between mt-[45px]">
-      {segments.map((segment, index) => (
-        <div key={index} className="flex items-center gap-[4.5px]">
-          <div
-            className="w-[10px] h-[10px] rounded-[4px]"
-            style={{ backgroundColor: segment.color }}
-          ></div>
-          <p className="text-[9px] leading-[13px] text-[#383838]">
-            {segment.label}: {segment.value}%
-          </p>
-        </div>
-      ))}
-    </div>
-  );
-};
+// // Legend Labels Component
+// const LegendLabels = ({
+//   segments,
+// }: {
+//   segments: Array<{ value: number; color: string; label: string }>;
+// }) => {
+//   return (
+//     <div className="flex items-center gap-2 justify-between mt-[45px]">
+//       {segments.map((segment, index) => (
+//         <div key={index} className="flex items-center gap-[4.5px]">
+//           <div
+//             className="w-[10px] h-[10px] rounded-[4px]"
+//             style={{ backgroundColor: segment.color }}
+//           ></div>
+//           <p className="text-[9px] leading-[13px] text-[#383838]">
+//             {segment.label}: {segment.value}%
+//           </p>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -136,7 +136,7 @@ export default function Dashboard() {
           <DashboardStatCards counts={counts} />
         </div>
         <div className="flex gap-[21px] items-stretch mt-[20px]">
-          {/* <div className="p-1 md:p-7 bg-white rounded-[13px] text-[#4F4F4F] text-[11px] flex-1">
+          <div className="p-1 md:p-7 bg-white rounded-[13px] text-[#4F4F4F] text-[11px] flex-1">
             <h3 className="text-[18px] font-semibold leading-[27px] text-[#4F4F4F] mb-[30px]">
               Campaign Performance
             </h3>
@@ -162,7 +162,7 @@ export default function Dashboard() {
             />
           </div>
 
-          <div className="p-1 md:p-7 bg-white rounded-[13px] text-[#4F4F4F] text-[11px] flex-1">
+          {/* <div className="p-1 md:p-7 bg-white rounded-[13px] text-[#4F4F4F] text-[11px] flex-1">
             <h3 className="text-[18px] font-semibold leading-[27px] text-[#4F4F4F] mb-[30px]">
               Campaign Performance
             </h3>
