@@ -21,20 +21,20 @@ export default function CampaignStats({ campaign }: { campaign: Campaign }) {
       title: campaign?.campaignStats?.creators?.toString() ?? "0",
       subtitle: "Creators",
     },
-    {
-      imgSrc: "/icons/campaign/details/overview/impressions.svg",
-      imgWidth: 31.11,
-      imgHeight: 27.69,
-      title: formatNumber(campaign?.campaignStats?.impressions ?? 0),
-      subtitle: "Impressions",
-    },
-    {
-      imgSrc: "/icons/campaign/details/overview/reach.svg",
-      imgWidth: 38.62,
-      imgHeight: 37.87,
-      title: formatNumber(campaign?.campaignStats?.reach ?? 0),
-      subtitle: "Reach",
-    },
+    // {
+    //   imgSrc: "/icons/campaign/details/overview/impressions.svg",
+    //   imgWidth: 31.11,
+    //   imgHeight: 27.69,
+    //   title: formatNumber(campaign?.campaignStats?.impressions ?? 0),
+    //   subtitle: "Impressions",
+    // },
+    // {
+    //   imgSrc: "/icons/campaign/details/overview/reach.svg",
+    //   imgWidth: 38.62,
+    //   imgHeight: 37.87,
+    //   title: formatNumber(campaign?.campaignStats?.reach ?? 0),
+    //   subtitle: "Reach",
+    // },
     {
       imgSrc: "/icons/campaign/details/overview/posts.svg",
       imgWidth: 32,
@@ -42,13 +42,13 @@ export default function CampaignStats({ campaign }: { campaign: Campaign }) {
       title: campaign?.campaignStats?.posts?.toString() ?? "0",
       subtitle: "Posts",
     },
-    {
-      imgSrc: "/icons/campaign/details/overview/reviews.svg",
-      imgWidth: 34.48,
-      imgHeight: 34.48,
-      title: campaign?.campaignStats?.reviews?.toString() ?? "0",
-      subtitle: "Reviews",
-    },
+    // {
+    //   imgSrc: "/icons/campaign/details/overview/reviews.svg",
+    //   imgWidth: 34.48,
+    //   imgHeight: 34.48,
+    //   title: campaign?.campaignStats?.reviews?.toString() ?? "0",
+    //   subtitle: "Reviews",
+    // },
   ];
 
   return (

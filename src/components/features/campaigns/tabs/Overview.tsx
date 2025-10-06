@@ -27,7 +27,7 @@ export default function Overview({
           <div className="ml-[35px]">
             <div className="flex items-center gap-6">
               <h2 className="text-[89px] font-bold text-[#00A4B6] leading-[133px]">
-                {campaign.voucherValue ?? 0}
+                {campaign.food_offer_user_with_user_count ?? 0}
               </h2>
               <h2 className="text-[37px] font-medium text-[#4F4F4F] leading-[37px] max-w-[180px]">
                 Total Vouchers
@@ -36,7 +36,7 @@ export default function Overview({
             <p className="-mt-[16px] text-[15px] leading-[23px] text-[#4F4F4F]">
               of which{" "}
               <span className=" text-[#00A4B6]">
-                {campaign.voucherValue ?? 0}
+                {campaign.food_offer_user_count ?? 0}
               </span>{" "}
               vouchers have been redeemed
             </p>

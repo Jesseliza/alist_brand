@@ -139,6 +139,8 @@ export type Campaign = {
 
   // Voucher details
   voucherValue: number;
+  food_offer_user_count: number;
+  food_offer_user_with_user_count: number;
   voucherCurrency: string;
 
   // Campaign statistics
