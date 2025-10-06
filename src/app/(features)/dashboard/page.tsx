@@ -10,6 +10,7 @@ import LiveCampaigns from "@/components/features/dashboard/LiveCampaigns";
 import InfluencerActivity from "@/components/features/dashboard/InfluencerAdctivity";
 import { getDashboardDataStart } from "@/store/dashboard/DashboardSlice";
 import { RootState } from "@/store/store";
+import Loader from "@/components/general/Loader";
 
 const weeklyData = [
   {
@@ -115,7 +116,7 @@ export default function Dashboard() {
   }, [dispatch]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (error) {
@@ -135,7 +136,7 @@ export default function Dashboard() {
           <DashboardStatCards counts={counts} />
         </div>
         <div className="flex gap-[21px] items-stretch mt-[20px]">
-          <div className="p-1 md:p-7 bg-white rounded-[13px] text-[#4F4F4F] text-[11px] flex-1">
+          {/* <div className="p-1 md:p-7 bg-white rounded-[13px] text-[#4F4F4F] text-[11px] flex-1">
             <h3 className="text-[18px] font-semibold leading-[27px] text-[#4F4F4F] mb-[30px]">
               Campaign Performance
             </h3>
@@ -190,7 +191,7 @@ export default function Dashboard() {
                 "3500",
               ]}
             />
-          </div>
+          </div> */}
         </div>
         <div className="flex gap-[21px] items-stretch mt-[20px] text-[#4F4F4F]">
           <div className="p-1 md:p-7 bg-white rounded-[13px] flex-1">
@@ -206,7 +207,7 @@ export default function Dashboard() {
             <InfluencerActivity />
           </div>
         </div>
-        <div className="mt-[20px] p-1 md:p-7 bg-white rounded-[13px] text-[#4F4F4F] mb-8">
+        {/* <div className="mt-[20px] p-1 md:p-7 bg-white rounded-[13px] text-[#4F4F4F] mb-8">
           <h3 className="text-[18px] font-semibold leading-[27px]  mb-[42px]">
             System Health & Moderation Overview
           </h3>
@@ -264,7 +265,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
