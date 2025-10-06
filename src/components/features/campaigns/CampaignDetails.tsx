@@ -10,11 +10,13 @@ import { updateCampaignStatusStart } from "@/store/campaigns/CampaignSlice";
 import RejectReasonModal from "./RejectReasonModal";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
-import Availabilites from "./tabs/Availabilites";
+// import Availabilites from "./tabs/Availabilites";
 import Posts from "./tabs/Posts";
-import Reviews from "./tabs/Reviews";
+import VoucherCode from "./tabs/VoucherCode";
+// import Reviews from "./tabs/Reviews";
 
-const tabs = ["Creators", "Overview", "Availabilites", "Posts", "Reviews"];
+// const tabs = ["Creators", "Overview", "Availabilites", "Posts", "Reviews"];
+const tabs = ["Creators", "Overview", "Voucher Code", "Posts"];
 
 export default function CampaignDetails({ campaign, campaignId }: { campaign: Campaign, campaignId: string }) {
   const router = useRouter();
@@ -114,9 +116,10 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
             <TabPanel key={tab}>
               {tab === "Creators" && <Creators campaign={campaign} />}
               {tab === "Overview" && <Overview campaign={campaign} campaignId={campaignId} />}
-              {tab === "Availabilites" && <Availabilites />}
+              {/* {tab === "Availabilites" && <Availabilites />} */}
               {tab === "Posts" && <Posts campaign={campaign} />}
-              {tab === "Reviews" && <Reviews campaign={campaign} />}
+              {/* {tab === "Reviews" && <Reviews campaign={campaign} />} */}
+              {tab === "Voucher Code" && <VoucherCode />}
             </TabPanel>
           ))}
         </TabPanels>
