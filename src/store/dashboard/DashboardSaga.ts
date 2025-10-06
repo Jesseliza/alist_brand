@@ -5,6 +5,14 @@ import {
   getDashboardDataSuccess,
   getDashboardDataFailure,
 } from './DashboardSlice';
+import { AxiosError } from 'axios';
+
+interface CampaignPerformanceData {
+  day: string;
+  date: string;
+  completed_count: number;
+  active_count: number;
+}
 
 interface DashboardApiResponse {
     data: {
@@ -15,11 +23,10 @@ interface DashboardApiResponse {
             influencersCount: number;
             brandsCount: number;
             pendingCount: number;
+            campaignPerformance: CampaignPerformanceData[];
         }
     }
 }
-
-import { AxiosError } from 'axios';
 
 function* getDashboardDataSaga() {
   try {
