@@ -14,6 +14,23 @@ interface CampaignPerformanceData {
   active_count: number;
 }
 
+interface LiveCampaign {
+  id: number;
+  offer_title: string;
+  amount: string;
+  venue: {
+    venue_title: string;
+    category: {
+      category: string;
+    };
+  };
+  food_offer_user: {
+    user: {
+      profile_picture: string;
+    };
+  }[];
+}
+
 interface DashboardApiResponse {
     data: {
         success: boolean;
@@ -24,6 +41,7 @@ interface DashboardApiResponse {
             brandsCount: number;
             pendingCount: number;
             campaignPerformance: CampaignPerformanceData[];
+            liveCampaigns: LiveCampaign[];
         }
     }
 }

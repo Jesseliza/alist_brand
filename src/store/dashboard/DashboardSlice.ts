@@ -14,9 +14,27 @@ interface CampaignPerformanceData {
   active_count: number;
 }
 
+interface LiveCampaign {
+  id: number;
+  offer_title: string;
+  amount: string;
+  venue: {
+    venue_title: string;
+    category: {
+      category: string;
+    };
+  };
+  food_offer_user: {
+    user: {
+      profile_picture: string;
+    };
+  }[];
+}
+
 export interface DashboardState {
   counts: DashboardCounts;
   campaignPerformance: CampaignPerformanceData[];
+  liveCampaigns: LiveCampaign[];
   loading: boolean;
   error: string | null;
 }
@@ -29,12 +47,14 @@ const initialState: DashboardState = {
     pendingCount: 0,
   },
   campaignPerformance: [],
+  liveCampaigns: [],
   loading: false,
   error: null,
 };
 
 interface DashboardData extends DashboardCounts {
   campaignPerformance: CampaignPerformanceData[];
+  liveCampaigns: LiveCampaign[];
 }
 
 const dashboardSlice = createSlice({
@@ -54,6 +74,7 @@ const dashboardSlice = createSlice({
         pendingCount: action.payload.pendingCount,
       };
       state.campaignPerformance = action.payload.campaignPerformance;
+      state.liveCampaigns = action.payload.liveCampaigns;
     },
     getDashboardDataFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
