@@ -45,7 +45,6 @@ export function Dropdown<T>(props: DropdownProps<T>) {
       flex items-center justify-between w-full
       border border-[#E4E4E4] rounded-[11px]
       bg-white 
-      text-left
       focus:outline-none focus:ring-2 focus:ring-[#00A4B6]
       text-[#6E6E6E] pt-2 pb-2.5
     `.trim(),
@@ -78,9 +77,9 @@ export function Dropdown<T>(props: DropdownProps<T>) {
         }}
         disabled={disabled}
       >
-        <div className="relative text-left">
+        <div className="relative">
           <ListboxButton className={buttonClassName}>
-            <div className="truncate flex-1">{displayLabel}</div>
+            <div className="truncate flex-1 text-center">{displayLabel}</div>
             <div className="mr-3">
               <Image
                 src={icon}
@@ -106,7 +105,7 @@ export function Dropdown<T>(props: DropdownProps<T>) {
                 <ListboxOption
                   key={String(opt.value)}
                   value={opt.value}
-                  className="cursor-pointer select-none px-4 py-2 hover:bg-gray-100 focus:bg-gray-100"
+                  className="cursor-pointer select-none px-4 py-2 bg-white hover:bg-gray-100 focus:bg-gray-100"
                 >
                   {opt.label}
                 </ListboxOption>
@@ -120,12 +119,12 @@ export function Dropdown<T>(props: DropdownProps<T>) {
 
   // —— action mode ——
   return (
-    <Menu as="div" className="relative w-full text-left">
+    <Menu as="div" className="relative w-full">
       <MenuButton
         className={buttonClassName}
         disabled={disabled}
       >
-        <div className="truncate flex-1">{displayLabel}</div>
+        <div className="truncate flex-1 text-center">{displayLabel}</div>
         <div className="mr-3">
           <Image
             src={icon}
@@ -150,7 +149,7 @@ export function Dropdown<T>(props: DropdownProps<T>) {
           {options.map((opt) => (
             <MenuItem key={String(opt.value)}>
               <button
-                className="w-full text-left px-4 py-2 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                className="w-full text-left px-4 py-2 bg-white hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
                 onClick={() => onSelect(opt.value)}
               >
                 {opt.label}
