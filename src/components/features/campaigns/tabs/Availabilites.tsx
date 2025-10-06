@@ -40,7 +40,7 @@ export default function Availabilites() {
           >
             Today
           </button>
-          <div className="ml-4">
+          <div className="ml-4 w-48">
             <Dropdown
               title="Month"
               options={monthOptions}

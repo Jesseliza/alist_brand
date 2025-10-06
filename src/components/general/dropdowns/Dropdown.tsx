@@ -101,12 +101,12 @@ export function Dropdown<T>(props: DropdownProps<T>) {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <ListboxOptions className={menuItemsClassName}>
+            <ListboxOptions className={`${menuItemsClassName} divide-y divide-gray-200`}>
               {options.map((opt) => (
                 <ListboxOption
                   key={String(opt.value)}
                   value={opt.value}
-                  className="cursor-pointer select-none hover:bg-gray-100  focus:bg-gray-100 "
+                  className="cursor-pointer select-none px-4 py-2 hover:bg-gray-100 focus:bg-gray-100"
                 >
                   {opt.label}
                 </ListboxOption>
@@ -146,11 +146,11 @@ export function Dropdown<T>(props: DropdownProps<T>) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <MenuItems className={menuItemsClassName}>
+        <MenuItems className={`${menuItemsClassName} divide-y divide-gray-200`}>
           {options.map((opt) => (
             <MenuItem key={String(opt.value)}>
               <button
-                className="w-full text-left hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                className="w-full text-left px-4 py-2 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
                 onClick={() => onSelect(opt.value)}
               >
                 {opt.label}
