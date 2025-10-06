@@ -71,10 +71,10 @@ export default function Posts({ campaign }: PostsProps) {
 
     const authorImage = post.user.profile_picture
       ? `${imageUrlBase}${post.user.profile_picture}`
-      : "/images/campaign-details/posts/author1.png";
+      : null;
 
     return {
-      authorImage: authorImage,
+      authorImage,
       authorName: post.user.name,
       instagramUsername: post.user.instagram_url || "N/A",
       stats: {

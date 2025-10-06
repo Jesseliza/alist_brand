@@ -3,7 +3,7 @@ import { useState } from "react";
 import ImageSliderModal from "./ImageSliderModal";
 
 interface CampaignDetailsPostProps {
-  authorImage: string;
+  authorImage: string | null;
   authorName: string;
   instagramUsername: string;
   stats: {
@@ -13,6 +13,21 @@ interface CampaignDetailsPostProps {
   };
   postImages: string[];
 }
+
+const getInitials = (name: string): string => {
+  if (!name) return "";
+  const words = name.trim().split(" ").filter(Boolean);
+  if (words.length > 1 && words[1]) {
+    return `${words[0][0]}${words[1][0]}`.toUpperCase();
+  }
+  if (words[0]?.length > 1) {
+    return words[0].substring(0, 2).toUpperCase();
+  }
+  if (words[0]) {
+    return words[0][0].toUpperCase();
+  }
+  return "";
+};
 
 export default function CampaignDetailsPost({
   authorImage,
@@ -39,14 +54,20 @@ export default function CampaignDetailsPost({
   return (
     <>
       <article className="max-w-[412px] rounded-[13px] md:shadow-[0_0_4px_rgba(0,0,0,0.16)] p-4">
-        <div className="w-[72.64px] h-[72.64px] rounded-full overflow-hidden mx-auto">
-          <Image
-            src={authorImage}
-            alt={authorName}
-            width={72.64}
-            height={72.64}
-            className="rounded-full object-cover"
-          />
+        <div className="w-[72.64px] h-[72.64px] rounded-full overflow-hidden mx-auto flex items-center justify-center bg-gray-200">
+          {authorImage ? (
+            <Image
+              src={authorImage}
+              alt={authorName}
+              width={72.64}
+              height={72.64}
+              className="object-cover w-full h-full"
+            />
+          ) : (
+            <span className="text-2xl font-bold text-gray-600">
+              {getInitials(authorName)}
+            </span>
+          )}
         </div>
         <div className="mt-[7.7px] text-center">
           <h3 className="text-[15px] font-medium text-[#4F4F4F] leading-[23px]">
