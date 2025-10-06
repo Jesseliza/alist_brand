@@ -7,8 +7,16 @@ interface DashboardCounts {
   pendingCount: number;
 }
 
+interface CampaignPerformanceData {
+  day: string;
+  date: string;
+  completed_count: number;
+  active_count: number;
+}
+
 export interface DashboardState {
   counts: DashboardCounts;
+  campaignPerformance: CampaignPerformanceData[];
   loading: boolean;
   error: string | null;
 }
@@ -20,9 +28,14 @@ const initialState: DashboardState = {
     brandsCount: 0,
     pendingCount: 0,
   },
+  campaignPerformance: [],
   loading: false,
   error: null,
 };
+
+interface DashboardData extends DashboardCounts {
+  campaignPerformance: CampaignPerformanceData[];
+}
 
 const dashboardSlice = createSlice({
   name: 'dashboard',
@@ -32,9 +45,15 @@ const dashboardSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    getDashboardDataSuccess: (state, action: PayloadAction<DashboardCounts>) => {
+    getDashboardDataSuccess: (state, action: PayloadAction<DashboardData>) => {
       state.loading = false;
-      state.counts = action.payload;
+      state.counts = {
+        campaignsCount: action.payload.campaignsCount,
+        influencersCount: action.payload.influencersCount,
+        brandsCount: action.payload.brandsCount,
+        pendingCount: action.payload.pendingCount,
+      };
+      state.campaignPerformance = action.payload.campaignPerformance;
     },
     getDashboardDataFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;

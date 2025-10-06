@@ -31,7 +31,7 @@ function DashboardContent({
 }) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { user } = useSelector((state: RootState) => state.auth);
+  const { isAuthenticated, user, isAuthLoading } = useSelector((state: RootState) => state.auth);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -42,11 +42,11 @@ function DashboardContent({
 
   useIdleTimeout(handleIdle, 1800000000);
 
-  // useEffect(() => {
-  //   if (!isAuthLoading && !isAuthenticated) {
-  //     router.replace('/login');
-  //   }
-  // }, [isAuthenticated, isAuthLoading, router]);
+  useEffect(() => {
+    if (!isAuthLoading && !isAuthenticated) {
+      router.replace('/login');
+    }
+  }, [isAuthenticated, isAuthLoading, router]);
   const searchParams = useSearchParams();
   const fullPath = `${pathname}${
     searchParams.toString() ? `?${searchParams.toString()}` : ""

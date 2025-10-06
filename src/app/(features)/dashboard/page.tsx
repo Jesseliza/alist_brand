@@ -3,117 +3,28 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BarChart from "@/components/charts/BarChart";
-// import DonutChart from "@/components/charts/RingChart";
-// import LineChart from "@/components/charts/LineChart";
 import DashboardStatCards from "@/components/features/dashboard/DashboardStatCards";
 import LiveCampaigns from "@/components/features/dashboard/LiveCampaigns";
 import InfluencerActivity from "@/components/features/dashboard/InfluencerAdctivity";
 import { getDashboardDataStart } from "@/store/dashboard/DashboardSlice";
-import { RootState } from "@/store/store";
+import { RootState }from "@/store/store";
 import Loader from "@/components/general/Loader";
-
-const weeklyData = [
-  {
-    day: "Mon",
-    active: { value: 5, color: "#00CDE4" },
-    completed: { value: 1.7, color: "#446CCB" },
-  },
-  {
-    day: "Tue",
-    active: { value: 6.7, color: "#00CDE4" },
-    completed: { value: 2.7, color: "#446CCB" },
-  },
-  {
-    day: "Wed",
-    active: { value: 5.6, color: "#00CDE4" },
-    completed: { value: 3.6, color: "#446CCB" },
-  },
-  {
-    day: "Thu",
-    active: { value: 7.7, color: "#00CDE4" },
-    completed: { value: 2.7, color: "#446CCB" },
-  },
-  {
-    day: "Fri",
-    active: { value: 8.7, color: "#00CDE4" },
-    completed: { value: 4.7, color: "#446CCB" },
-  },
-  {
-    day: "Sat",
-    active: { value: 10.7, color: "#00CDE4" },
-    completed: { value: 3.7, color: "#446CCB" },
-  },
-  {
-    day: "Sun",
-    active: { value: 9.7, color: "#00CDE4" },
-    completed: { value: 5.7, color: "#446CCB" },
-  },
-];
-
-// const segments2 = [
-//   { value: 57.1, color: "#00CDE4", label: "Resolved" },
-//   { value: 21.4, color: "#446CCB", label: "Pending" },
-//   { value: 21.4, color: "#F36412", label: "Reported" },
-// ];
-// const segments3 = [
-//   { value: 70, color: "#00CDE4", label: "Positive" },
-//   { value: 20, color: "#446CCB", label: "Neutral" },
-//   { value: 10, color: "#F36412", label: "Negative" },
-// ];
-
-// const multiSeriesChartData = {
-//   xAxis: {
-//     values: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"],
-//   },
-//   yAxis: {
-//     values: [0, 500, 1000, 1500, 2000, 2500, 3000, 3500],
-//   },
-//   series: [
-//     {
-//       name: "Impressions",
-//       color: "#00CDE4",
-//       data: [1000, 2100, 1600, 2300, 2800, 2000, 2700],
-//     },
-//     {
-//       name: "Reach",
-//       color: "#446CCB",
-//       data: [600, 1600, 1200, 1800, 2200, 1700, 2100],
-//     },
-//   ],
-// };
-
-// // Legend Labels Component
-// const LegendLabels = ({
-//   segments,
-// }: {
-//   segments: Array<{ value: number; color: string; label: string }>;
-// }) => {
-//   return (
-//     <div className="flex items-center gap-2 justify-between mt-[45px]">
-//       {segments.map((segment, index) => (
-//         <div key={index} className="flex items-center gap-[4.5px]">
-//           <div
-//             className="w-[10px] h-[10px] rounded-[4px]"
-//             style={{ backgroundColor: segment.color }}
-//           ></div>
-//           <p className="text-[9px] leading-[13px] text-[#383838]">
-//             {segment.label}: {segment.value}%
-//           </p>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
 
 export default function Dashboard() {
   const dispatch = useDispatch();
-  const { counts, loading, error } = useSelector(
+  const { counts, campaignPerformance, loading, error } = useSelector(
     (state: RootState) => state.dashboard
   );
 
   useEffect(() => {
     dispatch(getDashboardDataStart());
   }, [dispatch]);
+
+  const barChartData = (campaignPerformance || []).map((d) => ({
+    day: d.day.substring(0, 3),
+    active: { value: d.active_count, color: "#00CDE4" },
+    completed: { value: d.completed_count, color: "#446CCB" },
+  }));
 
   if (loading) {
     return <Loader />;
@@ -131,7 +42,7 @@ export default function Dashboard() {
           style={{ left: "-100vw", right: "-100vw" }}
         />
       </div>
-      <div className="max-w-[1428px] mx-auto mt-[90px]">
+      <div className="max-w-[1428px] mx-auto mt-[90px] mb-8">
         <div>
           <DashboardStatCards counts={counts} />
         </div>
@@ -151,7 +62,7 @@ export default function Dashboard() {
               </div>
             </div>
             <BarChart
-              data={weeklyData}
+              data={barChartData}
               xAxisKey="day"
               barKeys={["active", "completed"]}
               maxBarWidth={20.67}

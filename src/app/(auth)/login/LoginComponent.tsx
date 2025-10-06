@@ -38,11 +38,6 @@ export default function LoginComponent() {
     }
   }, [otpSent]);
 
-  // HACK: for verification screenshot
-  useEffect(() => {
-    setTimeout(() => otpInputRef.current?.focus(), 500);
-  }, []);
-
   // Effect for handling navigation on successful login
   useEffect(() => {
     if (isAuthenticated && !loginInProgress) {
@@ -109,7 +104,7 @@ export default function LoginComponent() {
               />
             </div>
           </div>
-          {false ? (
+          {!otpSent ? (
             <form className="w-full flex flex-col gap-[11px]" onSubmit={handleSendOtp}>
               <div className="flex gap-2">
                 <CountryCodeDropdown selectedCode={countryCode} onCodeChange={setCountryCode} />
