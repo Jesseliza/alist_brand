@@ -268,11 +268,17 @@ export interface UpdateDedicatedPageStatusAction {
 }
 
 // Campaign Review Post Types
+export interface InstagramFollowerRange {
+  followers: string;
+  reach: number;
+}
+
 export interface CampaignReviewPostUser {
   name: string;
   instagram_url: string | null;
   instagram_followers: number | null;
   profile_picture: string | null;
+  instagram_follower_range: InstagramFollowerRange | null;
 }
 
 export interface CampaignReviewPost {
