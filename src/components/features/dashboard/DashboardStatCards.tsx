@@ -1,37 +1,46 @@
 import Image from "next/image";
 
-const statCards = [
-  {
-    icon: "/icons/dashboard/campaigns.svg",
-    iconWidth: 44.43,
-    iconHeight: 39.55,
-    title: "Total campaigns",
-    value: 5800,
-  },
-  {
-    icon: "/icons/dashboard/influencers.svg",
-    iconWidth: 59.23,
-    iconHeight: 41.46,
-    title: "Influencers",
-    value: 4150,
-  },
-  {
-    icon: "/icons/dashboard/brands.svg",
-    iconWidth: 52.89,
-    iconHeight: 51.87,
-    title: "Brands",
-    value: 2700,
-  },
-  {
-    icon: "/icons/dashboard/approvals.svg",
-    iconWidth: 48.84,
-    iconHeight: 39.07,
-    title: "Pending Approvals",
-    value: 50,
-  },
-];
+interface DashboardStatCardsProps {
+  counts: {
+    campaignsCount: number;
+    influencersCount: number;
+    brandsCount: number;
+    pendingCount: number;
+  };
+}
 
-export default function DashboardStatCards() {
+export default function DashboardStatCards({ counts }: DashboardStatCardsProps) {
+  const statCards = [
+    {
+      icon: "/icons/dashboard/campaigns.svg",
+      iconWidth: 44.43,
+      iconHeight: 39.55,
+      title: "Total campaigns",
+      value: counts.campaignsCount,
+    },
+    {
+      icon: "/icons/dashboard/influencers.svg",
+      iconWidth: 59.23,
+      iconHeight: 41.46,
+      title: "Influencers",
+      value: counts.influencersCount,
+    },
+    {
+      icon: "/icons/dashboard/brands.svg",
+      iconWidth: 52.89,
+      iconHeight: 51.87,
+      title: "Brands",
+      value: counts.brandsCount,
+    },
+    {
+      icon: "/icons/dashboard/approvals.svg",
+      iconWidth: 48.84,
+      iconHeight: 39.07,
+      title: "Pending Approvals",
+      value: counts.pendingCount,
+    },
+  ];
+
   return (
     <div className="flex gap-[21px]  justify-between">
       {statCards.map((card) => (

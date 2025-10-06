@@ -1,9 +1,15 @@
+"use client";
+
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import BarChart from "@/components/charts/BarChart";
 import DonutChart from "@/components/charts/RingChart";
 import LineChart from "@/components/charts/LineChart";
 import DashboardStatCards from "@/components/features/dashboard/DashboardStatCards";
 import LiveCampaigns from "@/components/features/dashboard/LiveCampaigns";
 import InfluencerActivity from "@/components/features/dashboard/InfluencerAdctivity";
+import { getDashboardDataStart } from "@/store/dashboard/DashboardSlice";
+import { RootState } from "@/store/store";
 
 const weeklyData = [
   {
@@ -99,6 +105,23 @@ const LegendLabels = ({
 };
 
 export default function Dashboard() {
+  const dispatch = useDispatch();
+  const { counts, loading, error } = useSelector(
+    (state: RootState) => state.dashboard
+  );
+
+  useEffect(() => {
+    dispatch(getDashboardDataStart());
+  }, [dispatch]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div>
       <div className="py-[13px] bg-white hidden md:block relative">
@@ -109,7 +132,7 @@ export default function Dashboard() {
       </div>
       <div className="max-w-[1428px] mx-auto mt-[90px]">
         <div>
-          <DashboardStatCards />
+          <DashboardStatCards counts={counts} />
         </div>
         <div className="flex gap-[21px] items-stretch mt-[20px]">
           <div className="p-1 md:p-7 bg-white rounded-[13px] text-[#4F4F4F] text-[11px] flex-1">

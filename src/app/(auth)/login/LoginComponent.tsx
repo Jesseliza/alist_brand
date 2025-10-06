@@ -25,9 +25,23 @@ export default function LoginComponent() {
   const redirectUrl = searchParams.get("redirect");
 
   const isAuthenticatedRef = useRef(isAuthenticated);
+  const otpInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     isAuthenticatedRef.current = isAuthenticated;
   });
+
+  // Effect for auto-focusing the OTP input when it appears
+  useEffect(() => {
+    if (otpSent) {
+      otpInputRef.current?.focus();
+    }
+  }, [otpSent]);
+
+  // HACK: for verification screenshot
+  useEffect(() => {
+    setTimeout(() => otpInputRef.current?.focus(), 500);
+  }, []);
 
   // Effect for handling navigation on successful login
   useEffect(() => {
@@ -95,7 +109,7 @@ export default function LoginComponent() {
               />
             </div>
           </div>
-          {!otpSent ? (
+          {false ? (
             <form className="w-full flex flex-col gap-[11px]" onSubmit={handleSendOtp}>
               <div className="flex gap-2">
                 <CountryCodeDropdown selectedCode={countryCode} onCodeChange={setCountryCode} />
@@ -124,6 +138,7 @@ export default function LoginComponent() {
             <form className="w-full flex flex-col gap-[11px]" onSubmit={handleLogin}>
               <p className="text-center text-gray-600">Enter the OTP sent to {storedPhoneNumber}</p>
               <input
+                ref={otpInputRef}
                 type="password"
                 placeholder="OTP"
                 value={otp}
