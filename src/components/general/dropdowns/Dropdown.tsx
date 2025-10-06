@@ -51,7 +51,7 @@ export function Dropdown<T>(props: DropdownProps<T>) {
     menuItemsClassName = `
       absolute mt-1 w-full bg-white
       border border-[#E4E4E4] rounded-[11px]
-      shadow-lg max-h-60 overflow-auto z-10
+      shadow-lg max-h-60 overflow-auto z-50
       focus:outline-none 
     `.trim(),
     disabled = false,
