@@ -59,15 +59,22 @@ export default function Posts({ campaign }: PostsProps) {
   }
 
   const mappedPosts = reviewPosts.map((post: CampaignReviewPost) => {
+    const imageUrlBase = process.env.NEXT_PUBLIC_IMAGE_URL || "";
     const postImages = [
       post.screenshot1,
       post.screenshot2,
       post.screenshot3,
       post.screenshot4,
-    ].filter((img) => img !== null) as string[];
+    ]
+      .filter((img): img is string => img !== null)
+      .map((img) => `${imageUrlBase}/assets/uploads/userreviews/${img}`);
+
+    const authorImage = post.user.profile_picture
+      ? `${imageUrlBase}${post.user.profile_picture}`
+      : "/images/campaign-details/posts/author1.png";
 
     return {
-      authorImage: "/images/campaign-details/posts/author1.png", // Mock data, as it's not in the response
+      authorImage: authorImage,
       authorName: post.user.name,
       instagramUsername: post.user.instagram_url || "N/A",
       stats: {

@@ -272,6 +272,7 @@ export interface CampaignReviewPostUser {
   name: string;
   instagram_url: string | null;
   instagram_followers: number | null;
+  profile_picture: string | null;
 }
 
 export interface CampaignReviewPost {
