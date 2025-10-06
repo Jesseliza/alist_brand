@@ -1,3 +1,8 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCampaignAvailabilityStart } from '../../store/campaigns/CampaignSlice';
+import { RootState } from '../../store/store';
+
 interface Activity {
   date: string; // day/month/year
   name: string;
@@ -7,6 +12,7 @@ interface Activity {
 }
 
 interface MonthCalendarProps {
+  campaignId: string;
   year?: number;
   month?: number; // 0 = January, 11 = December
   activities?: Activity[];
@@ -21,11 +27,24 @@ interface DayCell {
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export default function MonthCalendar({
+  campaignId,
   year = new Date().getFullYear(),
   month = new Date().getMonth(),
   activities = [],
   onDaySelect,
 }: MonthCalendarProps) {
+  const dispatch = useDispatch();
+  const { campaignAvailability } = useSelector(
+    (state: RootState) => state.campaigns
+  );
+
+  useEffect(() => {
+    if (campaignId) {
+      const year_month = `${year}-${String(month + 1).padStart(2, '0')}`;
+      dispatch(getCampaignAvailabilityStart({ campaign_id: campaignId, year_month }));
+    }
+  }, [campaignId, year, month, dispatch]);
+
   // 1st of month
   const firstOfMonth = new Date(year, month, 1);
   // JS: Sunday=0 → we want Monday=0 … Sunday=6
@@ -110,6 +129,13 @@ export default function MonthCalendar({
               const cellDateStr = `${String(cellDay).padStart(2, "0")}/${String(
                 cellMonth + 1
               ).padStart(2, "0")}/${cellYear}`;
+              const cellDateYYYYMMDD = `${cellYear}-${String(
+                cellMonth + 1
+              ).padStart(2, '0')}-${String(cellDay).padStart(2, '0')}`;
+              const isAvailable = campaignAvailability.some(
+                (item) => item.offer_date === cellDateYYYYMMDD
+              );
+
               const cellActivities = activities.filter(
                 (a) => a.date === cellDateStr
               );
@@ -117,7 +143,7 @@ export default function MonthCalendar({
                 <div
                   key={idx}
                   className={`relative w-[145px] h-[150px] border-2 ${
-                    isToday ? "border-[#00A4B6]" : "border-[#F3F3F3]"
+                    isToday ? 'border-[#00A4B6]' : 'border-[#F3F3F3]'
                   } flex flex-col items-start justify-start`}
                   onClick={() => {
                     if (cell.currentMonth && onDaySelect) {
@@ -126,7 +152,10 @@ export default function MonthCalendar({
                   }}
                   style={{
                     cursor:
-                      cell.currentMonth && onDaySelect ? "pointer" : undefined,
+                      cell.currentMonth && onDaySelect ? 'pointer' : undefined,
+                    backgroundColor: isAvailable
+                      ? 'rgba(0, 164, 182, 0.1)'
+                      : undefined,
                   }}
                 >
                   {/* Mask overlay for days before today */}

@@ -26,6 +26,9 @@ import {
   getVoucherCodesStart,
   getVoucherCodesSuccess,
   getVoucherCodesFailure,
+  getCampaignAvailabilityStart,
+  getCampaignAvailabilitySuccess,
+  getCampaignAvailabilityFailure,
 } from "./CampaignSlice";
 import {
   CampaignsApiResponse,
@@ -38,6 +41,8 @@ import {
   UpdateDedicatedPageStatusAction,
   GetVoucherCodesAction,
   VoucherCodesApiResponse,
+  GetCampaignAvailabilityAction,
+  CampaignAvailabilityApiResponse,
 } from "../../types/entities/campaign";
 
 function* getCampaignsSaga(action: GetCampaignsAction) {
@@ -168,6 +173,24 @@ function* watchCampaigns() {
   yield takeLatest(bulkDeleteCampaignsStart.type, bulkDeleteCampaignsSaga);
   yield takeLatest(getReviewPostsStart.type, getCampaignReviewPostsSaga);
   yield takeLatest(getVoucherCodesStart.type, getVoucherCodesSaga);
+  yield takeLatest(
+    getCampaignAvailabilityStart.type,
+    getCampaignAvailabilitySaga
+  );
+}
+
+function* getCampaignAvailabilitySaga(action: GetCampaignAvailabilityAction) {
+  try {
+    const { campaign_id, year_month } = action.payload;
+    const response: { data: CampaignAvailabilityApiResponse } = yield call(
+      axiosInstance.post,
+      `/api/campaign/by-date/${campaign_id}`,
+      { year_month }
+    );
+    yield put(getCampaignAvailabilitySuccess(response.data.data));
+  } catch (error: any) {
+    yield put(getCampaignAvailabilityFailure(error.message));
+  }
 }
 
 export default function* campaignsSaga() {

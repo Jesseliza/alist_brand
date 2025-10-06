@@ -19,7 +19,7 @@ const monthOptions = [
   { label: "December", value: 11 },
 ];
 
-export default function Availabilites() {
+export default function Availabilites({ campaignId }: { campaignId: string }) {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const handleTodayClick = () => {
@@ -51,6 +51,7 @@ export default function Availabilites() {
         </div>
         <div>
           <MonthCalendar
+            campaignId={campaignId}
             year={currentDate.getFullYear()}
             month={currentDate.getMonth()}
           />

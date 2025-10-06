@@ -354,6 +354,42 @@ export interface GetVoucherCodesAction {
   payload: GetVoucherCodesPayload;
 }
 
+// Campaign Availability Types
+export interface CampaignAvailability {
+  id: number;
+  user_id: number | null;
+  offer_id: number;
+  offer_code: string;
+  offer_date: string;
+  tier: number;
+  block: number;
+  created_at: string;
+  updated_at: string;
+  redem_at: string;
+  used_at: string | null;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+  } | null;
+}
+
+export interface CampaignAvailabilityApiResponse {
+  success: boolean;
+  message: string;
+  data: CampaignAvailability[];
+}
+
+export interface GetCampaignAvailabilityPayload {
+  campaign_id: string;
+  year_month: string;
+}
+
+export interface GetCampaignAvailabilityAction {
+  type: string;
+  payload: GetCampaignAvailabilityPayload;
+}
+
 // Redux State
 export interface CampaignsState {
   campaigns: CampaignSummary[];
@@ -388,6 +424,9 @@ export interface CampaignsState {
     per_page: number;
     total: number;
   } | null;
+  campaignAvailability: CampaignAvailability[];
+  campaignAvailabilityLoading: boolean;
+  campaignAvailabilityError: string | null;
 }
 
 // Unified type for display components
