@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Campaign } from "@/types/entities";
 import { RootState } from "@/store/store";
 import { updateCampaignStatusStart } from "@/store/campaigns/CampaignSlice";
-import { fetchBrandRequest } from "@/store/brand/brandSlice";
 import RejectReasonModal from "./RejectReasonModal";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
@@ -15,8 +14,6 @@ import Availabilites from "./tabs/Availabilites";
 import Posts from "./tabs/Posts";
 import VoucherCode from "./tabs/VoucherCode";
 import Reviews from "./tabs/Reviews";
-import BrandDetails from "../brands/BrandDetails";
-import Loader from "@/components/general/Loader";
 
 const tabs = [
   "Creators",
@@ -25,7 +22,6 @@ const tabs = [
   "Voucher Code",
   "Posts",
   "Reviews",
-  "Business Details",
 ];
 
 export default function CampaignDetails({
@@ -41,9 +37,7 @@ export default function CampaignDetails({
   const { statusUpdateLoading } = useSelector(
     (state: RootState) => state.campaigns
   );
-  const { brand, loading: brandLoading } = useSelector(
-    (state: RootState) => state.brand
-  );
+
   const [selectedIndex, setSelectedIndex] = useState(1); // Default to Overview (index 1)
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
@@ -54,13 +48,6 @@ export default function CampaignDetails({
     }
     return 1; // Default to Overview
   }, [searchParams]);
-
-  useEffect(() => {
-    const currentTab = tabs[selectedIndex];
-    if (currentTab === "Business Details" && campaign.venue?.id) {
-      dispatch(fetchBrandRequest({ brandId: campaign.venue.id }));
-    }
-  }, [selectedIndex, dispatch, campaign.venue?.id]);
 
   const handleApprove = () => {
     dispatch(updateCampaignStatusStart({ id: campaignId, status: "Approved" }));
@@ -145,21 +132,6 @@ export default function CampaignDetails({
               {tab === "Posts" && <Posts />}
               {tab === "Reviews" && <Reviews campaignId={campaignId} />}
               {tab === "Voucher Code" && <VoucherCode />}
-              {tab === "Business Details" &&
-                (brandLoading ? (
-                  <Loader />
-                ) : brand ? (
-                  <BrandDetails
-                    brand={brand}
-                    isEditMode={false}
-                    onFieldChange={() => {}}
-                    onSave={() => {}}
-                    isSaving={false}
-                    isCreateMode={false}
-                  />
-                ) : (
-                  <p>Brand details not available.</p>
-                ))}
             </TabPanel>
           ))}
         </TabPanels>
