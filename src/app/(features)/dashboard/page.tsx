@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import BarChart from "@/components/charts/BarChart";
 import DonutChart from "@/components/charts/RingChart";
 import LineChart from "@/components/charts/LineChart";
@@ -74,16 +75,27 @@ export default function Dashboard() {
                 <p>Completed campaigns</p>
               </div>
             </div>
-            <BarChart
-              data={weeklyData}
-              xAxisKey="day"
-              barKeys={["active", "completed"]}
-              maxBarWidth={20.67}
-              showYTicks={false}
-              yAxisValues={["0", "2", "4", "6", "8", "10", "12"]} // 8 elements
-              showGridLines={true} // Show default dotted grid lines
-              heightPx={280}
-            />
+            {dashboardData?.campaignPerformance ? (
+              <BarChart
+                data={weeklyData}
+                xAxisKey="day"
+                barKeys={["active", "completed"]}
+                maxBarWidth={20.67}
+                showYTicks={false}
+                yAxisValues={["0", "2", "4", "6", "8", "10", "12"]} // 8 elements
+                showGridLines={true} // Show default dotted grid lines
+                heightPx={280}
+              />
+            ) : (
+              <div className="flex justify-center items-center h-[280px]">
+                <img
+                  src="/icons/loader.gif"
+                  alt="Loading..."
+                  width={50}
+                  height={50}
+                />
+              </div>
+            )}
           </div>
 
           {/* <div className="p-1 md:p-7 bg-white rounded-[13px] text-[#4F4F4F] text-[11px] flex-1">
