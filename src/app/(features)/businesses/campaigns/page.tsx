@@ -212,7 +212,7 @@ export default function CampaignsPage() {
       </div>
       <div className="py-5.5">
         <div className="max-w-[1428px] mx-auto">
-          <div className="hidden md:flex justify-end items-center mb-5.5 space-x-4">
+          <div className="hidden md:flex justify-end items-center mb-5.5 space-x-4 px-6">
             <TableCardsToggler view={view} setView={setView} />
             {/* <button
               onClick={handleAddCampaignClick}
@@ -220,13 +220,13 @@ export default function CampaignsPage() {
             >
               Add Campaign
             </button> */}
-            <div className="w-auto">
+            {/* <div className="w-auto">
               <ActionDropdown
                 actions={["delete"]}
                 onSelect={handleActionSelect}
                 disabled={checkedRows.size === 0}
               />
-            </div>
+            </div> */}
           </div>
           {/* <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
             <button

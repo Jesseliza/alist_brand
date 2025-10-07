@@ -56,6 +56,12 @@ export default function Overview({
       <CampaignStats campaign={campaign} />
       <CampaignCreators campaign={campaign} />
       <CampaignDetails campaign={campaign} />
+      {campaign?.account_status === "Rejected" &&
+        <div className="mt-[11px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
+          <p className="font-medium">Reject Reason:</p>
+          <div dangerouslySetInnerHTML={{ __html: campaign.rejectReason ?? "No reason available." }} />
+        </div>
+      }
       <div className="mt-[11px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
         <p className="font-medium">Description:</p>
         <div dangerouslySetInnerHTML={{ __html: campaign.description ?? "No description available." }} />

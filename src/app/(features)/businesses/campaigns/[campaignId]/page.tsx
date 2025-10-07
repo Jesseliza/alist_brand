@@ -25,7 +25,10 @@ export default function CampaignDetailsPage() {
   }, [dispatch, campaignId]);
 
   const handleBackClick = () => {
-    router.back();
+    // router.back();
+    router.push(
+      `/businesses/campaigns`
+    );
   };
 
   if (loading) {

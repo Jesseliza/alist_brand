@@ -181,12 +181,12 @@ export default function CampaignCard({
           <button className="flex-1 bg-[#787878] text-[15px]  text-white py-[9px] rounded-[11px] font-medium leading-[23px]">
             Edit
           </button>
-          <button
+          {/* <button
             onClick={handleRemoveClick}
             className="flex-1 bg-red-500 text-[15px] text-white py-[9px] rounded-[11px] font-medium leading-[23px]"
           >
             Remove
-          </button>
+          </button> */}
         </div>
       </div>
     </article>

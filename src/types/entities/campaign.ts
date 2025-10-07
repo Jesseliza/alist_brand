@@ -176,6 +176,7 @@ export type Campaign = {
       category?: string;
     };
   };
+  rejectReason?:string;
 
   dedicated_offer?: {
     offer_users: OfferUser[];

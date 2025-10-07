@@ -26,14 +26,14 @@ export default function ActionDropdown({
         </div>
       ),
     },
-    {
-      value: "delete",
-      label: (
-        <div className="flex items-center px-3 py-2 text-[#6E6E6E]">
-          <span>Delete</span>
-        </div>
-      ),
-    },
+    // {
+    //   value: "delete",
+    //   label: (
+    //     <div className="flex items-center px-3 py-2 text-[#6E6E6E]">
+    //       <span>Delete</span>
+    //     </div>
+    //   ),
+    // },
     {
       value: "active",
       label: (
