@@ -169,6 +169,13 @@ export type Campaign = {
   rule_3?: string;
   reviews_count?: number;
   banner_image?: string;
+  amount?: number;
+  venue?: {
+    venue_title: string;
+    category?: {
+      category?: string;
+    };
+  };
 
   dedicated_offer?: {
     offer_users: OfferUser[];

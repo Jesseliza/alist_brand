@@ -4,16 +4,25 @@ export default function CampaignDetails({ campaign }: { campaign: Campaign }) {
   const details = [
     {
       label: "Walk In/Delivery",
-      value: campaign?.campaignDetails?.walkIn ?? "N/A",
+      value: campaign?.venue?.category?.category ?? "N/A",
     },
-    { label: "Barter/Paid", value: campaign?.campaignDetails?.barter ?? "N/A" },
-    { label: "Price", value: campaign?.campaignDetails?.price ?? "N/A" },
-    { label: "Approval", value: campaign?.campaignDetails?.approval ?? "N/A" },
+    { label: "Barter/Paid", value: campaign?.offerType ?? "N/A" },
+    {
+      label: "Price",
+      value: campaign?.amount ? `AED ${campaign.amount}` : "N/A",
+    },
+    { label: "Approval", value: campaign?.account_status ?? "N/A" },
     {
       label: "Restricted to",
-      value: campaign?.campaignDetails?.restricted ?? "N/A",
+      value: "N/A",
     },
-    { label: "Date", value: campaign?.campaignDetails?.date ?? "N/A" },
+    {
+      label: "Date",
+      value:
+        campaign?.start_date && campaign?.end_date
+          ? `${campaign.start_date} - ${campaign.end_date}`
+          : "N/A",
+    },
   ];
 
   return (
