@@ -119,12 +119,12 @@ function DashboardContent({
                 Dashboard
               </span>
               <div className="flex items-center space-x-4">
-                <Image
+                {/* <Image
                   src="/icons/navbar/notification.svg"
                   alt="notifications"
                   width={29.36}
                   height={29.36}
-                />
+                /> */}
                 <div className="relative">
                   <Image
                     src="/icons/navbar/profile7.png"
@@ -169,12 +169,12 @@ function DashboardContent({
                 <SearchInput />
               </div>
               <div className="flex items-center space-x-4">
-                <Image
+                {/* <Image
                   src="/icons/navbar/notification.svg"
                   alt="notifications"
                   width={29.36}
                   height={29.36}
-                />
+                /> */}
                 <div className="relative">
                   <Image
                     src="/icons/navbar/profile7.png"
