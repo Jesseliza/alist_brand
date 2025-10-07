@@ -4,7 +4,6 @@ import {
   selectDashboardData,
   selectDashboardLoading,
 } from "@/store/dashboard/dashboardSlice";
-import Loader from "@/components/general/Loader";
 
 const statCardIcons = {
   campaignsCount: {
@@ -37,22 +36,29 @@ export default function DashboardStatCards() {
   const dashboardData = useSelector(selectDashboardData);
   const loading = useSelector(selectDashboardLoading);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-24">
-        <Image src="/icons/loader.gif" alt="Loading..." width={50} height={50} />
-      </div>
-    );
-  }
-
-  const statCards = dashboardData
-    ? [
-        { ...statCardIcons.campaignsCount, value: dashboardData.campaignsCount },
-        { ...statCardIcons.influencersCount, value: dashboardData.influencersCount },
-        { ...statCardIcons.brandsCount, value: dashboardData.brandsCount },
-        { ...statCardIcons.pendingCount, value: dashboardData.pendingCount },
-      ]
-    : [];
+  const statCards =
+    !loading && dashboardData
+      ? [
+          {
+            ...statCardIcons.campaignsCount,
+            value: dashboardData.campaignsCount,
+          },
+          {
+            ...statCardIcons.influencersCount,
+            value: dashboardData.influencersCount,
+          },
+          { ...statCardIcons.brandsCount, value: dashboardData.brandsCount },
+          {
+            ...statCardIcons.pendingCount,
+            value: dashboardData.pendingCount,
+          },
+        ]
+      : [
+          statCardIcons.campaignsCount,
+          statCardIcons.influencersCount,
+          statCardIcons.brandsCount,
+          statCardIcons.pendingCount,
+        ];
 
   return (
     <div className="flex gap-[21px] justify-between">
@@ -73,9 +79,20 @@ export default function DashboardStatCards() {
             <p className="text-[18px] leading-[27px] font-semibold text-[#4F4F4F]">
               {card.title}
             </p>
-            <p className="text-[24px] font-medium text-[#00A4B6] leading-[35px]">
-              {card.value}
-            </p>
+            {loading ? (
+              <div className="mt-2">
+                <img
+                  src="/icons/loader.gif"
+                  alt="Loading..."
+                  width={35}
+                  height={35}
+                />
+              </div>
+            ) : (
+              <p className="text-[24px] font-medium text-[#00A4B6] leading-[35px]">
+                {(card as any).value}
+              </p>
+            )}
           </div>
         </article>
       ))}
