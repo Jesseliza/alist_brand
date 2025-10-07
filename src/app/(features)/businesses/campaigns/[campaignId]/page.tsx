@@ -1,15 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import { getCampaignDetailsStart } from "@/store/campaigns/CampaignSlice";
-import { fetchBrandRequest } from "@/store/brand/brandSlice";
 import { RootState } from "@/store/store";
 import Loader from "@/components/general/Loader";
 import CampaignDetails from "@/components/features/campaigns/CampaignDetails";
-import BrandDetails from "@/components/features/brands/BrandDetails";
-import BrandHeader from "@/components/features/brands/BrandHeader";
 import Image from "next/image";
 
 export default function CampaignDetailsPage() {
@@ -18,19 +15,9 @@ export default function CampaignDetailsPage() {
   const router = useRouter();
   const { campaignId } = params;
 
-  const [activeTab, setActiveTab] = useState("Campaigns");
-
-  const {
-    campaign,
-    loading: campaignLoading,
-    error: campaignError,
-  } = useSelector((state: RootState) => state.campaigns);
-
-  const {
-    brand,
-    loading: brandLoading,
-    error: brandError,
-  } = useSelector((state: RootState) => state.brand);
+  const { campaign, loading, error } = useSelector(
+    (state: RootState) => state.campaigns
+  );
 
   useEffect(() => {
     if (campaignId) {
@@ -38,27 +25,16 @@ export default function CampaignDetailsPage() {
     }
   }, [dispatch, campaignId]);
 
-  useEffect(() => {
-    if (
-      activeTab === "Business Details" &&
-      campaign &&
-      campaign.venue &&
-      campaign.venue.id
-    ) {
-      dispatch(fetchBrandRequest({ brandId: campaign.venue.id }));
-    }
-  }, [activeTab, dispatch, campaign]);
-
   const handleBackClick = () => {
     router.push(`/businesses/campaigns`);
   };
 
-  if (campaignLoading) {
+  if (loading) {
     return <Loader />;
   }
 
-  if (campaignError) {
-    return <p className="text-red-500">Error: {campaignError}</p>;
+  if (error) {
+    return <p className="text-red-500">Error: {error}</p>;
   }
 
   if (!campaign) {
@@ -90,42 +66,7 @@ export default function CampaignDetailsPage() {
           </button>
         </div>
 
-        <BrandHeader
-          name={campaign.venue?.venue_title || campaign.brandName}
-          subtitle={campaign.title}
-          logo={campaign.brandLogo}
-          tabs={["Campaigns", "Business Details"]}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-          isCampaignPage
-        />
-
-        <div className="pb-6">
-          {activeTab === "Campaigns" && (
-            <CampaignDetails
-              campaign={campaign}
-              campaignId={campaignId as string}
-            />
-          )}
-          {activeTab === "Business Details" && (
-            <>
-              {brandLoading && <Loader />}
-              {brandError && (
-                <p className="text-red-500 text-center py-8">{brandError}</p>
-              )}
-              {!brandLoading && !brandError && brand && (
-                <BrandDetails
-                  brand={brand}
-                  isEditMode={false}
-                  onFieldChange={() => {}}
-                  onSave={() => {}}
-                  isSaving={false}
-                  isCreateMode={false}
-                />
-              )}
-            </>
-          )}
-        </div>
+        <CampaignDetails campaign={campaign} campaignId={campaignId as string} />
       </div>
     </div>
   );
