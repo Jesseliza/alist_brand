@@ -90,7 +90,6 @@ export default function Reviews({ campaignId }: ReviewsProps) {
               currentPage={reviewPostsPagination.current_page}
               onPageChange={handlePageChange}
               onItemsPerPageChange={handleItemsPerPageChange}
-              itemsPerPageOptions={[6, 9, 12, 18]}
               fixed={false}
             />
           </div>
