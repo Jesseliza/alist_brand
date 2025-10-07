@@ -1,51 +1,72 @@
-import Review from "./Reviews/Review";
+"use client";
+
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getReviewPostsStart } from "@/store/campaigns/CampaignSlice";
+import { RootState } from "@/store/store";
 import Pagination from "../../../general/Pagination";
-import { usePagination } from "../../../../hooks/usePagination";
-import { Campaign, PublicReview } from "@/types/entities";
-import { CreatorsData } from "@/data/CreatorsData";
-import { PublicReviewsData } from "@/data/PublicReviewsData";
+import Loader from "@/components/general/Loader";
+import { CampaignReviewPost } from "@/types/entities/campaign";
+import Review from "./Reviews/Review";
 
 interface ReviewsProps {
-  campaign: Campaign;
+  campaignId: string;
 }
 
-export default function Reviews({ }: ReviewsProps) {
-  // Get reviews from the external data file
-  const reviews = PublicReviewsData;
-
-  // Map reviews to the format expected by Review component
-  const mappedReviews = reviews.map((review: PublicReview) => {
-    // Find the creator data for this review
-    const creator = CreatorsData.find((c) => c.creatorId === review.creatorId);
-
-    if (!creator) {
-      // Fallback if creator not found
-      return {
-        reviewerName: "Unknown Creator",
-        reviewText: review.text,
-        date: review.date,
-        rating: review.rating,
-      };
-    }
-
-    return {
-      reviewerName: creator.fullName,
-      reviewText: review.text,
-      date: review.date,
-      rating: review.rating,
-    };
-  });
+export default function Reviews({ campaignId }: ReviewsProps) {
+  const dispatch = useDispatch();
 
   const {
-    itemsPerPage,
-    currentPage,
-    startIndex,
-    endIndex,
-    handlePageChange,
-    handleItemsPerPageChange,
-  } = usePagination(mappedReviews.length, 9);
+    reviewPosts,
+    reviewPostsLoading,
+    reviewPostsError,
+    reviewPostsPagination,
+  } = useSelector((state: RootState) => state.campaigns);
 
-  const currentReviews = mappedReviews.slice(startIndex, endIndex);
+  useEffect(() => {
+    if (campaignId) {
+      dispatch(getReviewPostsStart({ id: campaignId as string, per_page: 9 }));
+    }
+  }, [dispatch, campaignId]);
+
+  const handlePageChange = (page: number) => {
+    if (campaignId) {
+      dispatch(
+        getReviewPostsStart({
+          id: campaignId as string,
+          page,
+          per_page: reviewPostsPagination?.per_page,
+        })
+      );
+    }
+  };
+
+  const handleItemsPerPageChange = (items: number) => {
+    if (campaignId) {
+      dispatch(
+        getReviewPostsStart({
+          id: campaignId as string,
+          page: 1,
+          per_page: items,
+        })
+      );
+    }
+  };
+
+  if (reviewPostsLoading) {
+    return <Loader />;
+  }
+
+  if (reviewPostsError) {
+    return <p className="text-red-500 text-center py-8">Error: {reviewPostsError}</p>;
+  }
+
+  const mappedReviews = reviewPosts.map((review: CampaignReviewPost) => {
+    return {
+      reviewerName: review.user.name,
+      reviewText: review.comments,
+    };
+  });
 
   return (
     <div className="max-w-[1272px] mx-auto md:mt-[60px] mt-[14px]">
@@ -55,22 +76,24 @@ export default function Reviews({ }: ReviewsProps) {
           gridTemplateColumns: "repeat(auto-fit, minmax(360px, 412px))",
         }}
       >
-        {currentReviews.map((review, index) => (
+        {mappedReviews.map((review, index) => (
           <Review key={index} {...review} />
         ))}
       </div>
 
-      <div className="mt-8">
-        <Pagination
-          totalItems={mappedReviews.length}
-          itemsPerPage={itemsPerPage}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-          onItemsPerPageChange={handleItemsPerPageChange}
-          itemsPerPageOptions={[6, 9, 12, 18]}
-          fixed={false}
-        />
-      </div>
+      {reviewPostsPagination && reviewPostsPagination.total > 0 && (
+          <div className="mt-8">
+            <Pagination
+              totalItems={reviewPostsPagination.total}
+              itemsPerPage={reviewPostsPagination.per_page || 9}
+              currentPage={reviewPostsPagination.current_page}
+              onPageChange={handlePageChange}
+              onItemsPerPageChange={handleItemsPerPageChange}
+              itemsPerPageOptions={[6, 9, 12, 18]}
+              fixed={false}
+            />
+          </div>
+      )}
     </div>
   );
 }

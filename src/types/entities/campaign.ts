@@ -305,6 +305,7 @@ export interface CampaignReviewPost {
   screenshot2: string | null;
   screenshot3: string | null;
   screenshot4: string | null;
+  comments: string;
   user: CampaignReviewPostUser;
 }
 
