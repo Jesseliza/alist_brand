@@ -83,10 +83,11 @@ interface FileUploadFieldProps {
   name: keyof Brand;
   onFileChange: (file: File) => void;
   onDownloadRequest: (fileUrl: string) => void;
+  isEditMode: boolean;
   error?: string;
 }
 
-const FileUploadField = ({ label, file, name, onFileChange, onDownloadRequest, error }: FileUploadFieldProps) => {
+const FileUploadField = ({ label, file, name, onFileChange, onDownloadRequest, isEditMode, error }: FileUploadFieldProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   let displayValue = '';
@@ -109,8 +110,8 @@ const FileUploadField = ({ label, file, name, onFileChange, onDownloadRequest, e
           value={displayValue}
           readOnly
           placeholder="No file selected"
-          onClick={() => fileInputRef.current?.click()}
-          className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none truncate pr-12 cursor-pointer"
+          onClick={() => isEditMode && fileInputRef.current?.click()}
+          className={`w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none truncate pr-12 ${isEditMode ? 'cursor-pointer' : 'cursor-not-allowed'}`}
         />
 
         {showDownloadLink && (
@@ -133,6 +134,7 @@ const FileUploadField = ({ label, file, name, onFileChange, onDownloadRequest, e
           className="hidden"
           accept=".pdf"
           onChange={(e) => e.target.files && onFileChange(e.target.files[0])}
+          disabled={!isEditMode}
         />
       </div>
       {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
@@ -256,7 +258,7 @@ export default function BrandDetails({
                     selectedValue={brand.accountId || ""}
                     onValueChange={(value) => onFieldChange("accountId", value)}
                     placeholder="Select an account"
-                    disabled={loading.allAccounts || (user?.registration_type !== 'admin')}
+                    disabled={!isEditMode || loading.allAccounts || (user?.registration_type !== 'admin')}
                   />
                   {errors.accountId && <p className="text-red-500 text-xs mt-1">{errors.accountId}</p>}
                 </div>
@@ -276,7 +278,7 @@ export default function BrandDetails({
                         onFieldChange("state", ""); // Clear state when country changes
                       }}
                       placeholder="Select a country"
-                      disabled={loading.countries}
+                      disabled={!isEditMode || loading.countries}
                     />
                     {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
                   </div>
@@ -292,7 +294,7 @@ export default function BrandDetails({
                       selectedValue={brand.state || ""}
                       onValueChange={(value) => onFieldChange("state", value)}
                       placeholder="Select a state"
-                      disabled={!brand.country || loading.states}
+                      disabled={!isEditMode || !brand.country || loading.states}
                     />
                     {errors.state && <p className="text-red-500 text-xs mt-1">{errors.state}</p>}
                   </div>
@@ -309,7 +311,7 @@ export default function BrandDetails({
                     selectedValue={brand.industry || ""}
                     onValueChange={(value) => onFieldChange("industry", value)}
                     placeholder="Select an industry"
-                    disabled={loading.industries}
+                    disabled={!isEditMode || loading.industries}
                   />
                   {errors.industry && <p className="text-red-500 text-xs mt-1">{errors.industry}</p>}
                 </div>
@@ -322,6 +324,7 @@ export default function BrandDetails({
                       name="tradeLicenseCopy"
                       onFileChange={setTradeLicenseFile}
                       onDownloadRequest={handleDownloadRequest}
+                      isEditMode={isEditMode}
                       error={errors.tradeLicenseCopy}
                     />
                   </div>
@@ -332,6 +335,7 @@ export default function BrandDetails({
                       name="vatCertificate"
                       onFileChange={setVatCertificateFile}
                       onDownloadRequest={handleDownloadRequest}
+                      isEditMode={isEditMode}
                       error={errors.vatCertificate}
                     />
                   </div>
