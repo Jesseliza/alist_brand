@@ -73,8 +73,8 @@ export default function Availabilites({ campaignId }: { campaignId: string }) {
         </div>
       </div>
       {isPopupOpen && selectedAvailability && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
+          <div className="bg-white/80 p-6 rounded-lg shadow-lg text-center">
             <h2 className="text-lg font-bold mb-4">Voucher Code</h2>
             <p className="mb-4">
               Here is the voucher code for the selected date:
