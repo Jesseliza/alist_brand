@@ -7,7 +7,8 @@ import { getCampaignDetailsStart } from "@/store/campaigns/CampaignSlice";
 import { RootState } from "@/store/store";
 import Loader from "@/components/general/Loader";
 import CampaignDetails from "@/components/features/campaigns/CampaignDetails";
-import Image from "next/image";
+import BrandHeader from "@/components/features/brands/BrandHeader";
+
 export default function CampaignDetailsPage() {
   const dispatch = useDispatch();
   const params = useParams();
@@ -24,13 +25,6 @@ export default function CampaignDetailsPage() {
     }
   }, [dispatch, campaignId]);
 
-  const handleBackClick = () => {
-    // router.back();
-    router.push(
-      `/businesses/campaigns`
-    );
-  };
-
   if (loading) {
     return <Loader />;
   }
@@ -39,36 +33,27 @@ export default function CampaignDetailsPage() {
     return <p className="text-red-500">Error: {error}</p>;
   }
 
-  // Show loader if campaign is not yet available (initial load) or still loading
-  if (loading || !campaign) {
+  if (!campaign) {
     return <Loader />;
   }
 
-  return (
-    <div className="py-6">
-      <div className="max-w-[1428px] mx-auto bg-white rounded-[13px]">
-        <div className="flex items-center justify-between py-[20.5px] px-[27px] border-b border-[#E2E2E2]">
-          <button onClick={handleBackClick} className="cursor-pointer">
-            <Image
-              src="/icons/campaign/details/back-arrow.svg"
-              alt="back"
-              width={35}
-              height={35}
-            />
-          </button>
-          <h4 className="text-[18px] leading-[27px] font-semibold text-[#4F4F4F]">
-            {campaign.title}
-          </h4>
-          <button className="cursor-pointer">
-            <Image
-              src="/icons/campaign/details/menu-dots.svg"
-              alt="share"
-              width={35}
-              height={35}
-            />
-          </button>
-        </div>
+  const handleTabChange = (tab: string) => {
+    if (tab === "Business Details") {
+      router.push(`/businesses/brands/${campaign.brandId}`);
+    }
+  };
 
+  return (
+    <div className="pt-6">
+      <BrandHeader
+        name={campaign.venue?.venue_title || campaign.brandName}
+        subtitle={campaign.title}
+        logo={campaign.brandLogo}
+        tabs={["Business Details", "Campaigns"]}
+        activeTab="Campaigns"
+        onTabChange={handleTabChange}
+      />
+      <div className="pb-6">
         <CampaignDetails campaign={campaign} campaignId={campaignId as string} />
       </div>
     </div>

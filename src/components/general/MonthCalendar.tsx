@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCampaignAvailabilityStart } from '../../store/campaigns/CampaignSlice';
 import { RootState } from '../../store/store';
+import { CampaignAvailability } from '../../types/entities/campaign';
 
 interface Activity {
   date: string; // day/month/year
@@ -16,7 +17,7 @@ interface MonthCalendarProps {
   year?: number;
   month?: number; // 0 = January, 11 = December
   activities?: Activity[];
-  onDaySelect?: (date: string, activities: Activity[]) => void;
+  onDaySelect?: (availability: CampaignAvailability) => void;
 }
 
 interface DayCell {
@@ -132,9 +133,10 @@ export default function MonthCalendar({
               const cellDateYYYYMMDD = `${cellYear}-${String(
                 cellMonth + 1
               ).padStart(2, '0')}-${String(cellDay).padStart(2, '0')}`;
-              const isAvailable = campaignAvailability.some(
+              const availabilityItem = campaignAvailability.find(
                 (item) => item.offer_date === cellDateYYYYMMDD
               );
+              const isAvailable = !!availabilityItem;
 
               const cellActivities = activities.filter(
                 (a) => a.date === cellDateStr
@@ -146,13 +148,13 @@ export default function MonthCalendar({
                     isToday ? 'border-[#00A4B6]' : 'border-[#F3F3F3]'
                   } flex flex-col items-start justify-start`}
                   onClick={() => {
-                    if (cell.currentMonth && onDaySelect) {
-                      onDaySelect(cellDateStr, cellActivities);
+                    if (cell.currentMonth && onDaySelect && availabilityItem) {
+                      onDaySelect(availabilityItem);
                     }
                   }}
                   style={{
                     cursor:
-                      cell.currentMonth && onDaySelect ? 'pointer' : undefined,
+                      cell.currentMonth && onDaySelect && isAvailable ? 'pointer' : undefined,
                     backgroundColor: isAvailable
                       ? 'rgba(0, 164, 182, 0.1)'
                       : undefined,

@@ -13,9 +13,9 @@ import Creators from "./tabs/Creators";
 import Availabilites from "./tabs/Availabilites";
 import Posts from "./tabs/Posts";
 import VoucherCode from "./tabs/VoucherCode";
-// import Reviews from "./tabs/Reviews";
+import Reviews from "./tabs/Reviews";
 
-const tabs = ["Creators", "Overview", "Availabilites", "Voucher Code", "Posts"];
+const tabs = ["Creators", "Overview", "Availabilites", "Voucher Code", "Posts", "Reviews"];
 
 export default function CampaignDetails({ campaign, campaignId }: { campaign: Campaign, campaignId: string }) {
   const router = useRouter();
@@ -117,7 +117,7 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
               {tab === "Overview" && <Overview campaign={campaign} />}
               {tab === "Availabilites" && <Availabilites campaignId={campaignId} />}
               {tab === "Posts" && <Posts />}
-              {/* {tab === "Reviews" && <Reviews campaign={campaign} />} */}
+              {tab === "Reviews" && <Reviews campaignId={campaignId} />}
               {tab === "Voucher Code" && <VoucherCode />}
             </TabPanel>
           ))}

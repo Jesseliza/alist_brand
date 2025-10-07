@@ -3,6 +3,7 @@
 import { useState } from "react";
 import MonthCalendar from "@/components/general/MonthCalendar";
 import { Dropdown } from "@/components/general/dropdowns/Dropdown";
+import { CampaignAvailability } from "@/types/entities/campaign";
 
 const monthOptions = [
   { label: "January", value: 0 },
@@ -21,6 +22,9 @@ const monthOptions = [
 
 export default function Availabilites({ campaignId }: { campaignId: string }) {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedAvailability, setSelectedAvailability] =
+    useState<CampaignAvailability | null>(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleTodayClick = () => {
     setCurrentDate(new Date());
@@ -28,6 +32,16 @@ export default function Availabilites({ campaignId }: { campaignId: string }) {
 
   const handleMonthSelect = (month: number) => {
     setCurrentDate(new Date(currentDate.getFullYear(), month, 1));
+  };
+
+  const handleDaySelect = (availability: CampaignAvailability) => {
+    setSelectedAvailability(availability);
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+    setSelectedAvailability(null);
   };
 
   return (
@@ -54,9 +68,29 @@ export default function Availabilites({ campaignId }: { campaignId: string }) {
             campaignId={campaignId}
             year={currentDate.getFullYear()}
             month={currentDate.getMonth()}
+            onDaySelect={handleDaySelect}
           />
         </div>
       </div>
+      {isPopupOpen && selectedAvailability && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <h2 className="text-lg font-bold mb-4">Voucher Code</h2>
+            <p className="mb-4">
+              Here is the voucher code for the selected date:
+            </p>
+            <p className="text-2xl font-bold text-center text-[#00A4B6] bg-gray-100 p-4 rounded">
+              {selectedAvailability.offer_code}
+            </p>
+            <button
+              onClick={closePopup}
+              className="mt-6 w-full bg-[#00A4B6] text-white py-2 rounded hover:bg-[#0090a6]"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
