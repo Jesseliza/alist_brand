@@ -116,7 +116,7 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
               {tab === "Creators" && <Creators campaign={campaign} />}
               {tab === "Overview" && <Overview campaign={campaign} />}
               {tab === "Availabilites" && <Availabilites campaignId={campaignId} />}
-              {tab === "Posts" && <Posts campaign={campaign} />}
+              {tab === "Posts" && <Posts />}
               {/* {tab === "Reviews" && <Reviews campaign={campaign} />} */}
               {tab === "Voucher Code" && <VoucherCode />}
             </TabPanel>

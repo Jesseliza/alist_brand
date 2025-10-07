@@ -214,12 +214,12 @@ export default function CampaignsPage() {
         <div className="max-w-[1428px] mx-auto">
           <div className="hidden md:flex justify-end items-center mb-5.5 space-x-4">
             <TableCardsToggler view={view} setView={setView} />
-            <button
+            {/* <button
               onClick={handleAddCampaignClick}
               className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
             >
               Add Campaign
-            </button>
+            </button> */}
             <div className="w-auto">
               <ActionDropdown
                 actions={["delete"]}
@@ -228,14 +228,14 @@ export default function CampaignsPage() {
               />
             </div>
           </div>
-          <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
+          {/* <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
             <button
               onClick={handleAddCampaignClick}
               className="bg-blue-500 text-white rounded-[11px] text-sm px-4 py-2"
             >
               Add Campaign
             </button>
-          </div>
+          </div> */}
 
           {loading && displayCampaigns.length === 0 && <Loader />}
           {error && <p className="text-red-500">Error: {error}</p>}

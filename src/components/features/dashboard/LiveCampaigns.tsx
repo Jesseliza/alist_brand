@@ -68,23 +68,46 @@ export default function LiveCampaigns() {
                 </div>
               </div>
               <div className="flex items-center gap-[7.5px]">
-                {campaign.food_offer_user.map((user: any, userIndex: number) => (
-                  <div
-                    key={userIndex}
-                    className="w-[20.25px] h-[20.25px] flex items-center justify-center relative group"
-                  >
-                    <Image
-                      src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${user.user.profile_picture}`}
-                      alt={user.user.name}
-                      width={20.25}
-                      height={20.25}
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                    <div className="absolute bottom-full mb-2 w-max px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                      {user.user.name}
-                    </div>
-                  </div>
-                ))}
+                {campaign.food_offer_user
+                  ?.filter((u: any) => u.user)
+                  .map((user: any, userIndex: number) => {
+                    const userInfo = user.user;
+                    const hasProfilePic = !!userInfo?.profile_picture;
+                    const initials = userInfo?.name
+                      ? userInfo.name
+                        .split(" ")
+                        .map((n: string) => n[0])
+                        .join("")
+                        .slice(0, 2)
+                        .toUpperCase()
+                      : "";
+
+                    return (
+                      <div
+                        key={userIndex}
+                        className="w-[20.25px] h-[20.25px] flex items-center justify-center relative group"
+                      >
+                        {hasProfilePic ? (
+                          <Image
+                            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${userInfo.profile_picture}`}
+                            alt={userInfo.name}
+                            width={20.25}
+                            height={20.25}
+                            className="w-full h-full object-cover rounded-full"
+                          />
+                        ) : (
+                          <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-[9px] font-semibold text-gray-700">
+                            {initials}
+                          </div>
+                        )}
+
+                        {/* Tooltip */}
+                        <div className="absolute bottom-full mb-2 w-max px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                          {userInfo?.name ?? "Unknown"}
+                        </div>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
           </div>
