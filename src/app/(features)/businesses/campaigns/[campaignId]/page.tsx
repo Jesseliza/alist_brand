@@ -37,8 +37,8 @@ export default function CampaignDetailsPage() {
   }, [dispatch, campaignId]);
 
   useEffect(() => {
-    if (campaign && activeTab === "Business Details") {
-      dispatch(fetchBrandRequest({ brandId: campaign.brandId }));
+    if (campaign && activeTab === "Business Details" && campaign.venue) {
+      dispatch(fetchBrandRequest({ brandId: campaign.venue.id }));
     }
   }, [dispatch, campaign, activeTab]);
 
