@@ -6,7 +6,6 @@ import { getReviewPostsStart } from "@/store/campaigns/CampaignSlice";
 import { RootState } from "@/store/store";
 import Pagination from "../../../general/Pagination";
 import Loader from "@/components/general/Loader";
-import { CampaignReviewPost } from "@/types/entities/campaign";
 import Review from "./Reviews/Review";
 
 interface ReviewsProps {
@@ -61,12 +60,14 @@ export default function Reviews({ campaignId }: ReviewsProps) {
     return <p className="text-red-500 text-center py-8">Error: {reviewPostsError}</p>;
   }
 
-  const mappedReviews = reviewPosts.map((review: CampaignReviewPost) => {
-    return {
-      reviewerName: review.user.name,
-      reviewText: review.comments,
-    };
-  });
+  const mappedReviews = reviewPosts
+    .filter((review) => review.comments && review.comments.trim() !== "")
+    .map((review) => {
+      return {
+        reviewerName: review.user.name,
+        reviewText: review.comments,
+      };
+    });
 
   return (
     <div className="max-w-[1272px] mx-auto md:mt-[60px] mt-[14px]">

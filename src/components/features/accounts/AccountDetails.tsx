@@ -174,6 +174,12 @@ export default function AccountDetails({ account, onSave, isCreateMode }: Accoun
                   <Image src="/icons/edit-icon.svg" alt="icon" width={12} height={12} />
                 </div>
               </div>
+              <button
+                type="button"
+                className="px-4 py-2 text-sm font-semibold text-white bg-green-500 rounded-lg hover:bg-green-600 whitespace-nowrap"
+              >
+                Send OTP
+              </button>
             </div>
             {errors.phoneNumber && <p className="text-red-500 text-xs mt-1">{errors.phoneNumber}</p>}
           </div>
