@@ -7,7 +7,6 @@ import { RootState } from "@/store/store";
 import Pagination from "../../../general/Pagination";
 import Loader from "@/components/general/Loader";
 import Review from "./Reviews/Review";
-import { usePagination } from "@/hooks/usePagination";
 
 interface ReviewsProps {
   campaignId: string;
@@ -16,38 +15,42 @@ interface ReviewsProps {
 export default function Reviews({ campaignId }: ReviewsProps) {
   const dispatch = useDispatch();
 
-  const { reviewPosts, reviewPostsLoading, reviewPostsError } = useSelector(
-    (state: RootState) => state.campaigns
-  );
+  const {
+    reviewPosts,
+    reviewPostsLoading,
+    reviewPostsError,
+    reviewPostsPagination,
+  } = useSelector((state: RootState) => state.campaigns);
 
   useEffect(() => {
     if (campaignId) {
-      // Fetch all reviews to handle pagination on the client side
-      dispatch(
-        getReviewPostsStart({ id: campaignId as string, per_page: 1000 })
-      );
+      dispatch(getReviewPostsStart({ id: campaignId as string, per_page: 10 }));
     }
   }, [dispatch, campaignId]);
 
-  const mappedReviews = reviewPosts
-    .filter((review) => review.comments && review.comments.trim() !== "")
-    .map((review) => {
-      return {
-        reviewerName: review.user.name,
-        reviewText: review.comments,
-      };
-    });
+  const handlePageChange = (page: number) => {
+    if (campaignId) {
+      dispatch(
+        getReviewPostsStart({
+          id: campaignId as string,
+          page,
+          per_page: reviewPostsPagination?.per_page,
+        })
+      );
+    }
+  };
 
-  const {
-    itemsPerPage,
-    currentPage,
-    startIndex,
-    endIndex,
-    handlePageChange,
-    handleItemsPerPageChange,
-  } = usePagination(mappedReviews.length, 9);
-
-  const currentReviews = mappedReviews.slice(startIndex, endIndex);
+  const handleItemsPerPageChange = (items: number) => {
+    if (campaignId) {
+      dispatch(
+        getReviewPostsStart({
+          id: campaignId as string,
+          page: 1,
+          per_page: items,
+        })
+      );
+    }
+  };
 
   if (reviewPostsLoading) {
     return <Loader />;
@@ -59,6 +62,15 @@ export default function Reviews({ campaignId }: ReviewsProps) {
     );
   }
 
+  const mappedReviews = reviewPosts
+    .filter((review) => review.comments && review.comments.trim() !== "")
+    .map((review) => {
+      return {
+        reviewerName: review.user.name,
+        reviewText: review.comments,
+      };
+    });
+
   return (
     <div className="max-w-[1272px] mx-auto md:mt-[60px] mt-[14px]">
       <div
@@ -67,17 +79,17 @@ export default function Reviews({ campaignId }: ReviewsProps) {
           gridTemplateColumns: "repeat(auto-fit, minmax(360px, 412px))",
         }}
       >
-        {currentReviews.map((review, index) => (
+        {mappedReviews.map((review, index) => (
           <Review key={index} {...review} />
         ))}
       </div>
 
-      {mappedReviews.length > 0 && (
+      {reviewPostsPagination && reviewPostsPagination.total > 0 && (
         <div className="mt-8">
           <Pagination
-            totalItems={mappedReviews.length}
-            itemsPerPage={itemsPerPage}
-            currentPage={currentPage}
+            totalItems={reviewPostsPagination.total}
+            itemsPerPage={reviewPostsPagination.per_page || 10}
+            currentPage={reviewPostsPagination.current_page}
             onPageChange={handlePageChange}
             onItemsPerPageChange={handleItemsPerPageChange}
             fixed={false}
