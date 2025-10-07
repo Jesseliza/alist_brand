@@ -171,6 +171,7 @@ export type Campaign = {
   banner_image?: string;
   amount?: number;
   venue?: {
+    id: string;
     venue_title: string;
     category?: {
       category?: string;
