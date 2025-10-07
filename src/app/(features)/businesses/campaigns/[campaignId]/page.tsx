@@ -1,23 +1,34 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { getCampaignDetailsStart } from "@/store/campaigns/CampaignSlice";
+import { fetchBrandRequest } from "@/store/brand/brandSlice";
 import { RootState } from "@/store/store";
 import Loader from "@/components/general/Loader";
 import CampaignDetails from "@/components/features/campaigns/CampaignDetails";
+import BrandDetails from "@/components/features/brands/BrandDetails";
 import BrandHeader from "@/components/features/brands/BrandHeader";
 
 export default function CampaignDetailsPage() {
   const dispatch = useDispatch();
   const params = useParams();
-  const router = useRouter();
   const { campaignId } = params;
 
-  const { campaign, loading, error } = useSelector(
-    (state: RootState) => state.campaigns
-  );
+  const [activeTab, setActiveTab] = useState("Campaigns");
+
+  const {
+    campaign,
+    loading: campaignLoading,
+    error: campaignError,
+  } = useSelector((state: RootState) => state.campaigns);
+
+  const {
+    brand,
+    loading: brandLoading,
+    error: brandError,
+  } = useSelector((state: RootState) => state.brand);
 
   useEffect(() => {
     if (campaignId) {
@@ -25,10 +36,22 @@ export default function CampaignDetailsPage() {
     }
   }, [dispatch, campaignId]);
 
+  useEffect(() => {
+    if (campaign && activeTab === "Business Details") {
+      dispatch(fetchBrandRequest({ brandId: campaign.brandId }));
+    }
+  }, [dispatch, campaign, activeTab]);
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+  };
+
+  const loading = campaignLoading || (activeTab === "Business Details" && brandLoading);
   if (loading) {
     return <Loader />;
   }
 
+  const error = campaignError || (activeTab === "Business Details" && brandError);
   if (error) {
     return <p className="text-red-500">Error: {error}</p>;
   }
@@ -37,12 +60,6 @@ export default function CampaignDetailsPage() {
     return <Loader />;
   }
 
-  const handleTabChange = (tab: string) => {
-    if (tab === "Business Details") {
-      router.push(`/businesses/brands/${campaign.brandId}`);
-    }
-  };
-
   return (
     <div className="pt-6">
       <BrandHeader
@@ -50,11 +67,23 @@ export default function CampaignDetailsPage() {
         subtitle={campaign.title}
         logo={campaign.brandLogo}
         tabs={["Business Details", "Campaigns"]}
-        activeTab="Campaigns"
+        activeTab={activeTab}
         onTabChange={handleTabChange}
       />
       <div className="pb-6">
-        <CampaignDetails campaign={campaign} campaignId={campaignId as string} />
+        {activeTab === "Campaigns" && (
+          <CampaignDetails campaign={campaign} campaignId={campaignId as string} />
+        )}
+        {activeTab === "Business Details" && brand && (
+          <BrandDetails
+            brand={brand}
+            isEditMode={false}
+            onFieldChange={() => {}}
+            onSave={() => {}}
+            isSaving={false}
+            isCreateMode={false}
+          />
+        )}
       </div>
     </div>
   );
