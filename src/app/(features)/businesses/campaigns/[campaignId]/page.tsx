@@ -9,20 +9,16 @@ import { RootState } from "@/store/store";
 import Loader from "@/components/general/Loader";
 import CampaignDetails from "@/components/features/campaigns/CampaignDetails";
 import BrandDetails from "@/components/features/brands/BrandDetails";
+import BrandHeader from "@/components/features/brands/BrandHeader";
 import Image from "next/image";
-import { Tab } from "@headlessui/react";
-
-const tabs = ["Campaigns", "Business Details"];
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function CampaignDetailsPage() {
   const dispatch = useDispatch();
   const params = useParams();
   const router = useRouter();
   const { campaignId } = params;
+
+  const [activeTab, setActiveTab] = useState("Campaigns");
 
   const {
     campaign,
@@ -36,8 +32,6 @@ export default function CampaignDetailsPage() {
     error: brandError,
   } = useSelector((state: RootState) => state.brand);
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
   useEffect(() => {
     if (campaignId) {
       dispatch(getCampaignDetailsStart({ id: campaignId as string }));
@@ -46,14 +40,14 @@ export default function CampaignDetailsPage() {
 
   useEffect(() => {
     if (
-      selectedIndex === 1 &&
+      activeTab === "Business Details" &&
       campaign &&
       campaign.venue &&
       campaign.venue.id
     ) {
       dispatch(fetchBrandRequest({ brandId: campaign.venue.id }));
     }
-  }, [selectedIndex, dispatch, campaign]);
+  }, [activeTab, dispatch, campaign]);
 
   const handleBackClick = () => {
     router.push(`/businesses/campaigns`);
@@ -96,40 +90,30 @@ export default function CampaignDetailsPage() {
           </button>
         </div>
 
-        <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
-          <div className="max-w-[966px] mx-auto md:px-4 mt-4">
-            <Tab.List className="flex bg-[#F8F8F8] rounded-[13px] p-[5px]">
-              {tabs.map((tab) => (
-                <Tab
-                  key={tab}
-                  className={({ selected }) =>
-                    classNames(
-                      "w-full py-1.75 text-[18px] leading-[27px] font-medium rounded-[13px] transition",
-                      "focus-visible:outline-none focus-visible:ring focus-visible:ring-[#54aeb8]",
-                      selected
-                        ? "bg-[#00A4B6] text-white"
-                        : "text-[#7E7E7E] hover:bg-gray-200"
-                    )
-                  }
-                >
-                  {tab}
-                </Tab>
-              ))}
-            </Tab.List>
-          </div>
-          <Tab.Panels className="mt-2">
-            <Tab.Panel>
-              <CampaignDetails
-                campaign={campaign}
-                campaignId={campaignId as string}
-              />
-            </Tab.Panel>
-            <Tab.Panel>
-              {brandLoading ? (
-                <Loader />
-              ) : brandError ? (
+        <BrandHeader
+          name={campaign.venue?.venue_title || campaign.brandName}
+          subtitle={campaign.title}
+          logo={campaign.brandLogo}
+          tabs={["Campaigns", "Business Details"]}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          isCampaignPage
+        />
+
+        <div className="pb-6">
+          {activeTab === "Campaigns" && (
+            <CampaignDetails
+              campaign={campaign}
+              campaignId={campaignId as string}
+            />
+          )}
+          {activeTab === "Business Details" && (
+            <>
+              {brandLoading && <Loader />}
+              {brandError && (
                 <p className="text-red-500 text-center py-8">{brandError}</p>
-              ) : brand ? (
+              )}
+              {!brandLoading && !brandError && brand && (
                 <BrandDetails
                   brand={brand}
                   isEditMode={false}
@@ -138,12 +122,10 @@ export default function CampaignDetailsPage() {
                   isSaving={false}
                   isCreateMode={false}
                 />
-              ) : (
-                <p className="text-center py-8">Brand details not found.</p>
               )}
-            </Tab.Panel>
-          </Tab.Panels>
-        </Tab.Group>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
