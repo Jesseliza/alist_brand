@@ -46,14 +46,12 @@ export default function CampaignDetailsPage() {
     setActiveTab(tab);
   };
 
-  const loading = campaignLoading || (activeTab === "Business Details" && brandLoading);
-  if (loading) {
+  if (campaignLoading) {
     return <Loader />;
   }
 
-  const error = campaignError || (activeTab === "Business Details" && brandError);
-  if (error) {
-    return <p className="text-red-500">Error: {error}</p>;
+  if (campaignError) {
+    return <p className="text-red-500">Error: {campaignError}</p>;
   }
 
   if (!campaign) {
@@ -74,15 +72,21 @@ export default function CampaignDetailsPage() {
         {activeTab === "Campaigns" && (
           <CampaignDetails campaign={campaign} campaignId={campaignId as string} />
         )}
-        {activeTab === "Business Details" && brand && (
-          <BrandDetails
-            brand={brand}
-            isEditMode={false}
-            onFieldChange={() => {}}
-            onSave={() => {}}
-            isSaving={false}
-            isCreateMode={false}
-          />
+        {activeTab === "Business Details" && (
+          <>
+            {brandLoading && <Loader />}
+            {brandError && <p className="text-red-500 text-center py-8">{brandError}</p>}
+            {!brandLoading && !brandError && brand && (
+              <BrandDetails
+                brand={brand}
+                isEditMode={false}
+                onFieldChange={() => {}}
+                onSave={() => {}}
+                isSaving={false}
+                isCreateMode={false}
+              />
+            )}
+          </>
         )}
       </div>
     </div>
