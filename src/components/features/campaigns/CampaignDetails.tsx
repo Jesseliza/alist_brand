@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Campaign } from "@/types/entities";
 import { RootState } from "@/store/store";
 import { updateCampaignStatusStart } from "@/store/campaigns/CampaignSlice";
+import { fetchBrandRequest } from "@/store/brand/brandSlice";
 import RejectReasonModal from "./RejectReasonModal";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
@@ -14,18 +15,52 @@ import Availabilites from "./tabs/Availabilites";
 import Posts from "./tabs/Posts";
 import VoucherCode from "./tabs/VoucherCode";
 import Reviews from "./tabs/Reviews";
+import BrandDetails from "../brands/BrandDetails";
+import Loader from "@/components/general/Loader";
 
-const tabs = ["Creators", "Overview", "Availabilites", "Voucher Code", "Posts", "Reviews"];
+const tabs = [
+  "Creators",
+  "Overview",
+  "Availabilites",
+  "Voucher Code",
+  "Posts",
+  "Reviews",
+  "Business Details",
+];
 
-export default function CampaignDetails({ campaign, campaignId }: { campaign: Campaign, campaignId: string }) {
+export default function CampaignDetails({
+  campaign,
+  campaignId,
+}: {
+  campaign: Campaign;
+  campaignId: string;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
   const { statusUpdateLoading } = useSelector(
     (state: RootState) => state.campaigns
   );
+  const { brand, loading: brandLoading } = useSelector(
+    (state: RootState) => state.brand
+  );
   const [selectedIndex, setSelectedIndex] = useState(1); // Default to Overview (index 1)
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
+
+  const getTabFromURL = useCallback(() => {
+    const tab = searchParams.get("tab");
+    if (tab && tabs.includes(tab)) {
+      return tabs.indexOf(tab);
+    }
+    return 1; // Default to Overview
+  }, [searchParams]);
+
+  useEffect(() => {
+    const currentTab = tabs[selectedIndex];
+    if (currentTab === "Business Details" && campaign.venue?.id) {
+      dispatch(fetchBrandRequest({ brandId: campaign.venue.id }));
+    }
+  }, [selectedIndex, dispatch, campaign.venue?.id]);
 
   const handleApprove = () => {
     dispatch(updateCampaignStatusStart({ id: campaignId, status: "Approved" }));
@@ -46,16 +81,6 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
     setIsRejectModalOpen(false);
   };
 
-  // Get tab from URL or default to Overview
-  const getTabFromURL = useCallback(() => {
-    const tab = searchParams.get("tab");
-    if (tab && tabs.includes(tab)) {
-      return tabs.indexOf(tab);
-    }
-    return 1; // Default to Overview
-  }, [searchParams]);
-
-  // Update URL when tab changes
   const handleTabChange = (index: number) => {
     setSelectedIndex(index);
     const params = new URLSearchParams(searchParams.toString());
@@ -63,7 +88,6 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
-  // Update selected index when URL changes
   useEffect(() => {
     setSelectedIndex(getTabFromURL());
   }, [searchParams, getTabFromURL]);
@@ -72,25 +96,25 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
     <div>
       {campaign.offer_status === "Draft" &&
         campaign.account_status === "Pending" && (
-        <div className="max-w-[966px] mx-auto md:px-4 mt-4">
-          <div className="flex justify-end space-x-2 mb-2">
-            <button
-              onClick={handleApprove}
-              disabled={statusUpdateLoading}
-              className="bg-green-500 text-white px-3 py-1 text-sm rounded-md hover:bg-green-600 disabled:bg-gray-400"
-            >
-              {statusUpdateLoading ? "Approving..." : "Approve"}
-            </button>
-            <button
-              onClick={handleReject}
-              disabled={statusUpdateLoading}
-              className="bg-red-500 text-white px-3 py-1 text-sm rounded-md hover:bg-red-600 disabled:bg-gray-400"
-            >
-              Reject
-            </button>
+          <div className="max-w-[966px] mx-auto md:px-4 mt-4">
+            <div className="flex justify-end space-x-2 mb-2">
+              <button
+                onClick={handleApprove}
+                disabled={statusUpdateLoading}
+                className="bg-green-500 text-white px-3 py-1 text-sm rounded-md hover:bg-green-600 disabled:bg-gray-400"
+              >
+                {statusUpdateLoading ? "Approving..." : "Approve"}
+              </button>
+              <button
+                onClick={handleReject}
+                disabled={statusUpdateLoading}
+                className="bg-red-500 text-white px-3 py-1 text-sm rounded-md hover:bg-red-600 disabled:bg-gray-400"
+              >
+                Reject
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
       <TabGroup selectedIndex={selectedIndex} onChange={handleTabChange}>
         <div className="max-w-[966px] mx-auto md:px-4 mt-4">
           <TabList className="flex bg-[#F8F8F8] rounded-[13px] p-[5px]">
@@ -115,10 +139,27 @@ export default function CampaignDetails({ campaign, campaignId }: { campaign: Ca
             <TabPanel key={tab}>
               {tab === "Creators" && <Creators campaign={campaign} />}
               {tab === "Overview" && <Overview campaign={campaign} />}
-              {tab === "Availabilites" && <Availabilites campaignId={campaignId} />}
+              {tab === "Availabilites" && (
+                <Availabilites campaignId={campaignId} />
+              )}
               {tab === "Posts" && <Posts />}
               {tab === "Reviews" && <Reviews campaignId={campaignId} />}
               {tab === "Voucher Code" && <VoucherCode />}
+              {tab === "Business Details" &&
+                (brandLoading ? (
+                  <Loader />
+                ) : brand ? (
+                  <BrandDetails
+                    brand={brand}
+                    isEditMode={false}
+                    onFieldChange={() => {}}
+                    onSave={() => {}}
+                    isSaving={false}
+                    isCreateMode={false}
+                  />
+                ) : (
+                  <p>Brand details not available.</p>
+                ))}
             </TabPanel>
           ))}
         </TabPanels>

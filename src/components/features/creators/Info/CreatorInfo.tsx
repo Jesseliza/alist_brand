@@ -100,43 +100,18 @@ export default function CreatorInfo({ creator }: { creator: Creator }) {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5 md:mb-7">
-                  <div>
-                    <label
-                      htmlFor="phone"
-                      className="block text-[#4F4F4F] mb-2.5 truncate"
-                      title="Phone"
-                    >
-                      Phone
-                    </label>
-                    <div className="flex items-center gap-2">
-                      <div className="relative w-full">
-                        <input
-                          type="text"
-                          id="phone"
-                          name="phone"
-                          value={creator.phone}
-                          readOnly
-                          title={creator.phone}
-                          className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none truncate pr-12"
-                        />
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex-shrink-0 pointer-events-none">
-                          <Image
-                            src="/icons/edit-icon.svg"
-                            alt="copy"
-                            width={16.69}
-                            height={16.26}
-                          />
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        className="px-4 py-2 text-sm font-semibold text-white bg-green-500 rounded-lg hover:bg-green-600 whitespace-nowrap"
-                      >
-                        Send OTP
-                      </button>
-                    </div>
-                  </div>
+                <div className="grid grid-cols-2 gap-5 mb-5 md:mb-7">
+                  <InputField
+                    label="Phone"
+                    value={creator.phone}
+                    name="phone"
+                    icon={{
+                      src: "/icons/edit-icon.svg",
+                      width: 16.69,
+                      height: 16.26,
+                      alt: "copy",
+                    }}
+                  />
                   <InputField
                     label="Whatsapp"
                     value={creator.whatsappNumber}
