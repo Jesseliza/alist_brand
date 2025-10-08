@@ -85,7 +85,8 @@ export const adaptFoodOfferToDisplay = (
   offer: FoodOffer,
   brandName: string,
   brandId: string,
-  brandLogo: string
+  brandLogo: string,
+  brandCategory?: string
 ): CampaignDisplay => {
   const startDate = new Date(offer.start_date);
   const endDate = new Date(offer.end_date);
@@ -110,7 +111,7 @@ export const adaptFoodOfferToDisplay = (
     creatorApprovalType:
       offer.account_status === "Approved" ? "Automated" : "Manual",
     campaignType: "Delivery",
-    offerType: "Barter",
+    offerType: brandCategory ?? "N/A",
     startDate: offer.start_date,
     endDate: offer.end_date,
     duration: daysDuration > 0 ? daysDuration : 0,

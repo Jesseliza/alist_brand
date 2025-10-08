@@ -29,6 +29,9 @@ import {
   getCampaignAvailabilityStart,
   getCampaignAvailabilitySuccess,
   getCampaignAvailabilityFailure,
+  getCampaignReviewsStart,
+  getCampaignReviewsSuccess,
+  getCampaignReviewsFailure,
 } from "./CampaignSlice";
 import {
   CampaignsApiResponse,
@@ -43,6 +46,8 @@ import {
   VoucherCodesApiResponse,
   GetCampaignAvailabilityAction,
   CampaignAvailabilityApiResponse,
+  GetCampaignReviewsAction,
+  CampaignReviewsResponse,
 } from "../../types/entities/campaign";
 
 function* getCampaignsSaga(action: GetCampaignsAction) {
@@ -161,6 +166,19 @@ function* getVoucherCodesSaga(action: GetVoucherCodesAction) {
   }
 }
 
+function* getCampaignReviewsSaga(action: GetCampaignReviewsAction) {
+  try {
+    const { id, page = 1, per_page = 10 } = action.payload;
+    const response: { data: CampaignReviewsResponse } = yield call(
+      axiosInstance.get,
+      `/api/campaign/reviews/${id}?page=${page}&per_page=${per_page}`
+    );
+    yield put(getCampaignReviewsSuccess(response.data.data));
+  } catch (error: any) {
+    yield put(getCampaignReviewsFailure(error.message));
+  }
+}
+
 function* watchCampaigns() {
   yield takeLatest(getCampaignsStart.type, getCampaignsSaga);
   yield takeLatest(getMoreCampaignsStart.type, getMoreCampaignsSaga);
@@ -177,6 +195,7 @@ function* watchCampaigns() {
     getCampaignAvailabilityStart.type,
     getCampaignAvailabilitySaga
   );
+  yield takeLatest(getCampaignReviewsStart.type, getCampaignReviewsSaga);
 }
 
 function* getCampaignAvailabilitySaga(action: GetCampaignAvailabilityAction) {

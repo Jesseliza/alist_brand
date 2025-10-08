@@ -117,7 +117,10 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
         associateBackground: '',
         Venue_contact_name: apiBrand.Venue_contact_name || null,
         venue_email: apiBrand.venue_email || null,
-        Venue: { food_offers: apiBrand.food_offers || [] },
+        Venue: {
+          food_offers: apiBrand.food_offers || [],
+          category: apiBrand.category,
+        },
       }));
 
       yield put(fetchBrandsSuccess({
@@ -188,7 +191,10 @@ function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest
         associateBackground: '',
         Venue_contact_name: apiBrand.Venue_contact_name || null,
         venue_email: apiBrand.venue_email || null,
-        Venue: { food_offers: apiBrand.food_offers || [] },
+        Venue: {
+          food_offers: apiBrand.food_offers || [],
+          category: apiBrand.category,
+        },
       }));
 
       yield put(fetchMoreBrandsSuccess({
@@ -300,6 +306,7 @@ function* handleFetchBrand(action: ReturnType<typeof fetchBrandRequest>) {
         venue_email: apiBrand.venue_email ?? "",
         Venue: {
           food_offers: apiBrand.food_offers || [],
+          category: apiBrand.category,
         },
         food_offers_count: apiBrand.food_offers_count || 0,
       };
