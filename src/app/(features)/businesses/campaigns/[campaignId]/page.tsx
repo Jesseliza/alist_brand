@@ -67,14 +67,6 @@ export default function CampaignDetailsPage() {
   return (
     <div className="py-6">
       <div className="max-w-[1428px] mx-auto">
-        <button onClick={handleBackClick} className="cursor-pointer mb-4">
-          <Image
-            src="/icons/campaign/details/back-arrow.svg"
-            alt="back"
-            width={35}
-            height={35}
-          />
-        </button>
         <BrandHeader
           name={campaign.venue?.venue_title || campaign.brandName}
           subtitle={campaign.title}
@@ -83,31 +75,41 @@ export default function CampaignDetailsPage() {
           activeTab={activeTab}
           onTabChange={handleTabChange}
         />
-        <div className="pb-6">
-          {activeTab === "Campaigns" && (
-            <CampaignDetails
-              campaign={campaign}
-              campaignId={campaignId as string}
+        <div className="mt-6 bg-white rounded-[13px] p-6">
+          <button onClick={handleBackClick} className="cursor-pointer mb-4">
+            <Image
+              src="/icons/campaign/details/back-arrow.svg"
+              alt="back"
+              width={35}
+              height={35}
             />
-          )}
-          {activeTab === "Business Details" && (
-            <>
-              {brandLoading && <Loader />}
-              {brandError && (
-                <p className="text-red-500 text-center py-8">{brandError}</p>
-              )}
-              {!brandLoading && !brandError && brand && (
-                <BrandDetails
-                  brand={brand}
-                  isEditMode={false}
-                  onFieldChange={() => {}}
-                  onSave={() => {}}
-                  isSaving={false}
-                  isCreateMode={false}
-                />
-              )}
-            </>
-          )}
+          </button>
+          <div className="pb-6">
+            {activeTab === "Campaigns" && (
+              <CampaignDetails
+                campaign={campaign}
+                campaignId={campaignId as string}
+              />
+            )}
+            {activeTab === "Business Details" && (
+              <>
+                {brandLoading && <Loader />}
+                {brandError && (
+                  <p className="text-red-500 text-center py-8">{brandError}</p>
+                )}
+                {!brandLoading && !brandError && brand && (
+                  <BrandDetails
+                    brand={brand}
+                    isEditMode={false}
+                    onFieldChange={() => {}}
+                    onSave={() => {}}
+                    isSaving={false}
+                    isCreateMode={false}
+                  />
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
