@@ -104,7 +104,7 @@ export default function AccountDetails({ account, onSave, isCreateMode }: Accoun
       "firstName",
       "lastName",
       "emailAddress",
-      "phoneNumber",
+      // "phoneNumber",
     ];
 
     requiredFields.forEach((field) => {
@@ -155,7 +155,7 @@ export default function AccountDetails({ account, onSave, isCreateMode }: Accoun
             onChange={handleChange}
             error={errors.emailAddress}
           />
-          <div className="mb-5 md:mb-7">
+          {/* <div className="mb-5 md:mb-7">
             <label htmlFor="phoneNumber" className="block text-[#4F4F4F] mb-2.5">
               Phone
             </label>
@@ -176,7 +176,7 @@ export default function AccountDetails({ account, onSave, isCreateMode }: Accoun
               </div>
             </div>
             {errors.phoneNumber && <p className="text-red-500 text-xs mt-1">{errors.phoneNumber}</p>}
-          </div>
+          </div> */}
           <div className="mb-5 md:mb-7">
             <label
               htmlFor="accountType"

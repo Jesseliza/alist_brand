@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { useSelector } from "react-redux";
 import UnifiedTabs from "@/components/general/UnifiedTabs";
+import { RootState } from "@/store/store";
 const menuIcon = "/icons/common/menu-dots.svg";
 
 interface CreatorHeaderProps {
@@ -23,10 +25,15 @@ export default function CreatorHeader({
   isInstagramVerified = false,
   isApproved = false,
   tier,
-  tabs = ["Info", "Insights", "History"],
+  tabs = ["Info", "Brands", "Insights", "History", "Change Phone Number"],
   activeTab,
   onTabChange,
 }: CreatorHeaderProps) {
+  const { user } = useSelector((state: RootState) => state.auth);
+  const isAdmin = user?.registration_type === "admin";
+
+  const displayTabs = isAdmin ? tabs.filter(tab => tab !== "Brands") : tabs;
+
   return (
     <div className="w-full bg-white px-6 border-b border-[#E2E2E2] relative">
       <div
@@ -92,7 +99,7 @@ export default function CreatorHeader({
 
           {/* Tabs */}
           <UnifiedTabs
-            tabs={tabs}
+            tabs={displayTabs}
             activeTab={activeTab}
             onTabChange={onTabChange}
           />

@@ -27,6 +27,12 @@ import {
     bulkUpdateStatusRequest,
     bulkUpdateStatusSuccess,
     bulkUpdateStatusFailure,
+    sendOtpRequest,
+    sendOtpSuccess,
+    sendOtpFailure,
+    verifyOtpRequest,
+    verifyOtpSuccess,
+    verifyOtpFailure,
 } from "./accountSlice";
 import { fetchIndustries, fetchIndustriesSuccess } from "../common/commonSlice";
 import { Account, Brand, AccountType } from "@/types/entities";
@@ -512,6 +518,46 @@ function* handleBulkUpdateStatus(action: ReturnType<typeof bulkUpdateStatusReque
     }
 }
 
+function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
+    try {
+        const response: { success: boolean; message: string } | ApiError = yield call(postData, '/api/update/send-otp', action.payload);
+        if ('success' in response && response.success) {
+            yield put(sendOtpSuccess());
+            toast.success(response.message || 'OTP sent successfully!');
+        } else {
+            const errorResponse = response as ApiError;
+            const errorMessage = errorResponse.response || 'Failed to send OTP';
+            yield put(sendOtpFailure(errorMessage));
+            toast.error(errorMessage);
+        }
+    } catch (error) {
+        const err = error as Error;
+        const errorMessage = err.message || 'An unknown error occurred';
+        yield put(sendOtpFailure(errorMessage));
+        toast.error(errorMessage);
+    }
+}
+
+function* handleVerifyOtp(action: ReturnType<typeof verifyOtpRequest>) {
+    try {
+        const response: { success: boolean; message: string } | ApiError = yield call(postData, '/api/update/verify-otp', action.payload);
+        if ('success' in response && response.success) {
+            yield put(verifyOtpSuccess());
+            toast.success(response.message || 'Phone number verified successfully!');
+        } else {
+            const errorResponse = response as ApiError;
+            const errorMessage = errorResponse.response || 'Failed to verify OTP';
+            yield put(verifyOtpFailure(errorMessage));
+            toast.error(errorMessage);
+        }
+    } catch (error) {
+        const err = error as Error;
+        const errorMessage = err.message || 'An unknown error occurred';
+        yield put(verifyOtpFailure(errorMessage));
+        toast.error(errorMessage);
+    }
+}
+
 function* watchAccount() {
     yield takeLatest(fetchAccountsRequest.type, handleFetchAccounts);
     yield takeLatest(fetchMoreAccountsRequest.type, handleFetchMoreAccounts);
@@ -521,6 +567,8 @@ function* watchAccount() {
     yield takeLatest(fetchAccountByIdRequest.type, handleFetchAccountById);
     yield takeLatest(bulkDeleteAccountsRequest.type, handleBulkDeleteAccounts);
     yield takeLatest(bulkUpdateStatusRequest.type, handleBulkUpdateStatus);
+    yield takeLatest(sendOtpRequest.type, handleSendOtp);
+    yield takeLatest(verifyOtpRequest.type, handleVerifyOtp);
 }
 
 export default function* accountSaga() {

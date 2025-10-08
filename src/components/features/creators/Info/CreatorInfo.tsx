@@ -100,7 +100,7 @@ export default function CreatorInfo({ creator }: { creator: Creator }) {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-5 mb-5 md:mb-7">
+                {/* <div className="grid grid-cols-2 gap-5 mb-5 md:mb-7">
                   <InputField
                     label="Phone"
                     value={creator.phone}
@@ -123,7 +123,7 @@ export default function CreatorInfo({ creator }: { creator: Creator }) {
                       alt: "copy",
                     }}
                   />
-                </div>
+                </div> */}
                 <div className="mb-5 md:mb-7">
                   <InputField
                     label="Nationality"

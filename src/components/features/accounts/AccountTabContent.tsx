@@ -1,6 +1,6 @@
 import AccountDetails from "@/components/features/accounts/AccountDetails";
 import AccountBrands from "./AccountBrands";
-import AccountPlans from "./AccountPlans";
+import ChangePhoneNumber from "./ChangePhoneNumber";
 import { TabContentProps } from "@/components/general/UnifiedTabs";
 import { Account } from "@/types/entities";
 
@@ -26,11 +26,12 @@ export default function AccountTabContent({
             <AccountBrands brands={account?.brands} accountId={account?.accountId} />
           </div>
         );
-      case "Plans":
+      case "Change Phone Number":
         return (
-          <div className="px-4 pt-[45px]">
-            <AccountPlans accountId={account?.accountId} />
-          </div>
+          <ChangePhoneNumber
+            currentPhoneNumber={account?.phoneNumber || ""}
+            currentCountryCode={account?.country_code || ""}
+          />
         );
       default:
         return null;

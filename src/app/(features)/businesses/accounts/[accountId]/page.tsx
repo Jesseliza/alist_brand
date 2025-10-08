@@ -15,6 +15,7 @@ import {
   resetCreateStatus,
   clearAccountError,
 } from "@/store/account/accountSlice";
+import { AccountsData } from "@/data/AccountsData";
 import { CreateAccountPayload, UpdateAccountPayload } from "@/types/requests";
 import Loader from "@/components/general/Loader";
 
@@ -45,7 +46,9 @@ export default function AccountPage() {
         brands: [],
       });
     } else if (accountId) {
-      dispatch(fetchAccountByIdRequest({ accountId }));
+      // dispatch(fetchAccountByIdRequest({ accountId }));
+      const foundAccount = AccountsData.find(acc => acc.accountId === accountId);
+      setAccount(foundAccount || null);
     }
   }, [accountId, isCreateMode, dispatch]);
 
