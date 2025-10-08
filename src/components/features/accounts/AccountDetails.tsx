@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 // import toast from "react-hot-toast";
 import { Account, AccountType, Brand } from "@/types/entities";
 import BrandSearchCombobox from "./BrandSearchCombobox";
+import CountryCodeDropdown from "@/components/general/CountryCodeDropdown";
+
 import Image from "next/image";
 
 // Define InputField as a standalone component outside of AccountDetails
@@ -52,9 +54,10 @@ interface AccountDetailsProps {
   account: Partial<Account> | null;
   onSave: (account: Partial<Account>) => void;
   isCreateMode: boolean;
+  isProfilePage?: boolean;
 }
 
-export default function AccountDetails({ account, onSave, isCreateMode }: AccountDetailsProps) {
+export default function AccountDetails({ account, onSave, isCreateMode, isProfilePage = false }: AccountDetailsProps) {
   const [formData, setFormData] = useState<Partial<Account>>(
     account || {
       firstName: "",
@@ -102,8 +105,11 @@ export default function AccountDetails({ account, onSave, isCreateMode }: Accoun
       "firstName",
       "lastName",
       "emailAddress",
-      // "phoneNumber",
     ];
+
+    if (!isProfilePage) {
+      requiredFields.push("phoneNumber");
+    }
 
     requiredFields.forEach((field) => {
       if (!formData[field]) {
@@ -153,28 +159,30 @@ export default function AccountDetails({ account, onSave, isCreateMode }: Accoun
             onChange={handleChange}
             error={errors.emailAddress}
           />
-          {/* <div className="mb-5 md:mb-7">
-            <label htmlFor="phoneNumber" className="block text-[#4F4F4F] mb-2.5">
-              Phone
-            </label>
-            <div className="flex gap-2">
-              <CountryCodeDropdown selectedCode={countryCode} onCodeChange={setCountryCode} />
-              <div className="relative w-full">
-                <input
-                  type="tel"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  value={formData.phoneNumber || ""}
-                  onChange={handleChange}
-                  className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none pr-10"
-                />
-                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <Image src="/icons/edit-icon.svg" alt="icon" width={12} height={12} />
+          {!isProfilePage && (
+            <div className="mb-5 md:mb-7">
+              <label htmlFor="phoneNumber" className="block text-[#4F4F4F] mb-2.5">
+                Phone
+              </label>
+              <div className="flex gap-2">
+                <CountryCodeDropdown selectedCode={countryCode} onCodeChange={setCountryCode} />
+                <div className="relative w-full">
+                  <input
+                    type="tel"
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    value={formData.phoneNumber || ""}
+                    onChange={handleChange}
+                    className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none pr-10"
+                  />
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <Image src="/icons/edit-icon.svg" alt="icon" width={12} height={12} />
+                  </div>
                 </div>
               </div>
+              {errors.phoneNumber && <p className="text-red-500 text-xs mt-1">{errors.phoneNumber}</p>}
             </div>
-            {errors.phoneNumber && <p className="text-red-500 text-xs mt-1">{errors.phoneNumber}</p>}
-          </div> */}
+          )}
           <div className="mb-5 md:mb-7">
             <label
               htmlFor="accountType"

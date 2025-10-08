@@ -30,6 +30,9 @@ export default function AccountPage() {
   const { selectedAccount, loading, error, updateSuccess, createSuccess } = useSelector(
     (state: RootState) => state.account
   );
+  const loggedInUser = useSelector((state: RootState) => state.auth.user);
+
+  const isProfilePage = loggedInUser?.accountId === accountId;
 
   const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "Details");
   const [account, setAccount] = useState<Partial<Account> | null>(null);
@@ -124,15 +127,18 @@ export default function AccountPage() {
         <AccountHeader
           // account can be null, but AccountHeader expects undefined for optional props.
           account={account || undefined}
+          loggedInUser={loggedInUser}
           activeTab={activeTab}
           onTabChange={handleTabChange}
           isCreateMode={isCreateMode}
+          isProfilePage={isProfilePage}
         />
         <AccountTabContent
           activeTab={activeTab}
           account={account}
           onSave={handleSave}
           isCreateMode={isCreateMode}
+          isProfilePage={isProfilePage}
         />
       </div>
     </div>

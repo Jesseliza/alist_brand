@@ -1,146 +1,114 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   sendOtpRequest,
   verifyOtpRequest,
   resetOtpState,
-} from "@/store/account/accountSlice";
-import { RootState } from "@/store/store";
-import CountryCodeDropdown from "@/components/general/CountryCodeDropdown";
-import Modal from "@/components/general/Modal";
-import { Input } from "@/components/general/Input";
-import { Button } from "@/components/general/Button";
+} from '@/store/account/accountSlice';
+import { RootState } from '@/store/store';
+import { COUNTRIES } from '@/utils/countries';
 
 interface ChangePhoneNumberProps {
   currentPhoneNumber: string;
   currentCountryCode: string;
 }
 
-export default function ChangePhoneNumber({
+export const ChangePhoneNumber: React.FC<ChangePhoneNumberProps> = ({
   currentPhoneNumber,
   currentCountryCode,
-}: ChangePhoneNumberProps) {
+}) => {
   const dispatch = useDispatch();
-  const [newPhoneNumber, setNewPhoneNumber] = useState("");
-  const [newCountryCode, setNewCountryCode] = useState("+91");
-  const [otp, setOtp] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const { loading, otpSent, otpVerified, otpError } = useSelector(
+  const [phone, setPhone] = useState(currentPhoneNumber);
+  const [countryCode, setCountryCode] = useState(currentCountryCode || '+971');
+  const [otp, setOtp] = useState('');
+  const { otpSent, otpVerified, phoneUpdateInProgress, phoneUpdateError } = useSelector(
     (state: RootState) => state.account
   );
 
   useEffect(() => {
-    // When OTP is successfully sent, open the verification modal
-    if (otpSent) {
-      setIsModalOpen(true);
-    }
-    // When OTP is successfully verified, close the modal and reset state
-    if (otpVerified) {
-      setIsModalOpen(false);
+    return () => {
       dispatch(resetOtpState());
-      // You might want to refetch the user's account details here
-    }
-  }, [otpSent, otpVerified, dispatch]);
+    };
+  }, [dispatch]);
 
   const handleSendOtp = () => {
-    if (newPhoneNumber) {
-      dispatch(
-        sendOtpRequest({
-          phone: newPhoneNumber,
-          country_code: newCountryCode,
-        })
-      );
-    }
+    dispatch(sendOtpRequest({ phone, country_code: countryCode }));
   };
 
   const handleVerifyOtp = () => {
-    if (otp) {
-      dispatch(
-        verifyOtpRequest({
-          phone: newPhoneNumber,
-          country_code: newCountryCode,
-          otp,
-        })
-      );
-    }
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    dispatch(resetOtpState());
+    dispatch(verifyOtpRequest({ phone, country_code: countryCode, otp }));
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold mb-6">Change Phone Number</h2>
-
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700">
-          Current Phone Number
-        </label>
-        <p className="mt-1 text-lg">
-          {currentCountryCode} {currentPhoneNumber}
-        </p>
-      </div>
-
-      <div className="mb-4">
-        <label
-          htmlFor="newPhoneNumber"
-          className="block text-sm font-medium text-gray-700"
-        >
-          New Phone Number
-        </label>
-        <div className="flex items-center mt-1">
-          <CountryCodeDropdown
-            selectedCode={newCountryCode}
-            onCodeChange={setNewCountryCode}
-          />
-          <Input
-            id="newPhoneNumber"
-            type="tel"
-            value={newPhoneNumber}
-            onChange={(e) => setNewPhoneNumber(e.target.value.replace(/[^0-9]/g, ""))}
-            className="ml-2 block w-full"
-            placeholder="Enter new phone number"
-          />
+    <div className="p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-xl font-semibold mb-4">Change Phone Number</h2>
+      <div className="flex items-center gap-4 mb-4">
+        <div className="w-1/3">
+          <label htmlFor="country-code" className="block text-sm font-medium text-gray-700">Country Code</label>
+          <select
+            id="country-code"
+            value={countryCode}
+            onChange={(e) => setCountryCode(e.target.value)}
+            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+          >
+            {COUNTRIES.map((country) => (
+              <option key={country.code} value={country.dial_code}>
+                {country.name} ({country.dial_code})
+              </option>
+            ))}
+          </select>
         </div>
-      </div>
-
-      <Button onClick={handleSendOtp} disabled={loading || !newPhoneNumber}>
-        {loading ? "Sending..." : "Send OTP"}
-      </Button>
-
-      {otpError && <p className="text-red-500 text-sm mt-2">{otpError}</p>}
-
-      <Modal isOpen={isModalOpen} onClose={closeModal} title="Verify OTP">
-        <div className="mt-4">
-          <p className="text-sm text-gray-600 mb-4">
-            An OTP has been sent to {newCountryCode} {newPhoneNumber}. Please
-            enter it below to verify.
-          </p>
-          <Input
+        <div className="w-2/3">
+          <label htmlFor="phone-number" className="block text-sm font-medium text-gray-700">Phone Number</label>
+          <input
+            id="phone-number"
             type="text"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            placeholder="Enter OTP"
-            className="w-full"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="Enter new phone number"
+            className="mt-1 w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-2 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none"
           />
-          <div className="mt-6 flex justify-end gap-4">
-            <Button variant="secondary" onClick={closeModal}>
-              Cancel
-            </Button>
-            <Button onClick={handleVerifyOtp} disabled={loading || !otp}>
-              {loading ? "Verifying..." : "Verify"}
-            </Button>
-          </div>
-          {otpError && (
-            <p className="text-red-500 text-sm mt-2">{otpError}</p>
-          )}
         </div>
-      </Modal>
+      </div>
+      <button onClick={handleSendOtp} disabled={phoneUpdateInProgress} className="px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50">
+        {phoneUpdateInProgress ? 'Sending...' : 'Send OTP'}
+      </button>
+
+      {phoneUpdateError && <p className="text-red-500 mt-2">{phoneUpdateError}</p>}
+
+      {otpSent && !otpVerified && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent" onClick={() => dispatch(resetOtpState())}>
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-auto p-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-center border-b pb-2 mb-4">
+              <h2 className="text-xl font-semibold">Verify OTP</h2>
+              <button onClick={() => dispatch(resetOtpState())} className="text-gray-500 hover:text-gray-800 text-2xl leading-none">&times;</button>
+            </div>
+            <p className="mb-4">An OTP has been sent to {countryCode} {phone}.</p>
+            <label htmlFor="otp" className="block text-sm font-medium text-gray-700">OTP</label>
+            <input
+              id="otp"
+              type="text"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              placeholder="Enter OTP"
+              className="mt-1 w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-2 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none"
+            />
+            <div className="mt-4 flex justify-end gap-2">
+              <button onClick={() => dispatch(resetOtpState())} className="px-6 py-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                Cancel
+              </button>
+              <button onClick={handleVerifyOtp} disabled={phoneUpdateInProgress} className="px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50">
+                {phoneUpdateInProgress ? 'Verifying...' : 'Verify'}
+              </button>
+            </div>
+            {phoneUpdateError && <p className="text-red-500 mt-2">{phoneUpdateError}</p>}
+          </div>
+        </div>
+      )}
+
+      {otpVerified && (
+        <p className="text-green-500 mt-2">Phone number updated successfully!</p>
+      )}
     </div>
   );
-}
+};

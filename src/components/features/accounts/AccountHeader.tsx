@@ -7,19 +7,41 @@ import { Account } from "@/types/entities";
 
 interface AccountHeaderProps {
   account?: Partial<Account>;
+  loggedInUser?: Account | null;
   activeTab?: string;
   onTabChange?: (tab: string) => void;
   isCreateMode?: boolean;
+  isProfilePage?: boolean;
 }
 
 export default function AccountHeader({
   account,
+  loggedInUser,
   activeTab,
   onTabChange,
   isCreateMode = false,
+  isProfilePage = false,
 }: AccountHeaderProps) {
-  // The "Plans" tab has been removed as per the user's request.
-  const displayTabs = isCreateMode ? ["Details"] : ["Details", "Brands", "Change Phone Number"];
+  const getDisplayTabs = () => {
+    if (isCreateMode) {
+      return ["Details"];
+    }
+
+    const tabs = ["Details"];
+
+    const isAdminProfile = isProfilePage && loggedInUser?.registration_type === 'admin';
+    if (!isAdminProfile) {
+      tabs.push("Brands");
+    }
+
+    if (isProfilePage) {
+      tabs.push("Change Phone Number");
+    }
+
+    return tabs;
+  };
+
+  const displayTabs = getDisplayTabs();
 
   return (
     <div className="w-full bg-white border-b border-[#E2E2E2]">
