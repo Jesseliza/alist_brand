@@ -170,8 +170,9 @@ function* getCampaignReviewsSaga(action: GetCampaignReviewsAction) {
   try {
     const { id, page = 1, per_page = 10 } = action.payload;
     const response: { data: CampaignReviewsResponse } = yield call(
-      axiosInstance.get,
-      `/api/campaign/reviews/${id}?page=${page}&per_page=${per_page}`
+      axiosInstance.post,
+      `/api/campaign/reviews/${id}`,
+      { page, per_page }
     );
     yield put(getCampaignReviewsSuccess(response.data.data));
   } catch (error: any) {
