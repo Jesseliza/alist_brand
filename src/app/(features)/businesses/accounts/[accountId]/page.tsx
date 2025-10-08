@@ -36,7 +36,6 @@ export default function AccountPage() {
 
   const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "Details");
   const [account, setAccount] = useState<Partial<Account> | null>(null);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
     if (isCreateMode) {
@@ -142,6 +141,7 @@ export default function AccountPage() {
           onSave={handleSave}
           isCreateMode={isCreateMode}
           isProfilePage={isProfilePage}
+          loggedInUser={loggedInUser}
         />
       </div>
     </div>
