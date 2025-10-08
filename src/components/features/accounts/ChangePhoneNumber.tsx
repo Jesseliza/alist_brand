@@ -6,7 +6,7 @@ import {
   resetOtpState,
 } from '@/store/account/accountSlice';
 import { RootState } from '@/store/store';
-import { COUNTRIES } from '@/utils/countries';
+import { countryCodes } from '@/data/CountryCodes';
 
 interface ChangePhoneNumberProps {
   currentPhoneNumber: string;
@@ -51,9 +51,9 @@ export const ChangePhoneNumber: React.FC<ChangePhoneNumberProps> = ({
             onChange={(e) => setCountryCode(e.target.value)}
             className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
           >
-            {COUNTRIES.map((country) => (
-              <option key={country.code} value={country.dial_code}>
-                {country.name} ({country.dial_code})
+            {countryCodes.map((country) => (
+              <option key={country.name} value={country.code}>
+                {country.name}
               </option>
             ))}
           </select>
