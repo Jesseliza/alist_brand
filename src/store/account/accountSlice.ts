@@ -21,6 +21,9 @@ interface AccountState {
   bulkDeleteError: string | null;
   bulkUpdateStatusInProgress: boolean;
   bulkUpdateStatusError: string | null;
+  otpSent: boolean;
+  otpVerified: boolean;
+  otpError: string | null;
 }
 
 const initialState: AccountState = {
@@ -40,6 +43,9 @@ const initialState: AccountState = {
   bulkDeleteError: null,
   bulkUpdateStatusInProgress: false,
   bulkUpdateStatusError: null,
+  otpSent: false,
+  otpVerified: false,
+  otpError: null,
 };
 
 const accountSlice = createSlice({
@@ -189,11 +195,52 @@ const accountSlice = createSlice({
     clearAccountError(state) {
       state.error = null;
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    sendOtpRequest(state, _action: PayloadAction<{ phone: string; country_code: string }>) {
+      state.loading = true;
+      state.otpError = null;
+      state.otpSent = false;
+    },
+    sendOtpSuccess(state) {
+      state.loading = false;
+      state.otpSent = true;
+    },
+    sendOtpFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.otpError = action.payload;
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    verifyOtpRequest(state, _action: PayloadAction<{ phone: string; country_code: string; otp: string }>) {
+      state.loading = true;
+      state.otpError = null;
+      state.otpVerified = false;
+    },
+    verifyOtpSuccess(state) {
+      state.loading = false;
+      state.otpVerified = true;
+      state.otpSent = false; // Reset for next time
+    },
+    verifyOtpFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.otpError = action.payload;
+    },
+    resetOtpState(state) {
+        state.otpSent = false;
+        state.otpVerified = false;
+        state.otpError = null;
+    },
   },
 });
 
 export const {
   clearAccountError,
+  sendOtpRequest,
+  sendOtpSuccess,
+  sendOtpFailure,
+  verifyOtpRequest,
+  verifyOtpSuccess,
+  verifyOtpFailure,
+  resetOtpState,
   fetchAccountsRequest,
   fetchAccountsSuccess,
   fetchAccountsFailure,
