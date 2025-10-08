@@ -31,6 +31,11 @@ export const ChangePhoneNumber: React.FC<ChangePhoneNumberProps> = ({
     };
   }, [dispatch]);
 
+  useEffect(() => {
+    setPhone(currentPhoneNumber);
+    setCountryCode(currentCountryCode);
+  }, [currentPhoneNumber, currentCountryCode]);
+
   const handleSendOtp = () => {
     dispatch(sendOtpRequest({ phone, country_code: countryCode }));
   };
