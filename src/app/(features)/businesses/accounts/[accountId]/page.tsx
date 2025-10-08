@@ -66,7 +66,9 @@ export default function AccountPage() {
     }
 
     if (updateSuccess) {
-      router.push("/businesses/accounts");
+      if (!isProfilePage) {
+        router.push("/businesses/accounts");
+      }
       dispatch(resetUpdateStatus()); // Reset the flag
     }
   }, [
@@ -74,6 +76,7 @@ export default function AccountPage() {
     updateSuccess,
     router,
     dispatch,
+    isProfilePage,
   ]);
 
   useEffect(() => {
