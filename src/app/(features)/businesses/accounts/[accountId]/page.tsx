@@ -36,6 +36,7 @@ export default function AccountPage() {
 
   const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "Details");
   const [account, setAccount] = useState<Partial<Account> | null>(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   useEffect(() => {
     if (isCreateMode) {
@@ -101,11 +102,13 @@ export default function AccountPage() {
     }
   };
 
-  if (loading && !account) {
+  // Show loader while initial data is being fetched.
+  if (loading || (!account && !isCreateMode && !error)) {
     return <Loader />;
   }
 
-  if (!isCreateMode && !account && !loading) {
+  // Show "Not Found" only after loading is complete and if there's an error and no account.
+  if (!isCreateMode && !account && error) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -113,7 +116,7 @@ export default function AccountPage() {
             Account Not Found
           </h1>
           <p className="text-gray-500">
-            The account you&apos;re looking for doesn&apos;t exist.
+            The account you&apos;re looking for doesn&apos;t exist or could not be loaded.
           </p>
         </div>
       </div>
