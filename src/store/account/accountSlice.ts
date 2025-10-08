@@ -197,10 +197,11 @@ const accountSlice = createSlice({
     clearAccountError(state) {
       state.error = null;
     },
-    sendOtpRequest(state, _action: PayloadAction<{ phone: string; country_code: string, accountId: string }>) {
+    sendOtpRequest(state, _action: PayloadAction<{ phone: string; country_code: string }>) {
       state.phoneUpdateInProgress = true;
       state.phoneUpdateError = null;
       state.otpSent = false;
+      state.otpVerified = false; // Reset verification status on new OTP request
     },
     sendOtpSuccess(state) {
       state.phoneUpdateInProgress = false;
@@ -210,7 +211,7 @@ const accountSlice = createSlice({
       state.phoneUpdateInProgress = false;
       state.phoneUpdateError = action.payload;
     },
-    verifyOtpRequest(state, _action: PayloadAction<{ phone: string; country_code: string; otp: string, accountId: string }>) {
+    verifyOtpRequest(state, _action: PayloadAction<{ phone: string; country_code: string; otp: string }>) {
       state.phoneUpdateInProgress = true;
       state.phoneUpdateError = null;
       state.otpVerified = false;
