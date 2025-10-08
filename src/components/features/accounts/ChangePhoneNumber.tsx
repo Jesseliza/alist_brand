@@ -37,6 +37,12 @@ export const ChangePhoneNumber: React.FC<ChangePhoneNumberProps> = ({
 
   const handleVerifyOtp = () => {
     dispatch(verifyOtpRequest({ phone, country_code: countryCode, otp }));
+    setOtp('');
+  };
+
+  const handleCancelOtp = () => {
+    dispatch(resetOtpState());
+    setOtp('');
   };
 
   return (
@@ -74,14 +80,12 @@ export const ChangePhoneNumber: React.FC<ChangePhoneNumberProps> = ({
         {phoneUpdateInProgress ? 'Sending...' : 'Send OTP'}
       </button>
 
-      {phoneUpdateError && <p className="text-red-500 mt-2">{phoneUpdateError}</p>}
-
       {otpSent && !otpVerified && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent" onClick={() => dispatch(resetOtpState())}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent" onClick={handleCancelOtp}>
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-auto p-4" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-center border-b pb-2 mb-4">
               <h2 className="text-xl font-semibold">Verify OTP</h2>
-              <button onClick={() => dispatch(resetOtpState())} className="text-gray-500 hover:text-gray-800 text-2xl leading-none">&times;</button>
+              <button onClick={handleCancelOtp} className="text-gray-500 hover:text-gray-800 text-2xl leading-none">&times;</button>
             </div>
             <p className="mb-4">An OTP has been sent to {countryCode} {phone}.</p>
             <label htmlFor="otp" className="block text-sm font-medium text-gray-700">OTP</label>
@@ -94,20 +98,15 @@ export const ChangePhoneNumber: React.FC<ChangePhoneNumberProps> = ({
               className="mt-1 w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-2 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none"
             />
             <div className="mt-4 flex justify-end gap-2">
-              <button onClick={() => dispatch(resetOtpState())} className="px-6 py-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+              <button onClick={handleCancelOtp} className="px-6 py-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                 Cancel
               </button>
               <button onClick={handleVerifyOtp} disabled={phoneUpdateInProgress} className="px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50">
                 {phoneUpdateInProgress ? 'Verifying...' : 'Verify'}
               </button>
             </div>
-            {phoneUpdateError && <p className="text-red-500 mt-2">{phoneUpdateError}</p>}
           </div>
         </div>
-      )}
-
-      {otpVerified && (
-        <p className="text-green-500 mt-2">Phone number updated successfully!</p>
       )}
     </div>
   );
