@@ -218,9 +218,6 @@ export type Creator = {
   /** Phone number */
   phone: string;
 
-  /** Country code for the phone number */
-  countryCode: string;
-
   /** WhatsApp number */
   whatsappNumber: string;
 
@@ -286,12 +283,6 @@ export type Creator = {
 
   /** Whether the creator is approved */
   isApproved: boolean;
-
-  /** The account ID associated with the creator */
-  accountId: string;
-
-  /** List of associated brands */
-  brands?: any[]; // Using any[] for now as Brand type is in another file and causes circular dependency issues if imported.
 
   campaignIds: string[];
 

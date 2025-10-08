@@ -520,10 +520,12 @@ function* handleBulkUpdateStatus(action: ReturnType<typeof bulkUpdateStatusReque
 
 function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
     try {
-        const response: { success: boolean; message: string } | ApiError = yield call(postData, '/api/update/send-otp', action.payload);
-        if ('success' in response && response.success) {
+        const { phone, country_code } = action.payload;
+        const response: { success: boolean, message: string } | ApiError = yield call(postData, '/api/update/send-otp', { phone, country_code });
+
+        if (response.success) {
             yield put(sendOtpSuccess());
-            toast.success(response.message || 'OTP sent successfully!');
+            toast.success(response.message);
         } else {
             const errorResponse = response as ApiError;
             const errorMessage = errorResponse.response || 'Failed to send OTP';
@@ -540,10 +542,16 @@ function* handleSendOtp(action: ReturnType<typeof sendOtpRequest>) {
 
 function* handleVerifyOtp(action: ReturnType<typeof verifyOtpRequest>) {
     try {
-        const response: { success: boolean; message: string } | ApiError = yield call(postData, '/api/update/verify-otp', action.payload);
-        if ('success' in response && response.success) {
+        const { phone, country_code, otp } = action.payload;
+        const response: { success: boolean, message: string } | ApiError = yield call(postData, '/api/update/verify-otp', { phone, country_code, otp });
+
+        if (response.success) {
             yield put(verifyOtpSuccess());
-            toast.success(response.message || 'Phone number verified successfully!');
+            toast.success(response.message);
+            const user: Account | null = yield select((state: RootState) => state.auth.user);
+            if (user?.accountId) {
+                yield put(fetchAccountByIdRequest({ accountId: user.accountId }));
+            }
         } else {
             const errorResponse = response as ApiError;
             const errorMessage = errorResponse.response || 'Failed to verify OTP';

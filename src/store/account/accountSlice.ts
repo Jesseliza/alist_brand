@@ -21,9 +21,10 @@ interface AccountState {
   bulkDeleteError: string | null;
   bulkUpdateStatusInProgress: boolean;
   bulkUpdateStatusError: string | null;
+  phoneUpdateInProgress: boolean;
+  phoneUpdateError: string | null;
   otpSent: boolean;
   otpVerified: boolean;
-  otpError: string | null;
 }
 
 const initialState: AccountState = {
@@ -43,9 +44,10 @@ const initialState: AccountState = {
   bulkDeleteError: null,
   bulkUpdateStatusInProgress: false,
   bulkUpdateStatusError: null,
+  phoneUpdateInProgress: false,
+  phoneUpdateError: null,
   otpSent: false,
   otpVerified: false,
-  otpError: null,
 };
 
 const accountSlice = createSlice({
@@ -195,40 +197,39 @@ const accountSlice = createSlice({
     clearAccountError(state) {
       state.error = null;
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    sendOtpRequest(state, _action: PayloadAction<{ phone: string; country_code: string }>) {
-      state.loading = true;
-      state.otpError = null;
+    sendOtpRequest(state, _action: PayloadAction<{ phone: string; country_code: string, accountId: string }>) {
+      state.phoneUpdateInProgress = true;
+      state.phoneUpdateError = null;
       state.otpSent = false;
     },
     sendOtpSuccess(state) {
-      state.loading = false;
+      state.phoneUpdateInProgress = false;
       state.otpSent = true;
     },
     sendOtpFailure(state, action: PayloadAction<string>) {
-      state.loading = false;
-      state.otpError = action.payload;
+      state.phoneUpdateInProgress = false;
+      state.phoneUpdateError = action.payload;
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    verifyOtpRequest(state, _action: PayloadAction<{ phone: string; country_code: string; otp: string }>) {
-      state.loading = true;
-      state.otpError = null;
+    verifyOtpRequest(state, _action: PayloadAction<{ phone: string; country_code: string; otp: string, accountId: string }>) {
+      state.phoneUpdateInProgress = true;
+      state.phoneUpdateError = null;
       state.otpVerified = false;
     },
     verifyOtpSuccess(state) {
-      state.loading = false;
+      state.phoneUpdateInProgress = false;
       state.otpVerified = true;
-      state.otpSent = false; // Reset for next time
+      state.otpSent = false;
     },
     verifyOtpFailure(state, action: PayloadAction<string>) {
-      state.loading = false;
-      state.otpError = action.payload;
+      state.phoneUpdateInProgress = false;
+      state.phoneUpdateError = action.payload;
     },
     resetOtpState(state) {
-        state.otpSent = false;
-        state.otpVerified = false;
-        state.otpError = null;
-    },
+      state.phoneUpdateInProgress = false;
+      state.phoneUpdateError = null;
+      state.otpSent = false;
+      state.otpVerified = false;
+    }
   },
 });
 
