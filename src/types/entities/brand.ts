@@ -73,6 +73,10 @@ export type FoodOffer = {
 
 export type Venue = {
   food_offers: FoodOffer[];
+  category?: {
+    id: number;
+    category: string;
+  };
 };
 
 export type Brand = {

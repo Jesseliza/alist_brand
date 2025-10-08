@@ -13,6 +13,7 @@ interface BrandCampaignsProps {
   brandLogo: string;
   brandId: string;
   onRemoveCampaign?: (id: string) => void;
+  brandCategory?: string;
 }
 
 export default function BrandCampaigns({
@@ -21,6 +22,7 @@ export default function BrandCampaigns({
   brandLogo,
   brandId,
   onRemoveCampaign,
+  brandCategory,
 }: BrandCampaignsProps) {
   const router = useRouter();
 
@@ -31,9 +33,15 @@ export default function BrandCampaigns({
   const displayCampaigns = useMemo(
     () =>
       foodOffers.map((offer) =>
-        adaptFoodOfferToDisplay(offer, brandName, brandId, brandLogo)
+        adaptFoodOfferToDisplay(
+          offer,
+          brandName,
+          brandId,
+          brandLogo,
+          brandCategory
+        )
       ),
-    [foodOffers, brandName, brandId, brandLogo]
+    [foodOffers, brandName, brandId, brandLogo, brandCategory]
   );
 
   if (!displayCampaigns || displayCampaigns.length === 0) {

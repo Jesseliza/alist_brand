@@ -45,6 +45,7 @@ export default function BrandTabContent({
               brandLogo={brand.logo || ""}
               brandId={brand.brandId || ""}
               onRemoveCampaign={brand.onRemoveCampaign}
+              brandCategory={brand.Venue?.category?.category}
             />
           </div>
         );

@@ -331,6 +331,45 @@ export interface GetCampaignReviewPostsAction {
   payload: GetCampaignReviewPostsPayload;
 }
 
+// Campaign Review Types
+export interface CampaignReviewUser {
+  id: number;
+  name: string;
+  profile_picture: string | null;
+}
+
+export interface CampaignReview {
+  id: number;
+  offer_id: number;
+  comments: string;
+  rating: number;
+  approve_status: number;
+  user_id: number;
+  created_at: string;
+  user: CampaignReviewUser;
+}
+
+export interface CampaignReviewsResponse {
+  data: {
+    data: CampaignReview[];
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+  };
+}
+
+export interface GetCampaignReviewsPayload {
+  id: string;
+  page?: number;
+  per_page?: number;
+}
+
+export interface GetCampaignReviewsAction {
+  type: string;
+  payload: GetCampaignReviewsPayload;
+}
+
 // Voucher Code Types
 export interface VoucherUser {
   id: number;
@@ -429,6 +468,15 @@ export interface CampaignsState {
   reviewPostsLoading: boolean;
   reviewPostsError: string | null;
   reviewPostsPagination: {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+  } | null;
+  reviews: CampaignReview[];
+  reviewsLoading: boolean;
+  reviewsError: string | null;
+  reviewsPagination: {
     current_page: number;
     last_page: number;
     per_page: number;

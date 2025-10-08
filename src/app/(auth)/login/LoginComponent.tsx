@@ -135,6 +135,7 @@ export default function LoginComponent() {
                 }}
                 className="rounded-[11px] bg-gray-100 px-5 py-[11px] text-[15px] outline-none focus:ring-2 focus:ring-[#00A4B6] transition placeholder:text-[#6E6E6E]"
                 autoComplete="one-time-code"
+                autoFocus
               />
               <div className="mt-4">
                 <SlideCaptcha onSuccess={handleCaptchaSuccess} />
