@@ -10,6 +10,7 @@ interface AccountTabContentProps extends TabContentProps {
   onSave: (account: Partial<Account>) => void;
   isCreateMode: boolean;
   isProfilePage?: boolean;
+  loggedInUser?: Partial<Account> | null;
 }
 
 export default function AccountTabContent({
@@ -18,11 +19,12 @@ export default function AccountTabContent({
   onSave,
   isCreateMode,
   isProfilePage,
+  loggedInUser,
 }: AccountTabContentProps) {
   const renderContent = () => {
     switch (activeTab) {
       case "Details":
-        return <AccountDetails account={account} onSave={onSave} isCreateMode={isCreateMode} isProfilePage={isProfilePage} />;
+        return <AccountDetails account={account} onSave={onSave} isCreateMode={isCreateMode} isProfilePage={isProfilePage} loggedInUser={loggedInUser} />;
       case "Brands":
         return (
           <div className="max-w-[1428px] mx-auto flex justify-between pt-10 text-[#4F4F4F]">

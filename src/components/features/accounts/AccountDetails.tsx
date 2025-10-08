@@ -55,9 +55,10 @@ interface AccountDetailsProps {
   onSave: (account: Partial<Account>) => void;
   isCreateMode: boolean;
   isProfilePage?: boolean;
+  loggedInUser?: Partial<Account> | null;
 }
 
-export default function AccountDetails({ account, onSave, isCreateMode, isProfilePage = false }: AccountDetailsProps) {
+export default function AccountDetails({ account, onSave, isCreateMode, isProfilePage = false, loggedInUser }: AccountDetailsProps) {
   const [formData, setFormData] = useState<Partial<Account>>(
     account || {
       firstName: "",
@@ -183,29 +184,33 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
               {errors.phoneNumber && <p className="text-red-500 text-xs mt-1">{errors.phoneNumber}</p>}
             </div>
           )}
-          <div className="mb-5 md:mb-7">
-            <label
-              htmlFor="accountType"
-              className="block text-[#4F4F4F] mb-2.5"
-            >
-              Account Type
-            </label>
-            <select
-              id="accountType"
-              name="accountType"
-              value={formData.accountType}
-              onChange={handleChange}
-              className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] outline-none"
-            >
-              <option value={AccountType.INDIVIDUAL}>Individual</option>
-              <option value={AccountType.AGENCY}>Agency</option>
-              <option value={AccountType.ENTERPRISE}>Enterprise</option>
-            </select>
-          </div>
-          <BrandSearchCombobox
-            initialSelectedBrands={formData.brands || []}
-            onChange={handleBrandChange}
-          />
+          {!(isProfilePage && loggedInUser?.registration_type === 'admin') && (
+            <>
+              <div className="mb-5 md:mb-7">
+                <label
+                  htmlFor="accountType"
+                  className="block text-[#4F4F4F] mb-2.5"
+                >
+                  Account Type
+                </label>
+                <select
+                  id="accountType"
+                  name="accountType"
+                  value={formData.accountType}
+                  onChange={handleChange}
+                  className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] outline-none"
+                >
+                  <option value={AccountType.INDIVIDUAL}>Individual</option>
+                  <option value={AccountType.AGENCY}>Agency</option>
+                  <option value={AccountType.ENTERPRISE}>Enterprise</option>
+                </select>
+              </div>
+              <BrandSearchCombobox
+                initialSelectedBrands={formData.brands || []}
+                onChange={handleBrandChange}
+              />
+            </>
+          )}
           <div className="flex justify-end gap-4 mt-6 px-4 pb-6">
             <button
               type="button"
