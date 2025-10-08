@@ -19,7 +19,7 @@ export default function AccountHeader({
   isCreateMode = false,
 }: AccountHeaderProps) {
   // The "Plans" tab has been removed as per the user's request.
-  const displayTabs = isCreateMode ? ["Details"] : ["Details", "Brands"];
+  const displayTabs = isCreateMode ? ["Details"] : ["Details", "Brands", "Change Phone Number"];
 
   return (
     <div className="w-full bg-white border-b border-[#E2E2E2]">

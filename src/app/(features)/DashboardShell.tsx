@@ -31,10 +31,7 @@ function DashboardContent({
 }) {
   const dispatch = useDispatch();
   const router = useRouter();
-  // const { isAuthenticated, user, isAuthLoading } = useSelector((state: RootState) => state.auth);
-  const isAuthenticated = true;
-  const user = { registration_type: 'admin', accountId: '1' } as any;
-  const isAuthLoading = false;
+  const { isAuthenticated, user, isAuthLoading } = useSelector((state: RootState) => state.auth);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
   const pathname = usePathname();
 
