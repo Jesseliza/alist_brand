@@ -17,7 +17,7 @@ interface MonthCalendarProps {
   year?: number;
   month?: number; // 0 = January, 11 = December
   activities?: Activity[];
-  onDaySelect?: (availability: CampaignAvailability) => void;
+  onDaySelect?: (availability: CampaignAvailability[]) => void;
 }
 
 interface DayCell {
@@ -133,10 +133,10 @@ export default function MonthCalendar({
               const cellDateYYYYMMDD = `${cellYear}-${String(
                 cellMonth + 1
               ).padStart(2, '0')}-${String(cellDay).padStart(2, '0')}`;
-              const availabilityItem = campaignAvailability.find(
+              const availabilityItems = campaignAvailability.filter(
                 (item) => item.offer_date === cellDateYYYYMMDD
               );
-              const isAvailable = !!availabilityItem;
+              const isAvailable = availabilityItems.length > 0;
 
               const cellActivities = activities.filter(
                 (a) => a.date === cellDateStr
@@ -148,8 +148,8 @@ export default function MonthCalendar({
                     isToday ? 'border-[#00A4B6]' : 'border-[#F3F3F3]'
                   } flex flex-col items-start justify-start`}
                   onClick={() => {
-                    if (cell.currentMonth && onDaySelect && availabilityItem) {
-                      onDaySelect(availabilityItem);
+                    if (cell.currentMonth && onDaySelect && isAvailable) {
+                      onDaySelect(availabilityItems);
                     }
                   }}
                   style={{

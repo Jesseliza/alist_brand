@@ -22,8 +22,8 @@ const monthOptions = [
 
 export default function Availabilites({ campaignId }: { campaignId: string }) {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedAvailability, setSelectedAvailability] =
-    useState<CampaignAvailability | null>(null);
+  const [selectedAvailabilities, setSelectedAvailabilities] =
+    useState<CampaignAvailability[] | null>(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleTodayClick = () => {
@@ -34,14 +34,14 @@ export default function Availabilites({ campaignId }: { campaignId: string }) {
     setCurrentDate(new Date(currentDate.getFullYear(), month, 1));
   };
 
-  const handleDaySelect = (availability: CampaignAvailability) => {
-    setSelectedAvailability(availability);
+  const handleDaySelect = (availabilities: CampaignAvailability[]) => {
+    setSelectedAvailabilities(availabilities);
     setIsPopupOpen(true);
   };
 
   const closePopup = () => {
     setIsPopupOpen(false);
-    setSelectedAvailability(null);
+    setSelectedAvailabilities(null);
   };
 
   return (
@@ -72,28 +72,77 @@ export default function Availabilites({ campaignId }: { campaignId: string }) {
           />
         </div>
       </div>
-      {isPopupOpen && selectedAvailability && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm">
-          <div className="bg-white/80 p-6 rounded-lg shadow-lg text-center">
-            <h2 className="text-lg font-bold mb-4">Voucher Code</h2>
-            <p className="mb-2">
-              Date: {new Date(selectedAvailability.offer_date).toLocaleDateString()}
-            </p>
-            <p className="mb-4">
-              Here is the voucher code for the selected date:
-            </p>
-            <p className="text-2xl font-bold text-center text-[#00A4B6] bg-gray-100 p-4 rounded">
-              {selectedAvailability.offer_code}
-            </p>
-            <button
-              onClick={closePopup}
-              className="mt-6 w-full bg-[#00A4B6] text-white py-2 rounded hover:bg-[#0090a6]"
-            >
-              Close
-            </button>
+      {isPopupOpen &&
+        selectedAvailabilities &&
+        selectedAvailabilities.length > 0 && (
+          <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl">
+              <h2 className="text-xl font-bold mb-2 text-center">
+                Voucher Codes
+              </h2>
+              <p className="mb-4 text-center text-gray-600">
+                Date:{" "}
+                {new Date(
+                  selectedAvailabilities[0].offer_date
+                ).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+              <div className="overflow-auto max-h-[60vh]">
+                <table className="w-full text-sm text-left text-gray-500">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">
+                        Sl.No
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Voucher Code
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Voucher Status
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedAvailabilities.map((voucher, index) => (
+                      <tr
+                        key={voucher.id}
+                        className="bg-white border-b hover:bg-gray-50"
+                      >
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+                        >
+                          {index + 1}
+                        </th>
+                        <td className="px-6 py-4">{voucher.offer_code}</td>
+                        <td className="px-6 py-4">
+                          <span
+                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                              voucher.user_id
+                                ? "bg-red-100 text-red-800"
+                                : "bg-green-100 text-green-800"
+                            }`}
+                          >
+                            {voucher.user_id ? "Used" : "Available"}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <button
+                onClick={closePopup}
+                className="mt-6 w-full bg-[#00A4B6] text-white py-2 rounded hover:bg-[#0090a6] transition-colors"
+              >
+                Close
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   );
 }

@@ -124,13 +124,15 @@ export default function LoginComponent() {
             <form className="w-full flex flex-col gap-[11px]" onSubmit={handleLogin}>
               <p className="text-center text-gray-600">Enter the OTP sent to {storedPhoneNumber}</p>
               <input
-                type="password"
+                type="text"
+                inputMode="numeric"
                 placeholder="OTP"
                 value={otp}
                 onChange={(e) => {
-                  setOtp(e.target.value);
+                  const numericValue = e.target.value.replace(/[^0-9]/g, "");
+                  setOtp(numericValue);
                   if (formError) {
-                    setFormError('');
+                    setFormError("");
                   }
                 }}
                 className="rounded-[11px] bg-gray-100 px-5 py-[11px] text-[15px] outline-none focus:ring-2 focus:ring-[#00A4B6] transition placeholder:text-[#6E6E6E]"
