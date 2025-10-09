@@ -52,7 +52,7 @@ export default function CampaignCreatorCard({
         <div className="md:pl-0 md:py-0 py-6 pl-5.5  md:absolute md:left-1/2 md:transform md:-translate-x-1/2 md:-bottom-9">
           {image ? (
             <Image
-              src={image}
+              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${image}`}
               alt={name}
               width={81.71}
               height={81.71}
