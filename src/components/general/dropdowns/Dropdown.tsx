@@ -65,7 +65,7 @@ export function Dropdown<T>(props: DropdownProps<T>) {
 
   const currentOption = options.find((o) => o.value === currentValue);
   const firstLabel = options[0]?.label ?? null;
-  const displayLabel = title ?? currentOption?.label ?? firstLabel;
+  const displayLabel = currentOption?.label ?? title ?? firstLabel;
 
   if (mode === "select") {
     return (
