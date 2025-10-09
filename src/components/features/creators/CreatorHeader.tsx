@@ -33,7 +33,7 @@ export default function CreatorHeader({
         className="absolute inset-0 bg-white z-0"
         style={{ left: "-100vw", right: "-100vw" }}
       />
-      <div className="max-w-[1428px] mx-auto flex justify-between pt-10 text-[#4F4F4F] relative z-10">
+      <div className="max-w-[1428px] mx-auto flex justify-between pt-10 text-[#4F4F4F] relative">
         {/* Header */}
         <div>
           <div className="flex items-center md:gap-10 gap-6 ">

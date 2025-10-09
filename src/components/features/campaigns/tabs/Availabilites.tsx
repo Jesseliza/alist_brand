@@ -20,6 +20,12 @@ const monthOptions = [
   { label: "December", value: 11 },
 ];
 
+const currentYear = new Date().getFullYear();
+const yearOptions = Array.from({ length: 10 }, (_, i) => {
+  const year = currentYear + i;
+  return { label: year.toString(), value: year };
+});
+
 export default function Availabilites({ campaignId }: { campaignId: string }) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedAvailabilities, setSelectedAvailabilities] =
@@ -32,6 +38,10 @@ export default function Availabilites({ campaignId }: { campaignId: string }) {
 
   const handleMonthSelect = (month: number) => {
     setCurrentDate(new Date(currentDate.getFullYear(), month, 1));
+  };
+
+  const handleYearSelect = (year: number) => {
+    setCurrentDate(new Date(year, currentDate.getMonth(), 1));
   };
 
   const handleDaySelect = (availabilities: CampaignAvailability[]) => {
@@ -54,6 +64,14 @@ export default function Availabilites({ campaignId }: { campaignId: string }) {
           >
             Today
           </button>
+          <div className="ml-4 w-32">
+            <Dropdown
+              title="Year"
+              options={yearOptions}
+              onSelect={handleYearSelect}
+              selected={currentDate.getFullYear()}
+            />
+          </div>
           <div className="ml-4 w-48">
             <Dropdown
               title="Month"
