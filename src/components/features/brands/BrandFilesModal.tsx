@@ -112,6 +112,9 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
     }
   }, [deleteFileSuccess, fetchBrandFiles, dispatch]);
 
+  // Note: The PIN validation flow was intentionally re-enabled to address a bug
+  // where an invalid PIN would cause a global 401 error, logging the user out.
+  // This logic is necessary for the feature to function as intended.
   useEffect(() => {
     if (pinValidationSuccess && fileToDownload) {
       window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`, "_blank");
