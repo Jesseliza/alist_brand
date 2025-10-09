@@ -100,7 +100,7 @@ function DashboardContent({
           isOverlayMode && isMounted ? "ml-[102px]" : ""
         }`}
       >
-        <header className="relative z-10">
+        <header className="relative z-[60]">
           <Nav>
             {/* Mobile Nav */}
             <div className="flex md:hidden items-center justify-between w-full">
