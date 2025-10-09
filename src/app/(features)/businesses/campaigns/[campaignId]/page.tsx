@@ -49,7 +49,10 @@ export default function CampaignDetailsPage() {
   };
 
   const handleBackClick = () => {
-    router.back();
+    // router.back();
+    router.push(
+      `/businesses/campaigns`
+    );
   };
 
   if (campaignLoading) {

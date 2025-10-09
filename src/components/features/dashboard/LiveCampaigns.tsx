@@ -36,7 +36,7 @@ export default function LiveCampaigns() {
                   {campaign.offer_title}
                 </p>
                 <p className="text-[15px] leading-[23px] text-[#4F4F4F] mb-2">
-                  {campaign.venue?.venue_title} {campaign.offer_location?"-"+ campaign.offer_location : ""}
+                   {campaign.venue?.venue_title} {campaign.offer_location?"-"+ campaign.offer_location : ""}
                 </p>
                 <div className="flex items-center gap-[15px]">
                   <div className="flex items-center gap-[7.5px]">

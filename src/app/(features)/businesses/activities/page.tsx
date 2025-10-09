@@ -1,5 +1,5 @@
 "use client";
-import MonthCalendar from "@/components/general/MonthCalendar";
+// import MonthCalendar from "@/components/general/MonthCalendar";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -92,10 +92,10 @@ export default function Activities() {
       <div className=" max-w-[1428px] mx-auto flex gap-3.5">
         <div>
           <div className="bg-white mb-3 rounded-[13px] h-[55px]"></div>
-          <MonthCalendar
+          {/* <MonthCalendar
             activities={activities}
             onDaySelect={handleDaySelect}
-          />
+          /> */}
         </div>
         <div className="flex-1 bg-white  rounded-[13px]">
           <div className="p-[14px] border-b border-[#F3F3F3]">

@@ -42,7 +42,6 @@ export default function AccountTabContent({
         return (
           <div className="max-w-[1428px] mx-auto flex justify-between pt-10 text-[#4F4F4F]">
             <ChangePhoneNumber
-              accountId={account.accountId}
               currentPhoneNumber={account.phoneNumber || ''}
               currentCountryCode={account.country_code || ''}
             />

@@ -53,101 +53,101 @@ function populateAssociateInfo(
     food_offers_count: 0,
   };
 }
-// import onethousand from "@/assets/images/brands/1847-4.png";
+import onethousand from "@/assets/images/brands/1847-4.png";
 
-// import Bait from "@/assets/images/brands/Bait Maryam.png";
-// import BloOut from "@/assets/images/brands/Blo Out.png";
-// import BrightFox from "@/assets/images/brands/BrightFox.png";
-// import BrooklynCreamer from "@/assets/images/brands/Brooklyn Creamer.png";
-// import Buyanyflowers from "@/assets/images/brands/Buyanyflowers.png";
+import Bait from "@/assets/images/brands/Bait Maryam.png";
+import BloOut from "@/assets/images/brands/Blo Out.png";
+import BrightFox from "@/assets/images/brands/BrightFox.png";
+import BrooklynCreamer from "@/assets/images/brands/Brooklyn Creamer.png";
+import Buyanyflowers from "@/assets/images/brands/Buyanyflowers.png";
 
-// import CaliPoke from "@/assets/images/brands/Cali Poke.png";
-// import Careem from "@/assets/images/brands/Careem.png";
-// import Chatfood from "@/assets/images/brands/Chatfood.png";
-// import Cinemacity from "@/assets/images/brands/Cinemacity.png";
-// import DiveCampus from "@/assets/images/brands/DiveCampus.png";
-// import Doner from "@/assets/images/brands/Doner & Gyros.png";
-// import GaladariBrothers from "@/assets/images/brands/Galadari Brothers.png";
-// import Hyperama from "@/assets/images/brands/Hyperama.png";
-// import IKcon from "@/assets/images/brands/IKcon.png";
-// import Ibiza from "@/assets/images/brands/Ibiza.png";
-// import Idealz from "@/assets/images/brands/Idealz.png";
-// import JustPadel from "@/assets/images/brands/Just Padel.png";
-// import Kaykroo from "@/assets/images/brands/Kaykroo.png";
-// import LaRomana from "@/assets/images/brands/La Romana.png";
-// import Mahzooz from "@/assets/images/brands/Mahzooz.png";
-// import Meshico from "@/assets/images/brands/Meshico.png";
-// import Monviso from "@/assets/images/brands/Monviso.png";
-// import MrBrisket from "@/assets/images/brands/Mr Brisket.png";
-// import Addmind from "@/assets/images/brands/Addmind.png";
-// import African_Eastern from "@/assets/images/brands/African_Eastern.jpg";
-// import Al_Futtaim from "@/assets/images/brands/Al_Futtaim.png";
-// import Al_Habtoor from "@/assets/images/brands/Al_Habtoor.png";
-// import Barakat from "@/assets/images/brands/Barakat.png";
-// import Barry_s from "@/assets/images/brands/Barry_s.png";
-// import Billionaire_Dubai from "@/assets/images/brands/Billionaire_Dubai.png";
-// import Binsina_Pharmacy from "@/assets/images/brands/Binsina_Pharmacy.png";
-// import bioderma from "@/assets/images/brands/bioderma.png";
-// import British_American_Tobacco from "@/assets/images/brands/British_American_Tobacco.png";
-// import Caesars_Palace from "@/assets/images/brands/Caesars_Palace.png";
-// import Cafu from "@/assets/images/brands/Cafu.png";
-// import casio from "@/assets/images/brands/Casio.png";
-// import celavi from "@/assets/images/brands/celavi.png";
-// import Charley_s from "@/assets/images/brands/Charley_s.png";
-// import Christian_Laurent from "@/assets/images/brands/Christian_Laurent.png";
-// import Cryo from "@/assets/images/brands/Cryo.png";
-// import Dairy_Queen from "@/assets/images/brands/DQ.png";
-// import Danube_Properties from "@/assets/images/brands/Danube_Properties.png";
-// import Dubai_Holding from "@/assets/images/brands/Dubai_Holding.png";
-// import dunkin from "@/assets/images/brands/dunkin.png";
-// import four_seasons from "@/assets/images/brands/four_seasons.png";
-// import Fuddruckers from "@/assets/images/brands/Fuddruckers.png";
-// import Guardex from "@/assets/images/brands/Guardex.png";
-// import Guylian from "@/assets/images/brands/Guylian.png";
-// import hersheys from "@/assets/images/brands/hersheys.png";
-// import hilton from "@/assets/images/brands/Hilton.png";
-// import Homes_R_Us from "@/assets/images/brands/Homes_R_Us.png";
-// import Jamie_Oliver from "@/assets/images/brands/Jamie_Oliver.png";
-// import jumeirah from "@/assets/images/brands/jumeirah.png";
-// import Kcal from "@/assets/images/brands/Kcal.png";
-// import Kitopi from "@/assets/images/brands/Kitopi.png";
-// import Landmark_Group from "@/assets/images/brands/Landmark_Group.png";
-// import marriott from "@/assets/images/brands/marriott.png";
-// import Master_Chef from "@/assets/images/brands/Master_Chef.png";
-// import Meydan from "@/assets/images/brands/Meydan.png";
-// import Millennium from "@/assets/images/brands/Millennium.png";
-// import Nando_s from "@/assets/images/brands/Nando_s.png";
-// import Nbar from "@/assets/images/brands/Nbar.png";
-// import Nikki_Beach from "@/assets/images/brands/Nikki_Beach.png";
-// import noon from "@/assets/images/brands/Noon Logo.jpg";
-// import Novomed from "@/assets/images/brands/Novomed logo.png";
-// import ounass from "@/assets/images/brands/Ounass.png";
-// import Panda_Express from "@/assets/images/brands/Panda_Express.png";
-// import peugeot from "@/assets/images/brands/peugeot.png";
-// import Pizzeria_de_michele from "@/assets/images/brands/Pizzeria_de_michele.png";
-// import rees from "@/assets/images/brands/rees.png";
-// import Ritz_Carlton from "@/assets/images/brands/Ritz_Carlton.png";
-// import Saadiyat from "@/assets/images/brands/Saadiyat.png";
-// import Seven from "@/assets/images/brands/Seven.png";
-// import sivvi from "@/assets/images/brands/Sivvi Logo.png";
-// import Sofitel from "@/assets/images/brands/Sofitel.png";
-// import STK from "@/assets/images/brands/STK.png";
-// import stretch from "@/assets/images/brands/stretch.png";
-// import St_Regis from "@/assets/images/brands/St_Regis.png";
-// import Supercare from "@/assets/images/brands/Supercare.png";
-// import Uber from "@/assets/images/brands/Uber.png";
-// import Ultra_Music_Festival from "@/assets/images/brands/Ultra_Music_Festival.png";
-// import Washmen from "@/assets/images/brands/Washmen.png";
-// import Xclusive_Yachts from "@/assets/images/brands/Xclusive_Yachts.png";
-// import Zaatar_w_Zeit from "@/assets/images/brands/Zaatar_w_Zeit.png";
-// import YasIsland from "@/assets/images/brands/Yas Island Logo.png";
+import CaliPoke from "@/assets/images/brands/Cali Poke.png";
+import Careem from "@/assets/images/brands/Careem.png";
+import Chatfood from "@/assets/images/brands/Chatfood.png";
+import Cinemacity from "@/assets/images/brands/Cinemacity.png";
+import DiveCampus from "@/assets/images/brands/DiveCampus.png";
+import Doner from "@/assets/images/brands/Doner & Gyros.png";
+import GaladariBrothers from "@/assets/images/brands/Galadari Brothers.png";
+import Hyperama from "@/assets/images/brands/Hyperama.png";
+import IKcon from "@/assets/images/brands/IKcon.png";
+import Ibiza from "@/assets/images/brands/Ibiza.png";
+import Idealz from "@/assets/images/brands/Idealz.png";
+import JustPadel from "@/assets/images/brands/Just Padel.png";
+import Kaykroo from "@/assets/images/brands/Kaykroo.png";
+import LaRomana from "@/assets/images/brands/La Romana.png";
+import Mahzooz from "@/assets/images/brands/Mahzooz.png";
+import Meshico from "@/assets/images/brands/Meshico.png";
+import Monviso from "@/assets/images/brands/Monviso.png";
+import MrBrisket from "@/assets/images/brands/Mr Brisket.png";
+import Addmind from "@/assets/images/brands/Addmind.png";
+import African_Eastern from "@/assets/images/brands/African_Eastern.jpg";
+import Al_Futtaim from "@/assets/images/brands/Al_Futtaim.png";
+import Al_Habtoor from "@/assets/images/brands/Al_Habtoor.png";
+import Barakat from "@/assets/images/brands/Barakat.png";
+import Barry_s from "@/assets/images/brands/Barry_s.png";
+import Billionaire_Dubai from "@/assets/images/brands/Billionaire_Dubai.png";
+import Binsina_Pharmacy from "@/assets/images/brands/Binsina_Pharmacy.png";
+import bioderma from "@/assets/images/brands/bioderma.png";
+import British_American_Tobacco from "@/assets/images/brands/British_American_Tobacco.png";
+import Caesars_Palace from "@/assets/images/brands/Caesars_Palace.png";
+import Cafu from "@/assets/images/brands/Cafu.png";
+import casio from "@/assets/images/brands/Casio.png";
+import celavi from "@/assets/images/brands/celavi.png";
+import Charley_s from "@/assets/images/brands/Charley_s.png";
+import Christian_Laurent from "@/assets/images/brands/Christian_Laurent.png";
+import Cryo from "@/assets/images/brands/Cryo.png";
+import Dairy_Queen from "@/assets/images/brands/DQ.png";
+import Danube_Properties from "@/assets/images/brands/Danube_Properties.png";
+import Dubai_Holding from "@/assets/images/brands/Dubai_Holding.png";
+import dunkin from "@/assets/images/brands/dunkin.png";
+import four_seasons from "@/assets/images/brands/four_seasons.png";
+import Fuddruckers from "@/assets/images/brands/Fuddruckers.png";
+import Guardex from "@/assets/images/brands/Guardex.png";
+import Guylian from "@/assets/images/brands/Guylian.png";
+import hersheys from "@/assets/images/brands/hersheys.png";
+import hilton from "@/assets/images/brands/Hilton.png";
+import Homes_R_Us from "@/assets/images/brands/Homes_R_Us.png";
+import Jamie_Oliver from "@/assets/images/brands/Jamie_Oliver.png";
+import jumeirah from "@/assets/images/brands/jumeirah.png";
+import Kcal from "@/assets/images/brands/Kcal.png";
+import Kitopi from "@/assets/images/brands/Kitopi.png";
+import Landmark_Group from "@/assets/images/brands/Landmark_Group.png";
+import marriott from "@/assets/images/brands/marriott.png";
+import Master_Chef from "@/assets/images/brands/Master_Chef.png";
+import Meydan from "@/assets/images/brands/Meydan.png";
+import Millennium from "@/assets/images/brands/Millennium.png";
+import Nando_s from "@/assets/images/brands/Nando_s.png";
+import Nbar from "@/assets/images/brands/Nbar.png";
+import Nikki_Beach from "@/assets/images/brands/Nikki_Beach.png";
+import noon from "@/assets/images/brands/Noon Logo.jpg";
+import Novomed from "@/assets/images/brands/Novomed logo.png";
+import ounass from "@/assets/images/brands/Ounass.png";
+import Panda_Express from "@/assets/images/brands/Panda_Express.png";
+import peugeot from "@/assets/images/brands/peugeot.png";
+import Pizzeria_de_michele from "@/assets/images/brands/Pizzeria_de_michele.png";
+import rees from "@/assets/images/brands/rees.png";
+import Ritz_Carlton from "@/assets/images/brands/Ritz_Carlton.png";
+import Saadiyat from "@/assets/images/brands/Saadiyat.png";
+import Seven from "@/assets/images/brands/Seven.png";
+import sivvi from "@/assets/images/brands/Sivvi Logo.png";
+import Sofitel from "@/assets/images/brands/Sofitel.png";
+import STK from "@/assets/images/brands/STK.png";
+import stretch from "@/assets/images/brands/stretch.png";
+import St_Regis from "@/assets/images/brands/St_Regis.png";
+import Supercare from "@/assets/images/brands/Supercare.png";
+import Uber from "@/assets/images/brands/Uber.png";
+import Ultra_Music_Festival from "@/assets/images/brands/Ultra_Music_Festival.png";
+import Washmen from "@/assets/images/brands/Washmen.png";
+import Xclusive_Yachts from "@/assets/images/brands/Xclusive_Yachts.png";
+import Zaatar_w_Zeit from "@/assets/images/brands/Zaatar_w_Zeit.png";
+import YasIsland from "@/assets/images/brands/Yas Island Logo.png";
 
 export const rawBrandsData = [
   {
     brandId: "0",
     accountId: "0",
     name: "Dunkin'",
-    // logo: dunkin.src,
+    logo: dunkin.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@dunkin.ae",
     industry: "Food & Beverages",
@@ -165,7 +165,7 @@ export const rawBrandsData = [
     brandId: "1",
     accountId: "0",
     name: "Careem",
-    // logo: Careem.src,
+    logo: Careem.src,
     phoneNumber: "+971-4-123-4568",
     emailAddress: "contact@careem.com",
     industry: "Transportation",
@@ -183,7 +183,7 @@ export const rawBrandsData = [
     brandId: "2",
     accountId: "0",
     name: "Uber",
-    // logo: Uber.src,
+    logo: Uber.src,
     phoneNumber: "+971-4-123-4569",
     emailAddress: "contact@uber.ae",
     industry: "Transportation",
@@ -201,7 +201,7 @@ export const rawBrandsData = [
     brandId: "3",
     accountId: "1",
     name: "African & Eastern",
-    // logo: African_Eastern.src,
+    logo: African_Eastern.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@africaneastern.com",
     industry: "Beverages Distribution",
@@ -219,7 +219,7 @@ export const rawBrandsData = [
     brandId: "4",
     accountId: "1",
     name: "Al Futtaim",
-    // logo: Al_Futtaim.src,
+    logo: Al_Futtaim.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@alfuttaim.com",
     industry: "Automotive",
@@ -237,7 +237,7 @@ export const rawBrandsData = [
     brandId: "5",
     accountId: "1",
     name: "Barakat Quality",
-    // logo: Barakat.src,
+    logo: Barakat.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@barakatquality.com",
     industry: "Juice & Fresh Produce",
@@ -255,7 +255,7 @@ export const rawBrandsData = [
     brandId: "6",
     accountId: "1",
     name: "Barry's",
-    // logo: Barry_s.src,
+    logo: Barry_s.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@barrys.com",
     industry: "Gym & Fitness Studio",
@@ -273,7 +273,7 @@ export const rawBrandsData = [
     brandId: "7",
     accountId: "1",
     name: "BinSina Pharmacy",
-    // logo: Binsina_Pharmacy.src,
+    logo: Binsina_Pharmacy.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@binsinapharmacy.com",
     industry: "Pharmacy",
@@ -291,7 +291,7 @@ export const rawBrandsData = [
     brandId: "8",
     accountId: "2",
     name: "Bioderma",
-    // logo: bioderma.src,
+    logo: bioderma.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@bioderma.com",
     industry: "Skincare",
@@ -309,7 +309,7 @@ export const rawBrandsData = [
     brandId: "9",
     accountId: "2",
     name: "Cafu",
-    // logo: Cafu.src,
+    logo: Cafu.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@cafu.com",
     industry: "Fuel Delivery",
@@ -327,7 +327,7 @@ export const rawBrandsData = [
     brandId: "10",
     accountId: "2",
     name: "Careem",
-    // logo: Careem.src,
+    logo: Careem.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@careem.com",
     industry: "Ride Hailing",
@@ -345,7 +345,7 @@ export const rawBrandsData = [
     brandId: "11",
     accountId: "3",
     name: "Casio",
-    // logo: casio.src,
+    logo: casio.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@casio.com",
     industry: "Consumer Electronics",
@@ -364,7 +364,7 @@ export const rawBrandsData = [
     brandId: "12",
     accountId: "3",
     name: "Danube Properties",
-    // logo: Danube_Properties.src,
+    logo: Danube_Properties.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@danubeproperties.com",
     industry: "Property Development",
@@ -382,7 +382,7 @@ export const rawBrandsData = [
     brandId: "13",
     accountId: "4",
     name: "Dubai Holding",
-    // logo: Dubai_Holding.src,
+    logo: Dubai_Holding.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@dubaiholding.com",
     industry: "Investments",
@@ -400,7 +400,7 @@ export const rawBrandsData = [
     brandId: "14",
     accountId: "4",
     name: "Dairy Queen",
-    // logo: Dairy_Queen.src,
+    logo: Dairy_Queen.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@dairyqueen.com",
     industry: "Ice Cream & Fast Food",
@@ -418,7 +418,7 @@ export const rawBrandsData = [
     brandId: "15",
     accountId: "4",
     name: "Dunkin'",
-    // logo: dunkin.src,
+    logo: dunkin.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@dunkin.com",
     industry: "Coffee & Donuts",
@@ -436,7 +436,7 @@ export const rawBrandsData = [
     brandId: "16",
     accountId: "5",
     name: "Four Seasons Hotels",
-    // logo: four_seasons.src,
+    logo: four_seasons.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@fourseasonshotels.com",
     industry: "Hotels & Resorts",
@@ -454,7 +454,7 @@ export const rawBrandsData = [
     brandId: "17",
     accountId: "5",
     name: "Hershey's",
-    // logo: hersheys.src,
+    logo: hersheys.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@hersheys.com",
     industry: "Chocolate",
@@ -472,7 +472,7 @@ export const rawBrandsData = [
     brandId: "18",
     accountId: "5",
     name: "Hilton Hotels & Resorts",
-    // logo: hilton.src,
+    logo: hilton.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@hiltonhotelsresorts.com",
     industry: "Hotels & Resorts",
@@ -490,7 +490,7 @@ export const rawBrandsData = [
     brandId: "19",
     accountId: "5",
     name: "Yas Island",
-    // logo: YasIsland.src,
+    logo: YasIsland.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@yasisland.com",
     industry: "Travel",
@@ -508,7 +508,7 @@ export const rawBrandsData = [
     brandId: "20",
     accountId: "6",
     name: "Jumeirah Hotels & Resorts",
-    // logo: jumeirah.src,
+    logo: jumeirah.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@jumeirahhotelsresorts.com",
     industry: "Hotels & Resorts",
@@ -526,7 +526,7 @@ export const rawBrandsData = [
     brandId: "21",
     accountId: "6",
     name: "Kitopi",
-    // logo: Kitopi.src,
+    logo: Kitopi.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@kitopi.com",
     industry: "Cloud Kitchen",
@@ -544,7 +544,7 @@ export const rawBrandsData = [
     brandId: "22",
     accountId: "6",
     name: "Landmark Group",
-    // logo: Landmark_Group.src,
+    logo: Landmark_Group.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@landmarkgroup.com",
     industry: "Retail Conglomerate",
@@ -562,7 +562,7 @@ export const rawBrandsData = [
     brandId: "23",
     accountId: "6",
     name: "Marriott International",
-    // logo: marriott.src,
+    logo: marriott.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@marriottinternational.com",
     industry: "Hotels & Resorts",
@@ -580,7 +580,7 @@ export const rawBrandsData = [
     brandId: "24",
     accountId: "7",
     name: "Meydan",
-    // logo: Meydan.src,
+    logo: Meydan.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@meydan.com",
     industry: "Racing & Hospitality",
@@ -598,7 +598,7 @@ export const rawBrandsData = [
     brandId: "25",
     accountId: "7",
     name: "Nando's",
-    // logo: Nando_s.src,
+    logo: Nando_s.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@nandos.com",
     industry: "Restaurant",
@@ -616,7 +616,7 @@ export const rawBrandsData = [
     brandId: "26",
     accountId: "7",
     name: "Nikki Beach",
-    // logo: Nikki_Beach.src,
+    logo: Nikki_Beach.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@nikkibeach.com",
     industry: "Beach Club",
@@ -634,7 +634,7 @@ export const rawBrandsData = [
     brandId: "27",
     accountId: "7",
     name: "Noon",
-    // logo: noon.src,
+    logo: noon.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@noon.com",
     industry: "E-commerce",
@@ -652,7 +652,7 @@ export const rawBrandsData = [
     brandId: "28",
     accountId: "8",
     name: "Novomed",
-    // logo: Novomed.src,
+    logo: Novomed.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@novomed.com",
     industry: "Medical Center",
@@ -670,7 +670,7 @@ export const rawBrandsData = [
     brandId: "29",
     accountId: "8",
     name: "Ounass",
-    // logo: ounass.src,
+    logo: ounass.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@ounass.com",
     industry: "Luxury E-commerce",
@@ -688,7 +688,7 @@ export const rawBrandsData = [
     brandId: "30",
     accountId: "8",
     name: "Panda Express",
-    // logo: Panda_Express.src,
+    logo: Panda_Express.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@pandaexpress.com",
     industry: "Fast Food",
@@ -706,7 +706,7 @@ export const rawBrandsData = [
     brandId: "31",
     accountId: "8",
     name: "Peugeot",
-    // logo: peugeot.src,
+    logo: peugeot.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@peugeot.com",
     industry: "Automobile",
@@ -724,7 +724,7 @@ export const rawBrandsData = [
     brandId: "32",
     accountId: "8",
     name: "Rees Clay Oven",
-    // logo: rees.src,
+    logo: rees.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@reesclayoven.com",
     industry: "Indian Restaurant",
@@ -742,7 +742,7 @@ export const rawBrandsData = [
     brandId: "33",
     accountId: "8",
     name: "The Ritz-Carlton",
-    // logo: Ritz_Carlton.src,
+    logo: Ritz_Carlton.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@theritzcarlton.com",
     industry: "Hotels & Resorts",
@@ -760,7 +760,7 @@ export const rawBrandsData = [
     brandId: "34",
     accountId: "8",
     name: "Sivvi",
-    // logo: sivvi.src,
+    logo: sivvi.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@sivvi.com",
     industry: "Fashion E-commerce",
@@ -778,7 +778,7 @@ export const rawBrandsData = [
     brandId: "35",
     accountId: "9",
     name: "St. Regis Hotels & Resorts",
-    // logo: St_Regis.src,
+    logo: St_Regis.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@stregishotelsresorts.com",
     industry: "Hotels & Resorts",
@@ -796,7 +796,7 @@ export const rawBrandsData = [
     brandId: "36",
     accountId: "9",
     name: "Uber",
-    // logo: Uber.src,
+    logo: Uber.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@uber.com",
     industry: "Ride-sharing",
@@ -814,7 +814,7 @@ export const rawBrandsData = [
     brandId: "37",
     accountId: "9",
     name: "Ultra Music Festival",
-    // logo: Ultra_Music_Festival.src,
+    logo: Ultra_Music_Festival.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@ultramusicfestival.com",
     industry: "Music Festival",
@@ -832,7 +832,7 @@ export const rawBrandsData = [
     brandId: "38",
     accountId: "10",
     name: "One Thousand",
-    // logo: onethousand.src,
+    logo: onethousand.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@onethousand.com",
     industry: "Fashion & Apparel",
@@ -850,7 +850,7 @@ export const rawBrandsData = [
     brandId: "39",
     accountId: "10",
     name: "Bait Maryam",
-    // logo: Bait.src,
+    logo: Bait.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@baitmaryam.com",
     industry: "Restaurants",
@@ -868,7 +868,7 @@ export const rawBrandsData = [
     brandId: "40",
     accountId: "10",
     name: "Blo Out",
-    // logo: BloOut.src,
+    logo: BloOut.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@bloout.com",
     industry: "Hair Styling",
@@ -886,7 +886,7 @@ export const rawBrandsData = [
     brandId: "41",
     accountId: "10",
     name: "BrightFox",
-    // logo: BrightFox.src,
+    logo: BrightFox.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@brightfox.com",
     industry: "Drinks",
@@ -904,7 +904,7 @@ export const rawBrandsData = [
     brandId: "42",
     accountId: "10",
     name: "Brooklyn Creamer",
-    // logo: BrooklynCreamer.src,
+    logo: BrooklynCreamer.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@brooklyncreamer.com",
     industry: "Dairy & Beverages",
@@ -922,7 +922,7 @@ export const rawBrandsData = [
     brandId: "43",
     accountId: "13",
     name: "Buyanyflowers",
-    // logo: Buyanyflowers.src,
+    logo: Buyanyflowers.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@buyanyflowers.com",
     industry: "Floral & Gifts",
@@ -940,7 +940,7 @@ export const rawBrandsData = [
     brandId: "44",
     accountId: "14",
     name: "Cali Poke",
-    // logo: CaliPoke.src,
+    logo: CaliPoke.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@calipoke.com",
     industry: "Casual Dining",
@@ -958,7 +958,7 @@ export const rawBrandsData = [
     brandId: "45",
     accountId: "11",
     name: "Chatfood",
-    // logo: Chatfood.src,
+    logo: Chatfood.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@chatfood.com",
     industry: "Food Delivery",
@@ -976,7 +976,7 @@ export const rawBrandsData = [
     brandId: "46",
     accountId: "11",
     name: "Cinemacity",
-    // logo: Cinemacity.src,
+    logo: Cinemacity.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@cinemacity.com",
     industry: "Cinema",
@@ -994,7 +994,7 @@ export const rawBrandsData = [
     brandId: "47",
     accountId: "12",
     name: "DiveCampus",
-    // logo: DiveCampus.src,
+    logo: DiveCampus.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@divecampus.com",
     industry: "Learning & Development",
@@ -1012,7 +1012,7 @@ export const rawBrandsData = [
     brandId: "48",
     accountId: "13",
     name: "Doner & Gyros",
-    // logo: Doner.src,
+    logo: Doner.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@donergyros.com",
     industry: "Casual Dining",
@@ -1030,7 +1030,7 @@ export const rawBrandsData = [
     brandId: "49",
     accountId: "12",
     name: "Galadari Brothers",
-    // logo: GaladariBrothers.src,
+    logo: GaladariBrothers.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@galadaribrothers.com",
     industry: "Diversified Investments",
@@ -1048,7 +1048,7 @@ export const rawBrandsData = [
     brandId: "50",
     accountId: "12",
     name: "Hyperama",
-    // logo: Hyperama.src,
+    logo: Hyperama.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@hyperama.com",
     industry: "Entertainment & Leisure",
@@ -1066,7 +1066,7 @@ export const rawBrandsData = [
     brandId: "51",
     accountId: "11",
     name: "IKcon",
-    // logo: IKcon.src,
+    logo: IKcon.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@ikcon.com",
     industry: "Digital Solutions",
@@ -1084,7 +1084,7 @@ export const rawBrandsData = [
     brandId: "52",
     accountId: "11",
     name: "Ibiza",
-    // logo: Ibiza.src,
+    logo: Ibiza.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@ibiza.com",
     industry: "Nightlife & Entertainment",
@@ -1102,7 +1102,7 @@ export const rawBrandsData = [
     brandId: "53",
     accountId: "11",
     name: "Idealz",
-    // logo: Idealz.src,
+    logo: Idealz.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@idealz.com",
     industry: "Lifestyle & Fashion",
@@ -1120,7 +1120,7 @@ export const rawBrandsData = [
     brandId: "54",
     accountId: "11",
     name: "Just Padel",
-    // logo: JustPadel.src,
+    logo: JustPadel.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@justpadel.com",
     industry: "Recreational Sports",
@@ -1138,7 +1138,7 @@ export const rawBrandsData = [
     brandId: "55",
     accountId: "11",
     name: "Kaykroo",
-    // logo: Kaykroo.src,
+    logo: Kaykroo.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@kaykroo.com",
     industry: "Digital Marketing",
@@ -1156,7 +1156,7 @@ export const rawBrandsData = [
     brandId: "56",
     accountId: "11",
     name: "La Romana",
-    // logo: LaRomana.src,
+    logo: LaRomana.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@laromana.com",
     industry: "Fine Dining",
@@ -1174,7 +1174,7 @@ export const rawBrandsData = [
     brandId: "57",
     accountId: "21",
     name: "Mahzooz",
-    // logo: Mahzooz.src,
+    logo: Mahzooz.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@mahzooz.com",
     industry: "Lottery & Prizes",
@@ -1192,7 +1192,7 @@ export const rawBrandsData = [
     brandId: "58",
     accountId: "12",
     name: "Meshico",
-    // logo: Meshico.src,
+    logo: Meshico.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@meshico.com",
     industry: "Mexican Cuisine",
@@ -1210,7 +1210,7 @@ export const rawBrandsData = [
     brandId: "59",
     accountId: "13",
     name: "Monviso",
-    // logo: Monviso.src,
+    logo: Monviso.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@monviso.com",
     industry: "Fashion & Accessories",
@@ -1228,7 +1228,7 @@ export const rawBrandsData = [
     brandId: "60",
     accountId: "13",
     name: "Mr Brisket",
-    // logo: MrBrisket.src,
+    logo: MrBrisket.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@mrbrisket.com",
     industry: "Barbecue & Grilling",
@@ -1246,7 +1246,7 @@ export const rawBrandsData = [
     brandId: "61",
     accountId: "13",
     name: "Addmind",
-    // logo: Addmind.src,
+    logo: Addmind.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@addmind.com",
     industry: "Nightlife & Events",
@@ -1264,7 +1264,7 @@ export const rawBrandsData = [
     brandId: "62",
     accountId: "13",
     name: "Al Habtoor Group",
-    // logo: Al_Habtoor.src,
+    logo: Al_Habtoor.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@alhabtoorgroup.com",
     industry: "Hospitality",
@@ -1282,7 +1282,7 @@ export const rawBrandsData = [
     brandId: "63",
     accountId: "13",
     name: "Billionaire Dubai",
-    // logo: Billionaire_Dubai.src,
+    logo: Billionaire_Dubai.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@billionairedubai.com",
     industry: "Restaurant & Show",
@@ -1300,7 +1300,7 @@ export const rawBrandsData = [
     brandId: "64",
     accountId: "14",
     name: "British American Tobacco",
-    // logo: British_American_Tobacco.src,
+    logo: British_American_Tobacco.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@britishamericantobacco.com",
     industry: "Tobacco",
@@ -1318,7 +1318,7 @@ export const rawBrandsData = [
     brandId: "65",
     accountId: "14",
     name: "Caesars Palace",
-    // logo: Caesars_Palace.src,
+    logo: Caesars_Palace.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@caesarspalace.com",
     industry: "Hotels & Resorts",
@@ -1336,7 +1336,7 @@ export const rawBrandsData = [
     brandId: "66",
     accountId: "14",
     name: "Celavi",
-    // logo: celavi.src,
+    logo: celavi.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@celavi.com",
     industry: "Skincare",
@@ -1354,7 +1354,7 @@ export const rawBrandsData = [
     brandId: "67",
     accountId: "15",
     name: "Charley's Philly Steaks",
-    // logo: Charley_s.src,
+    logo: Charley_s.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@charleysphillysteaks.com",
     industry: "Fast Food",
@@ -1372,7 +1372,7 @@ export const rawBrandsData = [
     brandId: "68",
     accountId: "15",
     name: "Christian Laurent",
-    // logo: Christian_Laurent.src,
+    logo: Christian_Laurent.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@christianlaurent.com",
     industry: "Skincare & Beauty",
@@ -1390,7 +1390,7 @@ export const rawBrandsData = [
     brandId: "69",
     accountId: "15",
     name: "Cryo",
-    // logo: Cryo.src,
+    logo: Cryo.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@cryo.com",
     industry: "Cryotherapy",
@@ -1408,7 +1408,7 @@ export const rawBrandsData = [
     brandId: "70",
     accountId: "16",
     name: "Fuddruckers",
-    // logo: Fuddruckers.src,
+    logo: Fuddruckers.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@fuddruckers.com",
     industry: "Burgers",
@@ -1426,7 +1426,7 @@ export const rawBrandsData = [
     brandId: "71",
     accountId: "16",
     name: "Guardex",
-    // logo: Guardex.src,
+    logo: Guardex.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@guardex.com",
     industry: "Security Services",
@@ -1444,7 +1444,7 @@ export const rawBrandsData = [
     brandId: "72",
     accountId: "16",
     name: "Guylian",
-    // logo: Guylian.src,
+    logo: Guylian.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@guylian.com",
     industry: "Chocolate",
@@ -1462,7 +1462,7 @@ export const rawBrandsData = [
     brandId: "73",
     accountId: "16",
     name: "Homes R Us",
-    // logo: Homes_R_Us.src,
+    logo: Homes_R_Us.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@homesrus.com",
     industry: "Home Furnishings",
@@ -1480,7 +1480,7 @@ export const rawBrandsData = [
     brandId: "74",
     accountId: "16",
     name: "Jamie Oliver",
-    // logo: Jamie_Oliver.src,
+    logo: Jamie_Oliver.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@jamieoliver.com",
     industry: "Restaurant",
@@ -1498,7 +1498,7 @@ export const rawBrandsData = [
     brandId: "75",
     accountId: "16",
     name: "Kcal",
-    // logo: Kcal.src,
+    logo: Kcal.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@kcal.com",
     industry: "Healthy Food",
@@ -1516,7 +1516,7 @@ export const rawBrandsData = [
     brandId: "76",
     accountId: "17",
     name: "MasterChef",
-    // logo: Master_Chef.src,
+    logo: Master_Chef.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@masterchef.com",
     industry: "Restaurant",
@@ -1534,7 +1534,7 @@ export const rawBrandsData = [
     brandId: "77",
     accountId: "17",
     name: "Millennium Hotels & Resorts",
-    // logo: Millennium.src,
+    logo: Millennium.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@millenniumhotelsresorts.com",
     industry: "Hotels & Resorts",
@@ -1552,7 +1552,7 @@ export const rawBrandsData = [
     brandId: "78",
     accountId: "17",
     name: "N.Bar",
-    // logo: Nbar.src,
+    logo: Nbar.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@nbar.com",
     industry: "Nail Salon",
@@ -1570,7 +1570,7 @@ export const rawBrandsData = [
     brandId: "79",
     accountId: "18",
     name: "L'Antica Pizzeria da Michele",
-    // logo: Pizzeria_de_michele.src,
+    logo: Pizzeria_de_michele.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@lanticapizzeriadamichele.com",
     industry: "Pizzeria",
@@ -1588,7 +1588,7 @@ export const rawBrandsData = [
     brandId: "80",
     accountId: "18",
     name: "Saadiyat Island",
-    // logo: Saadiyat.src,
+    logo: Saadiyat.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@saadiyatisland.com",
     industry: "Destination",
@@ -1606,7 +1606,7 @@ export const rawBrandsData = [
     brandId: "81",
     accountId: "18",
     name: "Seven Sports",
-    // logo: Seven.src,
+    logo: Seven.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@sevensports.com",
     industry: "Sportswear & Equipment",
@@ -1624,7 +1624,7 @@ export const rawBrandsData = [
     brandId: "82",
     accountId: "18",
     name: "Sofitel Hotels & Resorts",
-    // logo: Sofitel.src,
+    logo: Sofitel.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@sofitelhotelsresorts.com",
     industry: "Hotels & Resorts",
@@ -1642,7 +1642,7 @@ export const rawBrandsData = [
     brandId: "83",
     accountId: "19",
     name: "STK Steakhouse",
-    // logo: STK.src,
+    logo: STK.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@stksteakhouse.com",
     industry: "Steakhouse",
@@ -1660,7 +1660,7 @@ export const rawBrandsData = [
     brandId: "84",
     accountId: "19",
     name: "Stretch Studios",
-    // logo: stretch.src,
+    logo: stretch.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@stretchstudios.com",
     industry: "Pilates and Stretching",
@@ -1678,7 +1678,7 @@ export const rawBrandsData = [
     brandId: "85",
     accountId: "19",
     name: "Supercare Pharmacy",
-    // logo: Supercare.src,
+    logo: Supercare.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@supercarepharmacy.com",
     industry: "Pharmacy",
@@ -1696,7 +1696,7 @@ export const rawBrandsData = [
     brandId: "86",
     accountId: "19",
     name: "Washmen",
-    // logo: Washmen.src,
+    logo: Washmen.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@washmen.com",
     industry: "Laundry & Dry Cleaning",
@@ -1714,7 +1714,7 @@ export const rawBrandsData = [
     brandId: "87",
     accountId: "19",
     name: "Xclusive Yachts",
-    // logo: Xclusive_Yachts.src,
+    logo: Xclusive_Yachts.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@xclusiveyachts.com",
     industry: "Yacht Charter",
@@ -1732,7 +1732,7 @@ export const rawBrandsData = [
     brandId: "88",
     accountId: "19",
     name: "Zaatar w Zeit",
-    // logo: Zaatar_w_Zeit.src,
+    logo: Zaatar_w_Zeit.src,
     phoneNumber: "+971-4-123-4567",
     emailAddress: "contact@zaatarwzeit.com",
     industry: "Restaurant",
