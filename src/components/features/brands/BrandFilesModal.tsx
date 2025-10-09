@@ -112,23 +112,23 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
     }
   }, [deleteFileSuccess, fetchBrandFiles, dispatch]);
 
-  // useEffect(() => {
-  //   if (pinValidationSuccess && fileToDownload) {
-  //     window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`, "_blank");
-  //     setFileToDownload(null);
-  //     setIsPinModalOpen(false);
-  //     dispatch(resetPinStatus());
-  //   }
-  // }, [pinValidationSuccess, fileToDownload, dispatch]);
+  useEffect(() => {
+    if (pinValidationSuccess && fileToDownload) {
+      window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`, "_blank");
+      setFileToDownload(null);
+      setIsPinModalOpen(false);
+      dispatch(resetPinStatus());
+    }
+  }, [pinValidationSuccess, fileToDownload, dispatch]);
 
-  // const handleDownloadRequest = (fileUrl: string) => {
-  //   setFileToDownload(fileUrl);
-  //   setIsPinModalOpen(true);
-  // };
+  const handleDownloadRequest = (fileUrl: string) => {
+    setFileToDownload(fileUrl);
+    setIsPinModalOpen(true);
+  };
 
-  // const handlePinSubmit = (pin: string) => {
-  //   dispatch(validatePinRequest({ pin }));
-  // };
+  const handlePinSubmit = (pin: string) => {
+    dispatch(validatePinRequest({ pin }));
+  };
 
   const handleDelete = (venueFileId: number) => {
     toast((t) => (
