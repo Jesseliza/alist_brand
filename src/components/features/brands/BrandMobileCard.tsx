@@ -65,16 +65,16 @@ export default function BrandMobileCard({
       <Link href={`/businesses/brands/${brand.brandId}`} className="block cursor-pointer">
         <div className="flex items-start gap-4">
           <div className="h-[75px] w-[75px] rounded-full overflow-hidden relative flex-shrink-0 border-[5px] border-[#EEEEEE]">
-            {brand.logo ? (
+            {/* {brand.logo ? (
               <Image src={brand.logo} alt={brand.name} fill className="object-cover" sizes="100vw" />
-            ) : (
+            ) : ( */}
               <div
                 className="w-full h-full flex items-center justify-center"
                 style={{ backgroundColor: generateColorFromString(brand.name) }}
               >
                 <span className="text-white text-3xl font-semibold">{getInitials(brand.name)}</span>
               </div>
-            )}
+            {/* )} */}
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="text-[17px] font-medium text-[#4F4F4F] mb-1">{brand.name}</h3>

@@ -65,9 +65,9 @@ export default function BrandCard({
         </div>
         {/* Profile circle */}
         <div className="w-[90px] h-[90px] mx-auto overflow-hidden bg-white rounded-full border-5 border-[#E1E1E1] flex items-center justify-center">
-          {brand.logo ? (
+          {/* {brand.logo ? (
             <Image src={brand.logo} alt={brand.name} width={80} height={80} />
-          ) : (
+          ) : ( */}
             <div
               className="h-full w-full flex items-center justify-center"
               style={{ backgroundColor: generateColorFromString(brand.name) }}
@@ -76,7 +76,7 @@ export default function BrandCard({
                 {getInitials(brand.name)}
               </span>
             </div>
-          )}
+          {/* )} */}
         </div>
 
         {/* Brand name */}
