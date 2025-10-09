@@ -91,7 +91,7 @@ const YearMonthPicker = ({ selectedDate, onChange }: YearMonthPickerProps) => {
     <div className="relative" ref={pickerRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full h-[55px] border border-[#E2E2E2] rounded-[11px] flex items-center justify-between px-4 bg-transparent"
+        className="w-full h-[55px] border border-[#E2E2E2] rounded-[11px] flex items-center justify-between px-4"
       >
         <span>{`${MONTHS[selectedDate.getMonth()]} ${selectedDate.getFullYear()}`}</span>
         <Image src="/icons/general/dropdownarrow-1-light.svg" alt="arrow" width={15} height={15} />
