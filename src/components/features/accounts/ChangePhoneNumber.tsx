@@ -97,11 +97,19 @@ export const ChangePhoneNumber: React.FC<ChangePhoneNumberProps> = ({
             <input
               id="otp"
               type="text"
+              inputMode="numeric"
               value={otp}
-              onChange={(e) => setOtp(e.target.value)}
+              onChange={(e) => {
+                const numericValue = e.target.value.replace(/[^0-9]/g, "");
+                setOtp(numericValue);
+              }}
               placeholder="Enter OTP"
               className="mt-1 w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-2 text-[#6E6E6E] placeholder:text-[#6E6E6E] outline-none"
+              autoComplete="one-time-code"
             />
+            {phoneUpdateError && (
+              <p className="text-red-500 text-sm mt-2">{phoneUpdateError}</p>
+            )}
             <div className="mt-4 flex justify-end gap-2">
               <button onClick={handleCancelOtp} className="px-6 py-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                 Cancel

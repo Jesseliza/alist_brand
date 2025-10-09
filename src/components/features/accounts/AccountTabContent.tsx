@@ -2,6 +2,7 @@ import AccountDetails from "@/components/features/accounts/AccountDetails";
 import AccountBrands from "./AccountBrands";
 import AccountPlans from "./AccountPlans";
 import { ChangePhoneNumber } from "./ChangePhoneNumber";
+import ResetPin from "./ResetPin";
 import { TabContentProps } from "@/components/general/UnifiedTabs";
 import { Account } from "@/types/entities";
 
@@ -47,6 +48,8 @@ export default function AccountTabContent({
             />
           </div>
         );
+      case "Reset PIN":
+        return <ResetPin />;
       default:
         return null;
     }

@@ -33,6 +33,9 @@ import {
     verifyOtpRequest,
     verifyOtpSuccess,
     verifyOtpFailure,
+    resetPinRequest,
+    resetPinSuccess,
+    resetPinFailure,
 } from "./accountSlice";
 import { fetchIndustries, fetchIndustriesSuccess } from "../common/commonSlice";
 import { Account, Brand, AccountType } from "@/types/entities";
@@ -566,6 +569,27 @@ function* handleVerifyOtp(action: ReturnType<typeof verifyOtpRequest>) {
     }
 }
 
+function* handleResetPin() {
+    try {
+        const response: { success: boolean, message: string } | ApiError = yield call(fetchData, '/api/reset/pin');
+
+        if (response.success) {
+            yield put(resetPinSuccess());
+            toast.success(response.message);
+        } else {
+            const errorResponse = response as ApiError;
+            const errorMessage = errorResponse.response || 'Failed to reset PIN';
+            yield put(resetPinFailure(errorMessage));
+            toast.error(errorMessage);
+        }
+    } catch (error) {
+        const err = error as Error;
+        const errorMessage = err.message || 'An unknown error occurred';
+        yield put(resetPinFailure(errorMessage));
+        toast.error(errorMessage);
+    }
+}
+
 function* watchAccount() {
     yield takeLatest(fetchAccountsRequest.type, handleFetchAccounts);
     yield takeLatest(fetchMoreAccountsRequest.type, handleFetchMoreAccounts);
@@ -577,6 +601,7 @@ function* watchAccount() {
     yield takeLatest(bulkUpdateStatusRequest.type, handleBulkUpdateStatus);
     yield takeLatest(sendOtpRequest.type, handleSendOtp);
     yield takeLatest(verifyOtpRequest.type, handleVerifyOtp);
+    yield takeLatest(resetPinRequest.type, handleResetPin);
 }
 
 export default function* accountSaga() {

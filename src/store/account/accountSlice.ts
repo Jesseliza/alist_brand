@@ -230,11 +230,25 @@ const accountSlice = createSlice({
       state.phoneUpdateError = null;
       state.otpSent = false;
       state.otpVerified = false;
-    }
+    },
+    resetPinRequest(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    resetPinSuccess(state) {
+      state.loading = false;
+    },
+    resetPinFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
 export const {
+  resetPinRequest,
+  resetPinSuccess,
+  resetPinFailure,
   clearAccountError,
   sendOtpRequest,
   sendOtpSuccess,

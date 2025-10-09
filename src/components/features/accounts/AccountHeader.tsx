@@ -36,6 +36,7 @@ export default function AccountHeader({
 
     if (isProfilePage) {
       tabs.push("Change Phone Number");
+      tabs.push("Reset PIN");
     }
 
     return tabs;

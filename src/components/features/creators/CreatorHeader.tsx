@@ -30,7 +30,7 @@ export default function CreatorHeader({
   return (
     <div className="w-full bg-white px-6 border-b border-[#E2E2E2] relative">
       <div
-        className="absolute inset-0 bg-white"
+        className="absolute inset-0 bg-white z-0"
         style={{ left: "-100vw", right: "-100vw" }}
       />
       <div className="max-w-[1428px] mx-auto flex justify-between pt-10 text-[#4F4F4F] relative z-10">
