@@ -75,7 +75,7 @@ export default function Availabilites({ campaignId }: { campaignId: string }) {
       {isPopupOpen &&
         selectedAvailabilities &&
         selectedAvailabilities.length > 0 && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm bg-black bg-opacity-50">
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-transparent">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl">
               <h2 className="text-xl font-bold mb-2 text-center">
                 Voucher Codes

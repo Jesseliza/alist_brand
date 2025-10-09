@@ -575,7 +575,7 @@ function* handleResetPin() {
 
         if (response.success) {
             yield put(resetPinSuccess());
-            toast.success(response.message);
+            toast.success(response.message, { duration: 4000 });
         } else {
             const errorResponse = response as ApiError;
             const errorMessage = errorResponse.response || 'Failed to reset PIN';
