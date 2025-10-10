@@ -150,6 +150,13 @@ export default function Sidebar({
                   isActive = true;
                 }
 
+                if (
+                  item.href.includes("/businesses/campaigns") &&
+                  source === "brand"
+                ) {
+                  isActive = false;
+                }
+
                 const iconSrc = isActive
                   ? item.icon.src.replace("/sidebar/", "/sidebar/darkmode/")
                   : item.icon.src;
