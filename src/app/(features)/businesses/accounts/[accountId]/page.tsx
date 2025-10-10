@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
+import Image from "next/image";
 import AccountHeader from "@/components/features/accounts/AccountHeader";
 import AccountTabContent from "@/components/features/accounts/AccountTabContent";
 import { Account, AccountType } from "@/types/entities";
@@ -126,7 +127,17 @@ export default function AccountPage() {
   }
 
   return (
-    <div>
+    <div className="pt-6">
+      <div className="flex items-center gap-4 mb-6">
+        <button onClick={() => router.push("/businesses/accounts")} className="cursor-pointer">
+          <Image
+            src="/icons/campaign/details/back-arrow.svg"
+            alt="back"
+            width={35}
+            height={35}
+          />
+        </button>
+      </div>
       {error && <div className="text-red-500 bg-red-100 p-3 rounded-md mb-4">Error: {error}</div>}
       <div>
         <AccountHeader

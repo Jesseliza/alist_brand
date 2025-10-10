@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import { CampaignDisplay } from "@/types/entities/campaign";
 import { generateColorFromString } from "@/utils/colorGenerator";
@@ -35,28 +35,38 @@ export default function CampaignCard({
     durationUnit,
     copyLinkUrl,
     is_dedicated,
+    startDate,
+    endDate,
   } = campaign;
 
   const [copied, setCopied] = useState(false);
 
+  const isOfferActive = useMemo(() => {
+    if (!startDate || !endDate) return false;
+    const now = new Date();
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    return now >= start && now <= end;
+  }, [startDate, endDate]);
+
 
   const getModeIcon = () => {
     if (campaignType === "WalkIn") {
-      return status === "Approved"
+      return isOfferActive
         ? "/icons/campaign/card/walk-approved.svg"
         : "/icons/campaign/card/walk-pending-light.svg";
     } else if (campaignType === "Delivery") {
-      return status === "Approved"
+      return isOfferActive
         ? "/icons/campaign/card/delivery-approved.svg"
         : "/icons/campaign/card/delivery-pending-light.svg";
     }
-    return status === "Approved"
+    return isOfferActive
       ? "/icons/campaign/card/delivery-approved.svg"
       : "/icons/campaign/card/delivery-pending-light.svg";
   };
 
   const getBarterIcon = () => {
-    return status === "Approved"
+    return isOfferActive
       ? "/icons/campaign/card/barter-approved.svg"
       : "/icons/campaign/card/barter-pending-light.svg";
   };
@@ -121,7 +131,7 @@ export default function CampaignCard({
           <div className="flex gap-[4.5px] items-center">
             <Image
               src={
-                status === "Approved"
+                isOfferActive
                   ? "/icons/campaign/card/active-light.svg"
                   : "/icons/campaign/card/pending-light.svg"
               }
@@ -166,7 +176,7 @@ export default function CampaignCard({
             <div className="h-[30.65px] flex items-center justify-center">
               <span
                 className={`text-[21px] font-bold leading-[31px] ${
-                  status === "Approved" ? "text-[#00A4B6]" : "text-[#505050]"
+                  isOfferActive ? "text-[#00A4B6]" : "text-[#505050]"
                 }`}
               >
                 {duration ?? "N/A"}

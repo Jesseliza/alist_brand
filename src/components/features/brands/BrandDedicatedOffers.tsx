@@ -4,11 +4,11 @@ import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import CampaignCard from "../campaigns/CampaignCard";
 import BrandCampaignMobileCard from "./BrandCampaignMobileCard";
-import { FoodOffer } from "@/types/entities/brand";
-import { adaptFoodOfferToDisplay } from "@/utils/campaignAdapters";
+import { DedicatedOffer } from "@/types/entities/brand";
+import { adaptDedicatedOfferToDisplay } from "@/utils/campaignAdapters";
 
-interface BrandCampaignsProps {
-  foodOffers: FoodOffer[];
+interface BrandDedicatedOffersProps {
+  dedicatedOffers: DedicatedOffer[];
   brandName: string;
   brandLogo: string;
   brandId: string;
@@ -16,24 +16,26 @@ interface BrandCampaignsProps {
   brandCategory?: string;
 }
 
-export default function BrandCampaigns({
-  foodOffers,
+export default function BrandDedicatedOffers({
+  dedicatedOffers,
   brandName,
   brandLogo,
   brandId,
   onRemoveCampaign,
   brandCategory,
-}: BrandCampaignsProps) {
+}: BrandDedicatedOffersProps) {
   const router = useRouter();
 
   const handleCampaignClick = (campaignId: string | number) => {
-    router.push(`/businesses/campaigns/${campaignId}?source=brand&brandId=${brandId}`);
+    router.push(
+      `/businesses/campaigns/${campaignId}?source=brand&brandId=${brandId}`
+    );
   };
 
   const displayCampaigns = useMemo(
     () =>
-      foodOffers.map((offer) =>
-        adaptFoodOfferToDisplay(
+      dedicatedOffers.map((offer) =>
+        adaptDedicatedOfferToDisplay(
           offer,
           brandName,
           brandId,
@@ -41,7 +43,7 @@ export default function BrandCampaigns({
           brandCategory
         )
       ),
-    [foodOffers, brandName, brandId, brandLogo, brandCategory]
+    [dedicatedOffers, brandName, brandId, brandLogo, brandCategory]
   );
 
   if (!displayCampaigns || displayCampaigns.length === 0) {
@@ -49,7 +51,7 @@ export default function BrandCampaigns({
       <div className="py-6">
         <div className="max-w-[1428px] mx-auto">
           <div className="bg-white rounded-lg shadow-md flex items-center justify-center min-h-[200px]">
-            <p className="text-gray-500">No campaigns found for this brand.</p>
+            <p className="text-gray-500">No dedicated offers found for this brand.</p>
           </div>
         </div>
       </div>
