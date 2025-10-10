@@ -1,7 +1,7 @@
 "use client";
 
 import DedicatedOffersTable from "@/components/features/dedicated-offers/DedicatedOffersTable";
-import DedicatedOfferCard from "@/components/features/campaigns/DedicatedOfferCard";
+import DedicatedOfferCard from "@/components/features/dedicated-offers/DedicatedOfferCard";
 import DedicatedOfferMobileCard from "@/components/features/dedicated-offers/DedicatedOfferMobileCard";
 import TableCardsToggler from "@/components/general/TableCardsToggler";
 import Pagination from "@/components/general/Pagination";
@@ -20,7 +20,6 @@ import { setSearchTerm } from "@/store/search/searchSlice";
 import { RootState } from "@/store/store";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
-import Link from "next/link";
 import Loader from "@/components/general/Loader";
 import InlineLoader from "@/components/general/InlineLoader";
 
@@ -32,8 +31,6 @@ export default function DedicatedOffersPage() {
     pagination,
     loading,
     error,
-    bulkDeleteLoading,
-    bulkDeleteError,
   } = useSelector((state: RootState) => state.dedicatedOffers);
 
   const { searchTerm } = useSelector((state: RootState) => state.search);
@@ -196,9 +193,9 @@ export default function DedicatedOffersPage() {
                 ) : (
                   displayOffers.map((offer) => (
                     <div key={offer.id} className="mb-4">
-                      <Link href={`/businesses/dedicated-offers/${offer.id}`}>
+                      <div onClick={() => router.push(`/businesses/dedicated-offers/${offer.id}`)}>
                         <DedicatedOfferMobileCard offer={offer} />
-                      </Link>
+                      </div>
                     </div>
                   ))
                 )}
@@ -244,14 +241,15 @@ export default function DedicatedOffersPage() {
                         </div>
                       ) : (
                         displayOffers.map((offer) => (
-                          <Link
+                          <DedicatedOfferCard
                             key={offer.id}
-                            href={`/businesses/dedicated-offers/${offer.id}`}
-                          >
-                            <DedicatedOfferCard
-                              campaign={offer}
-                            />
-                          </Link>
+                            campaign={offer}
+                            onClick={() =>
+                              router.push(
+                                `/businesses/dedicated-offers/${offer.id}`
+                              )
+                            }
+                          />
                         ))
                       )}
                     </div>

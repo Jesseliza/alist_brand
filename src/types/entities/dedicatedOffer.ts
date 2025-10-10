@@ -12,9 +12,9 @@ export interface DedicatedOffersState {
 }
 
 export interface GetDedicatedOffersPayload {
-  page: number;
-  per_page: number;
   search?: string;
+  per_page: number;
+  page: number;
 }
 
 export interface GetDedicatedOfferDetailsPayload {

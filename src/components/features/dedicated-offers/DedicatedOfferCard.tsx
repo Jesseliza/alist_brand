@@ -6,19 +6,19 @@ import { getInitials } from "@/utils/text";
 
 interface DedicatedOfferCardProps {
   campaign: CampaignDisplay;
+  onClick: () => void;
 }
 
 export default function DedicatedOfferCard({
   campaign,
+  onClick,
 }: DedicatedOfferCardProps) {
   const {
     title,
     vendorName,
     status,
-    thumbnailUrl,
     brandLogo,
     brandName,
-    offerType,
     startDate,
     endDate,
   } = campaign;
@@ -35,7 +35,7 @@ export default function DedicatedOfferCard({
     <article className="w-full bg-white rounded-[13px] overflow-hidden relative">
       <div className="h-[90px] w-full relative bg-[#E1E1E1]">
         <Image
-          src={thumbnailUrl || "/images/no_image.png"}
+          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${campaign.banner_image}`}
           alt={`${title} header`}
           fill
           className="object-cover"
@@ -92,14 +92,22 @@ export default function DedicatedOfferCard({
         </div>
         <hr className="border-[#F2F2F2] mb-[15px]" />
         <div className="flex items-center justify-between">
-            <p className="text-[13px] text-[#414141] font-medium">Offer Date</p>
-            <p className="text-[13px] text-[#787878]">
-                {new Date(startDate).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric',
-                })}
-            </p>
+          <p className="text-[13px] text-[#414141] font-medium">Offer Date</p>
+          <p className="text-[13px] text-[#787878]">
+            {new Date(startDate).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </p>
+        </div>
+        <div className="flex justify-end mt-4">
+          <button
+            onClick={onClick}
+            className="text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-lg px-4 py-2"
+          >
+            Edit
+          </button>
         </div>
       </div>
     </article>

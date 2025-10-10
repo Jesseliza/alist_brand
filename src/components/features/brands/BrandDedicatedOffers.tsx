@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
-import DedicatedOfferCard from "../campaigns/DedicatedOfferCard";
+import DedicatedOfferCard from "../dedicated-offers/DedicatedOfferCard";
 import { DedicatedOffer } from "@/types/entities/brand";
 import { adaptDedicatedOfferToDisplay } from "@/utils/campaignAdapters";
 
@@ -62,25 +62,21 @@ export default function BrandDedicatedOffers({
       <div className="hidden md:block">
         <div className="max-w-[1428px] py-10 mx-auto grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center">
           {displayOffers.map((offer, index) => (
-            <div
+            <DedicatedOfferCard
               key={`${offer.campaignId}-${index}`}
+              campaign={offer}
               onClick={() => handleOfferClick(offer.id)}
-              className="cursor-pointer"
-            >
-              <DedicatedOfferCard campaign={offer} />
-            </div>
+            />
           ))}
         </div>
       </div>
       <div className="md:hidden flex flex-col gap-1.25">
         {displayOffers.map((offer, index) => (
-          <div
+          <DedicatedOfferCard
             key={`${offer.campaignId}-${index}`}
+            campaign={offer}
             onClick={() => handleOfferClick(offer.id)}
-            className="cursor-pointer"
-          >
-            <DedicatedOfferCard campaign={offer} />
-          </div>
+          />
         ))}
       </div>
     </div>
