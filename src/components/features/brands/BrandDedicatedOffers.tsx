@@ -20,6 +20,7 @@ export default function BrandDedicatedOffers({
   brandName,
   brandLogo,
   brandId,
+  brandCategory,
 }: BrandDedicatedOffersProps) {
   const router = useRouter();
 
@@ -36,9 +37,10 @@ export default function BrandDedicatedOffers({
           offer,
           brandName,
           brandLogo,
+          brandCategory
         )
       ),
-    [dedicatedOffers, brandName, brandLogo]
+    [dedicatedOffers, brandName, brandLogo, brandCategory]
   );
 
   if (!displayOffers || displayOffers.length === 0) {

@@ -124,7 +124,8 @@ export const adaptFoodOfferToDisplay = (
 export const adaptDedicatedOfferToDisplay = (
   offer: DedicatedOffer,
   brandName: string,
-  brandLogo?: string
+  brandLogo?: string,
+  brandCategory?: string
 ): DedicatedOfferDisplay => {
   const startDate = new Date(`${offer.offer_date}T${offer.offer_start_time || '00:00:00'}`);
   const endDate = new Date(`${offer.offer_date}T${offer.offer_end_time || '23:59:59'}`);
@@ -141,6 +142,6 @@ export const adaptDedicatedOfferToDisplay = (
     startDate: startDate.toISOString(),
     endDate: endDate.toISOString(),
     banner_image: offer.banner_image,
-    category: offer.venue?.category?.category,
+    category: brandCategory ?? offer.venue?.category?.category,
   };
 };
