@@ -246,15 +246,23 @@ export default function DedicatedOffersPage() {
                         </div>
                       ) : (
                         displayOffers.map((offer) => (
-                          <DedicatedOfferCard
+                          <div
                             key={offer.id}
-                            campaign={offer}
                             onClick={() =>
                               router.push(
                                 `/businesses/dedicated-offers/${offer.id}`
                               )
                             }
-                          />
+                          >
+                            <DedicatedOfferCard
+                              campaign={offer}
+                              onClick={() =>
+                                router.push(
+                                  `/businesses/dedicated-offers/${offer.id}`
+                                )
+                              }
+                            />
+                          </div>
                         ))
                       )}
                     </div>

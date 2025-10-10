@@ -82,11 +82,11 @@ function* getMoreDedicatedOffersSaga(action: PayloadAction<GetDedicatedOffersPay
 function* getDedicatedOfferDetailsSaga(action: PayloadAction<GetDedicatedOfferDetailsPayload>) {
   try {
     const { id } = action.payload;
-    const response: { data: DedicatedOfferDetailsApiResponse } = yield call(
+    const response: { data: DedicatedOffer } = yield call(
       axiosInstance.get,
       `/api/dedicated/${id}`
     );
-    yield put(getDedicatedOfferDetailsSuccess(response.data.data));
+    yield put(getDedicatedOfferDetailsSuccess(response.data));
   } catch (error) {
     yield put(getDedicatedOfferDetailsFailure((error as Error).message));
   }
