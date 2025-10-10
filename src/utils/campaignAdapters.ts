@@ -1,5 +1,6 @@
 import { Campaign, CampaignSummary, CampaignDisplay, TimeUnit } from "@/types/entities/campaign";
-import { FoodOffer, DedicatedOffer } from "@/types/entities/brand";
+import { FoodOffer } from "@/types/entities/brand";
+import { DedicatedOffer, DedicatedOfferDisplay } from "@/types/entities/dedicatedOffer";
 
 export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): CampaignDisplay => {
   const startDate = new Date(summary.start_date);
@@ -123,34 +124,22 @@ export const adaptFoodOfferToDisplay = (
 export const adaptDedicatedOfferToDisplay = (
   offer: DedicatedOffer,
   brandName: string,
-  brandId: string,
-  brandLogo: string,
-  brandCategory?: string
-): CampaignDisplay => {
+  brandLogo?: string
+): DedicatedOfferDisplay => {
   const startDate = new Date(`${offer.offer_date}T${offer.offer_start_time || '00:00:00'}`);
   const endDate = new Date(`${offer.offer_date}T${offer.offer_end_time || '23:59:59'}`);
-  const timeDiff = endDate.getTime() - startDate.getTime();
-  const daysDuration = Math.round(timeDiff / (1000 * 3600 * 24)) + 1;
 
   const status = offer.offer_status === 1 ? "Approved" : "Pending";
 
   return {
     id: offer.id,
-    campaignId: offer.id,
     title: offer.offer_title,
     vendorName: brandName,
     status: status,
     brandLogo: brandLogo,
     brandName: brandName,
-    creatorApprovalType:
-      status === "Approved" ? "Automated" : "Manual",
-    campaignType: "Dedicated",
-    offerType: brandCategory ?? "N/A",
     startDate: startDate.toISOString(),
     endDate: endDate.toISOString(),
-    duration: daysDuration > 0 ? daysDuration : 0,
-    durationUnit: "Days",
-    is_dedicated: 1,
     banner_image: offer.banner_image,
     category: offer.venue?.category?.category,
   };

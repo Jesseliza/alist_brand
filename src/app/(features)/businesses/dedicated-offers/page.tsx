@@ -154,7 +154,7 @@ export default function DedicatedOffersPage() {
     }
   };
 
-  const displayOffers = dedicatedOffers.map((offer) => adaptDedicatedOfferToDisplay(offer, offer.venue_id.toString(), offer.venue_id.toString(), ''));
+  const displayOffers = dedicatedOffers.map((offer) => adaptDedicatedOfferToDisplay(offer, offer.venue.venue_title, ''));
 
   const isAllSelected =
     displayOffers.length > 0 && checkedRows.size === displayOffers.length;
@@ -246,23 +246,15 @@ export default function DedicatedOffersPage() {
                         </div>
                       ) : (
                         displayOffers.map((offer) => (
-                          <div
+                          <DedicatedOfferCard
                             key={offer.id}
+                            offer={offer}
                             onClick={() =>
                               router.push(
                                 `/businesses/dedicated-offers/${offer.id}`
                               )
                             }
-                          >
-                            <DedicatedOfferCard
-                              campaign={offer}
-                              onClick={() =>
-                                router.push(
-                                  `/businesses/dedicated-offers/${offer.id}`
-                                )
-                              }
-                            />
-                          </div>
+                          />
                         ))
                       )}
                     </div>
