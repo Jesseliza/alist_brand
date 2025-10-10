@@ -41,7 +41,7 @@ export default function DedicatedOffersPage() {
   const debouncedSearch = useDebounce(searchTerm, 500);
 
   useEffect(() => {
-    dispatch(getDedicatedOffersStart({ page: 1, per_page: 10 }));
+    dispatch(getDedicatedOffersStart({ page: 1, per_page: 10, search: "" }));
 
     return () => {
       dispatch(setSearchTerm(""));
@@ -193,9 +193,14 @@ export default function DedicatedOffersPage() {
                 ) : (
                   displayOffers.map((offer) => (
                     <div key={offer.id} className="mb-4">
-                      <div onClick={() => router.push(`/businesses/dedicated-offers/${offer.id}`)}>
-                        <DedicatedOfferMobileCard offer={offer} />
-                      </div>
+                      <DedicatedOfferMobileCard
+                        offer={offer}
+                        onClick={() =>
+                          router.push(
+                            `/businesses/dedicated-offers/${offer.id}`
+                          )
+                        }
+                      />
                     </div>
                   ))
                 )}

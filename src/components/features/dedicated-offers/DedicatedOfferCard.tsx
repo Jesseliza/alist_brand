@@ -21,6 +21,7 @@ export default function DedicatedOfferCard({
     brandName,
     startDate,
     endDate,
+    category,
   } = campaign;
 
   const isOfferActive = useMemo(() => {
@@ -30,6 +31,12 @@ export default function DedicatedOfferCard({
     const end = new Date(endDate);
     return now >= start && now <= end;
   }, [startDate, endDate]);
+
+  const getBarterIcon = () => {
+    return isOfferActive
+      ? "/icons/campaign/card/barter-approved.svg"
+      : "/icons/campaign/card/barter-pending-light.svg";
+  };
 
   return (
     <article className="w-full bg-white rounded-[13px] overflow-hidden relative">
@@ -91,20 +98,53 @@ export default function DedicatedOfferCard({
           </div>
         </div>
         <hr className="border-[#F2F2F2] mb-[15px]" />
-        <div className="flex items-center justify-between">
-          <p className="text-[13px] text-[#414141] font-medium">Offer Date</p>
-          <p className="text-[13px] text-[#787878]">
-            {new Date(startDate).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </p>
+        <div className="grid grid-cols-3 gap-[9px] mb-[13px]">
+          <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
+            <div className="h-[30.65px] flex items-center justify-center">
+              <Image
+                src={getBarterIcon()}
+                alt="Barter"
+                width={24}
+                height={25.83}
+              />
+            </div>
+            <span className="text-[12px] text-[#414141] leading-[20px]">
+              Dedicated
+            </span>
+          </div>
+          <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
+            <div className="h-[30.65px] flex items-center justify-center">
+              <span className="text-[12px] text-[#414141] font-medium">
+                {category ?? "N/A"}
+              </span>
+            </div>
+            <span className="text-[12px] text-[#414141] font-medium">
+              Category
+            </span>
+          </div>
+          <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
+            <div className="h-[30.65px] flex items-center justify-center">
+              <span
+                className={`text-[12px] font-bold leading-[31px] ${
+                  isOfferActive ? "text-[#00A4B6]" : "text-[#505050]"
+                }`}
+              >
+                {new Date(startDate).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+            <span className="text-[12px] text-[#414141] font-medium">
+              Offer Date
+            </span>
+          </div>
         </div>
-        <div className="flex justify-end mt-4">
+        <div className="flex gap-[9px]">
           <button
             onClick={onClick}
-            className="text-sm text-white bg-blue-500 hover:bg-blue-600 rounded-lg px-4 py-2"
+            className="flex-1 bg-[#787878] text-[15px]  text-white py-[9px] rounded-[11px] font-medium leading-[23px]"
           >
             Edit
           </button>

@@ -3,8 +3,10 @@ import { CampaignDisplay } from "@/types/entities/campaign";
 
 export default function DedicatedOfferMobileCard({
   offer,
+  onClick,
 }: {
   offer: CampaignDisplay;
+  onClick: () => void;
 }) {
   const {
     title,
@@ -15,7 +17,10 @@ export default function DedicatedOfferMobileCard({
   } = offer;
 
   return (
-    <div className="bg-white rounded-[13px] p-3.5 cursor-pointer">
+    <div
+      className="bg-white rounded-[13px] p-3.5 cursor-pointer"
+      onClick={onClick}
+    >
       <div className="flex gap-5 items-center">
         <div className="relative w-[86.31px] h-[86.31px] rounded-[10px] overflow-hidden bg-[#E1E1E1]">
           <Image
