@@ -91,20 +91,15 @@ export default function DedicatedOfferCard({
           </div>
         </div>
         <hr className="border-[#F2F2F2] mb-[15px]" />
-        <div className="grid grid-cols-1 gap-[9px] mb-[13px]">
-          <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
-            <div className="h-[30.65px] flex items-center justify-center">
-                <Image
-                    src={isOfferActive ? "/icons/campaign/card/barter-approved.svg" : "/icons/campaign/card/barter-pending-light.svg"}
-                    alt="Offer Type"
-                    width={24}
-                    height={25.83}
-                />
-            </div>
-            <span className="text-[12px] text-[#414141] font-medium">
-              {offerType ?? "N/A"}
-            </span>
-          </div>
+        <div className="flex items-center justify-between">
+            <p className="text-[13px] text-[#414141] font-medium">Offer Date</p>
+            <p className="text-[13px] text-[#787878]">
+                {new Date(startDate).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                })}
+            </p>
         </div>
       </div>
     </article>

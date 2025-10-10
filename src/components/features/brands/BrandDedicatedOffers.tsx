@@ -25,13 +25,13 @@ export default function BrandDedicatedOffers({
 }: BrandDedicatedOffersProps) {
   const router = useRouter();
 
-  const handleCampaignClick = (campaignId: string | number) => {
+  const handleOfferClick = (offerId: string | number) => {
     router.push(
-      `/businesses/campaigns/${campaignId}?source=brand&brandId=${brandId}`
+      `/businesses/dedicated-offers/${offerId}?source=brand&brandId=${brandId}`
     );
   };
 
-  const displayCampaigns = useMemo(
+  const displayOffers = useMemo(
     () =>
       dedicatedOffers.map((offer) =>
         adaptDedicatedOfferToDisplay(
@@ -45,7 +45,7 @@ export default function BrandDedicatedOffers({
     [dedicatedOffers, brandName, brandId, brandLogo, brandCategory]
   );
 
-  if (!displayCampaigns || displayCampaigns.length === 0) {
+  if (!displayOffers || displayOffers.length === 0) {
     return (
       <div className="py-6">
         <div className="max-w-[1428px] mx-auto">
@@ -61,25 +61,25 @@ export default function BrandDedicatedOffers({
     <div className="py-6">
       <div className="hidden md:block">
         <div className="max-w-[1428px] py-10 mx-auto grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center">
-          {displayCampaigns.map((campaign, index) => (
+          {displayOffers.map((offer, index) => (
             <div
-              key={`${campaign.campaignId}-${index}`}
-              onClick={() => handleCampaignClick(campaign.id)}
+              key={`${offer.campaignId}-${index}`}
+              onClick={() => handleOfferClick(offer.id)}
               className="cursor-pointer"
             >
-              <DedicatedOfferCard campaign={campaign} />
+              <DedicatedOfferCard campaign={offer} />
             </div>
           ))}
         </div>
       </div>
       <div className="md:hidden flex flex-col gap-1.25">
-        {displayCampaigns.map((campaign, index) => (
+        {displayOffers.map((offer, index) => (
           <div
-            key={`${campaign.campaignId}-${index}`}
-            onClick={() => handleCampaignClick(campaign.id)}
+            key={`${offer.campaignId}-${index}`}
+            onClick={() => handleOfferClick(offer.id)}
             className="cursor-pointer"
           >
-            <DedicatedOfferCard campaign={campaign} />
+            <DedicatedOfferCard campaign={offer} />
           </div>
         ))}
       </div>
