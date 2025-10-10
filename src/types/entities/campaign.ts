@@ -207,6 +207,7 @@ export interface CampaignSummary {
   id: number;
   offer_title: string;
   account_status: string;
+  offer_status: string;
   campaign_id: string;
   start_date: string;
   end_date: string;

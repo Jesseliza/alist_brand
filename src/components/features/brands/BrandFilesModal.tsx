@@ -10,6 +10,7 @@ import InlineLoader from "@/components/general/InlineLoader";
 import toast from "react-hot-toast";
 import PinModal from "@/components/general/PinModal";
 import Image from "next/image";
+import { formatDate } from "@/utils/date";
 
 interface BrandFile {
   id: number;
@@ -157,14 +158,6 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
       </div>
     ), {
       duration: 6000,
-    });
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
     });
   };
 

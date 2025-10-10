@@ -1,16 +1,16 @@
 "use client";
 import { useState, useMemo, useEffect, useRef } from "react";
-import { Campaign } from "@/types/entities";
-import CampaignCreatorCard from "./Creators/CampaignCreatorCard";
+import { DedicatedOffer } from "@/types/entities/brand";
+import CampaignCreatorCard from "../../campaigns/tabs/Creators/CampaignCreatorCard";
 import Pagination from "@/components/general/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { updateDedicatedPageStatusStart } from "@/store/campaigns/CampaignSlice";
 import { RootState } from "@/store/store";
-import RejectReasonModal from "../RejectReasonModal";
+import RejectReasonModal from "../../campaigns/RejectReasonModal";
 
 const ITEMS_PER_PAGE = 6;
 
-export default function Creators({ campaign }: { campaign: Campaign }) {
+export default function Creators({ offer }: { offer: DedicatedOffer }) {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
   const [selectedCreatorId, setSelectedCreatorId] = useState<string | null>(
@@ -31,7 +31,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
     prevLoading.current = dedicatedPageStatusLoading;
   }, [dedicatedPageStatusLoading]);
 
-  const creators = useMemo(() => campaign?.dedicated_offer?.offer_users || [], [campaign?.dedicated_offer?.offer_users]);
+  const creators = useMemo(() => offer?.offer_users || [], [offer?.offer_users]);
 
   const mappedCreators = useMemo(() => {
     return creators
@@ -57,7 +57,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
 
   const handleApprove = (id: string) => {
     setSelectedCreatorId(id);
-    dispatch(updateDedicatedPageStatusStart({ id: id, status: 1 }));
+    dispatch(updateDedicatedPageStatusStart({ id: id, status: 1, campaignId: offer.id.toString() }));
   };
 
   const handleReject = (id: string) => {
@@ -72,17 +72,10 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
         id: selectedCreatorId,
         status: 0,
         rejectReason: rejectReason,
+        campaignId: offer.id.toString(),
       })
     );
   };
-
-  if (campaign?.is_dedicated !== 1) {
-    return (
-      <div className="text-center py-10 text-gray-500">
-        Creators Not Found
-      </div>
-    );
-  }
 
   return (
     <div>
@@ -123,7 +116,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
           </>
         ) : (
           <div className="text-center py-10 text-gray-500">
-            No creators found for this campaign.
+            No creators found for this offer.
           </div>
         )}
       </div>

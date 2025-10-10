@@ -22,6 +22,7 @@ import {
 import { DedicatedOffer } from '@/types/entities/dedicatedOffer';
 
 interface DedicatedOffersApiResponse {
+  data: {
     venues: {
         data: DedicatedOffer[];
         current_page: number;
@@ -29,22 +30,23 @@ interface DedicatedOffersApiResponse {
         per_page: number;
         total: number;
     }
+  }
 }
 
 function* getDedicatedOffersSaga(action: PayloadAction<GetDedicatedOffersPayload>) {
   try {
-    const response: DedicatedOffersApiResponse = yield call(
+    const response: { data: DedicatedOffersApiResponse } = yield call(
       axiosInstance.post,
       '/api/dedicated/offers',
       action.payload
     );
     yield put(getDedicatedOffersSuccess({
-        data: response.venues.data,
+        data: response.data.venues.data,
         pagination: {
-            currentPage: response.venues.current_page,
-            lastPage: response.venues.last_page,
-            perPage: response.venues.per_page,
-            total: response.venues.total,
+            currentPage: response.data.venues.current_page,
+            lastPage: response.data.venues.last_page,
+            perPage: response.data.venues.per_page,
+            total: response.data.venues.total,
         }
     }));
   } catch (error) {
@@ -54,18 +56,18 @@ function* getDedicatedOffersSaga(action: PayloadAction<GetDedicatedOffersPayload
 
 function* getMoreDedicatedOffersSaga(action: PayloadAction<GetDedicatedOffersPayload>) {
     try {
-      const response: DedicatedOffersApiResponse = yield call(
+      const response: { data: DedicatedOffersApiResponse } = yield call(
         axiosInstance.post,
         '/api/dedicated/offers',
         action.payload
       );
       yield put(getMoreDedicatedOffersSuccess({
-          data: response.venues.data,
+          data: response.data.venues.data,
           pagination: {
-              currentPage: response.venues.current_page,
-              lastPage: response.venues.last_page,
-              perPage: response.venues.per_page,
-              total: response.venues.total,
+              currentPage: response.data.venues.current_page,
+              lastPage: response.data.venues.last_page,
+              perPage: response.data.venues.per_page,
+              total: response.data.venues.total,
           }
       }));
     } catch (error) {
