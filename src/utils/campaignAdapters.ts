@@ -127,8 +127,8 @@ export const adaptDedicatedOfferToDisplay = (
   brandLogo: string,
   brandCategory?: string
 ): CampaignDisplay => {
-  const startDate = new Date(offer.offer_date);
-  const endDate = new Date(offer.offer_date);
+  const startDate = new Date(`${offer.offer_date}T${offer.offer_start_time || '00:00:00'}`);
+  const endDate = new Date(`${offer.offer_date}T${offer.offer_end_time || '23:59:59'}`);
   const timeDiff = endDate.getTime() - startDate.getTime();
   const daysDuration = Math.round(timeDiff / (1000 * 3600 * 24)) + 1;
 
@@ -153,8 +153,8 @@ export const adaptDedicatedOfferToDisplay = (
       status === "Approved" ? "Automated" : "Manual",
     campaignType: "Dedicated",
     offerType: brandCategory ?? "N/A",
-    startDate: offer.offer_date,
-    endDate: offer.offer_date,
+    startDate: startDate.toISOString(),
+    endDate: endDate.toISOString(),
     duration: daysDuration > 0 ? daysDuration : 0,
     durationUnit: "Days",
     is_dedicated: 1,
