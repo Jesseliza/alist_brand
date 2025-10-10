@@ -2,8 +2,7 @@
 
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
-import CampaignCard from "../campaigns/CampaignCard";
-import BrandCampaignMobileCard from "./BrandCampaignMobileCard";
+import DedicatedOfferCard from "../campaigns/DedicatedOfferCard";
 import { DedicatedOffer } from "@/types/entities/brand";
 import { adaptDedicatedOfferToDisplay } from "@/utils/campaignAdapters";
 
@@ -68,14 +67,7 @@ export default function BrandDedicatedOffers({
               onClick={() => handleCampaignClick(campaign.id)}
               className="cursor-pointer"
             >
-              <CampaignCard
-                campaign={campaign}
-                onRemove={() =>
-                  onRemoveCampaign && onRemoveCampaign(campaign.id.toString())
-                }
-                checked={false}
-                onCheckboxChange={() => {}}
-              />
+              <DedicatedOfferCard campaign={campaign} />
             </div>
           ))}
         </div>
@@ -87,12 +79,7 @@ export default function BrandDedicatedOffers({
             onClick={() => handleCampaignClick(campaign.id)}
             className="cursor-pointer"
           >
-            <BrandCampaignMobileCard
-              campaign={campaign}
-              onRemove={() =>
-                onRemoveCampaign && onRemoveCampaign(campaign.id.toString())
-              }
-            />
+            <DedicatedOfferCard campaign={campaign} />
           </div>
         ))}
       </div>
