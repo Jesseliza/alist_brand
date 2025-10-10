@@ -23,7 +23,7 @@ const dedicatedOffersSlice = createSlice({
   reducers: {
     getDedicatedOffersStart: (
       state,
-      _action: PayloadAction<GetDedicatedOffersPayload>
+      action: PayloadAction<GetDedicatedOffersPayload>
     ) => {
       state.loading = true;
       state.error = null;
@@ -39,7 +39,7 @@ const dedicatedOffersSlice = createSlice({
     },
     getMoreDedicatedOffersStart: (
       state,
-      _action: PayloadAction<GetDedicatedOffersPayload>
+      action: PayloadAction<GetDedicatedOffersPayload>
     ) => {
       state.loading = true;
     },
@@ -50,7 +50,7 @@ const dedicatedOffersSlice = createSlice({
     },
     getDedicatedOfferDetailsStart: (
       state,
-      _action: PayloadAction<GetDedicatedOfferDetailsPayload>
+      action: PayloadAction<GetDedicatedOfferDetailsPayload>
     ) => {
       state.loading = true;
       state.error = null;
@@ -65,7 +65,7 @@ const dedicatedOffersSlice = createSlice({
     },
     bulkDeleteDedicatedOffersStart: (
       state,
-      _action: PayloadAction<{ ids: string[] }>
+      action: PayloadAction<{ ids: string[] }>
     ) => {
       state.bulkDeleteLoading = true;
       state.bulkDeleteError = null;

@@ -47,8 +47,8 @@ export default function DedicatedOfferCard({
 
   const getCategoryIcon = () => {
     return isOfferActive
-      ? "/icons/campaign/card/category-blue.svg"
-      : "/icons/campaign/card/category-grey.svg";
+      ? "/icons/campaign/card/delivery-approved.svg"
+      : "/icons/campaign/card/delivery-pending-light.svg";
   };
 
   return (
