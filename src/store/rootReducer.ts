@@ -7,7 +7,6 @@ import commonReducer from './common/commonSlice';
 import campaignsReducer from './campaigns/CampaignSlice';
 import dashboardReducer from './dashboard/dashboardSlice';
 import dedicatedOffersReducer from './dedicated-offers/dedicatedOffersSlice';
-import dedicatedOffersReducer from './dedicated-offers/dedicatedOffersSlice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
