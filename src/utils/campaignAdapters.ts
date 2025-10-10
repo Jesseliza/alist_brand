@@ -1,5 +1,5 @@
 import { Campaign, CampaignSummary, CampaignDisplay, TimeUnit } from "@/types/entities/campaign";
-import { FoodOffer } from "@/types/entities/brand";
+import { FoodOffer, DedicatedOffer } from "@/types/entities/brand";
 
 export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): CampaignDisplay => {
   const startDate = new Date(summary.start_date);
@@ -117,5 +117,46 @@ export const adaptFoodOfferToDisplay = (
     duration: daysDuration > 0 ? daysDuration : 0,
     durationUnit: "Days",
     is_dedicated: offer.is_dedicated,
+  };
+};
+
+export const adaptDedicatedOfferToDisplay = (
+  offer: DedicatedOffer,
+  brandName: string,
+  brandId: string,
+  brandLogo: string,
+  brandCategory?: string
+): CampaignDisplay => {
+  const startDate = new Date(offer.offer_date);
+  const endDate = new Date(offer.offer_date);
+  const timeDiff = endDate.getTime() - startDate.getTime();
+  const daysDuration = Math.round(timeDiff / (1000 * 3600 * 24)) + 1;
+
+  const imageUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
+  const thumbnailUrl =
+    imageUrl && offer.banner_image
+      ? `${imageUrl}/assets/uploads/foodoffers/${offer.banner_image}`
+      : "/images/no_image.png";
+
+  const status = offer.offer_status === 1 ? "Approved" : "Pending";
+
+  return {
+    id: offer.id,
+    campaignId: offer.id,
+    title: offer.offer_title,
+    vendorName: brandName,
+    status: status,
+    thumbnailUrl,
+    brandLogo: brandLogo,
+    brandName: brandName,
+    creatorApprovalType:
+      status === "Approved" ? "Automated" : "Manual",
+    campaignType: "Dedicated",
+    offerType: brandCategory ?? "N/A",
+    startDate: offer.offer_date,
+    endDate: offer.offer_date,
+    duration: daysDuration > 0 ? daysDuration : 0,
+    durationUnit: "Days",
+    is_dedicated: 1,
   };
 };
