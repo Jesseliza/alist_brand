@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { getDedicatedOfferDetailsStart } from "@/store/dedicated-offers/dedicatedOffersSlice";
 import { RootState } from "@/store/store";
 import Loader from "@/components/general/Loader";
