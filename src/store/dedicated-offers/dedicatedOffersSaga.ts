@@ -82,11 +82,11 @@ function* getMoreDedicatedOffersSaga(action: PayloadAction<GetDedicatedOffersPay
 function* getDedicatedOfferDetailsSaga(action: PayloadAction<GetDedicatedOfferDetailsPayload>) {
   try {
     const { id } = action.payload;
-    const response: DedicatedOfferDetailsApiResponse = yield call(
+    const response: { data: DedicatedOfferDetailsApiResponse } = yield call(
       axiosInstance.get,
       `/api/dedicated/${id}`
     );
-    yield put(getDedicatedOfferDetailsSuccess(response.data));
+    yield put(getDedicatedOfferDetailsSuccess(response.data.data));
   } catch (error) {
     yield put(getDedicatedOfferDetailsFailure((error as Error).message));
   }
@@ -99,7 +99,9 @@ function* bulkDeleteDedicatedOffersSaga(action: PayloadAction<{ ids: string[] }>
     yield put(bulkDeleteDedicatedOffersSuccess(ids));
     toast.success("Dedicated offers deleted successfully!");
   } catch (error) {
-    const errorMessage = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Failed to delete dedicated offers.';
+    const errorMessage =
+      (error as { response?: { data?: { message?: string } } })?.response?.data
+        ?.message || "Failed to delete dedicated offers.";
     yield put(bulkDeleteDedicatedOffersFailure(errorMessage));
     toast.error(errorMessage);
   }

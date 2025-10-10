@@ -132,12 +132,6 @@ export const adaptDedicatedOfferToDisplay = (
   const timeDiff = endDate.getTime() - startDate.getTime();
   const daysDuration = Math.round(timeDiff / (1000 * 3600 * 24)) + 1;
 
-  const imageUrl = process.env.NEXT_PUBLIC_IMAGE_URL;
-  const thumbnailUrl =
-    imageUrl && offer.banner_image
-      ? `${imageUrl}/assets/uploads/foodoffers/${offer.banner_image}`
-      : "/images/no_image.png";
-
   const status = offer.offer_status === 1 ? "Approved" : "Pending";
 
   return {
@@ -146,7 +140,6 @@ export const adaptDedicatedOfferToDisplay = (
     title: offer.offer_title,
     vendorName: brandName,
     status: status,
-    thumbnailUrl,
     brandLogo: brandLogo,
     brandName: brandName,
     creatorApprovalType:
@@ -158,5 +151,7 @@ export const adaptDedicatedOfferToDisplay = (
     duration: daysDuration > 0 ? daysDuration : 0,
     durationUnit: "Days",
     is_dedicated: 1,
+    banner_image: offer.banner_image,
+    category: offer.venue?.category?.category,
   };
 };
