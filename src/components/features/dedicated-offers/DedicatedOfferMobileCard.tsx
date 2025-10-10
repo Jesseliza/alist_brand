@@ -1,18 +1,18 @@
 import Image from "next/image";
-import { CampaignDisplay } from "@/types/entities/campaign";
+import { DedicatedOfferDisplay } from "@/types/entities/dedicatedOffer";
 
 export default function DedicatedOfferMobileCard({
   offer,
   onClick,
 }: {
-  offer: CampaignDisplay;
+  offer: DedicatedOfferDisplay;
   onClick: () => void;
 }) {
   const {
     title,
     vendorName,
-    thumbnailUrl,
-    offerType,
+    banner_image,
+    category,
     startDate,
   } = offer;
 
@@ -24,7 +24,7 @@ export default function DedicatedOfferMobileCard({
       <div className="flex gap-5 items-center">
         <div className="relative w-[86.31px] h-[86.31px] rounded-[10px] overflow-hidden bg-[#E1E1E1]">
           <Image
-            src={thumbnailUrl || '/images/no_image.png'}
+            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${banner_image}`}
             alt={title ?? "Offer thumbnail"}
             fill
             className="object-cover"
@@ -49,7 +49,7 @@ export default function DedicatedOfferMobileCard({
                 width={10.01}
                 height={10.01}
               />
-              <p>{offerType ?? "N/A"}</p>
+              <p>{category ?? "N/A"}</p>
             </div>
             <div className="text-[13px] leading-[1.5] text-[#757575]">
                 {new Date(startDate).toLocaleDateString('en-US', {

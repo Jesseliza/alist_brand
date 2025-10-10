@@ -1,19 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
-import Image from "next/image";
 import { getDedicatedOfferDetailsStart } from "@/store/dedicated-offers/dedicatedOffersSlice";
 import { RootState } from "@/store/store";
 import Loader from "@/components/general/Loader";
-import DedicatedOfferDetails from "@/components/features/dedicated-offers/DedicatedOfferDetails";
 import BrandHeader from "@/components/features/brands/BrandHeader";
 
 export default function DedicatedOfferDetailsPage() {
   const dispatch = useDispatch();
   const params = useParams();
-  const router = useRouter();
   const { offerId } = params;
 
   const {
@@ -22,15 +19,13 @@ export default function DedicatedOfferDetailsPage() {
     error,
   } = useSelector((state: RootState) => state.dedicatedOffers);
 
+  const [activeTab, setActiveTab] = useState("Overview");
+
   useEffect(() => {
     if (offerId) {
       dispatch(getDedicatedOfferDetailsStart({ id: offerId as string }));
     }
   }, [dispatch, offerId]);
-
-  const handleBackClick = () => {
-    router.push("/businesses/dedicated-offers");
-  };
 
   if (loading) {
     return <Loader />;
@@ -51,25 +46,21 @@ export default function DedicatedOfferDetailsPage() {
           name={dedicatedOffer.offer_title}
           subtitle="Dedicated Offer Details"
           logo={null}
-          tabs={[]}
-          activeTab=""
-          onTabChange={() => {}}
+          tabs={["Overview", "Creators"]}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
         />
         <div className="mt-6 bg-white rounded-[13px] p-6">
-          <button onClick={handleBackClick} className="cursor-pointer mb-4">
-            <Image
-              src="/icons/campaign/details/back-arrow.svg"
-              alt="back"
-              width={35}
-              height={35}
+          {activeTab === "Overview" && (
+            <div
+              dangerouslySetInnerHTML={{ __html: dedicatedOffer.description }}
             />
-          </button>
-          <div className="pb-6">
-            <DedicatedOfferDetails
-              offer={dedicatedOffer}
-              offerId={offerId as string}
-            />
-          </div>
+          )}
+          {activeTab === "Creators" && (
+            <div>
+              <p>Creators tab content goes here.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

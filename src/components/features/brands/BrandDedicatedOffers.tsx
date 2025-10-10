@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import DedicatedOfferCard from "../dedicated-offers/DedicatedOfferCard";
-import { DedicatedOffer } from "@/types/entities/brand";
+import { DedicatedOffer } from "@/types/entities/dedicatedOffer";
 import { adaptDedicatedOfferToDisplay } from "@/utils/campaignAdapters";
 
 interface BrandDedicatedOffersProps {
@@ -20,8 +20,6 @@ export default function BrandDedicatedOffers({
   brandName,
   brandLogo,
   brandId,
-  onRemoveCampaign,
-  brandCategory,
 }: BrandDedicatedOffersProps) {
   const router = useRouter();
 
@@ -37,12 +35,10 @@ export default function BrandDedicatedOffers({
         adaptDedicatedOfferToDisplay(
           offer,
           brandName,
-          brandId,
           brandLogo,
-          brandCategory
         )
       ),
-    [dedicatedOffers, brandName, brandId, brandLogo, brandCategory]
+    [dedicatedOffers, brandName, brandLogo]
   );
 
   if (!displayOffers || displayOffers.length === 0) {
@@ -63,8 +59,8 @@ export default function BrandDedicatedOffers({
         <div className="max-w-[1428px] py-10 mx-auto grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center">
           {displayOffers.map((offer, index) => (
             <DedicatedOfferCard
-              key={`${offer.campaignId}-${index}`}
-              campaign={offer}
+              key={`${offer.id}-${index}`}
+              offer={offer}
               onClick={() => handleOfferClick(offer.id)}
             />
           ))}
@@ -73,8 +69,8 @@ export default function BrandDedicatedOffers({
       <div className="md:hidden flex flex-col gap-1.25">
         {displayOffers.map((offer, index) => (
           <DedicatedOfferCard
-            key={`${offer.campaignId}-${index}`}
-            campaign={offer}
+            key={`${offer.id}-${index}`}
+            offer={offer}
             onClick={() => handleOfferClick(offer.id)}
           />
         ))}

@@ -1,16 +1,16 @@
 import { useMemo } from "react";
 import Image from "next/image";
-import { CampaignDisplay } from "@/types/entities/campaign";
+import { DedicatedOfferDisplay } from "@/types/entities/dedicatedOffer";
 import { generateColorFromString } from "@/utils/colorGenerator";
 import { getInitials } from "@/utils/text";
 
 interface DedicatedOfferCardProps {
-  campaign: CampaignDisplay;
+  offer: DedicatedOfferDisplay;
   onClick: () => void;
 }
 
 export default function DedicatedOfferCard({
-  campaign,
+  offer,
   onClick,
 }: DedicatedOfferCardProps) {
   const {
@@ -20,7 +20,7 @@ export default function DedicatedOfferCard({
     brandName,
     startDate,
     category,
-  } = campaign;
+  } = offer;
 
   const { status, isOfferActive } = useMemo(() => {
     if (!startDate) return { status: "Pending", isOfferActive: false };
@@ -55,7 +55,7 @@ export default function DedicatedOfferCard({
     <article className="w-full bg-white rounded-[13px] overflow-hidden relative">
       <div className="h-[90px] w-full relative bg-[#E1E1E1]">
         <Image
-          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${campaign.banner_image}`}
+          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${offer.banner_image}`}
           alt={`${title} header`}
           fill
           className="object-cover"
