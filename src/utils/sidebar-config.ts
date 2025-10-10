@@ -46,16 +46,6 @@ export const sidebarConfig: SidebarSection[] = [
       },
       {
         icon: {
-          src: "/icons/sidebar/campaigns.svg",
-          alt: "Dedicated Offers",
-          width: 24.14,
-          height: 24.12,
-        },
-        label: "Dedicated Offers",
-        href: "/businesses/dedicated-offers",
-      },
-      {
-        icon: {
           src: "/icons/sidebar/brands.svg",
           alt: "Brands",
           width: 24.14,
@@ -63,6 +53,16 @@ export const sidebarConfig: SidebarSection[] = [
         },
         label: "Brands",
         href: "/businesses/brands",
+      },
+      {
+        icon: {
+          src: "/icons/sidebar/campaigns.svg",
+          alt: "Dedicated Offers",
+          width: 24.14,
+          height: 24.12,
+        },
+        label: "Dedicated Offers",
+        href: "/businesses/dedicated-offers",
       },
       {
         icon: {

@@ -20,11 +20,10 @@ import {
   GetDedicatedOfferDetailsPayload,
 } from '../../types/entities/dedicatedOffer';
 import { DedicatedOffer } from '@/types/entities/brand';
-import { Pagination } from '@/types/api';
 
 interface DedicatedOffersApiResponse {
     data: {
-        dedicated_offers: {
+        venues: {
             data: DedicatedOffer[];
             current_page: number;
             last_page: number;
@@ -35,29 +34,27 @@ interface DedicatedOffersApiResponse {
 }
 
 interface DedicatedOfferDetailsApiResponse {
-    data: {
-        dedicated_offer: DedicatedOffer;
-    }
+    data: DedicatedOffer;
 }
 
 function* getDedicatedOffersSaga(action: PayloadAction<GetDedicatedOffersPayload>) {
   try {
     const response: DedicatedOffersApiResponse = yield call(
       axiosInstance.post,
-      '/api/dedicated-offers',
+      '/api/dedicated/offers',
       action.payload
     );
     yield put(getDedicatedOffersSuccess({
-        data: response.data.dedicated_offers.data,
+        data: response.data.venues.data,
         pagination: {
-            currentPage: response.data.dedicated_offers.current_page,
-            lastPage: response.data.dedicated_offers.last_page,
-            perPage: response.data.dedicated_offers.per_page,
-            total: response.data.dedicated_offers.total,
+            currentPage: response.data.venues.current_page,
+            lastPage: response.data.venues.last_page,
+            perPage: response.data.venues.per_page,
+            total: response.data.venues.total,
         }
     }));
-  } catch (error: any) {
-    yield put(getDedicatedOffersFailure(error.message));
+  } catch (error) {
+    yield put(getDedicatedOffersFailure((error as Error).message));
   }
 }
 
@@ -65,20 +62,20 @@ function* getMoreDedicatedOffersSaga(action: PayloadAction<GetDedicatedOffersPay
     try {
       const response: DedicatedOffersApiResponse = yield call(
         axiosInstance.post,
-        '/api/dedicated-offers',
+        '/api/dedicated/offers',
         action.payload
       );
       yield put(getMoreDedicatedOffersSuccess({
-          data: response.data.dedicated_offers.data,
+          data: response.data.venues.data,
           pagination: {
-              currentPage: response.data.dedicated_offers.current_page,
-              lastPage: response.data.dedicated_offers.last_page,
-              perPage: response.data.dedicated_offers.per_page,
-              total: response.data.dedicated_offers.total,
+              currentPage: response.data.venues.current_page,
+              lastPage: response.data.venues.last_page,
+              perPage: response.data.venues.per_page,
+              total: response.data.venues.total,
           }
       }));
-    } catch (error: any) {
-      yield put(getDedicatedOffersFailure(error.message));
+    } catch (error) {
+      yield put(getDedicatedOffersFailure((error as Error).message));
     }
   }
 
@@ -87,11 +84,11 @@ function* getDedicatedOfferDetailsSaga(action: PayloadAction<GetDedicatedOfferDe
     const { id } = action.payload;
     const response: DedicatedOfferDetailsApiResponse = yield call(
       axiosInstance.get,
-      `/api/dedicated-offer/${id}`
+      `/api/dedicated/${id}`
     );
-    yield put(getDedicatedOfferDetailsSuccess(response.data.dedicated_offer));
-  } catch (error: any) {
-    yield put(getDedicatedOfferDetailsFailure(error.message));
+    yield put(getDedicatedOfferDetailsSuccess(response.data));
+  } catch (error) {
+    yield put(getDedicatedOfferDetailsFailure((error as Error).message));
   }
 }
 
@@ -101,8 +98,8 @@ function* bulkDeleteDedicatedOffersSaga(action: PayloadAction<{ ids: string[] }>
     yield call(axiosInstance.post, '/api/dedicated-offer/bulk-delete', { ids });
     yield put(bulkDeleteDedicatedOffersSuccess(ids));
     toast.success("Dedicated offers deleted successfully!");
-  } catch (error: any) {
-    const errorMessage = (error as any).response?.data?.message || 'Failed to delete dedicated offers.';
+  } catch (error) {
+    const errorMessage = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Failed to delete dedicated offers.';
     yield put(bulkDeleteDedicatedOffersFailure(errorMessage));
     toast.error(errorMessage);
   }
