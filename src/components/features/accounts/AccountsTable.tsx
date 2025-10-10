@@ -4,6 +4,7 @@ import Checkbox from "@/components/general/CheckBox";
 import { Account } from "@/types/entities";
 import { getDisplayName } from "@/utils/accountUtils";
 import Link from "next/link";
+import { formatDate } from "@/utils/date";
 
 interface AccountsTableProps {
   accounts: Account[];

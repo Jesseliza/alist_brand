@@ -1,25 +1,28 @@
 "use client";
 
 import Image from "next/image";
-import { CampaignDisplay } from "@/types/entities/campaign";
+import { DedicatedOffer } from "@/types/entities/dedicatedOffer";
 import Link from "next/link";
 import CheckBox from "@/components/general/CheckBox";
+import { getInitials } from "@/utils/getInitials";
+import { formatDate } from "@/utils/date";
 
 interface DedicatedOffersTableProps {
-  offers: CampaignDisplay[];
+  offers: DedicatedOffer[];
   checkedRows: Set<string>;
   onCheckboxChange: (offerId: string) => void;
-  onSelectAll: () => void;
-  isAllSelected: boolean;
 }
 
 export default function DedicatedOffersTable({
   offers,
   checkedRows,
   onCheckboxChange,
-  onSelectAll,
-  isAllSelected,
 }: DedicatedOffersTableProps) {
+  const getImageUrl = (imageName: string | null | undefined) => {
+    if (!imageName) return null;
+    return `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/thumbnail/${imageName}`;
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200 bg-white shadow rounded-[13px]">
@@ -35,13 +38,13 @@ export default function DedicatedOffersTable({
               scope="col"
               className="px-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
-              Offer Title
+              Offer Name
             </th>
             <th
               scope="col"
               className="px-6 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
-              Brand
+              Vendor
             </th>
             <th
               scope="col"
@@ -53,7 +56,7 @@ export default function DedicatedOffersTable({
               scope="col"
               className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
-              Status
+              Offer Date
             </th>
             <th
               scope="col"
@@ -79,38 +82,34 @@ export default function DedicatedOffersTable({
                     href={`/businesses/dedicated-offers/${offer.id}`}
                     className="flex items-center cursor-pointer"
                   >
-                    <div className="h-[33px] w-[70px] rounded-[6px] overflow-hidden relative flex-shrink-0">
-                      <Image
-                        src={offer.thumbnailUrl || "/images/no_image.png"}
-                        alt={offer.title}
-                        fill
-                        className="object-cover"
-                      />
+                    <div className="h-[33px] w-[70px] rounded-[6px] overflow-hidden relative flex-shrink-0 flex items-center justify-center bg-gray-200">
+                      {offer.banner_image ? (
+                        <Image
+                          src={getImageUrl(offer.banner_image) || "/images/no_image.png"}
+                          alt={offer.offer_title}
+                          layout="fill"
+                          className="object-cover"
+                        />
+                      ) : (
+                        <span className="text-lg font-bold text-gray-500">
+                          {getInitials(offer.offer_title)}
+                        </span>
+                      )}
                     </div>
                     <span className={`ml-3 text-[#4F4F4F]`}>
-                      {offer.title}
+                      {offer.offer_title}
                     </span>
                   </Link>
                 </div>
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                {offer.brandName}
+                {offer.venue?.venue_title ?? "N/A"}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
-                {offer.offerType ?? "N/A"}
+                {offer.venue?.category?.category ?? "N/A"}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
-                <div
-                  className={`w-[98px] px-4.25 py-1 rounded-full text-white ${
-                    offer.status === "Pending"
-                      ? "bg-[#636363]"
-                      : offer.status === "Rejected"
-                      ? "bg-red-500"
-                      : "bg-[#00CC86]"
-                  }`}
-                >
-                  {offer.status}
-                </div>
+                {formatDate(offer.offer_date)}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
                 <Link

@@ -3,27 +3,22 @@
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { DedicatedOffer } from "@/types/entities/brand";
-import { RootState } from "@/store/store";
 import Overview from "./tabs/Overview";
-// import Creators from "./tabs/Creators"; // This will be created later
+import Creators from "./tabs/Creators";
 
 const tabs = [
-  // "Creators", // To be added later
+  "Creators",
   "Overview",
 ];
 
 export default function DedicatedOfferDetails({
   offer,
-  offerId,
 }: {
   offer: DedicatedOffer;
-  offerId: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const dispatch = useDispatch();
 
   const [selectedIndex, setSelectedIndex] = useState(0); // Default to Overview
 
@@ -70,7 +65,7 @@ export default function DedicatedOfferDetails({
         <TabPanels className="md:px-4">
           {tabs.map((tab) => (
             <TabPanel key={tab}>
-              {/* {tab === "Creators" && <Creators offer={offer} />} */}
+              {tab === "Creators" && <Creators offer={offer} />}
               {tab === "Overview" && <Overview offer={offer} />}
             </TabPanel>
           ))}

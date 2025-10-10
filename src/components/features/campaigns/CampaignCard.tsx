@@ -1,65 +1,46 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import Image from "next/image";
-import { CampaignDisplay } from "@/types/entities/campaign";
+import { CampaignSummary } from "@/types/entities/campaign";
 import { generateColorFromString } from "@/utils/colorGenerator";
-import { getInitials } from "@/utils/text";
+import { getInitials } from "@/utils/getInitials";
 import CheckBox from "@/components/general/CheckBox";
+import { formatDate } from "@/utils/date";
 
 interface CampaignCardProps {
-  campaign: CampaignDisplay;
+  campaign: CampaignSummary;
   checked: boolean;
   onCheckboxChange: () => void;
-  onRemove: (id: string) => void;
 }
 
 export default function CampaignCard({
   campaign,
   checked,
   onCheckboxChange,
-  onRemove,
 }: CampaignCardProps) {
   const handleWrapperClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
 
   const {
-    title,
-    vendorName,
-    status,
-    thumbnailUrl,
-    brandLogo,
-    brandName,
-    campaignType,
-    offerType,
-    duration,
-    durationUnit,
-    copyLinkUrl,
+    offer_title,
+    venue,
+    account_status,
+    banner_image,
     is_dedicated,
-    startDate,
-    endDate,
+    start_date,
+    end_date,
   } = campaign;
 
-  const [copied, setCopied] = useState(false);
-
   const isOfferActive = useMemo(() => {
-    if (!startDate || !endDate) return false;
+    if (!start_date || !end_date) return false;
     const now = new Date();
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+    const start = new Date(start_date);
+    const end = new Date(end_date);
     return now >= start && now <= end;
-  }, [startDate, endDate]);
+  }, [start_date, end_date]);
 
 
   const getModeIcon = () => {
-    if (campaignType === "WalkIn") {
-      return isOfferActive
-        ? "/icons/campaign/card/walk-approved.svg"
-        : "/icons/campaign/card/walk-pending-light.svg";
-    } else if (campaignType === "Delivery") {
-      return isOfferActive
-        ? "/icons/campaign/card/delivery-approved.svg"
-        : "/icons/campaign/card/delivery-pending-light.svg";
-    }
     return isOfferActive
       ? "/icons/campaign/card/delivery-approved.svg"
       : "/icons/campaign/card/delivery-pending-light.svg";
@@ -71,11 +52,9 @@ export default function CampaignCard({
       : "/icons/campaign/card/barter-pending-light.svg";
   };
 
-
-  const handleRemoveClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onRemove(campaign.id.toString());
+  const getImageUrl = (imageName: string | null | undefined) => {
+    if (!imageName) return null;
+    return `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${imageName}`;
   };
 
   return (
@@ -88,16 +67,18 @@ export default function CampaignCard({
         />
       </div>
       <div className="h-[90px] w-full relative bg-[#E1E1E1]">
-        <Image
-          src={thumbnailUrl || "/images/no_image.png"}
-          alt={`${title} header`}
-          fill
-          className="object-cover"
-        />
+        {banner_image && (
+          <Image
+            src={getImageUrl(banner_image) || "/images/no_image.png"}
+            alt={`${offer_title} header`}
+            fill
+            className="object-cover"
+          />
+        )}
         <div className="w-[90px] h-[90px] absolute top-[39px] left-[24px] bg-white rounded-full border-5 border-[#E1E1E1] flex items-center justify-center overflow-hidden">
-          {brandLogo ? (
+          {venue?.logo ? (
             <Image
-              src={brandLogo}
+              src={venue.logo}
               alt="Brand logo"
               fill
               className="object-cover rounded-full aspect-square"
@@ -107,12 +88,12 @@ export default function CampaignCard({
               className="h-full w-full flex items-center justify-center"
               style={{
                 backgroundColor: generateColorFromString(
-                  brandName || title || ""
+                  venue?.venue_title || offer_title || ""
                 ),
               }}
             >
               <span className="text-white text-3xl font-semibold">
-                {getInitials(brandName || title || "")}
+                {getInitials(venue?.venue_title || offer_title || "")}
               </span>
             </div>
           )}
@@ -121,12 +102,12 @@ export default function CampaignCard({
       <div className="pt-[35px] pb-[15px] px-[21px]">
         <div className="">
           <h3 className="text-[15px] font-medium leading-[23px] text-[#4F4F4F]">
-            {title}
+            {offer_title}
           </h3>
         </div>
         <div className="flex items-center justify-between mb-[15px]">
           <p className="text-[13px] text-[#414141] leading-[20px]">
-            By {vendorName}
+            By {venue?.venue_title ?? "N/A"}
           </p>
           <div className="flex gap-[4.5px] items-center">
             <Image
@@ -135,12 +116,12 @@ export default function CampaignCard({
                   ? "/icons/campaign/card/active-light.svg"
                   : "/icons/campaign/card/pending-light.svg"
               }
-              alt={status}
+              alt={account_status}
               width={11.6}
               height={11.6}
             />
             <p className="text-[13px] text-[#787878] leading-[20px]">
-              {status}
+              {account_status}
             </p>
           </div>
         </div>
@@ -163,27 +144,27 @@ export default function CampaignCard({
             <div className="h-[30.65px] flex items-center justify-center">
               <Image
                 src={getModeIcon()}
-                alt={campaignType || "Campaign"}
-                width={campaignType === "WalkIn" ? 18.04 : 31.87}
-                height={campaignType === "WalkIn" ? 29.65 : 30.65}
+                alt={"Campaign"}
+                width={31.87}
+                height={30.65}
               />
             </div>
             <span className="text-[12px] text-[#414141] font-medium">
-              {offerType ?? "N/A"}
+              {venue?.category?.category ?? "N/A"}
             </span>
           </div>
           <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
             <div className="h-[30.65px] flex items-center justify-center">
               <span
-                className={`text-[21px] font-bold leading-[31px] ${
+                className={`text-[12px] font-bold leading-[31px] ${
                   isOfferActive ? "text-[#00A4B6]" : "text-[#505050]"
                 }`}
               >
-                {duration ?? "N/A"}
+                {formatDate(start_date)}
               </span>
             </div>
             <span className="text-[12px] text-[#414141] font-medium">
-              {durationUnit ?? ""}
+              Start Date
             </span>
           </div>
         </div>
