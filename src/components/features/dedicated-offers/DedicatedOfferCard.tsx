@@ -16,26 +16,39 @@ export default function DedicatedOfferCard({
   const {
     title,
     vendorName,
-    status,
     brandLogo,
     brandName,
     startDate,
-    endDate,
     category,
   } = campaign;
 
-  const isOfferActive = useMemo(() => {
-    if (!startDate || !endDate) return false;
+  const { status, isOfferActive } = useMemo(() => {
+    if (!startDate) return { status: "Pending", isOfferActive: false };
+
     const now = new Date();
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    return now >= start && now <= end;
-  }, [startDate, endDate]);
+    const offerDate = new Date(startDate);
+    now.setHours(0, 0, 0, 0);
+    offerDate.setHours(0, 0, 0, 0);
+
+    if (offerDate < now) {
+      return { status: "Expired", isOfferActive: false };
+    } else if (offerDate > now) {
+      return { status: "Pending", isOfferActive: false };
+    } else {
+      return { status: "Active", isOfferActive: true };
+    }
+  }, [startDate]);
 
   const getBarterIcon = () => {
     return isOfferActive
       ? "/icons/campaign/card/barter-approved.svg"
       : "/icons/campaign/card/barter-pending-light.svg";
+  };
+
+  const getCategoryIcon = () => {
+    return isOfferActive
+      ? "/icons/campaign/card/category-blue.svg"
+      : "/icons/campaign/card/category-grey.svg";
   };
 
   return (
@@ -114,12 +127,15 @@ export default function DedicatedOfferCard({
           </div>
           <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
             <div className="h-[30.65px] flex items-center justify-center">
-              <span className="text-[12px] text-[#414141] font-medium">
-                {category ?? "N/A"}
-              </span>
+              <Image
+                src={getCategoryIcon()}
+                alt="Category"
+                width={24}
+                height={24}
+              />
             </div>
             <span className="text-[12px] text-[#414141] font-medium">
-              Category
+              {category ?? "N/A"}
             </span>
           </div>
           <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
