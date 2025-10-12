@@ -1,3 +1,5 @@
+import { ApiDedicatedOffer } from "./dedicated-offer";
+
 export type FoodOffer = {
   id: number;
   offer_title: string;
@@ -73,6 +75,7 @@ export type FoodOffer = {
 
 export type Venue = {
   food_offers: FoodOffer[];
+  dedicated_offers: ApiDedicatedOffer[];
   category?: {
     id: number;
     category: string;

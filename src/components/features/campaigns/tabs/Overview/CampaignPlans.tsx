@@ -7,7 +7,18 @@ interface CampaignPlansProps {
 
 export default function CampaignPlans({ campaign }: CampaignPlansProps) {
   if (!campaign?.campaignPlan) {
-    return null;
+    return (
+      <div className="mt-5 mb-4">
+        <h4 className="text-center text-[15px] text-[#7E7E7E] leading-[23px] mb-5 ">
+          Campaign plan
+        </h4>
+        <div className="bg-[#F8F8F8] rounded-[11px] px-[39px] pt-[37px] pb-[27px]">
+          <p className="text-[15px] leading-[23px] text-[#4F4F4F]">
+            Offer plan details not available.
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (
