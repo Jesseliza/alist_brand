@@ -1,6 +1,80 @@
 export type CampaignType = "WalkIn" | "Delivery" | "Online" | "Exclusive";
 export type TimeUnit = "Days" | "Hours";
 
+export interface Venue {
+  id: number;
+  account_id: number | null;
+  venue_title: string;
+  company_name: string | null;
+  venue_url: string | null;
+  venu_code: number;
+  venue_review_url: string;
+  venue_instagram_url: string;
+  venue_tiktok_url: string;
+  venu_code_url: string | null;
+  venue_whatsapp_no: string;
+  venue_email: string;
+  delivery_areas: string | null;
+  venue_banner: string | null;
+  venue_logo: string | null;
+  venue_influencers: number;
+  venue_voucher_value: number;
+  venue_redeem_option: string | null;
+  venue_optout_url: number;
+  category_id: number;
+  avail_days: number;
+  Venue_contact_name: string;
+  venue_contact_number: string;
+  venue_instruction: string | null;
+  created_at: string;
+  updated_at: string;
+  approval_status: number;
+  state_id: number;
+  trade_license_file: string | null;
+  vat_certificate_file: string | null;
+  reviewScreenshot: number;
+  reminder_custom_days: number;
+  updated_by: string;
+  upload_alist_screenshot: number;
+  menu_pdf: string | null;
+  monday_id: string | null;
+  service: string;
+  is_venue_code_required: number;
+  skip_stories: number;
+  max_campaign_visible_days: number;
+  country_id: number | null;
+  category: {
+    id: number;
+    category: string;
+    image: string;
+    priority: number;
+    created_at: string | null;
+    updated_at: string;
+  };
+}
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  profile_picture: string;
+  instagram_url: string;
+  credibility: string;
+}
+
+export interface OfferUser {
+  id: number;
+  user_id: number;
+  offer_id: number;
+  status: number;
+  send_to_venue: number;
+  flag: number;
+  created_at: string;
+  updated_at: string;
+  rejectReason: string | null;
+  user: User;
+}
+
 export interface ApiDedicatedOffer {
   id: number;
   offer_title: string;
@@ -47,12 +121,8 @@ export interface ApiDedicatedOffer {
   offer_display_end_time: string;
   venue_offer_banner: number;
   is_offer_dummy: number;
-  venue: {
-    id: number;
-    account_id: number | null;
-    venue_title: string;
-    company_name: string | null;
-  };
+  venue: Venue;
+  offer_users: OfferUser[];
 }
 
 export interface DedicatedOfferDisplay {
@@ -67,9 +137,7 @@ export interface DedicatedOfferDisplay {
 }
 
 export interface DedicatedOffer extends ApiDedicatedOffer {
-  dedicated_offer?: {
-    offer_users: any[];
-  };
+  account_status?: string;
 }
 
 // API Payloads
