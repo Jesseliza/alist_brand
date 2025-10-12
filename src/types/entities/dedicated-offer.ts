@@ -1,239 +1,94 @@
-import { CampaignPost } from './campaignPost';
-
-// Campaign type enums
 export type CampaignType = "WalkIn" | "Delivery" | "Online" | "Exclusive";
 export type OfferType = "Barter" | "Paid" | "BarterAndPaid";
-export type TimeUnit = "Days" | "Hours";
-export type ChannelType =
-  | "InstagramStories"
-  | "GoogleReviews"
-  | "InstagramPosts"
-  | "TikTokVideos"
-  | "YouTubeVideos"
-  | "BlogPosts";
-export type AudienceDefinition = "Specific" | "Broad";
-export type CreatorApprovalType = "Automated" | "Manual";
-export type CreatorStatusFilter =
-  | "InstagramVerified"
-  | "TikTokVerified"
-  | "YouTubeVerified"
-  | "SnapchatVerified";
 
-// Payment arrangement type
-export type PaymentArrangement = {
-  arrangement: OfferType;
-  currency: string;
-  amount: number;
-};
-
-// Channel configuration type
-export type ChannelConfig = {
-  type: ChannelType;
-  config: Record<string, unknown>; // Flexible config object
-  url: string;
-};
-
-// Age range type
-export type AgeRange = {
-  min: number;
-  max: number;
-};
-
-// Followers tier range type (can be string or object)
-export type FollowersTierRange = string | { min: number; max: number };
-
-// Advanced visibility type
-export type AdvancedVisibility = {
-  duration: number;
-  unit: TimeUnit;
-};
-
-// Campaign stats type
-export type CampaignStats = {
-  creators: number | string;
-  impressions: number | string;
-  reach: number | string;
-  posts: number | string;
-  reviews: number | string;
-};
-
-// Campaign details type
-export type CampaignDetails = {
-  walkIn: string;
-  barter: string;
-  price: string;
-  approval: string;
-  restricted: string;
-  date: string;
-};
-
-// Campaign guideline type
-export type CampaignGuideline = {
-  platform: string;
-  platformIcon: string;
-  requirements: string;
-  rules: {
-    label: string;
-    value: string;
-    highlight?: string;
-  }[];
-};
-
-// Campaign plan type
-export type CampaignPlan = {
-  planName: string;
-  planType: string;
-  nextBillAmount: number;
-  nextBillCurrency: string;
-  nextBillDate: string;
-  paymentDate: string;
-  cardType: string;
-  cardIcon: string;
-  cardEnding: string;
-};
-
-// Campaign post type - moved to ./campaignPost.ts to avoid naming conflict
-
-// Main Campaign type - Expanded version
-export type Campaign = {
-  // Primary identifiers
-  campaignId: string; // UUID / string
-  brandId: string; // UUID / string (FK)
-  subscriptionId: string; // UUID / string (FK)
-
-  // Basic campaign info
-  title: string;
-  thumbnailUrl: string;
-  campaignType: CampaignType;
-  offerType: OfferType;
-
-  // Brand information (derived from brandId)
-  brandLogo: string;
-  brandName: string;
-
-  // Payment details
-  payments: PaymentArrangement[];
-
-  // Campaign content
-  offerDescription: string;
-  advancedVisibility: AdvancedVisibility;
-  campaignMessage: string;
-
-  // Channels configuration
-  channels: ChannelConfig[];
-
-  // Campaign rules
-  rulesAndGuidelines: string;
-
-  // Audience targeting
-  audienceDefinition: AudienceDefinition;
-  potentialReach: number;
-  ageRange: AgeRange;
-  excludedLanguages: string[];
-  followersTierRange: FollowersTierRange;
-  influencerTags: string[];
-  creatorStatusFilters: CreatorStatusFilter[];
-
-  // Creator approval
-  creatorApprovalType: CreatorApprovalType;
-
-  // Voucher details
-  voucherValue: number;
-  food_offer_user_count: number;
-  food_offer_user_with_user_count: number;
-  voucherCurrency: string;
-
-  // Campaign statistics
-  campaignStats: CampaignStats;
-
-  // Campaign details
-  campaignDetails: CampaignDetails;
-
-  // Campaign guidelines
-  campaignGuidelines: CampaignGuideline[];
-
-  // Campaign plan
-  campaignPlan: CampaignPlan;
-
-  // Campaign posts
-  campaignPosts?: CampaignPost[];
-  account_status?: string;
-  offer_status?: string;
-  is_dedicated?: number;
-  start_date?: string;
-  end_date?: string;
-  description?: string;
-  phone_campaign_message?: string;
-  rule_1?: string;
-  rule_2?: string;
-  rule_3?: string;
-  reviews_count?: number;
-  banner_image?: string;
-  amount?: number;
-  venue?: {
-    id: string;
-    venue_title: string;
-    category?: {
-      category?: string;
-    };
-  };
-  rejectReason?:string;
-
-  dedicated_offer?: {
-    offer_users: OfferUser[];
-  };
-
-  // Timestamps
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-// Type for a user associated with an offer
-export type OfferUser = {
-  id: number | string;
-  user: {
-    id: number | string;
-    profile_picture: string | null;
-    name: string;
-    instagram_url: string | null;
-    instagram_followers: number | null;
-    credibility: string | null;
-  };
-  status: number;
-};
-
-// Simplified campaign type for listings from API
-export interface CampaignSummary {
+export interface DedicatedOffer {
   id: number;
   offer_title: string;
-  account_status: string;
-  campaign_id: string;
-  start_date: string;
-  end_date: string;
+  venue_id: number;
+  social_media_id: number;
   banner_image: string;
-  is_dedicated: number;
+  offer_date: string;
+  offer_usage: number;
+  description: string;
+  credibility_range: string;
+  review_url: string | null;
+  restaurant_website: string | null;
+  whatsapp_no: string | null;
+  amount: string;
+  currency_id: number;
+  instagram_followers: string;
+  offer_status: number;
+  offer_notify: number;
+  minimum_user_count: number | null;
+  no_of_tables: number | null;
+  offer_gender: string;
+  influencer_types: string;
+  reminder_custom_date: string | null;
+  skip_invitation: number;
+  venue_update: number;
+  is_published: number;
+  min_age: number;
+  max_age: number;
+  user_types: string;
+  is_offer_is_prive: number;
+  is_offer_special: number;
+  is_offer_instagram_verified: number;
+  is_offer_blogger: number;
+  offer_id: number | null;
+  created_at: string;
+  updated_at: string;
+  offer_location: string;
+  location_country_id: number | null;
+  confirmation_message: string;
+  schedule_publish_time: string | null;
+  offer_start_time: string;
+  offer_end_time: string;
+  offer_display_start_time: string;
+  offer_display_end_time: string;
+  venue_offer_banner: number;
+  is_offer_dummy: number;
   venue: {
+    id: number;
+    account_id: number | null;
     venue_title: string;
-    category?: {
-      category?: string;
-    };
+    company_name: string | null;
+  };
+  // These fields are not in the provided API response, but are used in the components.
+  // Add them here to avoid breaking changes.
+  title?: string;
+  vendorName?: string;
+  status?: string;
+  thumbnailUrl?: string;
+  brandLogo?: string;
+  brandName?: string;
+  campaignType?: CampaignType;
+  offerType?: OfferType;
+  duration?: number;
+  durationUnit?: string;
+  copyLinkUrl?: string;
+  is_dedicated?: number;
+  startDate?: string;
+  endDate?: string;
+  account_status?: string;
+  dedicated_offer?: {
+    offer_users: any[];
   };
 }
 
 // API Payloads
-export interface GetCampaignsPayload {
+export interface GetDedicatedOffersPayload {
   search?: string;
   page?: number;
   per_page?: number;
 }
 
-export interface UpdateCampaignStatusPayload {
+export interface UpdateDedicatedOfferStatusPayload {
   id: string;
   status: 'Approved' | 'Rejected';
   rejectReason?: string;
 }
 
-export interface GetCampaignDetailsPayload {
+export interface GetDedicatedOfferDetailsPayload {
   id: string;
 }
 
@@ -241,14 +96,13 @@ export interface UpdateDedicatedPageStatusPayload {
   id: string;
   status: 0 | 1;
   rejectReason?: string;
-  campaignId?: string;
 }
 
 // API Responses
-export interface CampaignsApiResponse {
+export interface DedicatedOffersApiResponse {
   data: {
     venues: {
-      data: CampaignSummary[];
+      data: DedicatedOffer[];
       current_page: number;
       last_page: number;
       per_page: number;
@@ -257,27 +111,27 @@ export interface CampaignsApiResponse {
   };
 }
 
-export interface CampaignDetailsApiResponse {
+export interface DedicatedOfferDetailsApiResponse {
   data: {
-    data: Campaign;
+    data: DedicatedOffer;
   };
 }
 
 
 // Redux Actions
-export interface GetCampaignsAction {
+export interface GetDedicatedOffersAction {
   type: string;
-  payload: GetCampaignsPayload;
+  payload: GetDedicatedOffersPayload;
 }
 
-export interface UpdateCampaignStatusAction {
+export interface UpdateDedicatedOfferStatusAction {
   type: string;
-  payload: UpdateCampaignStatusPayload;
+  payload: UpdateDedicatedOfferStatusPayload;
 }
 
-export interface GetCampaignDetailsAction {
+export interface GetDedicatedOfferDetailsAction {
   type: string;
-  payload: GetCampaignDetailsPayload;
+  payload: GetDedicatedOfferDetailsPayload;
 }
 
 export interface UpdateDedicatedPageStatusAction {
@@ -285,173 +139,10 @@ export interface UpdateDedicatedPageStatusAction {
   payload: UpdateDedicatedPageStatusPayload;
 }
 
-// Campaign Review Post Types
-export interface InstagramFollowerRange {
-  followers: string;
-  reach: number;
-}
-
-export interface CampaignReviewPostUser {
-  name: string;
-  instagram_url: string | null;
-  instagram_followers: number | null;
-  profile_picture: string | null;
-  instagram_follower_range: InstagramFollowerRange | null;
-}
-
-export interface CampaignReviewPost {
-  id: number;
-  rating: number; // to be used as reach
-  screenshot1: string | null;
-  screenshot2: string | null;
-  screenshot3: string | null;
-  screenshot4: string | null;
-  comments: string;
-  user: CampaignReviewPostUser;
-}
-
-export interface CampaignReviewPostsResponse {
-  data: {
-    data: CampaignReviewPost[];
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  };
-}
-
-export interface GetCampaignReviewPostsPayload {
-  id: string;
-  page?: number;
-  per_page?: number;
-}
-
-export interface GetCampaignReviewPostsAction {
-  type: string;
-  payload: GetCampaignReviewPostsPayload;
-}
-
-// Campaign Review Types
-export interface CampaignReviewUser {
-  id: number;
-  name: string;
-  profile_picture: string | null;
-}
-
-export interface CampaignReview {
-  id: number;
-  offer_id: number;
-  comments: string;
-  rating: number;
-  approve_status: number;
-  user_id: number;
-  created_at: string;
-  user: CampaignReviewUser;
-}
-
-export interface CampaignReviewsResponse {
-  data: {
-    data: CampaignReview[];
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  };
-}
-
-export interface GetCampaignReviewsPayload {
-  id: string;
-  page?: number;
-  per_page?: number;
-}
-
-export interface GetCampaignReviewsAction {
-  type: string;
-  payload: GetCampaignReviewsPayload;
-}
-
-// Voucher Code Types
-export interface VoucherUser {
-  id: number;
-  name: string;
-}
-
-export interface VoucherCode {
-  id: number;
-  user_id: number | null;
-  offer_id: number;
-  offer_code: string;
-  offer_date: string;
-  tier: number;
-  block: unknown | null;
-  created_at: string;
-  updated_at: string;
-  redem_at: string | null;
-  used_at: string | null;
-  user: VoucherUser | null;
-}
-
-export interface VoucherCodesApiResponse {
-  data: {
-    data: VoucherCode[];
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  };
-}
-
-export interface GetVoucherCodesPayload {
-  id: string;
-  page?: number;
-  per_page?: number;
-}
-
-export interface GetVoucherCodesAction {
-  type: string;
-  payload: GetVoucherCodesPayload;
-}
-
-// Campaign Availability Types
-export interface CampaignAvailability {
-  id: number;
-  user_id: number | null;
-  offer_id: number;
-  offer_code: string;
-  offer_date: string;
-  tier: number;
-  block: number;
-  created_at: string;
-  updated_at: string;
-  redem_at: string;
-  used_at: string | null;
-  user: {
-    id: number;
-    name: string;
-    email: string;
-  } | null;
-}
-
-export interface CampaignAvailabilityApiResponse {
-  success: boolean;
-  message: string;
-  data: CampaignAvailability[];
-}
-
-export interface GetCampaignAvailabilityPayload {
-  campaign_id: string;
-  year_month: string;
-}
-
-export interface GetCampaignAvailabilityAction {
-  type: string;
-  payload: GetCampaignAvailabilityPayload;
-}
-
 // Redux State
-export interface CampaignsState {
-  campaigns: CampaignSummary[];
-  campaign: Campaign | null;
+export interface DedicatedOffersState {
+  dedicatedOffers: DedicatedOffer[];
+  dedicatedOffer: DedicatedOffer | null;
   loading: boolean;
   error: string | null;
   pagination: {
@@ -464,55 +155,65 @@ export interface CampaignsState {
   bulkDeleteError: string | null;
   dedicatedPageStatusLoading: boolean;
   statusUpdateLoading: boolean;
-  reviewPosts: CampaignReviewPost[];
+  reviewPosts: any[]; // Replace with actual type
   reviewPostsLoading: boolean;
   reviewPostsError: string | null;
-  reviewPostsPagination: {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  } | null;
-  reviews: CampaignReview[];
+  reviewPostsPagination: any; // Replace with actual type
+  reviews: any[]; // Replace with actual type
   reviewsLoading: boolean;
   reviewsError: string | null;
-  reviewsPagination: {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  } | null;
-  voucherCodes: VoucherCode[];
+  reviewsPagination: any; // Replace with actual type
+  voucherCodes: any[]; // Replace with actual type
   voucherCodesLoading: boolean;
   voucherCodesError: string | null;
-  voucherCodesPagination: {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  } | null;
-  campaignAvailability: CampaignAvailability[];
-  campaignAvailabilityLoading: boolean;
-  campaignAvailabilityError: string | null;
+  voucherCodesPagination: any; // Replace with actual type
+  dedicatedOfferAvailability: any[]; // Replace with actual type
+  dedicatedOfferAvailabilityLoading: boolean;
+  dedicatedOfferAvailabilityError: string | null;
 }
 
-// Unified type for display components
-export interface CampaignDisplay {
-  id: number | string;
-  campaignId: string;
-  title: string;
-  vendorName: string;
-  status: string;
-  thumbnailUrl?: string;
-  brandLogo?: string | null;
-  brandName?: string;
-  creatorApprovalType?: 'Automated' | 'Manual';
-  campaignType?: 'WalkIn' | 'Delivery' | 'Online' | 'Exclusive';
-  offerType?: string;
-  startDate?: string;
-  endDate?: string;
-  duration?: number;
-  durationUnit?: 'Days' | 'Hours';
-  copyLinkUrl?: string;
-  is_dedicated: number;
+// Types for components that are not yet refactored
+export interface GetDedicatedOfferReviewPostsPayload {
+  id: string;
+  page?: number;
+  per_page?: number;
+}
+
+export interface GetVoucherCodesPayload {
+  id: string;
+  page?: number;
+  per_page?: number;
+}
+
+export interface GetDedicatedOfferAvailabilityPayload {
+  dedicated_offer_id: string;
+  year_month: string;
+}
+
+export interface GetDedicatedOfferReviewsPayload {
+  id: string;
+  page?: number;
+  per_page?: number;
+}
+
+export interface DedicatedOfferReviewPostsResponse {}
+export interface VoucherCodesApiResponse {}
+export interface DedicatedOfferAvailability {}
+export interface DedicatedOfferAvailabilityApiResponse {}
+export interface DedicatedOfferReviewsResponse {}
+export interface GetDedicatedOfferReviewPostsAction {
+  type: string;
+  payload: GetDedicatedOfferReviewPostsPayload;
+}
+export interface GetVoucherCodesAction {
+  type: string;
+  payload: GetVoucherCodesPayload;
+}
+export interface GetDedicatedOfferAvailabilityAction {
+  type: string;
+  payload: GetDedicatedOfferAvailabilityPayload;
+}
+export interface GetDedicatedOfferReviewsAction {
+  type: string;
+  payload: GetDedicatedOfferReviewsPayload;
 }
