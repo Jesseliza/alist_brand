@@ -21,7 +21,7 @@ export default function CampaignDetailsPage() {
   const from = searchParams.get("from");
   const brandId = searchParams.get("brandId");
 
-  const [activeTab, setActiveTab] = useState("Campaigns");
+  const [activeTab, setActiveTab] = useState("Overview");
 
   const {
     campaign,
@@ -82,7 +82,7 @@ export default function CampaignDetailsPage() {
           name={campaign.venue?.venue_title || campaign.brandName}
           subtitle={campaign.title}
           logo={campaign.brandLogo}
-          tabs={["Business Details", "Campaigns"]}
+          tabs={["Overview", "Business Details"]}
           activeTab={activeTab}
           onTabChange={handleTabChange}
           pageFrom={"campaign"}
@@ -97,7 +97,7 @@ export default function CampaignDetailsPage() {
             />
           </button>
           <div className="pb-6">
-            {activeTab === "Campaigns" && (
+            {activeTab === "Overview" && (
               <CampaignDetails
                 campaign={campaign}
                 campaignId={campaignId as string}

@@ -11,7 +11,7 @@ import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
 import { DedicatedOffer } from "@/types/entities/dedicated-offer";
 
-const tabs = ["Creators","Overview"];
+const tabs = ["Overview", "Creators"];
 
 export default function DedicatedOfferDetails({
   dedicatedOffer,
@@ -105,8 +105,8 @@ export default function DedicatedOfferDetails({
         <TabPanels className="md:px-4">
           {tabs.map((tab) => (
             <TabPanel key={tab}>
-              {tab === "Creators" && <Creators dedicatedOffer={dedicatedOffer} />}
               {tab === "Overview" && <Overview dedicatedOffer={dedicatedOffer} />}
+              {tab === "Creators" && <Creators dedicatedOffer={dedicatedOffer} />}
             </TabPanel>
           ))}
         </TabPanels>

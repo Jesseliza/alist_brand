@@ -18,7 +18,7 @@ export default function DedicatedOfferDetailsPage() {
   const router = useRouter();
   const { offerId } = params;
 
-  const [activeTab, setActiveTab] = useState("Dedicated Offers");
+  const [activeTab, setActiveTab] = useState("Overview");
 
   const {
     dedicatedOffer,
@@ -73,7 +73,7 @@ export default function DedicatedOfferDetailsPage() {
           name={dedicatedOffer.venue?.venue_title || dedicatedOffer.brandName}
           subtitle={dedicatedOffer.title}
           logo={dedicatedOffer.brandLogo}
-          tabs={["Business Details", "Dedicated Offers"]}
+          tabs={["Overview", "Business Details"]}
           activeTab={activeTab}
           onTabChange={handleTabChange}
           pageFrom={"dedicated-offer"}
@@ -88,7 +88,7 @@ export default function DedicatedOfferDetailsPage() {
             />
           </button>
           <div className="pb-6">
-            {activeTab === "Dedicated Offers" && (
+            {activeTab === "Overview" && (
               <DedicatedOfferDetails
                 dedicatedOffer={dedicatedOffer}
                 dedicatedOfferId={offerId as string}

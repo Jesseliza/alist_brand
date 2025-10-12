@@ -191,7 +191,7 @@ export default function BrandPage() {
         <BrandHeader
           name={brand?.name || ""}
           logo={brand?.logo || ""}
-          tabs={["Business Details", "Campaigns"]}
+          tabs={["Business Details", "Campaigns", "Dedicated Offers"]}
           activeTab={activeTab}
           onTabChange={setActiveTab}
           backPath="/businesses/brands"
