@@ -32,11 +32,13 @@ export const adaptCampaignSummaryToDisplay = (summary: CampaignSummary): Campaig
     brandName: summary.venue.venue_title,
     creatorApprovalType: summary.account_status === "Approved" ? "Automated" : "Manual",
     campaignType: 'Delivery',
-    offerType: summary.venue.category?.category ?? 'N/A',
+    offerType: summary.is_dedicated === 1 ? "Dedicated" : "Normal",
     duration: daysDuration > 0 ? daysDuration : 0,
     durationUnit: 'Days',
     copyLinkUrl,
     is_dedicated: summary.is_dedicated,
+    category: summary.venue.category?.category ?? 'N/A',
+    offer_status: summary.offer_status,
   };
 };
 
