@@ -12,28 +12,12 @@ export default function DedicatedOfferDetails({ dedicatedOffer }: { dedicatedOff
       text: dedicatedOffer?.venue?.category?.category ?? "N/A",
     },
     {
-      imgSource: "/icons/campaign/details/overview/barter-1-light.svg",
-      imgWidth: 33.18,
-      imgWidthMobile: 35.71,
-      imgHeight: 28.47,
-      imgHeightMobile: 30.64,
-      text: dedicatedOffer?.is_dedicated === 1 ? "Dedicated" : "Normal",
-    },
-    {
       imgSource: "/icons/campaign/details/overview/price-1-light.svg",
       imgWidth: 39.24,
       imgWidthMobile: 30.32,
       imgHeight: 26.08,
       imgHeightMobile: 20.15,
       text: dedicatedOffer?.amount ? `${dedicatedOffer.amount} AED` : "N/A",
-    },
-    {
-      imgSource: "/icons/campaign/details/overview/automated-1-light.svg",
-      imgWidth: 41.03,
-      imgWidthMobile: 34.14,
-      imgHeight: 30.39,
-      imgHeightMobile: 25.28,
-      text: dedicatedOffer?.account_status ?? "N/A",
     },
     {
       imgSource: "/icons/campaign/details/overview/date-1-light.svg",

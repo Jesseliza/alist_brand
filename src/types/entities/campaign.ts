@@ -179,9 +179,7 @@ export type Campaign = {
   };
   rejectReason?:string;
 
-  dedicated_offer?: {
-    offer_users: OfferUser[];
-  };
+  food_offer_user?: OfferUser[];
 
   // Timestamps
   createdAt: Date;

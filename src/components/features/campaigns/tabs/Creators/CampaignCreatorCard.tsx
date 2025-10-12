@@ -1,39 +1,39 @@
 import Image from "next/image";
 
 interface CampaignCreatorCardProps {
-  id: string;
+  // id: string;
   image: string;
   name:string;
   instagramName: string;
   stats: {
     followers: string;
     credibility: string;
-    engagement: string;
+    // engagement: string;
   };
-  status: number | null;
-  onApprove: (id: string) => void;
-  onReject: (id: string) => void;
-  loading?: boolean;
+  // status: number | null;
+  // onApprove: (id: string) => void;
+  // onReject: (id: string) => void;
+  // loading?: boolean;
 }
 
 export default function CampaignCreatorCard({
-  id,
+  // id,
   image,
   name,
   instagramName,
   stats,
-  status,
-  onApprove,
-  onReject,
-  loading = false,
+  // status,
+  // onApprove,
+  // onReject,
+  // loading = false,
 }: CampaignCreatorCardProps) {
-  const handleApprove = () => {
-    onApprove(id);
-  };
+  // const handleApprove = () => {
+  //   onApprove(id);
+  // };
 
-  const handleReject = () => {
-    onReject(id);
-  };
+  // const handleReject = () => {
+  //   onReject(id);
+  // };
 
   const getInitials = (name: string) => {
     if (!name) return "";
@@ -110,7 +110,7 @@ export default function CampaignCreatorCard({
         </div>
 
         {/* Action buttons or status text */}
-        <div className="flex md:gap-[9px] gap-2 md:pb-[9px] md:pl-[9px] md:pr-[9px] pr-3">
+        {/* <div className="flex md:gap-[9px] gap-2 md:pb-[9px] md:pl-[9px] md:pr-[9px] pr-3">
           {status === 1 ? (
             <div className="flex-1 flex items-center md:justify-center gap-2 text-[#00A4B6] py-[7px] md:rounded-[13px] rounded-[11px] text-[13px] leading-[20px] font-medium h-[38px]">
               <Image
@@ -143,7 +143,7 @@ export default function CampaignCreatorCard({
               </button>
             </>
           )}
-        </div>
+        </div> */}
       </div>
     </article>
   );

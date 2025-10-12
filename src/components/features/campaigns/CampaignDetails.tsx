@@ -3,14 +3,20 @@
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Campaign } from "@/types/entities";
+import { RootState } from "@/store/store";
+import { updateCampaignStatusStart } from "@/store/campaigns/CampaignSlice";
+import RejectReasonModal from "./RejectReasonModal";
 import Overview from "./tabs/Overview";
+import Creators from "./tabs/Creators";
 import Availabilites from "./tabs/Availabilites";
 import Posts from "./tabs/Posts";
 import VoucherCode from "./tabs/VoucherCode";
 import Reviews from "./tabs/Reviews";
 
 const tabs = [
+  "Creators",
   "Overview",
   "Availabilites",
   "Voucher Code",
@@ -27,16 +33,40 @@ export default function CampaignDetails({
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const dispatch = useDispatch();
+  const { statusUpdateLoading } = useSelector(
+    (state: RootState) => state.campaigns
+  );
 
-  const [selectedIndex, setSelectedIndex] = useState(0); // Default to Overview (index 0)
+  const [selectedIndex, setSelectedIndex] = useState(1); // Default to Overview (index 1)
+  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
   const getTabFromURL = useCallback(() => {
     const tab = searchParams.get("tab");
     if (tab && tabs.includes(tab)) {
       return tabs.indexOf(tab);
     }
-    return 0; // Default to Overview
+    return 1; // Default to Overview
   }, [searchParams]);
+
+  const handleApprove = () => {
+    dispatch(updateCampaignStatusStart({ id: campaignId, status: "Approved" }));
+  };
+
+  const handleReject = () => {
+    setIsRejectModalOpen(true);
+  };
+
+  const handleRejectSubmit = (reason: string) => {
+    dispatch(
+      updateCampaignStatusStart({
+        id: campaignId,
+        status: "Rejected",
+        rejectReason: reason,
+      })
+    );
+    setIsRejectModalOpen(false);
+  };
 
   const handleTabChange = (index: number) => {
     setSelectedIndex(index);
@@ -51,6 +81,27 @@ export default function CampaignDetails({
 
   return (
     <div>
+      {campaign.offer_status === "Draft" &&
+        campaign.account_status === "Pending" && (
+          <div className="max-w-[966px] mx-auto md:px-4 mt-4">
+            <div className="flex justify-end space-x-2 mb-2">
+              <button
+                onClick={handleApprove}
+                disabled={statusUpdateLoading}
+                className="bg-green-500 text-white px-3 py-1 text-sm rounded-md hover:bg-green-600 disabled:bg-gray-400"
+              >
+                {statusUpdateLoading ? "Approving..." : "Approve"}
+              </button>
+              <button
+                onClick={handleReject}
+                disabled={statusUpdateLoading}
+                className="bg-red-500 text-white px-3 py-1 text-sm rounded-md hover:bg-red-600 disabled:bg-gray-400"
+              >
+                Reject
+              </button>
+            </div>
+          </div>
+        )}
       <TabGroup selectedIndex={selectedIndex} onChange={handleTabChange}>
         <div className="max-w-[966px] mx-auto md:px-4 mt-4">
           <TabList className="flex bg-[#F8F8F8] rounded-[13px] p-[5px]">
@@ -73,6 +124,7 @@ export default function CampaignDetails({
         <TabPanels className="md:px-4">
           {tabs.map((tab) => (
             <TabPanel key={tab}>
+              {tab === "Creators" && <Creators campaign={campaign} />}
               {tab === "Overview" && <Overview campaign={campaign} />}
               {tab === "Availabilites" && (
                 <Availabilites campaignId={campaignId} />
@@ -84,6 +136,12 @@ export default function CampaignDetails({
           ))}
         </TabPanels>
       </TabGroup>
+      <RejectReasonModal
+        isOpen={isRejectModalOpen}
+        onClose={() => setIsRejectModalOpen(false)}
+        onSubmit={handleRejectSubmit}
+        loading={statusUpdateLoading}
+      />
     </div>
   );
 }
