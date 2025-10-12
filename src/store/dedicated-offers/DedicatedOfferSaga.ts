@@ -3,107 +3,107 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
 import axiosInstance from "../../services/apiHelper";
 import {
-  getCampaignsStart,
-  getCampaignsSuccess,
-  getCampaignsFailure,
-  getMoreCampaignsStart,
-  getMoreCampaignsSuccess,
-  updateCampaignStatusStart,
-  updateCampaignStatusSuccess,
-  updateCampaignStatusFailure,
-  getCampaignDetailsStart,
-  getCampaignDetailsSuccess,
-  getCampaignDetailsFailure,
+  getDedicatedOffersStart,
+  getDedicatedOffersSuccess,
+  getDedicatedOffersFailure,
+  getMoreDedicatedOffersStart,
+  getMoreDedicatedOffersSuccess,
+  updateDedicatedOfferStatusStart,
+  updateDedicatedOfferStatusSuccess,
+  updateDedicatedOfferStatusFailure,
+  getDedicatedOfferDetailsStart,
+  getDedicatedOfferDetailsSuccess,
+  getDedicatedOfferDetailsFailure,
   updateDedicatedPageStatusStart,
   updateDedicatedPageStatusSuccess,
   updateDedicatedPageStatusFailure,
-  bulkDeleteCampaignsStart,
-  bulkDeleteCampaignsSuccess,
-  bulkDeleteCampaignsFailure,
+  bulkDeleteDedicatedOffersStart,
+  bulkDeleteDedicatedOffersSuccess,
+  bulkDeleteDedicatedOffersFailure,
   getReviewPostsStart,
   getReviewPostsSuccess,
   getReviewPostsFailure,
   getVoucherCodesStart,
   getVoucherCodesSuccess,
   getVoucherCodesFailure,
-  getCampaignAvailabilityStart,
-  getCampaignAvailabilitySuccess,
-  getCampaignAvailabilityFailure,
-  getCampaignReviewsStart,
-  getCampaignReviewsSuccess,
-  getCampaignReviewsFailure,
-} from "./CampaignSlice";
+  getDedicatedOfferAvailabilityStart,
+  getDedicatedOfferAvailabilitySuccess,
+  getDedicatedOfferAvailabilityFailure,
+  getDedicatedOfferReviewsStart,
+  getDedicatedOfferReviewsSuccess,
+  getDedicatedOfferReviewsFailure,
+} from "./DedicatedOfferSlice";
 import {
-  CampaignsApiResponse,
-  CampaignDetailsApiResponse,
-  CampaignReviewPostsResponse,
-  GetCampaignsAction,
-  GetCampaignReviewPostsAction,
-  UpdateCampaignStatusAction,
-  GetCampaignDetailsAction,
+  DedicatedOffersApiResponse,
+  DedicatedOfferDetailsApiResponse,
+  DedicatedOfferReviewPostsResponse,
+  GetDedicatedOffersAction,
+  GetDedicatedOfferReviewPostsAction,
+  UpdateDedicatedOfferStatusAction,
+  GetDedicatedOfferDetailsAction,
   UpdateDedicatedPageStatusAction,
   GetVoucherCodesAction,
   VoucherCodesApiResponse,
-  GetCampaignAvailabilityAction,
-  CampaignAvailabilityApiResponse,
-  GetCampaignReviewsAction,
-  CampaignReviewsResponse,
-} from "../../types/entities/campaign";
+  GetDedicatedOfferAvailabilityAction,
+  DedicatedOfferAvailabilityApiResponse,
+  GetDedicatedOfferReviewsAction,
+  DedicatedOfferReviewsResponse,
+} from "../../types/entities/dedicated-offer";
 
-function* getCampaignsSaga(action: GetCampaignsAction) {
+function* getDedicatedOffersSaga(action: GetDedicatedOffersAction) {
   try {
-    const response: CampaignsApiResponse = yield call(
+    const response: DedicatedOffersApiResponse = yield call(
       axiosInstance.post,
-      "/api/campaigns",
+      "/api/dedicated/offers",
       action.payload
     );
-    yield put(getCampaignsSuccess(response.data.venues));
+    yield put(getDedicatedOffersSuccess(response.data.venues));
   } catch (error: any) {
-    yield put(getCampaignsFailure(error.message));
+    yield put(getDedicatedOffersFailure(error.message));
   }
 }
 
-function* getMoreCampaignsSaga(action: GetCampaignsAction) {
+function* getMoreDedicatedOffersSaga(action: GetDedicatedOffersAction) {
   try {
-    const response: CampaignsApiResponse = yield call(
+    const response: DedicatedOffersApiResponse = yield call(
       axiosInstance.post,
-      "/api/campaigns",
+      "/api/dedicated/offers",
       action.payload
     );
-    yield put(getMoreCampaignsSuccess(response.data.venues));
+    yield put(getMoreDedicatedOffersSuccess(response.data.venues));
   } catch (error: any) {
-    yield put(getCampaignsFailure(error.message));
+    yield put(getDedicatedOffersFailure(error.message));
   }
 }
 
-function* updateCampaignStatusSaga(action: UpdateCampaignStatusAction) {
+function* updateDedicatedOfferStatusSaga(action: UpdateDedicatedOfferStatusAction) {
   try {
     const { id, status, rejectReason } = action.payload;
     const payload: { status: string; rejectReason?: string } = { status };
     if (rejectReason) {
       payload.rejectReason = rejectReason;
     }
-    yield call(axiosInstance.post, `/api/campaign/${id}/status`, payload);
-    yield put(updateCampaignStatusSuccess({ status }));
-    toast.success("Campaign status updated successfully!");
+    yield call(axiosInstance.post, `/api/dedicated/${id}/status`, payload);
+    yield put(updateDedicatedOfferStatusSuccess({ status }));
+    toast.success("Dedicated offer status updated successfully!");
   } catch (error: any) {
     const errorMessage =
-      error.response?.data?.message || "Failed to update campaign status.";
-    yield put(updateCampaignStatusFailure(errorMessage));
+      error.response?.data?.message || "Failed to update dedicated offer status.";
+    yield put(updateDedicatedOfferStatusFailure(errorMessage));
     toast.error(errorMessage);
   }
 }
 
-function* getCampaignDetailsSaga(action: GetCampaignDetailsAction) {
+function* getDedicatedOfferDetailsSaga(action: GetDedicatedOfferDetailsAction) {
   try {
     const { id } = action.payload;
-    const response: CampaignDetailsApiResponse = yield call(
+    const response: DedicatedOfferDetailsApiResponse = yield call(
       axiosInstance.get,
-      `/api/campaign/${id}`
+      `/api/dedicated/${id}`
     );
-    yield put(getCampaignDetailsSuccess(response.data.data));
+    yield put(getDedicatedOfferDetailsSuccess(response.data.data));
   } catch (error: any) {
-    yield put(getCampaignDetailsFailure(error.message));
+    yield put(getDedicatedOfferDetailsFailure(error.message));
   }
 }
 
@@ -116,7 +116,7 @@ function* updateDedicatedPageStatusSaga(
     if (rejectReason) {
       payload.rejectReason = rejectReason;
     }
-    yield call(axiosInstance.post, `/api/dedicated/${id}/status`, payload);
+    yield call(axiosInstance.post, `/api/dedicated/page/${id}/status`, payload);
     yield put(updateDedicatedPageStatusSuccess({ id, status }));
     toast.success("Creator status updated successfully!");
   } catch (error: any) {
@@ -127,23 +127,23 @@ function* updateDedicatedPageStatusSaga(
   }
 }
 
-function* bulkDeleteCampaignsSaga(action: PayloadAction<{ ids: string[] }>) {
+function* bulkDeleteDedicatedOffersSaga(action: PayloadAction<{ ids: string[] }>) {
   try {
     const { ids } = action.payload;
-    yield call(axiosInstance.post, "/api/campaign/bulk-delete", { ids });
-    yield put(bulkDeleteCampaignsSuccess(ids));
+    yield call(axiosInstance.post, "/api/dedicated/bulk-delete", { ids });
+    yield put(bulkDeleteDedicatedOffersSuccess(ids));
   } catch (error: any) {
-    yield put(bulkDeleteCampaignsFailure(error.message));
+    yield put(bulkDeleteDedicatedOffersFailure(error.message));
     throw error;
   }
 }
 
-function* getCampaignReviewPostsSaga(action: GetCampaignReviewPostsAction) {
+function* getDedicatedOfferReviewPostsSaga(action: GetDedicatedOfferReviewPostsAction) {
   try {
     const { id, page = 1, per_page = 10 } = action.payload;
-    const response: { data: CampaignReviewPostsResponse } = yield call(
+    const response: { data: DedicatedOfferReviewPostsResponse } = yield call(
       axiosInstance.post,
-      `/api/campaign/review-posts/${id}`,
+      `/api/dedicated/review-posts/${id}`,
       { page, per_page }
     );
     yield put(getReviewPostsSuccess(response.data.data));
@@ -157,7 +157,7 @@ function* getVoucherCodesSaga(action: GetVoucherCodesAction) {
     const { id, page = 1, per_page = 10 } = action.payload;
     const response: { data: VoucherCodesApiResponse } = yield call(
       axiosInstance.post,
-      `/api/campaign/voucher-code/${id}`,
+      `/api/dedicated/voucher-code/${id}`,
       { page, per_page }
     );
     yield put(getVoucherCodesSuccess(response.data.data));
@@ -166,53 +166,53 @@ function* getVoucherCodesSaga(action: GetVoucherCodesAction) {
   }
 }
 
-function* getCampaignReviewsSaga(action: GetCampaignReviewsAction) {
+function* getDedicatedOfferReviewsSaga(action: GetDedicatedOfferReviewsAction) {
   try {
     const { id, page = 1, per_page = 10 } = action.payload;
-    const response: { data: CampaignReviewsResponse } = yield call(
+    const response: { data: DedicatedOfferReviewsResponse } = yield call(
       axiosInstance.post,
-      `/api/campaign/reviews/${id}`,
+      `/api/dedicated/reviews/${id}`,
       { page, per_page }
     );
-    yield put(getCampaignReviewsSuccess(response.data.data));
+    yield put(getDedicatedOfferReviewsSuccess(response.data.data));
   } catch (error: any) {
-    yield put(getCampaignReviewsFailure(error.message));
+    yield put(getDedicatedOfferReviewsFailure(error.message));
   }
 }
 
-function* watchCampaigns() {
-  yield takeLatest(getCampaignsStart.type, getCampaignsSaga);
-  yield takeLatest(getMoreCampaignsStart.type, getMoreCampaignsSaga);
-  yield takeLatest(updateCampaignStatusStart.type, updateCampaignStatusSaga);
-  yield takeLatest(getCampaignDetailsStart.type, getCampaignDetailsSaga);
+function* watchDedicatedOffers() {
+  yield takeLatest(getDedicatedOffersStart.type, getDedicatedOffersSaga);
+  yield takeLatest(getMoreDedicatedOffersStart.type, getMoreDedicatedOffersSaga);
+  yield takeLatest(updateDedicatedOfferStatusStart.type, updateDedicatedOfferStatusSaga);
+  yield takeLatest(getDedicatedOfferDetailsStart.type, getDedicatedOfferDetailsSaga);
   yield takeLatest(
     updateDedicatedPageStatusStart.type,
     updateDedicatedPageStatusSaga
   );
-  yield takeLatest(bulkDeleteCampaignsStart.type, bulkDeleteCampaignsSaga);
-  yield takeLatest(getReviewPostsStart.type, getCampaignReviewPostsSaga);
+  yield takeLatest(bulkDeleteDedicatedOffersStart.type, bulkDeleteDedicatedOffersSaga);
+  yield takeLatest(getReviewPostsStart.type, getDedicatedOfferReviewPostsSaga);
   yield takeLatest(getVoucherCodesStart.type, getVoucherCodesSaga);
   yield takeLatest(
-    getCampaignAvailabilityStart.type,
-    getCampaignAvailabilitySaga
+    getDedicatedOfferAvailabilityStart.type,
+    getDedicatedOfferAvailabilitySaga
   );
-  yield takeLatest(getCampaignReviewsStart.type, getCampaignReviewsSaga);
+  yield takeLatest(getDedicatedOfferReviewsStart.type, getDedicatedOfferReviewsSaga);
 }
 
-function* getCampaignAvailabilitySaga(action: GetCampaignAvailabilityAction) {
+function* getDedicatedOfferAvailabilitySaga(action: GetDedicatedOfferAvailabilityAction) {
   try {
-    const { campaign_id, year_month } = action.payload;
-    const response: { data: CampaignAvailabilityApiResponse } = yield call(
+    const { dedicated_offer_id, year_month } = action.payload;
+    const response: { data: DedicatedOfferAvailabilityApiResponse } = yield call(
       axiosInstance.post,
-      `/api/campaign/by-date/${campaign_id}`,
+      `/api/dedicated/by-date/${dedicated_offer_id}`,
       { year_month }
     );
-    yield put(getCampaignAvailabilitySuccess(response.data.data));
+    yield put(getDedicatedOfferAvailabilitySuccess(response.data.data));
   } catch (error: any) {
-    yield put(getCampaignAvailabilityFailure(error.message));
+    yield put(getDedicatedOfferAvailabilityFailure(error.message));
   }
 }
 
-export default function* campaignsSaga() {
-  yield all([watchCampaigns()]);
+export default function* dedicatedOffersSaga() {
+  yield all([watchDedicatedOffers()]);
 }

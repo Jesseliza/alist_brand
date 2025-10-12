@@ -3,7 +3,7 @@ import authSaga from './auth/authSaga';
 import accountSaga from './account/accountSaga';
 import brandSaga from './brand/brandSaga';
 import commonSaga from './common/commonSaga';
-import campaignsSaga from './campaigns/CampaignSaga';
+import dedicatedOffersSaga from './dedicated-offers/DedicatedOfferSaga';
 import dashboardSaga from './dashboard/dashboardSaga';
 
 export default function* rootSaga() {
@@ -12,7 +12,7 @@ export default function* rootSaga() {
     accountSaga(),
     brandSaga(),
     commonSaga(),
-    campaignsSaga(),
+    dedicatedOffersSaga(),
     dashboardSaga(),
   ]);
 }

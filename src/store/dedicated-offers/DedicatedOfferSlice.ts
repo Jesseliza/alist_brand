@@ -1,20 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-  CampaignsState,
-  GetCampaignsPayload,
-  GetCampaignDetailsPayload,
-  GetCampaignReviewPostsPayload,
+  DedicatedOffersState,
+  GetDedicatedOffersPayload,
+  GetDedicatedOfferDetailsPayload,
+  GetDedicatedOfferReviewPostsPayload,
   GetVoucherCodesPayload,
-  UpdateCampaignStatusPayload,
+  UpdateDedicatedOfferStatusPayload,
   UpdateDedicatedPageStatusPayload,
-  GetCampaignAvailabilityPayload,
-  CampaignAvailability,
-  GetCampaignReviewsPayload,
-} from '../../types/entities/campaign';
+  GetDedicatedOfferAvailabilityPayload,
+  DedicatedOfferAvailability,
+  GetDedicatedOfferReviewsPayload,
+} from '../../types/entities/dedicated-offer';
 
-const initialState: CampaignsState = {
-  campaigns: [],
-  campaign: null,
+const initialState: DedicatedOffersState = {
+  dedicatedOffers: [],
+  dedicatedOffer: null,
   loading: false,
   error: null,
   pagination: null,
@@ -34,25 +34,25 @@ const initialState: CampaignsState = {
   voucherCodesLoading: false,
   voucherCodesError: null,
   voucherCodesPagination: null,
-  campaignAvailability: [],
-  campaignAvailabilityLoading: false,
-  campaignAvailabilityError: null,
+  dedicatedOfferAvailability: [],
+  dedicatedOfferAvailabilityLoading: false,
+  dedicatedOfferAvailabilityError: null,
 };
 
-const campaignsSlice = createSlice({
-  name: 'campaigns',
+const dedicatedOffersSlice = createSlice({
+  name: 'dedicatedOffers',
   initialState,
   reducers: {
-    getCampaignsStart: (
+    getDedicatedOffersStart: (
       state,
-      action: PayloadAction<GetCampaignsPayload>
+      action: PayloadAction<GetDedicatedOffersPayload>
     ) => {
       state.loading = true;
       state.error = null;
     },
-    getCampaignsSuccess: (state, action) => {
+    getDedicatedOffersSuccess: (state, action) => {
       state.loading = false;
-      state.campaigns = action.payload.data;
+      state.dedicatedOffers = action.payload.data;
       state.pagination = {
         current_page: action.payload.current_page,
         last_page: action.payload.last_page,
@@ -60,36 +60,36 @@ const campaignsSlice = createSlice({
         total: action.payload.total,
       };
     },
-    getCampaignsFailure: (state, action) => {
+    getDedicatedOffersFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
-    bulkDeleteCampaignsStart: (
+    bulkDeleteDedicatedOffersStart: (
       state,
       action: PayloadAction<{ ids: string[] }>
     ) => {
       state.bulkDeleteLoading = true;
       state.bulkDeleteError = null;
     },
-    bulkDeleteCampaignsSuccess: (state, action: PayloadAction<string[]>) => {
+    bulkDeleteDedicatedOffersSuccess: (state, action: PayloadAction<string[]>) => {
       state.bulkDeleteLoading = false;
-      state.campaigns = state.campaigns.filter(
-        (campaign) => !action.payload.includes(campaign.id.toString())
+      state.dedicatedOffers = state.dedicatedOffers.filter(
+        (dedicatedOffer) => !action.payload.includes(dedicatedOffer.id.toString())
       );
     },
-    bulkDeleteCampaignsFailure: (state, action: PayloadAction<any>) => {
+    bulkDeleteDedicatedOffersFailure: (state, action: PayloadAction<any>) => {
       state.bulkDeleteLoading = false;
       state.bulkDeleteError = action.payload;
     },
-    getMoreCampaignsStart: (
+    getMoreDedicatedOffersStart: (
       state,
-      action: PayloadAction<GetCampaignsPayload>
+      action: PayloadAction<GetDedicatedOffersPayload>
     ) => {
       state.loading = true;
     },
-    getMoreCampaignsSuccess: (state, action) => {
+    getMoreDedicatedOffersSuccess: (state, action) => {
       state.loading = false;
-      state.campaigns = [...state.campaigns, ...action.payload.data];
+      state.dedicatedOffers = [...state.dedicatedOffers, ...action.payload.data];
       state.pagination = {
         current_page: action.payload.current_page,
         last_page: action.payload.last_page,
@@ -97,38 +97,38 @@ const campaignsSlice = createSlice({
         total: action.payload.total,
       };
     },
-    updateCampaignStatusStart: (
+    updateDedicatedOfferStatusStart: (
       state,
-      action: PayloadAction<UpdateCampaignStatusPayload>
+      action: PayloadAction<UpdateDedicatedOfferStatusPayload>
     ) => {
       state.statusUpdateLoading = true;
       state.error = null;
     },
-    updateCampaignStatusSuccess: (
+    updateDedicatedOfferStatusSuccess: (
       state,
       action: PayloadAction<{ status: string }>
     ) => {
       state.statusUpdateLoading = false;
-      if (state.campaign) {
-        state.campaign.account_status = action.payload.status;
+      if (state.dedicatedOffer) {
+        state.dedicatedOffer.account_status = action.payload.status;
       }
     },
-    updateCampaignStatusFailure: (state, action) => {
+    updateDedicatedOfferStatusFailure: (state, action) => {
       state.statusUpdateLoading = false;
       state.error = action.payload;
     },
-    getCampaignDetailsStart: (
+    getDedicatedOfferDetailsStart: (
       state,
-      action: PayloadAction<GetCampaignDetailsPayload>
+      action: PayloadAction<GetDedicatedOfferDetailsPayload>
     ) => {
       state.loading = true;
       state.error = null;
     },
-    getCampaignDetailsSuccess: (state, action) => {
+    getDedicatedOfferDetailsSuccess: (state, action) => {
       state.loading = false;
-      state.campaign = action.payload;
+      state.dedicatedOffer = action.payload;
     },
-    getCampaignDetailsFailure: (state, action) => {
+    getDedicatedOfferDetailsFailure: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
@@ -143,8 +143,8 @@ const campaignsSlice = createSlice({
       action: PayloadAction<{ id: string; status: number }>
     ) => {
       state.dedicatedPageStatusLoading = false;
-      if (state.campaign && state.campaign.dedicated_offer) {
-        const offerUser = state.campaign.dedicated_offer.offer_users.find(
+      if (state.dedicatedOffer && state.dedicatedOffer.dedicated_offer) {
+        const offerUser = state.dedicatedOffer.dedicated_offer.offer_users.find(
           (user) => user.id.toString() === action.payload.id
         );
         if (offerUser) {
@@ -157,7 +157,7 @@ const campaignsSlice = createSlice({
     },
     getReviewPostsStart: (
       state,
-      action: PayloadAction<GetCampaignReviewPostsPayload>
+      action: PayloadAction<GetDedicatedOfferReviewPostsPayload>
     ) => {
       state.reviewPostsLoading = true;
       state.reviewPostsError = null;
@@ -197,32 +197,32 @@ const campaignsSlice = createSlice({
       state.voucherCodesLoading = false;
       state.voucherCodesError = action.payload;
     },
-    getCampaignAvailabilityStart: (
+    getDedicatedOfferAvailabilityStart: (
       state,
-      action: PayloadAction<GetCampaignAvailabilityPayload>
+      action: PayloadAction<GetDedicatedOfferAvailabilityPayload>
     ) => {
-      state.campaignAvailabilityLoading = true;
-      state.campaignAvailabilityError = null;
+      state.dedicatedOfferAvailabilityLoading = true;
+      state.dedicatedOfferAvailabilityError = null;
     },
-    getCampaignAvailabilitySuccess: (
+    getDedicatedOfferAvailabilitySuccess: (
       state,
-      action: PayloadAction<CampaignAvailability[]>
+      action: PayloadAction<DedicatedOfferAvailability[]>
     ) => {
-      state.campaignAvailabilityLoading = false;
-      state.campaignAvailability = action.payload;
+      state.dedicatedOfferAvailabilityLoading = false;
+      state.dedicatedOfferAvailability = action.payload;
     },
-    getCampaignAvailabilityFailure: (state, action: PayloadAction<string>) => {
-      state.campaignAvailabilityLoading = false;
-      state.campaignAvailabilityError = action.payload;
+    getDedicatedOfferAvailabilityFailure: (state, action: PayloadAction<string>) => {
+      state.dedicatedOfferAvailabilityLoading = false;
+      state.dedicatedOfferAvailabilityError = action.payload;
     },
-    getCampaignReviewsStart: (
+    getDedicatedOfferReviewsStart: (
       state,
-      action: PayloadAction<GetCampaignReviewsPayload>
+      action: PayloadAction<GetDedicatedOfferReviewsPayload>
     ) => {
       state.reviewsLoading = true;
       state.reviewsError = null;
     },
-    getCampaignReviewsSuccess: (state, action) => {
+    getDedicatedOfferReviewsSuccess: (state, action) => {
       state.reviewsLoading = false;
       state.reviews = action.payload.data;
       state.reviewsPagination = {
@@ -232,7 +232,7 @@ const campaignsSlice = createSlice({
         total: action.payload.total,
       };
     },
-    getCampaignReviewsFailure: (state, action) => {
+    getDedicatedOfferReviewsFailure: (state, action) => {
       state.reviewsLoading = false;
       state.reviewsError = action.payload;
     },
@@ -240,35 +240,35 @@ const campaignsSlice = createSlice({
 });
 
 export const {
-  getCampaignsStart,
-  getCampaignsSuccess,
-  getCampaignsFailure,
-  getMoreCampaignsStart,
-  getMoreCampaignsSuccess,
-  updateCampaignStatusStart,
-  updateCampaignStatusSuccess,
-  updateCampaignStatusFailure,
-  getCampaignDetailsStart,
-  getCampaignDetailsSuccess,
-  getCampaignDetailsFailure,
+  getDedicatedOffersStart,
+  getDedicatedOffersSuccess,
+  getDedicatedOffersFailure,
+  getMoreDedicatedOffersStart,
+  getMoreDedicatedOffersSuccess,
+  updateDedicatedOfferStatusStart,
+  updateDedicatedOfferStatusSuccess,
+  updateDedicatedOfferStatusFailure,
+  getDedicatedOfferDetailsStart,
+  getDedicatedOfferDetailsSuccess,
+  getDedicatedOfferDetailsFailure,
   updateDedicatedPageStatusStart,
   updateDedicatedPageStatusSuccess,
   updateDedicatedPageStatusFailure,
-  bulkDeleteCampaignsStart,
-  bulkDeleteCampaignsSuccess,
-  bulkDeleteCampaignsFailure,
+  bulkDeleteDedicatedOffersStart,
+  bulkDeleteDedicatedOffersSuccess,
+  bulkDeleteDedicatedOffersFailure,
   getReviewPostsStart,
   getReviewPostsSuccess,
   getReviewPostsFailure,
   getVoucherCodesStart,
   getVoucherCodesSuccess,
   getVoucherCodesFailure,
-  getCampaignAvailabilityStart,
-  getCampaignAvailabilitySuccess,
-  getCampaignAvailabilityFailure,
-  getCampaignReviewsStart,
-  getCampaignReviewsSuccess,
-  getCampaignReviewsFailure,
-} = campaignsSlice.actions;
+  getDedicatedOfferAvailabilityStart,
+  getDedicatedOfferAvailabilitySuccess,
+  getDedicatedOfferAvailabilityFailure,
+  getDedicatedOfferReviewsStart,
+  getDedicatedOfferReviewsSuccess,
+  getDedicatedOfferReviewsFailure,
+} = dedicatedOffersSlice.actions;
 
-export default campaignsSlice.reducer;
+export default dedicatedOffersSlice.reducer;

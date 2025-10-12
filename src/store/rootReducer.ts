@@ -4,7 +4,7 @@ import accountReducer from './account/accountSlice';
 import brandReducer from './brand/brandSlice';
 import searchReducer from './search/searchSlice';
 import commonReducer from './common/commonSlice';
-import campaignsReducer from './campaigns/CampaignSlice';
+import dedicatedOffersReducer from './dedicated-offers/DedicatedOfferSlice';
 import dashboardReducer from './dashboard/dashboardSlice';
 
 const rootReducer = combineReducers({
@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
   brand: brandReducer,
   search: searchReducer,
   common: commonReducer,
-  campaigns: campaignsReducer,
+  dedicatedOffers: dedicatedOffersReducer,
   dashboard: dashboardReducer,
 });
 

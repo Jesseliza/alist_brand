@@ -4,27 +4,27 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { getCampaignDetailsStart } from "@/store/campaigns/CampaignSlice";
+import { getDedicatedOfferDetailsStart } from "@/store/dedicated-offers/DedicatedOfferSlice";
 import { fetchBrandRequest } from "@/store/brand/brandSlice";
 import { RootState } from "@/store/store";
 import Loader from "@/components/general/Loader";
-import CampaignDetails from "@/components/features/campaigns/CampaignDetails";
+import DedicatedOfferDetails from "@/components/features/dedicated-offers/DedicatedOfferDetails";
 import BrandDetails from "@/components/features/brands/BrandDetails";
 import BrandHeader from "@/components/features/brands/BrandHeader";
 
-export default function CampaignDetailsPage() {
+export default function DedicatedOfferDetailsPage() {
   const dispatch = useDispatch();
   const params = useParams();
   const router = useRouter();
-  const { campaignId } = params;
+  const { offerId } = params;
 
-  const [activeTab, setActiveTab] = useState("Campaigns");
+  const [activeTab, setActiveTab] = useState("Dedicated Offers");
 
   const {
-    campaign,
-    loading: campaignLoading,
-    error: campaignError,
-  } = useSelector((state: RootState) => state.campaigns);
+    dedicatedOffer,
+    loading: dedicatedOfferLoading,
+    error: dedicatedOfferError,
+  } = useSelector((state: RootState) => state.dedicatedOffers);
 
   const {
     brand,
@@ -33,37 +33,36 @@ export default function CampaignDetailsPage() {
   } = useSelector((state: RootState) => state.brand);
 
   useEffect(() => {
-    if (campaignId) {
-      dispatch(getCampaignDetailsStart({ id: campaignId as string }));
+    if (offerId) {
+      dispatch(getDedicatedOfferDetailsStart({ id: offerId as string }));
     }
-  }, [dispatch, campaignId]);
+  }, [dispatch, offerId]);
 
   useEffect(() => {
-    if (campaign && activeTab === "Business Details" && campaign.venue) {
-      dispatch(fetchBrandRequest({ brandId: campaign.venue.id }));
+    if (dedicatedOffer && activeTab === "Business Details" && dedicatedOffer.venue) {
+      dispatch(fetchBrandRequest({ brandId: dedicatedOffer.venue.id }));
     }
-  }, [dispatch, campaign, activeTab]);
+  }, [dispatch, dedicatedOffer, activeTab]);
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
   };
 
   const handleBackClick = () => {
-    // router.back();
     router.push(
-      `/businesses/campaigns`
+      `/businesses/dedicated-offers`
     );
   };
 
-  if (campaignLoading) {
+  if (dedicatedOfferLoading) {
     return <Loader />;
   }
 
-  if (campaignError) {
-    return <p className="text-red-500">Error: {campaignError}</p>;
+  if (dedicatedOfferError) {
+    return <p className="text-red-500">Error: {dedicatedOfferError}</p>;
   }
 
-  if (!campaign) {
+  if (!dedicatedOffer) {
     return <Loader />;
   }
 
@@ -71,27 +70,27 @@ export default function CampaignDetailsPage() {
     <div className="py-6">
       <div className="max-w-[1428px] mx-auto">
         <BrandHeader
-          name={campaign.venue?.venue_title || campaign.brandName}
-          subtitle={campaign.title}
-          logo={campaign.brandLogo}
-          tabs={["Business Details", "Campaigns"]}
+          name={dedicatedOffer.venue?.venue_title || dedicatedOffer.brandName}
+          subtitle={dedicatedOffer.title}
+          logo={dedicatedOffer.brandLogo}
+          tabs={["Business Details", "Dedicated Offers"]}
           activeTab={activeTab}
           onTabChange={handleTabChange}
         />
         <div className="mt-6 bg-white rounded-[13px] p-6">
           <button onClick={handleBackClick} className="cursor-pointer mb-4">
             <Image
-              src="/icons/campaign/details/back-arrow.svg"
+              src="/icons/dedicated-offer/details/back-arrow.svg"
               alt="back"
               width={35}
               height={35}
             />
           </button>
           <div className="pb-6">
-            {activeTab === "Campaigns" && (
-              <CampaignDetails
-                campaign={campaign}
-                campaignId={campaignId as string}
+            {activeTab === "Dedicated Offers" && (
+              <DedicatedOfferDetails
+                dedicatedOffer={dedicatedOffer}
+                dedicatedOfferId={offerId as string}
               />
             )}
             {activeTab === "Business Details" && (
