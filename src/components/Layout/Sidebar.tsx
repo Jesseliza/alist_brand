@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { sidebarConfig } from "@/utils/sidebar-config";
@@ -26,6 +26,8 @@ export default function Sidebar({
   setIsMobileMenuOpen,
 }: SidebarProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from");
   const { user, isAuthLoading } = useSelector((state: RootState) => state.auth);
   const [internalCollapsed, setInternalCollapsed] = useState(false);
   const [windowWidth, setWindowWidth] = useState(1920); // Default for SSR
@@ -138,7 +140,10 @@ export default function Sidebar({
             )}
             <ul className={section.title ? "mt-1 space-y-1" : ""}>
               {section.items.map((item, itemIndex) => {
-                const isActive = pathname.startsWith(item.href);
+                let isActive = pathname.startsWith(item.href);
+                if (item.label === "Brands" && pathname.startsWith("/businesses/campaigns") && from === "brand") {
+                  isActive = true;
+                }
                 const iconSrc = isActive
                   ? item.icon.src.replace("/sidebar/", "/sidebar/darkmode/")
                   : item.icon.src;

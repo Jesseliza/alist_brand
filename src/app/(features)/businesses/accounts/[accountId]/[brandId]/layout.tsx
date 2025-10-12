@@ -71,6 +71,7 @@ export default function BrandLayout({
         activeTab={isCampaignPage ? "Campaigns" : activeTab}
         onTabChange={handleTabChange}
         isCampaignPage={isCampaignPage}
+        backPath="/businesses/accounts"
       />
       {children}
     </div>
