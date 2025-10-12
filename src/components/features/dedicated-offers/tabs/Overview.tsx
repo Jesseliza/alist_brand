@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
-import CampaignStats from "./Overview/DedicatedOfferStats";
-import CampaignCreators from "./Overview/DedicatedOfferCreators";
-import CampaignDetails from "./Overview/DedicatedOfferDetails";
-import CampaignGuidlines from "./Overview/DedicatedOfferGuidlines";
-import CampaignPlans from "./Overview/DedicatedOfferPlans";
+import { DedicatedOffer } from "@/types/entities/dedicated-offer";
+import DedicatedOfferStats from "./Overview/DedicatedOfferStats";
+import DedicatedOfferCreators from "./Overview/DedicatedOfferCreators";
+import DedicatedOfferDetails from "./Overview/DedicatedOfferDetails";
+import DedicatedOfferGuidelines from "./Overview/DedicatedOfferGuidelines";
+import DedicatedOfferPlans from "./Overview/DedicatedOfferPlans";
 
 export default function Overview({
   dedicatedOffer,
@@ -43,8 +43,12 @@ export default function Overview({
           {/* image */}
           <div className="w-[204] h-[204px] rounded-[11px] aspect-square overflow-hidden">
             <Image
-              src={dedicatedOffer.banner_image ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${dedicatedOffer.banner_image}` : '/images/no_image.png'}
-              alt={dedicatedOffer.title ?? "Dedicated Offer thumbnail"}
+              src={
+                dedicatedOffer.banner_image
+                  ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${dedicatedOffer.banner_image}`
+                  : "/images/no_image.png"
+              }
+              alt={dedicatedOffer.offer_title ?? "Dedicated Offer thumbnail"}
               className="w-full h-full object-cover rounded-[11px]"
               width={204}
               height={204}
@@ -53,27 +57,39 @@ export default function Overview({
         </div>
       </div>
 
-      <CampaignStats campaign={dedicatedOffer} />
-      <CampaignCreators campaign={dedicatedOffer} />
-      <CampaignDetails campaign={dedicatedOffer} />
-      {dedicatedOffer?.account_status === "Rejected" &&
+      <DedicatedOfferStats dedicatedOffer={dedicatedOffer} />
+      <DedicatedOfferCreators dedicatedOffer={dedicatedOffer} />
+      <DedicatedOfferDetails dedicatedOffer={dedicatedOffer} />
+      {dedicatedOffer?.account_status === "Rejected" && (
         <div className="mt-[11px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
           <p className="font-medium">Reject Reason:</p>
-          <div dangerouslySetInnerHTML={{ __html: dedicatedOffer.confirmation_message ?? "No reason available." }} />
+          <div
+            dangerouslySetInnerHTML={{
+              __html: dedicatedOffer.confirmation_message ?? "No reason available.",
+            }}
+          />
         </div>
-      }
+      )}
       <div className="mt-[11px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
         <p className="font-medium">Description:</p>
-        <div dangerouslySetInnerHTML={{ __html: dedicatedOffer.description ?? "No description available." }} />
+        <div
+          dangerouslySetInnerHTML={{
+            __html: dedicatedOffer.description ?? "No description available.",
+          }}
+        />
       </div>
       <div className="mt-[12.5px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
         <p className="font-medium">Campaign Message:</p>
-        <div dangerouslySetInnerHTML={{ __html: dedicatedOffer.confirmation_message ?? "No message available." }} />
+        <div
+          dangerouslySetInnerHTML={{
+            __html: dedicatedOffer.confirmation_message ?? "No message available.",
+          }}
+        />
       </div>
       <div className="border-b border-[#E2E2E2]">
-        <CampaignGuidlines campaign={dedicatedOffer} />
+        <DedicatedOfferGuidelines dedicatedOffer={dedicatedOffer} />
       </div>
-      <CampaignPlans campaign={dedicatedOffer} />
+      <DedicatedOfferPlans dedicatedOffer={dedicatedOffer} />
     </div>
   );
 }

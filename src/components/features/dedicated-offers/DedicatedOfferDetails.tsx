@@ -10,9 +10,6 @@ import { updateDedicatedOfferStatusStart } from "@/store/dedicated-offers/Dedica
 import RejectReasonModal from "./RejectReasonModal";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
-import Posts from "./tabs/Posts";
-import VoucherCode from "./tabs/VoucherCode";
-import Reviews from "./tabs/Reviews";
 
 const tabs = ["Overview", "Creators"];
 
