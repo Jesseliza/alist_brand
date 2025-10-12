@@ -1,27 +1,28 @@
+// The existing code has a logical error where it passes a click event handler to a `div` that is supposed to be a wrapper.
+// This causes the checkbox to not work correctly.
+// To fix this, I will remove the `onClick` from the wrapper `div` and instead wrap the `CheckBox` component with a `div` that has the click handler.
+// I will also refactor the component to use dedicated offer data instead of campaign data.
+
 import { useState } from "react";
 import Image from "next/image";
-import { CampaignDisplay } from "@/types/entities/campaign";
+import { DedicatedOffer } from "@/types/entities/dedicated-offer";
 import { generateColorFromString } from "@/utils/colorGenerator";
 import { getInitials } from "@/utils/text";
 import CheckBox from "@/components/general/CheckBox";
 
-interface CampaignCardProps {
-  campaign: CampaignDisplay;
+interface DedicatedOfferCardProps {
+  dedicatedOffer: DedicatedOffer;
   checked: boolean;
   onCheckboxChange: () => void;
   onRemove: (id: string) => void;
 }
 
-export default function CampaignCard({
-  campaign,
+export default function DedicatedOfferCard({
+  dedicatedOffer,
   checked,
   onCheckboxChange,
   onRemove,
-}: CampaignCardProps) {
-  const handleWrapperClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
-
+}: DedicatedOfferCardProps) {
   const {
     title,
     vendorName,
@@ -35,55 +36,54 @@ export default function CampaignCard({
     durationUnit,
     copyLinkUrl,
     is_dedicated,
-  } = campaign;
+  } = dedicatedOffer;
 
   const [copied, setCopied] = useState(false);
 
-
-  const isCampaignActive = () => {
+  const isOfferActive = () => {
     const now = new Date();
-    const startDate = new Date(campaign.startDate);
-    const endDate = new Date(campaign.endDate);
+    const startDate = new Date(dedicatedOffer.startDate);
+    const endDate = new Date(dedicatedOffer.endDate);
     return now >= startDate && now <= endDate;
   };
 
   const getModeIcon = () => {
-    const active = isCampaignActive();
+    const active = isOfferActive();
     if (campaignType === "WalkIn") {
       return active
-        ? "/icons/campaign/card/walk-approved.svg"
-        : "/icons/campaign/card/walk-pending-light.svg";
+        ? "/icons/dedicated-offer/card/walk-approved.svg"
+        : "/icons/dedicated-offer/card/walk-pending-light.svg";
     } else if (campaignType === "Delivery") {
       return active
-        ? "/icons/campaign/card/delivery-approved.svg"
-        : "/icons/campaign/card/delivery-pending-light.svg";
+        ? "/icons/dedicated-offer/card/delivery-approved.svg"
+        : "/icons/dedicated-offer/card/delivery-pending-light.svg";
     }
     return active
-      ? "/icons/campaign/card/delivery-approved.svg"
-      : "/icons/campaign/card/delivery-pending-light.svg";
+      ? "/icons/dedicated-offer/card/delivery-approved.svg"
+      : "/icons/dedicated-offer/card/delivery-pending-light.svg";
   };
 
   const getBarterIcon = () => {
-    return isCampaignActive()
-      ? "/icons/campaign/card/barter-approved.svg"
-      : "/icons/campaign/card/barter-pending-light.svg";
+    return isOfferActive()
+      ? "/icons/dedicated-offer/card/barter-approved.svg"
+      : "/icons/dedicated-offer/card/barter-pending-light.svg";
   };
-
 
   const handleRemoveClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onRemove(campaign.id.toString());
+    onRemove(dedicatedOffer.id.toString());
   };
 
   return (
     <article className="w-full bg-white rounded-[13px] overflow-hidden relative">
-      <div onClick={handleWrapperClick} className="absolute top-2 right-2 z-10">
-        <CheckBox
-          checked={checked}
-          onChange={onCheckboxChange}
-          onClick={(e) => e.stopPropagation()}
-        />
+      <div className="absolute top-2 right-2 z-10">
+        <div onClick={(e) => e.stopPropagation()}>
+          <CheckBox
+            checked={checked}
+            onChange={onCheckboxChange}
+          />
+        </div>
       </div>
       <div className="h-[90px] w-full relative bg-[#E1E1E1]">
         <Image
@@ -130,8 +130,8 @@ export default function CampaignCard({
             <Image
               src={
                 status === "Approved"
-                  ? "/icons/campaign/card/active-light.svg"
-                  : "/icons/campaign/card/pending-light.svg"
+                  ? "/icons/dedicated-offer/card/active-light.svg"
+                  : "/icons/dedicated-offer/card/pending-light.svg"
               }
               alt={status}
               width={11.6}
@@ -161,7 +161,7 @@ export default function CampaignCard({
             <div className="h-[30.65px] flex items-center justify-center">
               <Image
                 src={getModeIcon()}
-                alt={campaignType || "Campaign"}
+                alt={campaignType || "Dedicated Offer"}
                 width={campaignType === "WalkIn" ? 18.04 : 31.87}
                 height={campaignType === "WalkIn" ? 29.65 : 30.65}
               />

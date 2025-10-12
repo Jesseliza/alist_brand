@@ -4,9 +4,9 @@ import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Campaign } from "@/types/entities";
+import { DedicatedOffer } from "@/types/entities/dedicated-offer";
 import { RootState } from "@/store/store";
-import { updateCampaignStatusStart } from "@/store/campaigns/CampaignSlice";
+import { updateDedicatedOfferStatusStart } from "@/store/dedicated-offers/DedicatedOfferSlice";
 import RejectReasonModal from "./RejectReasonModal";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
@@ -24,18 +24,18 @@ const tabs = [
   "Reviews",
 ];
 
-export default function CampaignDetails({
-  campaign,
-  campaignId,
+export default function DedicatedOfferDetails({
+  dedicatedOffer,
+  dedicatedOfferId,
 }: {
-  campaign: Campaign;
-  campaignId: string;
+  dedicatedOffer: DedicatedOffer;
+  dedicatedOfferId: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
   const { statusUpdateLoading } = useSelector(
-    (state: RootState) => state.campaigns
+    (state: RootState) => state.dedicatedOffers
   );
 
   const [selectedIndex, setSelectedIndex] = useState(1); // Default to Overview (index 1)
@@ -50,7 +50,7 @@ export default function CampaignDetails({
   }, [searchParams]);
 
   const handleApprove = () => {
-    dispatch(updateCampaignStatusStart({ id: campaignId, status: "Approved" }));
+    dispatch(updateDedicatedOfferStatusStart({ id: dedicatedOfferId, status: "Approved" }));
   };
 
   const handleReject = () => {
@@ -59,8 +59,8 @@ export default function CampaignDetails({
 
   const handleRejectSubmit = (reason: string) => {
     dispatch(
-      updateCampaignStatusStart({
-        id: campaignId,
+      updateDedicatedOfferStatusStart({
+        id: dedicatedOfferId,
         status: "Rejected",
         rejectReason: reason,
       })
@@ -81,8 +81,8 @@ export default function CampaignDetails({
 
   return (
     <div>
-      {campaign.offer_status === "Draft" &&
-        campaign.account_status === "Pending" && (
+      {dedicatedOffer.offer_status === "Draft" &&
+        dedicatedOffer.account_status === "Pending" && (
           <div className="max-w-[966px] mx-auto md:px-4 mt-4">
             <div className="flex justify-end space-x-2 mb-2">
               <button
@@ -124,13 +124,13 @@ export default function CampaignDetails({
         <TabPanels className="md:px-4">
           {tabs.map((tab) => (
             <TabPanel key={tab}>
-              {tab === "Creators" && <Creators campaign={campaign} />}
-              {tab === "Overview" && <Overview campaign={campaign} />}
+              {tab === "Creators" && <Creators dedicatedOffer={dedicatedOffer} />}
+              {tab === "Overview" && <Overview dedicatedOffer={dedicatedOffer} />}
               {tab === "Availabilites" && (
-                <Availabilites campaignId={campaignId} />
+                <Availabilites dedicatedOfferId={dedicatedOfferId} />
               )}
               {tab === "Posts" && <Posts />}
-              {tab === "Reviews" && <Reviews campaignId={campaignId} />}
+              {tab === "Reviews" && <Reviews dedicatedOfferId={dedicatedOfferId} />}
               {tab === "Voucher Code" && <VoucherCode />}
             </TabPanel>
           ))}

@@ -1,21 +1,21 @@
 "use client";
 
-import CampaignsTable from "@/components/features/campaigns/CampaignsTable";
-import CampaignCard from "@/components/features/campaigns/CampaignCard";
-import CampaignMobileCard from "@/components/features/campaigns/CampaignMobileCard";
+import DedicatedOffersTable from "@/components/features/dedicated-offers/DedicatedOfferTable";
+import DedicatedOfferCard from "@/components/features/dedicated-offers/DedicatedOfferCard";
+import DedicatedOfferMobileCard from "@/components/features/dedicated-offers/DedicatedOfferMobileCard";
 import TableCardsToggler from "@/components/general/TableCardsToggler";
 import Pagination from "@/components/general/Pagination";
-import { adaptCampaignSummaryToDisplay } from "@/utils/campaignAdapters";
+import { adaptDedicatedOfferSummaryToDisplay } from "@/utils/dedicatedOfferAdapters";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useRouter } from "next/navigation";
 import {
-  getCampaignsStart,
-  getMoreCampaignsStart,
-  bulkDeleteCampaignsStart,
-} from "@/store/campaigns/CampaignSlice";
+  getDedicatedOffersStart,
+  getMoreDedicatedOffersStart,
+  bulkDeleteDedicatedOffersStart,
+} from "@/store/dedicated-offers/DedicatedOfferSlice";
 import { setSearchTerm } from "@/store/search/searchSlice";
 import { RootState } from "@/store/store";
 import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
@@ -24,17 +24,17 @@ import Link from "next/link";
 import Loader from "@/components/general/Loader";
 import InlineLoader from "@/components/general/InlineLoader";
 
-export default function CampaignsPage() {
+export default function DedicatedOffersPage() {
   const router = useRouter();
   const dispatch = useDispatch();
   const {
-    campaigns,
+    dedicatedOffers,
     pagination,
     loading,
     error,
     bulkDeleteLoading,
     bulkDeleteError,
-  } = useSelector((state: RootState) => state.campaigns);
+  } = useSelector((state: RootState) => state.dedicatedOffers);
 
   const { searchTerm } = useSelector((state: RootState) => state.search);
   const [view, setView] = useState<"table" | "card">("table");
@@ -44,7 +44,7 @@ export default function CampaignsPage() {
   const debouncedSearch = useDebounce(searchTerm, 500);
 
   useEffect(() => {
-    dispatch(getCampaignsStart({ page: 1, per_page: 10 }));
+    dispatch(getDedicatedOffersStart({ page: 1, per_page: 10 }));
 
     return () => {
       dispatch(setSearchTerm(""));
@@ -60,7 +60,7 @@ export default function CampaignsPage() {
 
     setMobilePage(1);
     dispatch(
-      getCampaignsStart({
+      getDedicatedOffersStart({
         search: debouncedSearch,
         per_page: 10,
         page: 1,
@@ -69,15 +69,15 @@ export default function CampaignsPage() {
   }, [debouncedSearch, dispatch]);
 
 
-  const handleAddCampaignClick = () => {
-    // TODO: Update this route when the create campaign page is available
-    // router.push("/businesses/campaigns/create");
-    console.log("Add Campaign clicked");
+  const handleAddDedicatedOfferClick = () => {
+    // TODO: Update this route when the create dedicated offer page is available
+    // router.push("/businesses/dedicated-offers/create");
+    console.log("Add Dedicated Offer clicked");
   };
 
   const handlePageChange = (page: number) => {
     dispatch(
-      getCampaignsStart({
+      getDedicatedOffersStart({
         page,
         search: searchTerm,
         per_page: pagination?.per_page,
@@ -87,14 +87,14 @@ export default function CampaignsPage() {
 
   const handleItemsPerPageChange = (items: number) => {
     dispatch(
-      getCampaignsStart({ search: searchTerm, per_page: items, page: 1 })
+      getDedicatedOffersStart({ search: searchTerm, per_page: items, page: 1 })
     );
   };
 
   const handleSeeMore = () => {
     const nextPage = mobilePage + 1;
     dispatch(
-      getMoreCampaignsStart({
+      getMoreDedicatedOffersStart({
         page: nextPage,
         search: debouncedSearch,
         per_page: 10,
@@ -103,26 +103,26 @@ export default function CampaignsPage() {
     setMobilePage(nextPage);
   };
 
-  const handleCheckboxChange = (campaignId: string) => {
+  const handleCheckboxChange = (dedicatedOfferId: string) => {
     setCheckedRows((prevCheckedRows) => {
       const newCheckedRows = new Set(prevCheckedRows);
-      if (newCheckedRows.has(campaignId)) {
-        newCheckedRows.delete(campaignId);
+      if (newCheckedRows.has(dedicatedOfferId)) {
+        newCheckedRows.delete(dedicatedOfferId);
       } else {
-        newCheckedRows.add(campaignId);
+        newCheckedRows.add(dedicatedOfferId);
       }
       return newCheckedRows;
     });
   };
 
   const handleSelectAll = () => {
-    if (checkedRows.size === displayCampaigns.length) {
+    if (checkedRows.size === displayDedicatedOffers.length) {
       setCheckedRows(new Set());
     } else {
-      const allCampaignIds = new Set(
-        displayCampaigns.map((c) => c.id.toString())
+      const allDedicatedOfferIds = new Set(
+        displayDedicatedOffers.map((c) => c.id.toString())
       );
-      setCheckedRows(allCampaignIds);
+      setCheckedRows(allDedicatedOfferIds);
     }
   };
 
@@ -133,7 +133,7 @@ export default function CampaignsPage() {
           (t) => (
             <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4">
               <p className="font-semibold">
-                Are you sure you want to delete the selected campaigns?
+                Are you sure you want to delete the selected dedicated offers?
               </p>
               <div className="flex justify-end gap-2">
                 <button
@@ -146,7 +146,7 @@ export default function CampaignsPage() {
                   className="px-4 py-2 bg-red-500 text-white rounded-md"
                   onClick={() => {
                     const ids = Array.from(checkedRows);
-                    dispatch(bulkDeleteCampaignsStart({ ids }));
+                    dispatch(bulkDeleteDedicatedOffersStart({ ids }));
                     setCheckedRows(new Set());
                     toast.dismiss(t.id);
                   }}
@@ -169,7 +169,7 @@ export default function CampaignsPage() {
       (t) => (
         <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4">
           <p className="font-semibold">
-            Are you sure you want to delete this campaign?
+            Are you sure you want to delete this dedicated offer?
           </p>
           <div className="flex justify-end gap-2">
             <button
@@ -181,7 +181,7 @@ export default function CampaignsPage() {
             <button
               className="px-4 py-2 bg-red-500 text-white rounded-md"
               onClick={() => {
-                dispatch(bulkDeleteCampaignsStart({ ids: [id] }));
+                dispatch(bulkDeleteDedicatedOffersStart({ ids: [id] }));
                 toast.dismiss(t.id);
               }}
             >
@@ -196,10 +196,10 @@ export default function CampaignsPage() {
     );
   };
 
-  const displayCampaigns = campaigns.map(adaptCampaignSummaryToDisplay);
+  const displayDedicatedOffers = dedicatedOffers.map(adaptDedicatedOfferSummaryToDisplay);
 
   const isAllSelected =
-    displayCampaigns.length > 0 && checkedRows.size === displayCampaigns.length;
+    displayDedicatedOffers.length > 0 && checkedRows.size === displayDedicatedOffers.length;
 
   return (
     <div>
@@ -207,7 +207,7 @@ export default function CampaignsPage() {
         <SearchInputMobile
           value={searchTerm}
           onChange={(e) => dispatch(setSearchTerm(e.target.value))}
-          placeholder="Search campaigns"
+          placeholder="Search dedicated offers"
         />
       </div>
       <div className="py-5.5">
@@ -215,10 +215,10 @@ export default function CampaignsPage() {
           <div className="hidden md:flex justify-end items-center mb-5.5 space-x-4 px-6">
             <TableCardsToggler view={view} setView={setView} />
             {/* <button
-              onClick={handleAddCampaignClick}
+              onClick={handleAddDedicatedOfferClick}
               className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
             >
-              Add Campaign
+              Add Dedicated Offer
             </button> */}
             {/* <div className="w-auto">
               <ActionDropdown
@@ -230,27 +230,27 @@ export default function CampaignsPage() {
           </div>
           {/* <div className="md:hidden flex justify-end items-center mb-4 space-x-2">
             <button
-              onClick={handleAddCampaignClick}
+              onClick={handleAddDedicatedOfferClick}
               className="bg-blue-500 text-white rounded-[11px] text-sm px-4 py-2"
             >
-              Add Campaign
+              Add Dedicated Offer
             </button>
           </div> */}
 
-          {loading && displayCampaigns.length === 0 && <Loader />}
+          {loading && displayDedicatedOffers.length === 0 && <Loader />}
           {error && <p className="text-red-500">Error: {error}</p>}
           {!error && (
             <>
               <div className="md:hidden">
-                {displayCampaigns.length === 0 && !loading ? (
+                {displayDedicatedOffers.length === 0 && !loading ? (
                   <div className="bg-white text-center py-10 text-gray-500">
                     No records found.
                   </div>
                 ) : (
-                  displayCampaigns.map((campaign) => (
-                    <div key={campaign.id} className="mb-4">
-                      <Link href={`/businesses/campaigns/${campaign.id}`}>
-                        <CampaignMobileCard campaign={campaign} />
+                  displayDedicatedOffers.map((dedicatedOffer) => (
+                    <div key={dedicatedOffer.id} className="mb-4">
+                      <Link href={`/businesses/dedicated-offers/${dedicatedOffer.id}`}>
+                        <DedicatedOfferMobileCard dedicatedOffer={dedicatedOffer} />
                       </Link>
                     </div>
                   ))
@@ -271,14 +271,14 @@ export default function CampaignsPage() {
               <div className="hidden md:block">
                 {view === "table" ? (
                   <>
-                    <CampaignsTable
-                      campaigns={displayCampaigns}
+                    <DedicatedOffersTable
+                      dedicatedOffers={displayDedicatedOffers}
                       checkedRows={checkedRows}
                       onCheckboxChange={handleCheckboxChange}
                       onSelectAll={handleSelectAll}
                       isAllSelected={isAllSelected}
                     />
-                    {pagination && displayCampaigns.length > 0 && (
+                    {pagination && displayDedicatedOffers.length > 0 && (
                       <Pagination
                         totalItems={pagination.total}
                         itemsPerPage={pagination.per_page}
@@ -291,21 +291,21 @@ export default function CampaignsPage() {
                 ) : (
                   <>
                     <div className="grid grid-cols-[repeat(auto-fit,340px)] gap-x-[13px] gap-y-[20px] justify-center mb-8">
-                      {displayCampaigns.length === 0 && !loading ? (
+                      {displayDedicatedOffers.length === 0 && !loading ? (
                         <div className="col-span-full text-center py-10 text-gray-500 bg-white">
                           No records found.
                         </div>
                       ) : (
-                        displayCampaigns.map((campaign) => (
+                        displayDedicatedOffers.map((dedicatedOffer) => (
                           <Link
-                            key={campaign.id}
-                            href={`/businesses/campaigns/${campaign.id}`}
+                            key={dedicatedOffer.id}
+                            href={`/businesses/dedicated-offers/${dedicatedOffer.id}`}
                           >
-                            <CampaignCard
-                              campaign={campaign}
-                              checked={checkedRows.has(campaign.id.toString())}
+                            <DedicatedOfferCard
+                              dedicatedOffer={dedicatedOffer}
+                              checked={checkedRows.has(dedicatedOffer.id.toString())}
                               onCheckboxChange={() =>
-                                handleCheckboxChange(campaign.id.toString())
+                                handleCheckboxChange(dedicatedOffer.id.toString())
                               }
                               onRemove={handleRemove}
                             />
@@ -313,7 +313,7 @@ export default function CampaignsPage() {
                         ))
                       )}
                     </div>
-                    {pagination && displayCampaigns.length > 0 && (
+                    {pagination && displayDedicatedOffers.length > 0 && (
                       <Pagination
                         totalItems={pagination.total}
                         itemsPerPage={pagination.per_page}
