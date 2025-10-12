@@ -133,6 +133,7 @@ export interface DedicatedOfferDisplay {
   brandLogo: string | null;
   brandName: string;
   campaignType: CampaignType;
+  category: string;
   offerDate: string;
 }
 

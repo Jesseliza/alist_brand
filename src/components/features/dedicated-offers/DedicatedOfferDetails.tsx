@@ -4,7 +4,6 @@ import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 import { RootState } from "@/store/store";
 import { updateDedicatedOfferStatusStart } from "@/store/dedicated-offers/DedicatedOfferSlice";
 import RejectReasonModal from "./RejectReasonModal";
@@ -14,16 +13,14 @@ import Creators from "./tabs/Creators";
 const tabs = ["Creators","Overview"];
 
 export default function DedicatedOfferDetails({
-  dedicatedOffer,
   dedicatedOfferId,
 }: {
-  dedicatedOffer: DedicatedOfferDisplay;
   dedicatedOfferId: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
-  const { statusUpdateLoading } = useSelector(
+  const { dedicatedOffer, statusUpdateLoading } = useSelector(
     (state: RootState) => state.dedicatedOffers
   );
 
@@ -37,14 +34,6 @@ export default function DedicatedOfferDetails({
     }
     return 0; // Default to Overview
   }, [searchParams]);
-
-  const handleApprove = () => {
-    dispatch(updateDedicatedOfferStatusStart({ id: dedicatedOfferId, status: "Approved" }));
-  };
-
-  const handleReject = () => {
-    setIsRejectModalOpen(true);
-  };
 
   const handleRejectSubmit = (reason: string) => {
     dispatch(

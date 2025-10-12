@@ -90,7 +90,6 @@ export default function DedicatedOfferDetailsPage() {
           <div className="pb-6">
             {activeTab === "Dedicated Offers" && (
               <DedicatedOfferDetails
-                dedicatedOffer={dedicatedOffer}
                 dedicatedOfferId={offerId as string}
               />
             )}
