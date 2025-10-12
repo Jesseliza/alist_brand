@@ -1,6 +1,6 @@
 "use client";
 import { useState, useMemo, useEffect, useRef } from "react";
-import { DedicatedOffer } from "@/types/entities/dedicated-offer";
+import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 import CampaignCreatorCard from "./Creators/DedicatedOfferCreatorCard";
 import Pagination from "@/components/general/Pagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,7 +57,13 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
 
   const handleApprove = (id: string) => {
     setSelectedCreatorId(id);
-    dispatch(updateDedicatedPageStatusStart({ id: id, status: 1 }));
+    dispatch(
+      updateDedicatedPageStatusStart({
+        id: id,
+        status: 1,
+        offerId: dedicatedOffer.id.toString(),
+      })
+    );
   };
 
   const handleReject = (id: string) => {
@@ -72,6 +78,7 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
         id: selectedCreatorId,
         status: 0,
         rejectReason: rejectReason,
+        offerId: dedicatedOffer.id.toString(),
       })
     );
   };

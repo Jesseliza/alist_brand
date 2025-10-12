@@ -9,7 +9,7 @@ import { updateDedicatedOfferStatusStart } from "@/store/dedicated-offers/Dedica
 import RejectReasonModal from "./RejectReasonModal";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
-import { DedicatedOffer } from "@/types/entities/dedicated-offer";
+import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 
 const tabs = ["Creators","Overview"];
 
@@ -17,7 +17,7 @@ export default function DedicatedOfferDetails({
   dedicatedOffer,
   dedicatedOfferId,
 }: {
-  dedicatedOffer: DedicatedOffer;
+  dedicatedOffer: DedicatedOfferDisplay;
   dedicatedOfferId: string;
 }) {
   const router = useRouter();
