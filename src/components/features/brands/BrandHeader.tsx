@@ -44,7 +44,7 @@ export default function BrandHeader({
   };
 
   return (
-    <div className="w-full bg-white px-6 border-b border-[#E2E2E2] relative">
+    <div className="w-full bg-white px-6 border-b border-[#E2E2E2] relative z-10">
       <div
         className="absolute inset-0 bg-white z-0"
         style={{ left: "-100vw", right: "-100vw" }}
@@ -53,6 +53,14 @@ export default function BrandHeader({
         {/* Header */}
         <div>
           <div className="flex items-center md:gap-10 gap-6 ">
+            <Image
+              src={backIcon}
+              alt="Back"
+              width={24}
+              height={24}
+              onClick={() => (backPath ? router.push(backPath) : router.back())}
+              className="cursor-pointer"
+            />
             <div className=" w-[108px] h-[108px] min-w-[45px] min-h-[45px] md:w-27 md:h-27 rounded-full  border-[#EEEEEE] border-[5px] text-white shrink-0 overflow-hidden">
               {logo ? (
                 <Image
@@ -68,25 +76,15 @@ export default function BrandHeader({
                 </div>
               )}
             </div>
-            <div className="flex items-center gap-4">
-              <Image
-                src={backIcon}
-                alt="Back"
-                width={24}
-                height={24}
-                onClick={() => (backPath ? router.push(backPath) : router.back())}
-                className="cursor-pointer"
-              />
-              <div>
-                <h1 className="text-[18px] md:text-[25px] font-semibold ">
-                  {name}
-                </h1>
-                {subtitle && (
-                  <p className="text-[15px] md:text-[18px] font-medium ">
-                    {subtitle}
-                  </p>
-                )}
-              </div>
+            <div>
+              <h1 className="text-[18px] md:text-[25px] font-semibold ">
+                {name}
+              </h1>
+              {subtitle && (
+                <p className="text-[15px] md:text-[18px] font-medium ">
+                  {subtitle}
+                </p>
+              )}
             </div>
           </div>
 

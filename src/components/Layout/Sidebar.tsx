@@ -28,6 +28,8 @@ export default function Sidebar({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from");
   const { user, isAuthLoading } = useSelector((state: RootState) => state.auth);
   const [internalCollapsed, setInternalCollapsed] = useState(false);
   const [windowWidth, setWindowWidth] = useState(1920); // Default for SSR
