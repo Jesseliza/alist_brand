@@ -64,7 +64,7 @@ export default function BrandDedicatedOffers({
               className="cursor-pointer"
             >
               <DedicatedOfferCard
-                offer={offer}
+                dedicatedOffer={offer}
                 checked={false}
                 onCheckboxChange={() => {}}
               />
