@@ -122,10 +122,10 @@ export default function CampaignsTable({
                 {campaign.vendorName}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
-                {campaign.is_dedicated === 1 ? "Dedicated" : "Normal"}
+                {campaign.offerType}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
-                {campaign.offerType ?? "N/A"}
+                {campaign.category ?? "N/A"}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
                 <div

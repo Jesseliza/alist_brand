@@ -31,7 +31,7 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
     prevLoading.current = dedicatedPageStatusLoading;
   }, [dedicatedPageStatusLoading]);
 
-  const creators = dedicatedOffer?.dedicated_offer?.offer_users || [];
+  const creators = dedicatedOffer?.offer_users || [];
 
   const mappedCreators = useMemo(() => {
     return creators
@@ -88,7 +88,7 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
     <div>
       <div className="max-w-[966px] mx-auto">
         <h3 className="md:text-[18px] text-[15px] md:leading-[27px] leading-[23px] text-[#4F4F4F] font-medium md:mt-10 mt-[25.5px] md:mb-8.5 mb-[9.5px] text-center">
-          A minimum of 3 creators must be approved
+          A maximum of {dedicatedOffer.offer_usage * 2} creators must be approved
         </h3>
         {paginatedCreators.length > 0 ? (
           <>

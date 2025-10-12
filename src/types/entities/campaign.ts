@@ -516,4 +516,5 @@ export interface CampaignDisplay {
   copyLinkUrl?: string;
   is_dedicated: number;
   offer_status: string;
+  category?: string;
 }
