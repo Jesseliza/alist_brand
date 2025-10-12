@@ -10,6 +10,7 @@ import {
   GetDedicatedOfferAvailabilityPayload,
   DedicatedOfferAvailability,
   GetDedicatedOfferReviewsPayload,
+  DedicatedOffer,
 } from '../../types/entities/dedicated-offer';
 
 const initialState: DedicatedOffersState = {
