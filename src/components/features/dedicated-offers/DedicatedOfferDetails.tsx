@@ -11,7 +11,7 @@ import RejectReasonModal from "./RejectReasonModal";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
 
-const tabs = ["Overview", "Creators"];
+const tabs = ["Creators","Overview"];
 
 export default function DedicatedOfferDetails({
   dedicatedOffer,
@@ -70,7 +70,7 @@ export default function DedicatedOfferDetails({
 
   return (
     <div>
-      {dedicatedOffer.offer_status === "Draft" &&
+      {/* {dedicatedOffer.offer_status === "Draft" &&
         dedicatedOffer.account_status === "Pending" && (
           <div className="max-w-[966px] mx-auto md:px-4 mt-4">
             <div className="flex justify-end space-x-2 mb-2">
@@ -90,7 +90,7 @@ export default function DedicatedOfferDetails({
               </button>
             </div>
           </div>
-        )}
+        )} */}
       <TabGroup selectedIndex={selectedIndex} onChange={handleTabChange}>
         <div className="max-w-[966px] mx-auto md:px-4 mt-4">
           <TabList className="flex bg-[#F8F8F8] rounded-[13px] p-[5px]">

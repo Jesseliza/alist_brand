@@ -55,7 +55,7 @@ export default function BrandHeader({
       <div className="max-w-[1428px] mx-auto flex justify-between pt-10 text-[#4F4F4F] relative">
         {/* Header */}
         <div>
-          {pageFrom !== "campaign" &&
+          {pageFrom === "brand" &&
             <button onClick={() => (backPath ? router.push(backPath) : router.back())} className="cursor-pointer mb-4">
               <Image
                 src="/icons/campaign/details/back-arrow.svg"

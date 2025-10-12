@@ -76,11 +76,12 @@ export default function DedicatedOfferDetailsPage() {
           tabs={["Business Details", "Dedicated Offers"]}
           activeTab={activeTab}
           onTabChange={handleTabChange}
+          pageFrom={"dedicated-offer"}
         />
         <div className="mt-6 bg-white rounded-[13px] p-6">
           <button onClick={handleBackClick} className="cursor-pointer mb-4">
             <Image
-              src="/icons/dedicated-offer/details/back-arrow.svg"
+              src="/icons/campaign/details/back-arrow.svg"
               alt="back"
               width={35}
               height={35}

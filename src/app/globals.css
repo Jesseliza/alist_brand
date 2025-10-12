@@ -87,3 +87,7 @@ h6 {
 button {
   cursor: pointer;
 }
+
+.aspect-square-offer{
+  aspect-ratio: 1 / 0.75;
+}

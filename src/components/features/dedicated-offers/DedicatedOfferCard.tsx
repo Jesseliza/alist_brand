@@ -126,39 +126,11 @@ export default function DedicatedOfferCard({
           <p className="text-[13px] text-[#414141] leading-[20px]">
             By {vendorName}
           </p>
-          <div className="flex gap-[4.5px] items-center">
-            <Image
-              src={
-                status === "Approved"
-                  ? "/icons/dedicated-offer/card/active-light.svg"
-                  : "/icons/dedicated-offer/card/pending-light.svg"
-              }
-              alt={status}
-              width={11.6}
-              height={11.6}
-            />
-            <p className="text-[13px] text-[#787878] leading-[20px]">
-              {status}
-            </p>
-          </div>
         </div>
         <hr className="border-[#F2F2F2] mb-[15px]" />
-        <div className="grid grid-cols-3 gap-[9px] mb-[13px]">
-          <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
-            <div className="h-[30.65px] flex items-center justify-center">
-              <Image
-                src={getBarterIcon()}
-                alt="Barter"
-                width={24}
-                height={25.83}
-              />
-            </div>
-            <span className="text-[12px] text-[#414141] leading-[20px]">
-              {is_dedicated === 1 ? "Dedicated" : "Normal"}
-            </span>
-          </div>
-          <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
-            <div className="h-[30.65px] flex items-center justify-center">
+        <div className="grid grid-cols-2 gap-[9px] mb-[13px]">
+          <div className="aspect-square-offer flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
+            <div className="h-[10.65px] flex items-center justify-center">
               <Image
                 src={getModeIcon()}
                 alt={campaignType || "Dedicated Offer"}
@@ -170,8 +142,8 @@ export default function DedicatedOfferCard({
               {offerType ?? "N/A"}
             </span>
           </div>
-          <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
-            <div className="h-[30.65px] flex items-center justify-center">
+          <div className="aspect-square-offer flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
+            <div className="h-[10.65px] flex items-center justify-center">
               <span
                 className={`text-[21px] font-bold leading-[31px] ${
                   status === "Approved" ? "text-[#00A4B6]" : "text-[#505050]"
