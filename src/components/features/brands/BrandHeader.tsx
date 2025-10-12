@@ -3,7 +3,10 @@
 import Image from "next/image";
 import UnifiedTabs from "@/components/general/UnifiedTabs";
 import { getInitials } from "@/utils/text";
+import { useRouter } from "next/navigation"; // Import useRouter
+
 const menuIcon = "/icons/common/menu-dots.svg";
+const backIcon = "/icons/general/arrow-left.svg"; // Define back icon path
 
 interface BrandHeaderProps {
   name: string;
@@ -13,6 +16,7 @@ interface BrandHeaderProps {
   activeTab?: string;
   onTabChange?: (tab: string) => void;
   isCampaignPage?: boolean;
+  backPath?: string;
 }
 
 export default function BrandHeader({
@@ -23,7 +27,10 @@ export default function BrandHeader({
   activeTab,
   onTabChange,
   isCampaignPage = false,
+  backPath,
 }: BrandHeaderProps) {
+  const router = useRouter(); // Initialize router
+
   // When on campaign page, force "Campaigns" as active but keep all tabs visible
   const displayActiveTab = isCampaignPage ? "Campaigns" : activeTab;
 
@@ -61,15 +68,25 @@ export default function BrandHeader({
                 </div>
               )}
             </div>
-            <div>
-              <h1 className="text-[18px] md:text-[25px] font-semibold ">
-                {name}
-              </h1>
-              {subtitle && (
-                <p className="text-[15px] md:text-[18px] font-medium ">
-                  {subtitle}
-                </p>
-              )}
+            <div className="flex items-center gap-4">
+              <Image
+                src={backIcon}
+                alt="Back"
+                width={24}
+                height={24}
+                onClick={() => (backPath ? router.push(backPath) : router.back())}
+                className="cursor-pointer"
+              />
+              <div>
+                <h1 className="text-[18px] md:text-[25px] font-semibold ">
+                  {name}
+                </h1>
+                {subtitle && (
+                  <p className="text-[15px] md:text-[18px] font-medium ">
+                    {subtitle}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
 

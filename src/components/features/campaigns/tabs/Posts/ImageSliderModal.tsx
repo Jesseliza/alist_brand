@@ -70,6 +70,7 @@ export default function ImageSliderModal({
                     src={image}
                     alt={`Post image ${index + 1}`}
                     fill
+                    quality={100}
                     className="object-contain"
                   />
                 </div>

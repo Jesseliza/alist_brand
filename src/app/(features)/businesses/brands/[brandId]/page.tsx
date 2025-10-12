@@ -194,6 +194,7 @@ export default function BrandPage() {
           tabs={["Business Details", "Campaigns"]}
           activeTab={activeTab}
           onTabChange={setActiveTab}
+          backPath="/businesses/brands"
         />
       )}
       <div className="pb-6">

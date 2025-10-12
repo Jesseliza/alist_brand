@@ -150,6 +150,16 @@ export default function LoginComponent() {
               >
                 {loading ? 'Signing in...' : 'Sign In'}
               </button>
+              <div className="text-center mt-2">
+                <button
+                  type="button"
+                  onClick={handleSendOtp}
+                  className="text-sm text-[#00A4B6] hover:underline"
+                  disabled={loading}
+                >
+                  Resend OTP
+                </button>
+              </div>
               {error && !formError && <p className="text-red-500 text-sm mt-2">{error}</p>}
             </form>
           )}

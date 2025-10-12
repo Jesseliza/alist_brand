@@ -40,23 +40,31 @@ export default function CampaignCard({
   const [copied, setCopied] = useState(false);
 
 
+  const isCampaignActive = () => {
+    const now = new Date();
+    const startDate = new Date(campaign.startDate);
+    const endDate = new Date(campaign.endDate);
+    return now >= startDate && now <= endDate;
+  };
+
   const getModeIcon = () => {
+    const active = isCampaignActive();
     if (campaignType === "WalkIn") {
-      return status === "Approved"
+      return active
         ? "/icons/campaign/card/walk-approved.svg"
         : "/icons/campaign/card/walk-pending-light.svg";
     } else if (campaignType === "Delivery") {
-      return status === "Approved"
+      return active
         ? "/icons/campaign/card/delivery-approved.svg"
         : "/icons/campaign/card/delivery-pending-light.svg";
     }
-    return status === "Approved"
+    return active
       ? "/icons/campaign/card/delivery-approved.svg"
       : "/icons/campaign/card/delivery-pending-light.svg";
   };
 
   const getBarterIcon = () => {
-    return status === "Approved"
+    return isCampaignActive()
       ? "/icons/campaign/card/barter-approved.svg"
       : "/icons/campaign/card/barter-pending-light.svg";
   };
