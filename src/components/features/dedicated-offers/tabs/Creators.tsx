@@ -1,16 +1,16 @@
 "use client";
 import { useState, useMemo, useEffect, useRef } from "react";
-import { Campaign, OfferUser } from "@/types/entities";
+import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 import CampaignCreatorCard from "./Creators/CampaignCreatorCard";
 import Pagination from "@/components/general/Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import { updateDedicatedPageStatusStart } from "@/store/campaigns/CampaignSlice";
+import { updateDedicatedPageStatusStart } from "@/store/dedicated-offers/DedicatedOfferSlice";
 import { RootState } from "@/store/store";
 import RejectReasonModal from "../RejectReasonModal";
 
 const ITEMS_PER_PAGE = 6;
 
-export default function Creators({ campaign }: { campaign: Campaign }) {
+export default function Creators({ dedicatedOffer }: { dedicatedOffer: DedicatedOffer }) {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
   const [selectedCreatorId, setSelectedCreatorId] = useState<string | null>(
@@ -19,7 +19,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
   const { dedicatedPageStatusLoading } = useSelector(
-    (state: RootState) => state.campaigns
+    (state: RootState) => state.dedicatedOffers
   );
   const prevLoading = useRef(dedicatedPageStatusLoading);
 
@@ -31,12 +31,12 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
     prevLoading.current = dedicatedPageStatusLoading;
   }, [dedicatedPageStatusLoading]);
 
-  const creators = campaign?.dedicated_offer?.offer_users || [];
+  const creators = dedicatedOffer?.dedicated_offer?.offer_users || [];
 
   const mappedCreators = useMemo(() => {
     return creators
-      .filter((offerUser) => offerUser.user)
-      .map((offerUser) => ({
+      .filter((offerUser: any) => offerUser.user)
+      .map((offerUser: any) => ({
         id: offerUser.id.toString(),
         image: offerUser.user.profile_picture || "",
         name: offerUser.user.name,
@@ -76,7 +76,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
     );
   };
 
-  if (campaign?.is_dedicated !== 1) {
+  if (dedicatedOffer?.is_dedicated !== 1) {
     return (
       <div className="text-center py-10 text-gray-500">
         Creators Not Found
@@ -123,7 +123,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
           </>
         ) : (
           <div className="text-center py-10 text-gray-500">
-            No creators found for this campaign.
+            No creators found for this dedicated offer.
           </div>
         )}
       </div>

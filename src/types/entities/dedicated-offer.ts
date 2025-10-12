@@ -1,7 +1,8 @@
 export type CampaignType = "WalkIn" | "Delivery" | "Online" | "Exclusive";
 export type OfferType = "Barter" | "Paid" | "BarterAndPaid";
+export type TimeUnit = "Days" | "Hours";
 
-export interface DedicatedOffer {
+export interface ApiDedicatedOffer {
   id: number;
   offer_title: string;
   venue_id: number;
@@ -53,23 +54,28 @@ export interface DedicatedOffer {
     venue_title: string;
     company_name: string | null;
   };
-  // These fields are not in the provided API response, but are used in the components.
-  // Add them here to avoid breaking changes.
-  title?: string;
-  vendorName?: string;
-  status?: string;
-  thumbnailUrl?: string;
-  brandLogo?: string;
-  brandName?: string;
-  campaignType?: CampaignType;
-  offerType?: OfferType;
-  duration?: number;
-  durationUnit?: string;
-  copyLinkUrl?: string;
-  is_dedicated?: number;
-  startDate?: string;
-  endDate?: string;
-  account_status?: string;
+}
+
+export interface DedicatedOfferDisplay {
+  id: number;
+  title: string;
+  vendorName: string;
+  status: string;
+  thumbnailUrl: string;
+  brandLogo: string | null;
+  brandName: string;
+  campaignType: CampaignType;
+  offerType: OfferType;
+  duration: number;
+  durationUnit: TimeUnit;
+  copyLinkUrl: string;
+  is_dedicated: number;
+  startDate: string;
+  endDate: string;
+  account_status: string;
+}
+
+export interface DedicatedOffer extends ApiDedicatedOffer {
   dedicated_offer?: {
     offer_users: any[];
   };

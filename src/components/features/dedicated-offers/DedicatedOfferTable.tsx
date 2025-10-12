@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { DedicatedOffer } from "@/types/entities/dedicated-offer";
+import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 import Link from "next/link";
 import CheckBox from "@/components/general/CheckBox";
 
 interface DedicatedOffersTableProps {
-  dedicatedOffers: DedicatedOffer[];
+  dedicatedOffers: DedicatedOfferDisplay[];
   checkedRows: Set<string>;
   onCheckboxChange: (dedicatedOfferId: string) => void;
   onSelectAll: () => void;
