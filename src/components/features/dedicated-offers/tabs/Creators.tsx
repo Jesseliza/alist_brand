@@ -1,7 +1,7 @@
 "use client";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
-import CampaignCreatorCard from "./Creators/CampaignCreatorCard";
+import CampaignCreatorCard from "./Creators/DedicatedOfferCreatorCard";
 import Pagination from "@/components/general/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { updateDedicatedPageStatusStart } from "@/store/dedicated-offers/DedicatedOfferSlice";

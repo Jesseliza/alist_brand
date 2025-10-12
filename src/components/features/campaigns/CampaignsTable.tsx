@@ -83,13 +83,14 @@ export default function CampaignsTable({
               scope="col"
               className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
-              View
+              Offer Status
             </th>
           </tr>
         </thead>
 
         <tbody className="bg-white">
           {campaigns.map((campaign) => (
+            
             <tr key={campaign.id} className="odd:bg-[#F8F8F8]">
               <td className="pl-3 pr-2 py-2.5 whitespace-nowrap">
                 <CheckBox
@@ -128,13 +129,12 @@ export default function CampaignsTable({
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
                 <div
-                  className={`w-[98px] px-4.25 py-1 rounded-full text-white ${
-                    campaign.status === "Pending"
+                  className={`w-[98px] px-4.25 py-1 rounded-full text-white ${campaign.status === "Pending"
                       ? "bg-[#636363]"
                       : campaign.status === "Rejected"
-                      ? "bg-red-500"
-                      : "bg-[#00CC86]"
-                  }`}
+                        ? "bg-red-500"
+                        : "bg-[#00CC86]"
+                    }`}
                 >
                   {campaign.status}
                 </div>
@@ -165,7 +165,7 @@ export default function CampaignsTable({
                 </button>
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
-                <Link
+                {/* <Link
                   href={`/businesses/campaigns/${campaign.id}`}
                   className="w-[98px] px-4.25 py-1 bg-[#00A4B6] text-white rounded-full flex justify-center items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
                 >
@@ -176,7 +176,15 @@ export default function CampaignsTable({
                     width={14.48}
                     height={14.48}
                   />
-                </Link>
+                </Link> */}
+                <div
+                  className={`w-[98px] px-4.25 py-1 rounded-full text-white ${campaign.offer_status === "Published"
+                      ? "bg-[#00CC86]"
+                      : "bg-[#636363]"
+                    }`}
+                >
+                  {campaign.offer_status}
+                </div>
               </td>
             </tr>
           ))}

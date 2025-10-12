@@ -515,4 +515,5 @@ export interface CampaignDisplay {
   durationUnit?: 'Days' | 'Hours';
   copyLinkUrl?: string;
   is_dedicated: number;
+  offer_status: string;
 }

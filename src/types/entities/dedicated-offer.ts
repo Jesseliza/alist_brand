@@ -1,5 +1,4 @@
 export type CampaignType = "WalkIn" | "Delivery" | "Online" | "Exclusive";
-export type OfferType = "Barter" | "Paid" | "BarterAndPaid";
 export type TimeUnit = "Days" | "Hours";
 
 export interface ApiDedicatedOffer {
@@ -60,19 +59,11 @@ export interface DedicatedOfferDisplay {
   id: number;
   title: string;
   vendorName: string;
-  status: string;
   thumbnailUrl: string;
   brandLogo: string | null;
   brandName: string;
   campaignType: CampaignType;
-  offerType: OfferType;
-  duration: number;
-  durationUnit: TimeUnit;
-  copyLinkUrl: string;
-  is_dedicated: number;
-  startDate: string;
-  endDate: string;
-  account_status: string;
+  offerDate: string;
 }
 
 export interface DedicatedOffer extends ApiDedicatedOffer {

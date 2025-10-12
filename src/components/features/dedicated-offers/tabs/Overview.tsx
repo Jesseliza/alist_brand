@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
-import CampaignStats from "./Overview/CampaignStats";
-import CampaignCreators from "./Overview/CampaignCreators";
-import CampaignDetails from "./Overview/CampaignDetails";
-import CampaignGuidlines from "./Overview/CampaignGuidlines";
-import CampaignPlans from "./Overview/CampaignPlans";
+import CampaignStats from "./Overview/DedicatedOfferStats";
+import CampaignCreators from "./Overview/DedicatedOfferCreators";
+import CampaignDetails from "./Overview/DedicatedOfferDetails";
+import CampaignGuidlines from "./Overview/DedicatedOfferGuidlines";
+import CampaignPlans from "./Overview/DedicatedOfferPlans";
 
 export default function Overview({
   dedicatedOffer,
