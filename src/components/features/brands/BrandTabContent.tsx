@@ -1,6 +1,5 @@
 import BrandDetails from "@/components/features/brands/BrandDetails";
 import BrandCampaigns from "@/components/features/brands/BrandCampaigns";
-import BrandDedicatedOffers from "@/components/features/brands/BrandDedicatedOffers";
 import { TabContentProps } from "@/components/general/UnifiedTabs";
 import { Brand } from "@/types/entities";
 
@@ -42,19 +41,6 @@ export default function BrandTabContent({
           <div>
             <BrandCampaigns
               foodOffers={brand.Venue?.food_offers || []}
-              brandName={brand.name || ""}
-              brandLogo={brand.logo || ""}
-              brandId={brand.brandId || ""}
-              onRemoveCampaign={brand.onRemoveCampaign}
-              brandCategory={brand.Venue?.category?.category}
-            />
-          </div>
-        );
-      case "Dedicated Offers":
-        return (
-          <div>
-            <BrandDedicatedOffers
-              dedicatedOffers={brand.Venue?.dedicated_offers || []}
               brandName={brand.name || ""}
               brandLogo={brand.logo || ""}
               brandId={brand.brandId || ""}

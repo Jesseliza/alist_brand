@@ -27,7 +27,7 @@ export default function BrandCampaigns({
   const router = useRouter();
 
   const handleCampaignClick = (campaignId: string | number) => {
-    router.push(`/businesses/campaigns/${campaignId}?source=brand&brandId=${brandId}`);
+    router.push(`/businesses/campaigns/${campaignId}`);
   };
 
   const displayCampaigns = useMemo(

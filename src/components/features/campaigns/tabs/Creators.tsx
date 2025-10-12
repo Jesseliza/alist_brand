@@ -1,6 +1,6 @@
 "use client";
 import { useState, useMemo, useEffect, useRef } from "react";
-import { Campaign } from "@/types/entities";
+import { Campaign, OfferUser } from "@/types/entities";
 import CampaignCreatorCard from "./Creators/CampaignCreatorCard";
 import Pagination from "@/components/general/Pagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +31,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
     prevLoading.current = dedicatedPageStatusLoading;
   }, [dedicatedPageStatusLoading]);
 
-  const creators = useMemo(() => campaign?.dedicated_offer?.offer_users || [], [campaign?.dedicated_offer?.offer_users]);
+  const creators = campaign?.dedicated_offer?.offer_users || [];
 
   const mappedCreators = useMemo(() => {
     return creators

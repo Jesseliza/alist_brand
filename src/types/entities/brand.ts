@@ -71,11 +71,8 @@ export type FoodOffer = {
   whatsapp_no: string | null;
 };
 
-import { DedicatedOffer } from "./dedicatedOffer";
-
 export type Venue = {
   food_offers: FoodOffer[];
-  dedicated_offers: DedicatedOffer[];
   category?: {
     id: number;
     category: string;

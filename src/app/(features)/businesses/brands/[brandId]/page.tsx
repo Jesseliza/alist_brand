@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { Brand } from "@/types/entities";
-import Image from "next/image";
 import BrandTabContent from "@/components/features/brands/BrandTabContent";
 import BrandHeader from "@/components/features/brands/BrandHeader";
 import Loader from "@/components/general/Loader";
@@ -184,16 +183,6 @@ export default function BrandPage() {
 
   return (
     <div className="pt-6">
-      <div className="flex items-center gap-4 mb-6">
-        <button onClick={() => router.push("/businesses/brands")} className="cursor-pointer">
-          <Image
-            src="/icons/campaign/details/back-arrow.svg"
-            alt="back"
-            width={35}
-            height={35}
-          />
-        </button>
-      </div>
       {isCreateMode ? (
         <div className="bg-white p-6 mb-6">
           <h1 className="text-2xl font-bold">Add Brand</h1>
@@ -202,7 +191,7 @@ export default function BrandPage() {
         <BrandHeader
           name={brand?.name || ""}
           logo={brand?.logo || ""}
-          tabs={["Business Details", "Campaigns", "Dedicated Offers"]}
+          tabs={["Business Details", "Campaigns"]}
           activeTab={activeTab}
           onTabChange={setActiveTab}
         />

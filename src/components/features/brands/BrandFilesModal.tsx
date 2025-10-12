@@ -10,7 +10,6 @@ import InlineLoader from "@/components/general/InlineLoader";
 import toast from "react-hot-toast";
 import PinModal from "@/components/general/PinModal";
 import Image from "next/image";
-import { formatDate } from "@/utils/date";
 
 interface BrandFile {
   id: number;
@@ -113,26 +112,23 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
     }
   }, [deleteFileSuccess, fetchBrandFiles, dispatch]);
 
-  // Note: The PIN validation flow was intentionally re-enabled to address a bug
-  // where an invalid PIN would cause a global 401 error, logging the user out.
-  // This logic is necessary for the feature to function as intended.
-  useEffect(() => {
-    if (pinValidationSuccess && fileToDownload) {
-      window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`, "_blank");
-      setFileToDownload(null);
-      setIsPinModalOpen(false);
-      dispatch(resetPinStatus());
-    }
-  }, [pinValidationSuccess, fileToDownload, dispatch]);
+  // useEffect(() => {
+  //   if (pinValidationSuccess && fileToDownload) {
+  //     window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`, "_blank");
+  //     setFileToDownload(null);
+  //     setIsPinModalOpen(false);
+  //     dispatch(resetPinStatus());
+  //   }
+  // }, [pinValidationSuccess, fileToDownload, dispatch]);
 
-  const handleDownloadRequest = (fileUrl: string) => {
-    setFileToDownload(fileUrl);
-    setIsPinModalOpen(true);
-  };
+  // const handleDownloadRequest = (fileUrl: string) => {
+  //   setFileToDownload(fileUrl);
+  //   setIsPinModalOpen(true);
+  // };
 
-  const handlePinSubmit = (pin: string) => {
-    dispatch(validatePinRequest({ pin }));
-  };
+  // const handlePinSubmit = (pin: string) => {
+  //   dispatch(validatePinRequest({ pin }));
+  // };
 
   const handleDelete = (venueFileId: number) => {
     toast((t) => (
@@ -158,6 +154,14 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
       </div>
     ), {
       duration: 6000,
+    });
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
     });
   };
 

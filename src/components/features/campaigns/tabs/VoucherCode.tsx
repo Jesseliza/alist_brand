@@ -8,7 +8,6 @@ import { RootState } from '@/store/store';
 import Pagination from '@/components/general/Pagination';
 import Loader from '@/components/general/Loader';
 import { VoucherCode } from '@/types/entities';
-import { formatDate } from '@/utils/date';
 
 const getStatus = (voucher: VoucherCode) => {
   if (voucher.used_at) {
@@ -18,6 +17,17 @@ const getStatus = (voucher: VoucherCode) => {
     return { text: 'Redeemed', color: 'bg-yellow-500' };
   }
   return { text: 'Issued', color: 'bg-green-500' };
+};
+
+const formatDate = (dateString: string | null) => {
+  if (!dateString) {
+    return '-';
+  }
+  return new Date(dateString).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
 };
 
 const VoucherCodeTable = () => {

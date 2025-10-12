@@ -21,7 +21,7 @@ import {
   deleteBrandFileSuccess,
   deleteBrandFileFailure,
 } from './brandSlice';
-import { Brand, FoodOffer, DedicatedOffer } from '@/types/entities';
+import { Brand, FoodOffer } from '@/types/entities';
 
 interface ApiBrand {
   id: number;
@@ -54,7 +54,6 @@ interface ApiBrand {
   venue_contact_number?: string | null;
   food_offers_count?: number;
   food_offers?: FoodOffer[];
-  dedicated_offers?: DedicatedOffer[];
 }
 
 type ApiError = {
@@ -120,7 +119,6 @@ function* handleFetchBrands(action: ReturnType<typeof fetchBrandsRequest>) {
         venue_email: apiBrand.venue_email || null,
         Venue: {
           food_offers: apiBrand.food_offers || [],
-          dedicated_offers: apiBrand.dedicated_offers || [],
           category: apiBrand.category,
         },
       }));
@@ -195,7 +193,6 @@ function* handleFetchMoreBrands(action: ReturnType<typeof fetchMoreBrandsRequest
         venue_email: apiBrand.venue_email || null,
         Venue: {
           food_offers: apiBrand.food_offers || [],
-          dedicated_offers: apiBrand.dedicated_offers || [],
           category: apiBrand.category,
         },
       }));
@@ -309,7 +306,6 @@ function* handleFetchBrand(action: ReturnType<typeof fetchBrandRequest>) {
         venue_email: apiBrand.venue_email ?? "",
         Venue: {
           food_offers: apiBrand.food_offers || [],
-          dedicated_offers: apiBrand.dedicated_offers || [],
           category: apiBrand.category,
         },
         food_offers_count: apiBrand.food_offers_count || 0,

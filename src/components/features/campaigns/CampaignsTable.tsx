@@ -1,21 +1,35 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { CampaignSummary } from "@/types/entities/campaign";
+import { CampaignDisplay } from "@/types/entities/campaign";
 import Link from "next/link";
 import CheckBox from "@/components/general/CheckBox";
 
 interface CampaignsTableProps {
-  campaigns: CampaignSummary[];
+  campaigns: CampaignDisplay[];
   checkedRows: Set<string>;
   onCheckboxChange: (campaignId: string) => void;
+  onSelectAll: () => void;
+  isAllSelected: boolean;
 }
 
 export default function CampaignsTable({
   campaigns,
   checkedRows,
   onCheckboxChange,
+  onSelectAll,
+  isAllSelected,
 }: CampaignsTableProps) {
+  const [copiedLink, setCopiedLink] = useState<string | null>(null);
+
+  const handleCopyLink = (url: string, campaignId: string) => {
+    if (url) {
+      navigator.clipboard.writeText(url);
+      setCopiedLink(campaignId);
+      setTimeout(() => setCopiedLink(null), 2000);
+    }
+  };
 
 
   return (
@@ -57,7 +71,13 @@ export default function CampaignsTable({
               scope="col"
               className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
-              Offer Status
+              Status
+            </th>
+            <th
+              scope="col"
+              className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+            >
+              Offer link
             </th>
             <th
               scope="col"
@@ -85,37 +105,64 @@ export default function CampaignsTable({
                   >
                     <div className="h-[33px] w-[70px] rounded-[6px] overflow-hidden relative flex-shrink-0">
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/thumbnail/${campaign.banner_image}` || "/images/no_image.png"}
-                        alt={campaign.offer_title}
+                        src={campaign.thumbnailUrl || "/images/no_image.png"}
+                        alt={campaign.title}
                         fill
                         className="object-cover"
                       />
                     </div>
                     <span className={`ml-3 text-[#4F4F4F]`}>
-                      {campaign.offer_title}
+                      {campaign.title}
                     </span>
                   </Link>
                 </div>
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                {campaign.venue.venue_title}
+                {campaign.vendorName}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
                 {campaign.is_dedicated === 1 ? "Dedicated" : "Normal"}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
-                {campaign.venue.category?.category ?? "N/A"}
+                {campaign.offerType ?? "N/A"}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
                 <div
                   className={`w-[98px] px-4.25 py-1 rounded-full text-white ${
-                    campaign.offer_status === "Draft"
-                      ? "bg-yellow-500"
-                      : "bg-green-500"
+                    campaign.status === "Pending"
+                      ? "bg-[#636363]"
+                      : campaign.status === "Rejected"
+                      ? "bg-red-500"
+                      : "bg-[#00CC86]"
                   }`}
                 >
-                  {campaign.offer_status}
+                  {campaign.status}
                 </div>
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
+                <button
+                  onClick={() =>
+                    handleCopyLink(
+                      campaign.copyLinkUrl || "",
+                      campaign.id.toString()
+                    )
+                  }
+                  className="w-[110px] px-4.25 py-1 bg-[#00A4B6] text-white rounded-full flex justify-center items-center gap-2"
+                >
+                  {copiedLink === campaign.id.toString() ? (
+                    <div>Copied!</div>
+                  ) : (
+                    <>
+                      <div>Copy link</div>
+                      <Image
+                        src={"/icons/general/copy-white-1.svg"}
+                        alt="copy"
+                        width={14.48}
+                        height={14.48}
+                      />
+                    </>
+                  )}
+                </button>
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
                 <Link

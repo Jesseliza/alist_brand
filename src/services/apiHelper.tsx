@@ -30,15 +30,10 @@ export const setAuthToken = (token: string | null) => {
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Exclude the PIN validation endpoint from the global 401 handling
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !error.config.url?.endsWith("/api/validate/pin")
-    ) {
+    if (error.response && error.response.status === 401) {
       setAuthToken(null);
-      if (typeof window !== "undefined") {
-        window.location.href = "/login";
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login';
       }
     }
     return Promise.reject(error);

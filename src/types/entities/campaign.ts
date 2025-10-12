@@ -207,7 +207,6 @@ export interface CampaignSummary {
   id: number;
   offer_title: string;
   account_status: string;
-  offer_status: string;
   campaign_id: string;
   start_date: string;
   end_date: string;
@@ -516,6 +515,4 @@ export interface CampaignDisplay {
   durationUnit?: 'Days' | 'Hours';
   copyLinkUrl?: string;
   is_dedicated: number;
-  banner_image?: string;
-  category?: string;
 }
