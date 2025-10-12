@@ -135,6 +135,7 @@ export interface DedicatedOfferDisplay {
   campaignType: CampaignType;
   category: string;
   offerDate: string;
+  is_dedicated: number;
 }
 
 export interface DedicatedOffer extends ApiDedicatedOffer {

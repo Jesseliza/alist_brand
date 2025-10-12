@@ -50,6 +50,12 @@ export default function DedicatedOfferCard({
       : "/icons/campaign/card/delivery-pending-light.svg";
   };
 
+  const getBarterIcon = () => {
+    return isOfferActive()
+      ? "/icons/campaign/card/barter-approved.svg"
+      : "/icons/campaign/card/barter-pending-light.svg";
+  };
+
   return (
     <article className="w-full bg-white rounded-[13px] overflow-hidden relative">
       <div className="absolute top-2 right-2 z-10">
@@ -103,9 +109,22 @@ export default function DedicatedOfferCard({
           </p>
         </div>
         <hr className="border-[#F2F2F2] mb-[15px]" />
-        <div className="grid grid-cols-2 gap-[9px] mb-[13px]">
+        <div className="grid grid-cols-3 gap-[9px] mb-[13px]">
+          <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
+            <div className="h-[30.65px] flex items-center justify-center">
+              <Image
+                src={getBarterIcon()}
+                alt="Barter"
+                width={24}
+                height={25.83}
+              />
+            </div>
+            <span className="text-[12px] text-[#414141] leading-[20px]">
+              {is_dedicated === 1 ? "Dedicated" : "Normal"}
+            </span>
+          </div>
           <div className="aspect-square-offer flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
-            <div className="h-[10.65px] flex items-center justify-center">
+            <div className="h-[10.65px] flex items-center justify-center mb-2">
               <Image
                 src={getModeIcon()}
                 alt={campaignType || "Dedicated Offer"}
@@ -118,7 +137,7 @@ export default function DedicatedOfferCard({
             </span>
           </div>
           <div className="aspect-square-offer flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
-            <div className="h-[10.65px] flex items-center justify-center">
+            <div className="h-[10.65px] flex items-center justify-center mb-2">
               <span
                 className={`text-[21px] font-bold leading-[31px] ${
                   isOfferActive() ? "text-[#00A4B6]" : "text-[#505050]"
