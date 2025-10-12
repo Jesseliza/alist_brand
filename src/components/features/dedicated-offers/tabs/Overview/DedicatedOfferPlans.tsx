@@ -1,14 +1,22 @@
-import { DedicatedOffer } from "@/types/entities/dedicated-offer";
+import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 
-export default function DedicatedOfferPlans({
-  dedicatedOffer,
-}: {
-  dedicatedOffer: DedicatedOffer;
-}) {
+export default function DedicatedOfferPlans({ dedicatedOffer }: { dedicatedOffer: DedicatedOfferDisplay }) {
+  const plans = [
+    { label: "Amount", value: dedicatedOffer.amount },
+    { label: "Currency", value: dedicatedOffer.currency_id },
+  ];
+
   return (
-    <div className="mt-[11px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
-      <p className="font-medium">User Types</p>
-      <p>{dedicatedOffer.user_types}</p>
+    <div className="mt-[25px]">
+      <h3 className="text-lg font-medium text-[#4F4F4F]">Plans</h3>
+      <div className="grid grid-cols-1 gap-4 mt-4">
+        {plans.map((plan, idx) => (
+          <div key={idx}>
+            <p className="text-sm text-gray-500">{plan.label}</p>
+            <p className="text-base font-medium text-[#4F4F4F]">{plan.value}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

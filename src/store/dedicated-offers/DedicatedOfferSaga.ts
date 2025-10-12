@@ -111,14 +111,17 @@ function* updateDedicatedPageStatusSaga(
   action: UpdateDedicatedPageStatusAction
 ) {
   try {
-    const { id, status, rejectReason } = action.payload;
+    const { id, status, rejectReason, offerId } = action.payload;
     const payload: { status: number; rejectReason?: string } = { status };
     if (rejectReason) {
       payload.rejectReason = rejectReason;
     }
     yield call(axiosInstance.post, `/api/dedicated/${id}/status`, payload);
-    yield put(updateDedicatedPageStatusSuccess({ id, status }));
+    yield put(updateDedicatedPageStatusSuccess({ id, status, offerId }));
     toast.success("Creator status updated successfully!");
+    if (offerId) {
+      yield put(getDedicatedOfferDetailsStart({ id: offerId }));
+    }
   } catch (error: any) {
     const errorMessage =
       error.response?.data?.message || "Failed to update creator status.";

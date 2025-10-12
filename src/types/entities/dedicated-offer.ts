@@ -163,6 +163,7 @@ export interface UpdateDedicatedPageStatusPayload {
   id: string;
   status: 0 | 1;
   rejectReason?: string;
+  offerId?: string;
 }
 
 // API Responses

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { DedicatedOffer } from "@/types/entities/dedicated-offer";
+import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 import DedicatedOfferStats from "./Overview/DedicatedOfferStats";
 import DedicatedOfferCreators from "./Overview/DedicatedOfferCreators";
 import DedicatedOfferDetails from "./Overview/DedicatedOfferDetails";
@@ -11,7 +11,7 @@ import DedicatedOfferPlans from "./Overview/DedicatedOfferPlans";
 export default function Overview({
   dedicatedOffer,
 }: {
-  dedicatedOffer: DedicatedOffer;
+  dedicatedOffer: DedicatedOfferDisplay;
 }) {
   return (
     <div className="max-w-[774px] mx-auto mt-[13px] pb-[100px]">
@@ -60,31 +60,19 @@ export default function Overview({
       <DedicatedOfferStats dedicatedOffer={dedicatedOffer} />
       <DedicatedOfferCreators dedicatedOffer={dedicatedOffer} />
       <DedicatedOfferDetails dedicatedOffer={dedicatedOffer} />
-      {dedicatedOffer?.account_status === "Rejected" && (
+      {dedicatedOffer?.account_status === "Rejected" &&
         <div className="mt-[11px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
           <p className="font-medium">Reject Reason:</p>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: dedicatedOffer.confirmation_message ?? "No reason available.",
-            }}
-          />
+          <div dangerouslySetInnerHTML={{ __html: dedicatedOffer.rejectReason ?? "No reason available." }} />
         </div>
-      )}
+      }
       <div className="mt-[11px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
         <p className="font-medium">Description:</p>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: dedicatedOffer.description ?? "No description available.",
-          }}
-        />
+        <div dangerouslySetInnerHTML={{ __html: dedicatedOffer.description ?? "No description available." }} />
       </div>
       <div className="mt-[12.5px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
         <p className="font-medium">Campaign Message:</p>
-        <div
-          dangerouslySetInnerHTML={{
-            __html: dedicatedOffer.confirmation_message ?? "No message available.",
-          }}
-        />
+        <div dangerouslySetInnerHTML={{ __html: dedicatedOffer.confirmation_message ?? "No message available." }} />
       </div>
       <div className="border-b border-[#E2E2E2]">
         <DedicatedOfferGuidelines dedicatedOffer={dedicatedOffer} />
