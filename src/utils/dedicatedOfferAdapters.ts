@@ -16,5 +16,6 @@ export const adaptDedicatedOfferSummaryToDisplay = (
     offerDate: offer.offer_date,
     campaignType: "WalkIn" as CampaignType,
     category: offer.venue.category.category,
+    is_dedicated: offer.is_dedicated,
   };
 };

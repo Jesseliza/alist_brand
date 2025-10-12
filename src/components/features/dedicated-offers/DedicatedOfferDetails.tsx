@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { updateDedicatedOfferStatusStart } from "@/store/dedicated-offers/DedicatedOfferSlice";
+import { getDedicatedOfferDetailsStart, updateDedicatedOfferStatusStart } from "@/store/dedicated-offers/DedicatedOfferSlice";
 import RejectReasonModal from "./RejectReasonModal";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
@@ -54,8 +54,16 @@ export default function DedicatedOfferDetails({
   };
 
   useEffect(() => {
+    dispatch(getDedicatedOfferDetailsStart({ id: dedicatedOfferId }));
+  }, [dispatch, dedicatedOfferId]);
+
+  useEffect(() => {
     setSelectedIndex(getTabFromURL());
   }, [searchParams, getTabFromURL]);
+
+  if (!dedicatedOffer) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>

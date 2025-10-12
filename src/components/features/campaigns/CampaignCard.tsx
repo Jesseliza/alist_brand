@@ -44,11 +44,26 @@ export default function CampaignCard({
     const now = new Date();
     const startDate = new Date(campaign.startDate);
     const endDate = new Date(campaign.endDate);
+    if (
+      now.getFullYear() === endDate.getFullYear() &&
+      now.getMonth() === endDate.getMonth() &&
+      now.getDate() === endDate.getDate()
+    ) {
+      return "today";
+    }
     return now >= startDate && now <= endDate;
   };
 
   const getModeIcon = () => {
     const active = isCampaignActive();
+    if (active === "today") {
+      if (campaignType === "WalkIn") {
+        return "/icons/campaign/card/walk-approved-blue.svg";
+      } else if (campaignType === "Delivery") {
+        return "/icons/campaign/card/delivery-approved-blue.svg";
+      }
+      return "/icons/campaign/card/delivery-approved-blue.svg";
+    }
     if (campaignType === "WalkIn") {
       return active
         ? "/icons/campaign/card/walk-approved.svg"
@@ -64,7 +79,11 @@ export default function CampaignCard({
   };
 
   const getBarterIcon = () => {
-    return isCampaignActive()
+    const active = isCampaignActive();
+    if (active === "today") {
+      return "/icons/campaign/card/barter-approved-blue.svg";
+    }
+    return active
       ? "/icons/campaign/card/barter-approved.svg"
       : "/icons/campaign/card/barter-pending-light.svg";
   };
