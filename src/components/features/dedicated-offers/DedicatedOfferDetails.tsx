@@ -5,22 +5,25 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { getDedicatedOfferDetailsStart, updateDedicatedOfferStatusStart } from "@/store/dedicated-offers/DedicatedOfferSlice";
+import { updateDedicatedOfferStatusStart } from "@/store/dedicated-offers/DedicatedOfferSlice";
 import RejectReasonModal from "./RejectReasonModal";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
+import { DedicatedOffer } from "@/types/entities/dedicated-offer";
 
 const tabs = ["Creators","Overview"];
 
 export default function DedicatedOfferDetails({
+  dedicatedOffer,
   dedicatedOfferId,
 }: {
+  dedicatedOffer: DedicatedOffer;
   dedicatedOfferId: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
-  const { dedicatedOffer, statusUpdateLoading } = useSelector(
+  const { statusUpdateLoading } = useSelector(
     (state: RootState) => state.dedicatedOffers
   );
 
@@ -54,16 +57,8 @@ export default function DedicatedOfferDetails({
   };
 
   useEffect(() => {
-    dispatch(getDedicatedOfferDetailsStart({ id: dedicatedOfferId }));
-  }, [dispatch, dedicatedOfferId]);
-
-  useEffect(() => {
     setSelectedIndex(getTabFromURL());
   }, [searchParams, getTabFromURL]);
-
-  if (!dedicatedOffer) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div>

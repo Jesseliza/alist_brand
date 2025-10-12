@@ -10,14 +10,12 @@ interface DedicatedOfferCardProps {
   dedicatedOffer: DedicatedOfferDisplay;
   checked: boolean;
   onCheckboxChange: () => void;
-  onRemove: (id: string) => void;
 }
 
 export default function DedicatedOfferCard({
   dedicatedOffer,
   checked,
   onCheckboxChange,
-  onRemove,
 }: DedicatedOfferCardProps) {
   const {
     title,
@@ -54,19 +52,7 @@ export default function DedicatedOfferCard({
       : "/icons/campaign/card/delivery-pending-light.svg";
   };
 
-  const getBarterIcon = () => {
-    return isOfferActive()
-      ? "/icons/campaign/card/barter-approved.svg"
-      : "/icons/campaign/card/barter-pending-light.svg";
-  };
-
   const [copied, setCopied] = useState(false);
-
-  const handleRemoveClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onRemove(dedicatedOffer.id.toString());
-  };
 
   return (
     <article className="w-full bg-white rounded-[13px] overflow-hidden relative">
@@ -121,20 +107,7 @@ export default function DedicatedOfferCard({
           </p>
         </div>
         <hr className="border-[#F2F2F2] mb-[15px]" />
-        <div className="grid grid-cols-3 gap-[9px] mb-[13px]">
-          <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
-            <div className="h-[30.65px] flex items-center justify-center">
-              <Image
-                src={getBarterIcon()}
-                alt="Barter"
-                width={24}
-                height={25.83}
-              />
-            </div>
-            <span className="text-[12px] text-[#414141] leading-[20px]">
-              {is_dedicated === 1 ? "Dedicated" : "Normal"}
-            </span>
-          </div>
+        <div className="grid grid-cols-2 gap-[9px] mb-[13px]">
           <div className="aspect-square-offer flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
             <div className="h-[10.65px] flex items-center justify-center mb-2">
               <Image
@@ -166,12 +139,6 @@ export default function DedicatedOfferCard({
         <div className="flex gap-[9px]">
           <button className="flex-1 bg-[#787878] text-[15px]  text-white py-[9px] rounded-[11px] font-medium leading-[23px]">
             Edit
-          </button>
-          <button
-            onClick={handleRemoveClick}
-            className="flex-1 bg-red-500 text-[15px] text-white py-[9px] rounded-[11px] font-medium leading-[23px]"
-          >
-            Remove
           </button>
         </div>
       </div>

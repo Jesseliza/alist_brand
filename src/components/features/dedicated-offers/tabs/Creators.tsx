@@ -31,26 +31,24 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
     prevLoading.current = dedicatedPageStatusLoading;
   }, [dedicatedPageStatusLoading]);
 
-  const creators = useMemo(() => dedicatedOffer?.offer_users || [], [dedicatedOffer]);
+  const creators = dedicatedOffer?.offer_users || [];
 
   const mappedCreators = useMemo(() => {
-    return (
-      dedicatedOffer?.offer_users
-        ?.filter((offerUser) => offerUser.user)
-        .map((offerUser) => ({
-          id: offerUser.id.toString(),
-          image: offerUser.user.profile_picture || "",
-          name: offerUser.user.name,
-          instagramName: offerUser.user.instagram_url || "N/A",
-          stats: {
-            followers: offerUser.user.instagram_followers?.toString() || "N/A",
-            credibility: offerUser.user.credibility || "N/A",
-            engagement: "N/A", // As requested
-          },
-          status: offerUser.status,
-        })) || []
-    );
-  }, [dedicatedOffer]);
+    return creators
+      .filter((offerUser: any) => offerUser.user)
+      .map((offerUser: any) => ({
+        id: offerUser.id.toString(),
+        image: offerUser.user.profile_picture || "",
+        name: offerUser.user.name,
+        instagramName: offerUser.user.instagram_url || "N/A",
+        stats: {
+          followers: offerUser.user.instagram_followers?.toString() || "N/A",
+          credibility: offerUser.user.credibility || "N/A",
+          engagement: "N/A", // As requested
+        },
+        status: offerUser.status,
+      }));
+  }, [creators]);
 
   const paginatedCreators = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;

@@ -5,6 +5,7 @@ export const adaptDedicatedOfferSummaryToDisplay = (
 ): DedicatedOfferDisplay => {
 
   return {
+    ...offer,
     id: offer.id,
     title: offer.offer_title,
     vendorName: offer.venue.venue_title,
