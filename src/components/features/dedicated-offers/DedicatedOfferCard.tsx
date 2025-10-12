@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Image from "next/image";
 import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 import { generateColorFromString } from "@/utils/colorGenerator";
@@ -9,12 +10,14 @@ interface DedicatedOfferCardProps {
   dedicatedOffer: DedicatedOfferDisplay;
   checked: boolean;
   onCheckboxChange: () => void;
+  onRemove: (id: string) => void;
 }
 
 export default function DedicatedOfferCard({
   dedicatedOffer,
   checked,
   onCheckboxChange,
+  onRemove,
 }: DedicatedOfferCardProps) {
   const {
     title,
@@ -25,6 +28,7 @@ export default function DedicatedOfferCard({
     campaignType,
     category,
     offerDate,
+    is_dedicated,
   } = dedicatedOffer;
 
   const isOfferActive = () => {
@@ -54,6 +58,14 @@ export default function DedicatedOfferCard({
     return isOfferActive()
       ? "/icons/campaign/card/barter-approved.svg"
       : "/icons/campaign/card/barter-pending-light.svg";
+  };
+
+  const [copied, setCopied] = useState(false);
+
+  const handleRemoveClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onRemove(dedicatedOffer.id.toString());
   };
 
   return (
@@ -155,12 +167,12 @@ export default function DedicatedOfferCard({
           <button className="flex-1 bg-[#787878] text-[15px]  text-white py-[9px] rounded-[11px] font-medium leading-[23px]">
             Edit
           </button>
-          {/* <button
+          <button
             onClick={handleRemoveClick}
             className="flex-1 bg-red-500 text-[15px] text-white py-[9px] rounded-[11px] font-medium leading-[23px]"
           >
             Remove
-          </button> */}
+          </button>
         </div>
       </div>
     </article>

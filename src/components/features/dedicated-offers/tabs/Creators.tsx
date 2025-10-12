@@ -34,21 +34,23 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
   const creators = useMemo(() => dedicatedOffer?.offer_users || [], [dedicatedOffer]);
 
   const mappedCreators = useMemo(() => {
-    return creators
-      .filter((offerUser) => offerUser.user)
-      .map((offerUser) => ({
-        id: offerUser.id.toString(),
-        image: offerUser.user.profile_picture || "",
-        name: offerUser.user.name,
-        instagramName: offerUser.user.instagram_url || "N/A",
-        stats: {
-          followers: offerUser.user.instagram_followers?.toString() || "N/A",
-          credibility: offerUser.user.credibility || "N/A",
-          engagement: "N/A", // As requested
-        },
-        status: offerUser.status,
-      }));
-  }, [creators]);
+    return (
+      dedicatedOffer?.offer_users
+        ?.filter((offerUser) => offerUser.user)
+        .map((offerUser) => ({
+          id: offerUser.id.toString(),
+          image: offerUser.user.profile_picture || "",
+          name: offerUser.user.name,
+          instagramName: offerUser.user.instagram_url || "N/A",
+          stats: {
+            followers: offerUser.user.instagram_followers?.toString() || "N/A",
+            credibility: offerUser.user.credibility || "N/A",
+            engagement: "N/A", // As requested
+          },
+          status: offerUser.status,
+        })) || []
+    );
+  }, [dedicatedOffer]);
 
   const paginatedCreators = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
