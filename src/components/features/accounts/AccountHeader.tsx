@@ -3,6 +3,7 @@
 import Image from "next/image";
 import UnifiedTabs from "@/components/general/UnifiedTabs";
 const menuIcon = "/icons/common/menu-dots.svg";
+import { useRouter } from "next/navigation"; // Import useRouter
 import { Account } from "@/types/entities";
 
 interface AccountHeaderProps {
@@ -22,6 +23,8 @@ export default function AccountHeader({
   isCreateMode = false,
   isProfilePage = false,
 }: AccountHeaderProps) {
+  const router = useRouter(); 
+
   const getDisplayTabs = () => {
     if (isCreateMode) {
       return ["Details"];
@@ -45,10 +48,22 @@ export default function AccountHeader({
   const displayTabs = getDisplayTabs();
 
   return (
-    <div className="w-full bg-white border-b border-[#E2E2E2]">
-      <div className="max-w-[1428px] mx-auto flex justify-between pt-10 text-[#4F4F4F] px-6">
+    <div className="w-full bg-white px-6 border-b border-[#E2E2E2] relative z-10">
+      <div
+        className="absolute inset-0 bg-white z-0"
+        style={{ left: "-100vw", right: "-100vw" }}
+      />
+      <div className="max-w-[1428px] mx-auto flex justify-between pt-10 text-[#4F4F4F] relative">
         {/* Header */}
         <div>
+          <button onClick={() => (router.push("/businesses/accounts"))} className="cursor-pointer mb-4">
+            <Image
+              src="/icons/campaign/details/back-arrow.svg"
+              alt="back"
+              width={35}
+              height={35}
+            />
+          </button>
           <div className="flex items-center md:gap-10 gap-6 ">
             {isCreateMode ? (
               <div>

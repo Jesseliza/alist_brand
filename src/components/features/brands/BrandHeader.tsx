@@ -6,7 +6,6 @@ import { getInitials } from "@/utils/text";
 import { useRouter } from "next/navigation"; // Import useRouter
 
 const menuIcon = "/icons/common/menu-dots.svg";
-const backIcon = "/icons/general/arrow-left.svg"; // Define back icon path
 
 interface BrandHeaderProps {
   name: string;
@@ -17,6 +16,8 @@ interface BrandHeaderProps {
   onTabChange?: (tab: string) => void;
   isCampaignPage?: boolean;
   backPath?: string;
+  pageFrom?: string;
+  isCreateMode?: boolean;
 }
 
 export default function BrandHeader({
@@ -28,6 +29,8 @@ export default function BrandHeader({
   onTabChange,
   isCampaignPage = false,
   backPath,
+  pageFrom,
+  isCreateMode
 }: BrandHeaderProps) {
   const router = useRouter(); // Initialize router
 
@@ -52,40 +55,52 @@ export default function BrandHeader({
       <div className="max-w-[1428px] mx-auto flex justify-between pt-10 text-[#4F4F4F] relative">
         {/* Header */}
         <div>
+          {pageFrom !== "campaign" &&
+            <button onClick={() => (backPath ? router.push(backPath) : router.back())} className="cursor-pointer mb-4">
+              <Image
+                src="/icons/campaign/details/back-arrow.svg"
+                alt="back"
+                width={35}
+                height={35}
+              />
+            </button>
+          }
           <div className="flex items-center md:gap-10 gap-6 ">
-            <Image
-              src={backIcon}
-              alt="Back"
-              width={24}
-              height={24}
-              onClick={() => (backPath ? router.push(backPath) : router.back())}
-              className="cursor-pointer"
-            />
-            <div className=" w-[108px] h-[108px] min-w-[45px] min-h-[45px] md:w-27 md:h-27 rounded-full  border-[#EEEEEE] border-[5px] text-white shrink-0 overflow-hidden">
-              {logo ? (
-                <Image
-                  src={logo}
-                  alt="Logo"
-                  width={108}
-                  height={108}
-                  className="object-cover w-full h-full rounded-full"
-                />
-              ) : (
-                <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-white text-4xl font-bold">
-                  {getInitials(name)}
+            {isCreateMode ? (
+              <div>
+                <h1 className="text-[18px] md:text-[25px] font-semibold ">
+                  Create New Brand
+                </h1>
+              </div>
+            ) : (
+              <>
+                <div className=" w-[108px] h-[108px] min-w-[45px] min-h-[45px] md:w-27 md:h-27 rounded-full  border-[#EEEEEE] border-[5px] text-white shrink-0 overflow-hidden">
+                  {logo ? (
+                    <Image
+                      src={logo}
+                      alt="Logo"
+                      width={108}
+                      height={108}
+                      className="object-cover w-full h-full rounded-full"
+                    />
+                  ) : (
+                    <div className="w-full h-full rounded-full bg-gray-300 flex items-center justify-center text-white text-4xl font-bold">
+                      {getInitials(name)}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-            <div>
-              <h1 className="text-[18px] md:text-[25px] font-semibold ">
-                {name}
-              </h1>
-              {subtitle && (
-                <p className="text-[15px] md:text-[18px] font-medium ">
-                  {subtitle}
-                </p>
-              )}
-            </div>
+                <div>
+                  <h1 className="text-[18px] md:text-[25px] font-semibold ">
+                    {name}
+                  </h1>
+                  {subtitle && (
+                    <p className="text-[15px] md:text-[18px] font-medium ">
+                      {subtitle}
+                    </p>
+                  )}
+                </div>
+              </>
+            )}
           </div>
 
           {/* Tabs */}

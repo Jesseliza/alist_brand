@@ -183,11 +183,11 @@ export default function BrandPage() {
 
   return (
     <div className="pt-6">
-      {isCreateMode ? (
+      {/* {isCreateMode ? (
         <div className="bg-white p-6 mb-6">
           <h1 className="text-2xl font-bold">Add Brand</h1>
         </div>
-      ) : (
+      ) : ( */}
         <BrandHeader
           name={brand?.name || ""}
           logo={brand?.logo || ""}
@@ -195,8 +195,10 @@ export default function BrandPage() {
           activeTab={activeTab}
           onTabChange={setActiveTab}
           backPath="/businesses/brands"
+          pageFrom={"brand"}
+          isCreateMode={isCreateMode}
         />
-      )}
+      {/* )} */}
       <div className="pb-6">
         <BrandTabContent
           activeTab={activeTab}

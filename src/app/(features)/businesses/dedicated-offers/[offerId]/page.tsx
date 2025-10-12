@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { getCampaignDetailsStart } from "@/store/campaigns/CampaignSlice";
 import { fetchBrandRequest } from "@/store/brand/brandSlice";
@@ -16,10 +16,7 @@ export default function CampaignDetailsPage() {
   const dispatch = useDispatch();
   const params = useParams();
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { campaignId } = params;
-  const from = searchParams.get("from");
-  const brandId = searchParams.get("brandId");
 
   const [activeTab, setActiveTab] = useState("Campaigns");
 
@@ -53,14 +50,9 @@ export default function CampaignDetailsPage() {
 
   const handleBackClick = () => {
     // router.back();
-    // router.push(
-    //   `/businesses/campaigns`
-    // );
-    if (from === "brand" && brandId) {
-      router.push(`/businesses/brands/${brandId}?tab=Campaigns`);
-    } else {
-      router.push("/businesses/campaigns");
-    }
+    router.push(
+      `/businesses/campaigns`
+    );
   };
 
   if (campaignLoading) {
@@ -85,7 +77,6 @@ export default function CampaignDetailsPage() {
           tabs={["Business Details", "Campaigns"]}
           activeTab={activeTab}
           onTabChange={handleTabChange}
-          pageFrom={"campaign"}
         />
         <div className="mt-6 bg-white rounded-[13px] p-6">
           <button onClick={handleBackClick} className="cursor-pointer mb-4">
@@ -113,8 +104,8 @@ export default function CampaignDetailsPage() {
                   <BrandDetails
                     brand={brand}
                     isEditMode={false}
-                    onFieldChange={() => { }}
-                    onSave={() => { }}
+                    onFieldChange={() => {}}
+                    onSave={() => {}}
                     isSaving={false}
                     isCreateMode={false}
                   />

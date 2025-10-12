@@ -128,7 +128,7 @@ export default function AccountPage() {
   return (
     <div>
       {error && <div className="text-red-500 bg-red-100 p-3 rounded-md mb-4">Error: {error}</div>}
-      <div>
+      <div className="pt-6">
         <AccountHeader
           // account can be null, but AccountHeader expects undefined for optional props.
           account={account || undefined}
