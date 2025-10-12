@@ -1,78 +1,53 @@
-// The existing code has a logical error where it passes a click event handler to a `div` that is supposed to be a wrapper.
-// This causes the checkbox to not work correctly.
-// To fix this, I will remove the `onClick` from the wrapper `div` and instead wrap the `CheckBox` component with a `div` that has the click handler.
-// I will also refactor the component to use dedicated offer data instead of campaign data.
-
-import { useState } from "react";
 import Image from "next/image";
 import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 import { generateColorFromString } from "@/utils/colorGenerator";
 import { getInitials } from "@/utils/text";
 import CheckBox from "@/components/general/CheckBox";
+import { formatDate } from "@/utils/date";
 
 interface DedicatedOfferCardProps {
   dedicatedOffer: DedicatedOfferDisplay;
   checked: boolean;
   onCheckboxChange: () => void;
-  onRemove: (id: string) => void;
 }
 
 export default function DedicatedOfferCard({
   dedicatedOffer,
   checked,
   onCheckboxChange,
-  onRemove,
 }: DedicatedOfferCardProps) {
   const {
     title,
     vendorName,
-    status,
     thumbnailUrl,
     brandLogo,
     brandName,
     campaignType,
-    offerType,
-    duration,
-    durationUnit,
-    copyLinkUrl,
-    is_dedicated,
+    category,
+    offerDate,
   } = dedicatedOffer;
 
-  const [copied, setCopied] = useState(false);
-
   const isOfferActive = () => {
+    if (!offerDate) return false;
     const now = new Date();
-    const startDate = new Date(dedicatedOffer.startDate);
-    const endDate = new Date(dedicatedOffer.endDate);
-    return now >= startDate && now <= endDate;
+    const endDate = new Date(offerDate);
+    return now <= endDate;
   };
 
   const getModeIcon = () => {
     const active = isOfferActive();
     if (campaignType === "WalkIn") {
       return active
-        ? "/icons/dedicated-offer/card/walk-approved.svg"
-        : "/icons/dedicated-offer/card/walk-pending-light.svg";
+        ? "/icons/campaign/card/walk-approved.svg"
+        : "/icons/campaign/card/walk-pending-light.svg";
     } else if (campaignType === "Delivery") {
       return active
-        ? "/icons/dedicated-offer/card/delivery-approved.svg"
-        : "/icons/dedicated-offer/card/delivery-pending-light.svg";
+        ? "/icons/campaign/card/delivery-approved.svg"
+        : "/icons/campaign/card/delivery-pending-light.svg";
     }
     return active
-      ? "/icons/dedicated-offer/card/delivery-approved.svg"
-      : "/icons/dedicated-offer/card/delivery-pending-light.svg";
-  };
-
-  const getBarterIcon = () => {
-    return isOfferActive()
-      ? "/icons/dedicated-offer/card/barter-approved.svg"
-      : "/icons/dedicated-offer/card/barter-pending-light.svg";
-  };
-
-  const handleRemoveClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onRemove(dedicatedOffer.id.toString());
+      ? "/icons/campaign/card/delivery-approved.svg"
+      : "/icons/campaign/card/delivery-pending-light.svg";
   };
 
   return (
@@ -139,21 +114,21 @@ export default function DedicatedOfferCard({
               />
             </div>
             <span className="text-[12px] text-[#414141] font-medium">
-              {offerType ?? "N/A"}
+              {category ?? "N/A"}
             </span>
           </div>
           <div className="aspect-square-offer flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
             <div className="h-[10.65px] flex items-center justify-center">
               <span
                 className={`text-[21px] font-bold leading-[31px] ${
-                  status === "Approved" ? "text-[#00A4B6]" : "text-[#505050]"
+                  isOfferActive() ? "text-[#00A4B6]" : "text-[#505050]"
                 }`}
               >
-                {duration ?? "N/A"}
+                {formatDate(offerDate) ?? "N/A"}
               </span>
             </div>
             <span className="text-[12px] text-[#414141] font-medium">
-              {durationUnit ?? ""}
+              Offer Date
             </span>
           </div>
         </div>

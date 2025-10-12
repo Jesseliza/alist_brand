@@ -5,7 +5,6 @@ export const adaptDedicatedOfferSummaryToDisplay = (
 ): DedicatedOfferDisplay => {
 
   return {
-    ...offer,
     id: offer.id,
     title: offer.offer_title,
     vendorName: offer.venue.venue_title,
@@ -16,5 +15,6 @@ export const adaptDedicatedOfferSummaryToDisplay = (
     brandName: offer.venue.venue_title,
     offerDate: offer.offer_date,
     campaignType: "WalkIn" as CampaignType,
+    category: offer.venue.category.category,
   };
 };

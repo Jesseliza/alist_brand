@@ -8,11 +8,23 @@ import DedicatedOfferDetails from "./Overview/DedicatedOfferDetails";
 import DedicatedOfferGuidelines from "./Overview/DedicatedOfferGuidelines";
 import DedicatedOfferPlans from "./Overview/DedicatedOfferPlans";
 
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import Loader from "@/components/general/Loader";
+
 export default function Overview({
   dedicatedOffer,
 }: {
   dedicatedOffer: DedicatedOffer;
 }) {
+  const { dedicatedOffer: dedicatedOfferFromStore, loading } = useSelector(
+    (state: RootState) => state.dedicatedOffers
+  );
+
+  const finalDedicatedOffer = dedicatedOfferFromStore || dedicatedOffer;
+
+  if (loading) return <Loader />;
+
   return (
     <div className="max-w-[774px] mx-auto mt-[13px] pb-[100px]">
       <div className="flex bg-[#F8F8F8] rounded-[13px] overflow-hidden">
@@ -25,7 +37,7 @@ export default function Overview({
           <div className="ml-[35px]">
             <div className="flex items-center gap-6">
               <h2 className="text-[89px] font-bold text-[#00A4B6] leading-[133px]">
-                {dedicatedOffer.minimum_user_count ?? 0}
+                {finalDedicatedOffer.minimum_user_count ?? 0}
               </h2>
               <h2 className="text-[37px] font-medium text-[#4F4F4F] leading-[37px] max-w-[180px]">
                 Total Vouchers
@@ -34,7 +46,7 @@ export default function Overview({
             <p className="-mt-[16px] text-[15px] leading-[23px] text-[#4F4F4F]">
               of which{" "}
               <span className=" text-[#00A4B6]">
-                {dedicatedOffer.offer_usage ?? 0}
+                {finalDedicatedOffer.offer_usage ?? 0}
               </span>{" "}
               vouchers have been redeemed
             </p>
@@ -44,11 +56,11 @@ export default function Overview({
           <div className="w-[204] h-[204px] rounded-[11px] aspect-square overflow-hidden">
             <Image
               src={
-                dedicatedOffer.banner_image
-                  ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${dedicatedOffer.banner_image}`
+                finalDedicatedOffer.banner_image
+                  ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${finalDedicatedOffer.banner_image}`
                   : "/images/no_image.png"
               }
-              alt={dedicatedOffer.offer_title ?? "Dedicated Offer thumbnail"}
+              alt={finalDedicatedOffer.offer_title ?? "Dedicated Offer thumbnail"}
               className="w-full h-full object-cover rounded-[11px]"
               width={204}
               height={204}
@@ -57,15 +69,15 @@ export default function Overview({
         </div>
       </div>
 
-      <DedicatedOfferStats dedicatedOffer={dedicatedOffer} />
-      <DedicatedOfferCreators dedicatedOffer={dedicatedOffer} />
-      <DedicatedOfferDetails dedicatedOffer={dedicatedOffer} />
-      {dedicatedOffer?.account_status === "Rejected" && (
+      <DedicatedOfferStats dedicatedOffer={finalDedicatedOffer} />
+      <DedicatedOfferCreators dedicatedOffer={finalDedicatedOffer} />
+      <DedicatedOfferDetails dedicatedOffer={finalDedicatedOffer} />
+      {finalDedicatedOffer?.account_status === "Rejected" && (
         <div className="mt-[11px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
           <p className="font-medium">Reject Reason:</p>
           <div
             dangerouslySetInnerHTML={{
-              __html: dedicatedOffer.confirmation_message ?? "No reason available.",
+              __html: finalDedicatedOffer.confirmation_message ?? "No reason available.",
             }}
           />
         </div>
@@ -74,7 +86,7 @@ export default function Overview({
         <p className="font-medium">Description:</p>
         <div
           dangerouslySetInnerHTML={{
-            __html: dedicatedOffer.description ?? "No description available.",
+            __html: finalDedicatedOffer.description ?? "No description available.",
           }}
         />
       </div>
@@ -82,14 +94,14 @@ export default function Overview({
         <p className="font-medium">Campaign Message:</p>
         <div
           dangerouslySetInnerHTML={{
-            __html: dedicatedOffer.confirmation_message ?? "No message available.",
+            __html: finalDedicatedOffer.confirmation_message ?? "No message available.",
           }}
         />
       </div>
       <div className="border-b border-[#E2E2E2]">
-        <DedicatedOfferGuidelines dedicatedOffer={dedicatedOffer} />
+        <DedicatedOfferGuidelines dedicatedOffer={finalDedicatedOffer} />
       </div>
-      <DedicatedOfferPlans dedicatedOffer={dedicatedOffer} />
+      <DedicatedOfferPlans dedicatedOffer={finalDedicatedOffer} />
     </div>
   );
 }

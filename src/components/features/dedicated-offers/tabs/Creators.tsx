@@ -1,6 +1,6 @@
 "use client";
 import { useState, useMemo, useEffect, useRef } from "react";
-import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
+import { DedicatedOffer } from "@/types/entities/dedicated-offer";
 import CampaignCreatorCard from "./Creators/DedicatedOfferCreatorCard";
 import Pagination from "@/components/general/Pagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,12 +31,12 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
     prevLoading.current = dedicatedPageStatusLoading;
   }, [dedicatedPageStatusLoading]);
 
-  const creators = dedicatedOffer?.offer_users || [];
+  const creators = useMemo(() => dedicatedOffer?.offer_users || [], [dedicatedOffer]);
 
   const mappedCreators = useMemo(() => {
     return creators
-      .filter((offerUser: any) => offerUser.user)
-      .map((offerUser: any) => ({
+      .filter((offerUser) => offerUser.user)
+      .map((offerUser) => ({
         id: offerUser.id.toString(),
         image: offerUser.user.profile_picture || "",
         name: offerUser.user.name,
