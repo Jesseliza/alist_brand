@@ -28,8 +28,6 @@ export default function Sidebar({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
-  const searchParams = useSearchParams();
-  const from = searchParams.get("from");
   const { user, isAuthLoading } = useSelector((state: RootState) => state.auth);
   const [internalCollapsed, setInternalCollapsed] = useState(false);
   const [windowWidth, setWindowWidth] = useState(1920); // Default for SSR
@@ -145,6 +143,9 @@ export default function Sidebar({
                 let isActive = pathname.startsWith(item.href);
                 if (item.label === "Brands" && pathname.startsWith("/businesses/campaigns") && from === "brand") {
                   isActive = true;
+                }
+                if (item.label === "Campaigns" && pathname.startsWith("/businesses/campaigns") && from === "brand") {
+                  isActive = false;
                 }
                 const iconSrc = isActive
                   ? item.icon.src.replace("/sidebar/", "/sidebar/darkmode/")
