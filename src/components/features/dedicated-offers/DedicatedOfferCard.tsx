@@ -5,13 +5,13 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { DedicatedOffer } from "@/types/entities/dedicated-offer";
+import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 import { generateColorFromString } from "@/utils/colorGenerator";
 import { getInitials } from "@/utils/text";
 import CheckBox from "@/components/general/CheckBox";
 
 interface DedicatedOfferCardProps {
-  dedicatedOffer: DedicatedOffer;
+  dedicatedOffer: DedicatedOfferDisplay;
   checked: boolean;
   onCheckboxChange: () => void;
   onRemove: (id: string) => void;

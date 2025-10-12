@@ -196,7 +196,7 @@ export default function DedicatedOffersPage() {
     );
   };
 
-  const displayDedicatedOffers = dedicatedOffers.map(adaptDedicatedOfferSummaryToDisplay);
+  const displayDedicatedOffers = dedicatedOffers.map((offer) => adaptDedicatedOfferSummaryToDisplay(offer));
 
   const isAllSelected =
     displayDedicatedOffers.length > 0 && checkedRows.size === displayDedicatedOffers.length;

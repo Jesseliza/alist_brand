@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Campaign } from "@/types/entities";
+import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 import CampaignStats from "./Overview/CampaignStats";
 import CampaignCreators from "./Overview/CampaignCreators";
 import CampaignDetails from "./Overview/CampaignDetails";
@@ -9,9 +9,9 @@ import CampaignGuidlines from "./Overview/CampaignGuidlines";
 import CampaignPlans from "./Overview/CampaignPlans";
 
 export default function Overview({
-  campaign,
+  dedicatedOffer,
 }: {
-  campaign: Campaign;
+  dedicatedOffer: DedicatedOffer;
 }) {
   return (
     <div className="max-w-[774px] mx-auto mt-[13px] pb-[100px]">
@@ -25,7 +25,7 @@ export default function Overview({
           <div className="ml-[35px]">
             <div className="flex items-center gap-6">
               <h2 className="text-[89px] font-bold text-[#00A4B6] leading-[133px]">
-                {campaign.food_offer_user_count ?? 0}
+                {dedicatedOffer.minimum_user_count ?? 0}
               </h2>
               <h2 className="text-[37px] font-medium text-[#4F4F4F] leading-[37px] max-w-[180px]">
                 Total Vouchers
@@ -34,7 +34,7 @@ export default function Overview({
             <p className="-mt-[16px] text-[15px] leading-[23px] text-[#4F4F4F]">
               of which{" "}
               <span className=" text-[#00A4B6]">
-                {campaign.food_offer_user_with_user_count ?? 0}
+                {dedicatedOffer.offer_usage ?? 0}
               </span>{" "}
               vouchers have been redeemed
             </p>
@@ -43,8 +43,8 @@ export default function Overview({
           {/* image */}
           <div className="w-[204] h-[204px] rounded-[11px] aspect-square overflow-hidden">
             <Image
-              src={campaign.banner_image ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${campaign.banner_image}` : '/images/no_image.png'}
-              alt={campaign.title ?? "Campaign thumbnail"}
+              src={dedicatedOffer.banner_image ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${dedicatedOffer.banner_image}` : '/images/no_image.png'}
+              alt={dedicatedOffer.title ?? "Dedicated Offer thumbnail"}
               className="w-full h-full object-cover rounded-[11px]"
               width={204}
               height={204}
@@ -53,27 +53,27 @@ export default function Overview({
         </div>
       </div>
 
-      <CampaignStats campaign={campaign} />
-      <CampaignCreators campaign={campaign} />
-      <CampaignDetails campaign={campaign} />
-      {campaign?.account_status === "Rejected" &&
+      <CampaignStats campaign={dedicatedOffer} />
+      <CampaignCreators campaign={dedicatedOffer} />
+      <CampaignDetails campaign={dedicatedOffer} />
+      {dedicatedOffer?.account_status === "Rejected" &&
         <div className="mt-[11px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
           <p className="font-medium">Reject Reason:</p>
-          <div dangerouslySetInnerHTML={{ __html: campaign.rejectReason ?? "No reason available." }} />
+          <div dangerouslySetInnerHTML={{ __html: dedicatedOffer.confirmation_message ?? "No reason available." }} />
         </div>
       }
       <div className="mt-[11px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
         <p className="font-medium">Description:</p>
-        <div dangerouslySetInnerHTML={{ __html: campaign.description ?? "No description available." }} />
+        <div dangerouslySetInnerHTML={{ __html: dedicatedOffer.description ?? "No description available." }} />
       </div>
       <div className="mt-[12.5px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
         <p className="font-medium">Campaign Message:</p>
-        <div dangerouslySetInnerHTML={{ __html: campaign.phone_campaign_message ?? "No message available." }} />
+        <div dangerouslySetInnerHTML={{ __html: dedicatedOffer.confirmation_message ?? "No message available." }} />
       </div>
       <div className="border-b border-[#E2E2E2]">
-        <CampaignGuidlines campaign={campaign} />
+        <CampaignGuidlines campaign={dedicatedOffer} />
       </div>
-      <CampaignPlans campaign={campaign} />
+      <CampaignPlans campaign={dedicatedOffer} />
     </div>
   );
 }

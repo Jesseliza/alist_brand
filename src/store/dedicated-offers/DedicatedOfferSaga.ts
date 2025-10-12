@@ -116,7 +116,7 @@ function* updateDedicatedPageStatusSaga(
     if (rejectReason) {
       payload.rejectReason = rejectReason;
     }
-    yield call(axiosInstance.post, `/api/dedicated/page/${id}/status`, payload);
+    yield call(axiosInstance.post, `/api/dedicated/${id}/status`, payload);
     yield put(updateDedicatedPageStatusSuccess({ id, status }));
     toast.success("Creator status updated successfully!");
   } catch (error: any) {

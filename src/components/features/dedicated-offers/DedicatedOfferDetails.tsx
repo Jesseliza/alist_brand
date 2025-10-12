@@ -4,31 +4,23 @@ import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DedicatedOffer } from "@/types/entities/dedicated-offer";
+import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 import { RootState } from "@/store/store";
 import { updateDedicatedOfferStatusStart } from "@/store/dedicated-offers/DedicatedOfferSlice";
 import RejectReasonModal from "./RejectReasonModal";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
-import Availabilites from "./tabs/Availabilites";
 import Posts from "./tabs/Posts";
 import VoucherCode from "./tabs/VoucherCode";
 import Reviews from "./tabs/Reviews";
 
-const tabs = [
-  "Creators",
-  "Overview",
-  "Availabilites",
-  "Voucher Code",
-  "Posts",
-  "Reviews",
-];
+const tabs = ["Overview", "Creators"];
 
 export default function DedicatedOfferDetails({
   dedicatedOffer,
   dedicatedOfferId,
 }: {
-  dedicatedOffer: DedicatedOffer;
+  dedicatedOffer: DedicatedOfferDisplay;
   dedicatedOfferId: string;
 }) {
   const router = useRouter();
@@ -38,7 +30,7 @@ export default function DedicatedOfferDetails({
     (state: RootState) => state.dedicatedOffers
   );
 
-  const [selectedIndex, setSelectedIndex] = useState(1); // Default to Overview (index 1)
+  const [selectedIndex, setSelectedIndex] = useState(0); // Default to Overview (index 0)
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
   const getTabFromURL = useCallback(() => {
@@ -46,7 +38,7 @@ export default function DedicatedOfferDetails({
     if (tab && tabs.includes(tab)) {
       return tabs.indexOf(tab);
     }
-    return 1; // Default to Overview
+    return 0; // Default to Overview
   }, [searchParams]);
 
   const handleApprove = () => {
@@ -126,12 +118,6 @@ export default function DedicatedOfferDetails({
             <TabPanel key={tab}>
               {tab === "Creators" && <Creators dedicatedOffer={dedicatedOffer} />}
               {tab === "Overview" && <Overview dedicatedOffer={dedicatedOffer} />}
-              {tab === "Availabilites" && (
-                <Availabilites dedicatedOfferId={dedicatedOfferId} />
-              )}
-              {tab === "Posts" && <Posts />}
-              {tab === "Reviews" && <Reviews dedicatedOfferId={dedicatedOfferId} />}
-              {tab === "Voucher Code" && <VoucherCode />}
             </TabPanel>
           ))}
         </TabPanels>

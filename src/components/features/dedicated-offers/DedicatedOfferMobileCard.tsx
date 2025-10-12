@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { DedicatedOffer } from "@/types/entities/dedicated-offer";
+import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 
 export default function DedicatedOfferMobileCard({
   dedicatedOffer,
 }: {
-  dedicatedOffer: DedicatedOffer;
+  dedicatedOffer: DedicatedOfferDisplay;
 }) {
   const {
     title,
