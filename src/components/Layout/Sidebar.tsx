@@ -141,10 +141,10 @@ export default function Sidebar({
             <ul className={section.title ? "mt-1 space-y-1" : ""}>
               {section.items.map((item, itemIndex) => {
                 let isActive = pathname.startsWith(item.href);
-                if (item.label === "Brands" && pathname.startsWith("/businesses/campaigns") && from === "brand") {
+                if (item.label === "Brands" && (pathname.startsWith("/businesses/campaigns") || pathname.startsWith("/businesses/dedicated-offers")) && from === "brand") {
                   isActive = true;
                 }
-                if (item.label === "Campaigns" && pathname.startsWith("/businesses/campaigns") && from === "brand") {
+                if ((item.label === "Campaigns" && pathname.startsWith("/businesses/campaigns") && from === "brand") || (item.label === "Dedicated Offers" && pathname.startsWith("/businesses/dedicated-offers") && from === "brand")) {
                   isActive = false;
                 }
                 const iconSrc = isActive

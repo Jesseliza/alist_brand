@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { getDedicatedOfferDetailsStart } from "@/store/dedicated-offers/DedicatedOfferSlice";
 import { fetchBrandRequest } from "@/store/brand/brandSlice";
@@ -48,10 +48,16 @@ export default function DedicatedOfferDetailsPage() {
     setActiveTab(tab);
   };
 
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from");
+  const brandId = searchParams.get("brandId");
+
   const handleBackClick = () => {
-    router.push(
-      `/businesses/dedicated-offers`
-    );
+    if (from === "brand" && brandId) {
+      router.push(`/businesses/brands/${brandId}?tab=Dedicated Offers`);
+    } else {
+      router.push("/businesses/dedicated-offers");
+    }
   };
 
   if (dedicatedOfferLoading) {
