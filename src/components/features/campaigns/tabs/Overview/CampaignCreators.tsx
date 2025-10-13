@@ -55,7 +55,7 @@ const CreatorCard = ({
 
 export default function CampaignCreators({ campaign }: CampaignCreatorsProps) {
   const approvedCreators =
-    campaign.dedicated_offer?.offer_users.filter(
+    campaign.food_offer_user?.filter(
       (offerUser) => offerUser.status === 1 && offerUser.user
     ) || [];
 
