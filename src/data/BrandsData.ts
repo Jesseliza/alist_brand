@@ -26,7 +26,7 @@ function populateAssociateInfo(
       files: 0,
       Venue_contact_name: null,
       venue_email: null,
-      Venue: { food_offers: [] },
+      Venue: { food_offers: [], dedicated_offers: [] },
       food_offers_count: 0,
     };
   }
@@ -49,7 +49,7 @@ function populateAssociateInfo(
     files: 0,
     Venue_contact_name: null,
     venue_email: null,
-    Venue: { food_offers: [] },
+    Venue: { food_offers: [], dedicated_offers: [] },
     food_offers_count: 0,
   };
 }
