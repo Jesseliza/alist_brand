@@ -25,8 +25,8 @@ export default function DedicatedOfferDetails({ dedicatedOffer }: { dedicatedOff
       imgWidthMobile: 30.63,
       imgHeight: 25.87,
       imgHeightMobile: 25.25,
-      text: dedicatedOffer?.offer_date
-        ? `${dedicatedOffer.offer_date}`
+      text: dedicatedOffer?.offerDate
+        ? `${dedicatedOffer.offerDate}`
         : "N/A",
     },
   ];
