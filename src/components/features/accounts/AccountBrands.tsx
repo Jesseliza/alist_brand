@@ -7,7 +7,7 @@ interface AccountBrandsProps {
   accountId?: string;
 }
 
-export default function AccountBrands({ brands, accountId }: AccountBrandsProps) {
+export default function AccountBrands({ brands }: AccountBrandsProps) {
   if (!brands || brands.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow-md flex items-center justify-center min-h-[200px] w-full">
