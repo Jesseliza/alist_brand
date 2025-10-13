@@ -1,6 +1,6 @@
 "use client";
 import { useState, useMemo, useEffect, useRef } from "react";
-import { DedicatedOffer } from "@/types/entities/dedicated-offer";
+import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 import CampaignCreatorCard from "./Creators/DedicatedOfferCreatorCard";
 import Pagination from "@/components/general/Pagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ import RejectReasonModal from "../RejectReasonModal";
 
 const ITEMS_PER_PAGE = 6;
 
-export default function Creators({ dedicatedOffer }: { dedicatedOffer: DedicatedOffer }) {
+export default function Creators({ dedicatedOffer }: { dedicatedOffer: DedicatedOfferDisplay }) {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
   const [selectedCreatorId, setSelectedCreatorId] = useState<string | null>(
