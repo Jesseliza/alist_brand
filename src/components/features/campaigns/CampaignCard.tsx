@@ -41,6 +41,7 @@ export default function CampaignCard({
 
 
   const isCampaignActive = () => {
+    if (!campaign.startDate || !campaign.endDate) return false;
     const now = new Date();
     const startDate = new Date(campaign.startDate);
     const endDate = new Date(campaign.endDate);
