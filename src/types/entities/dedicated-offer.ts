@@ -124,6 +124,8 @@ export interface ApiDedicatedOffer {
   is_offer_dummy: number;
   venue: Venue;
   offer_users: OfferUser[];
+  account_status?: string;
+  rejectReason?: string;
 }
 
 export interface DedicatedOfferDisplay {
@@ -142,9 +144,15 @@ export interface DedicatedOfferDisplay {
   endDate?: string;
   duration?: number;
   durationUnit?: TimeUnit;
-  minimum_user_count?: number;
+  minimum_user_count: number | null;
   offer_usage: number;
   offer_users: OfferUser[];
+  banner_image: string;
+  offer_title: string;
+  account_status?: string;
+  rejectReason?: string;
+  description: string;
+  confirmation_message: string;
 }
 
 export interface DedicatedOffer extends ApiDedicatedOffer {
