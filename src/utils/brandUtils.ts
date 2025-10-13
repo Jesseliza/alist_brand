@@ -41,6 +41,7 @@ export const transformApiVenueToBrand = (apiVenue: any): Brand => {
     venue_email: apiVenue.venue_email,
     Venue: {
       food_offers: apiVenue.food_offers || [],
+      dedicated_offers: apiVenue.dedicated_offers || [],
     },
     food_offers_count: apiVenue.food_offers_count || 0,
   };
