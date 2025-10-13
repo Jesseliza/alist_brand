@@ -12,7 +12,7 @@ import Creators from "./tabs/Creators";
 import { adaptDedicatedOfferSummaryToDisplay } from "@/utils/dedicatedOfferAdapters";
 import { DedicatedOffer } from "@/types/entities/dedicated-offer";
 
-const tabs = ["Overview", "Creators"];
+const tabs = ["Creators", "Overview"];
 
 export default function DedicatedOfferDetails({
   dedicatedOffer,
@@ -29,7 +29,7 @@ export default function DedicatedOfferDetails({
     (state: RootState) => state.dedicatedOffers
   );
 
-  const [selectedIndex, setSelectedIndex] = useState(0); // Default to Overview (index 0)
+  const [selectedIndex, setSelectedIndex] = useState(1); // Default to Overview (index 1)
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
   const getTabFromURL = useCallback(() => {
@@ -37,7 +37,7 @@ export default function DedicatedOfferDetails({
     if (tab && tabs.includes(tab)) {
       return tabs.indexOf(tab);
     }
-    return 0; // Default to Overview
+    return 1; // Default to Overview
   }, [searchParams]);
 
   const handleRejectSubmit = (reason: string) => {
@@ -107,7 +107,7 @@ export default function DedicatedOfferDetails({
         <TabPanels className="md:px-4">
           {tabs.map((tab) => (
             <TabPanel key={tab}>
-              {tab === "Overview" && <Overview dedicatedOffer={displayDedicatedOffer} />}
+               {tab === "Overview" && <Overview dedicatedOffer={displayDedicatedOffer} />}
               {tab === "Creators" && <Creators dedicatedOffer={dedicatedOffer} />}
             </TabPanel>
           ))}

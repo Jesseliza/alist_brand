@@ -18,7 +18,7 @@ export default function DedicatedOfferDetailsPage() {
   const router = useRouter();
   const { offerId } = params;
 
-  const [activeTab, setActiveTab] = useState("Overview");
+  const [activeTab, setActiveTab] = useState("Dedicated Offers");
 
   const {
     dedicatedOffer,
@@ -76,10 +76,10 @@ export default function DedicatedOfferDetailsPage() {
     <div className="py-6">
       <div className="max-w-[1428px] mx-auto">
         <BrandHeader
-          name={dedicatedOffer.venue?.venue_title || ""}
+         name={dedicatedOffer.venue?.venue_title || ""}
           subtitle={dedicatedOffer.offer_title}
           logo={dedicatedOffer.venue?.venue_logo || ""}
-          tabs={["Overview", "Business Details"]}
+          tabs={["Business Details", "Dedicated Offers"]}
           activeTab={activeTab}
           onTabChange={handleTabChange}
           pageFrom={"dedicated-offer"}
@@ -94,7 +94,7 @@ export default function DedicatedOfferDetailsPage() {
             />
           </button>
           <div className="pb-6">
-            {activeTab === "Overview" && (
+            {activeTab === "Dedicated Offers" && (
               <DedicatedOfferDetails
                 dedicatedOffer={dedicatedOffer}
                 dedicatedOfferId={offerId as string}
@@ -110,8 +110,8 @@ export default function DedicatedOfferDetailsPage() {
                   <BrandDetails
                     brand={brand}
                     isEditMode={false}
-                    onFieldChange={() => {}}
-                    onSave={() => {}}
+                    onFieldChange={() => { }}
+                    onSave={() => { }}
                     isSaving={false}
                     isCreateMode={false}
                   />
