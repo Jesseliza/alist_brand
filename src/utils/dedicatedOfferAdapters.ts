@@ -13,7 +13,8 @@ export const adaptDedicatedOfferSummaryToDisplay = (
     offerType = "Paid";
   }
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string)
+: string => {
     if (!dateString || dateString.startsWith('0000-00-00')) {
       return "N/A";
     }
@@ -47,5 +48,11 @@ export const adaptDedicatedOfferSummaryToDisplay = (
     minimum_user_count: offer.minimum_user_count ?? 0,
     offer_usage: offer.offer_usage,
     offer_users: offer.offer_users,
+    banner_image: offer.banner_image,
+    offer_title: offer.offer_title,
+    account_status: offer.account_status,
+    rejectReason: offer.rejectReason,
+    description: offer.description,
+    confirmation_message: offer.confirmation_message,
   };
 };
