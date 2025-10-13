@@ -210,6 +210,7 @@ export interface CampaignSummary {
   end_date: string;
   banner_image: string;
   is_dedicated: number;
+  offer_status: string;
   venue: {
     venue_title: string;
     category?: {
