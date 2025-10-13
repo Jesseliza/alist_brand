@@ -149,7 +149,7 @@ function* getDedicatedOfferReviewPostsSaga(action: GetDedicatedOfferReviewPostsA
       `/api/dedicated/review-posts/${id}`,
       { page, per_page }
     );
-    yield put(getReviewPostsSuccess(response.data.data));
+    yield put(getReviewPostsSuccess(response.data));
   } catch (error: any) {
     yield put(getReviewPostsFailure(error.message));
   }
