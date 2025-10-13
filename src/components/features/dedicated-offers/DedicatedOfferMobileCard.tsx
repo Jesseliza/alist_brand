@@ -11,41 +11,8 @@ export default function DedicatedOfferMobileCard({
     vendorName,
     thumbnailUrl,
     campaignType,
-    offerType,
-    duration,
-    durationUnit,
-    startDate,
-    endDate,
     is_dedicated,
   } = dedicatedOffer;
-
-  const getCampaignTypeDisplay = (type?: string) => {
-    switch (type) {
-      case "WalkIn":
-        return "Walk in";
-      case "Delivery":
-        return "Delivery";
-      case "Online":
-        return "Online";
-      case "Exclusive":
-        return "Exclusive";
-      default:
-        return type || "N/A";
-    }
-  };
-
-  const getOfferTypeDisplay = (type?: string) => {
-    switch (type) {
-      case "Barter":
-        return "Barter";
-      case "Paid":
-        return "Paid";
-      case "BarterAndPaid":
-        return "Barter & Paid";
-      default:
-        return type || "N/A";
-    }
-  };
 
   return (
     <div className="bg-white rounded-[13px] p-3.5 cursor-pointer">
@@ -115,11 +82,8 @@ export default function DedicatedOfferMobileCard({
                 />
               )}
               <span className="text-[13px] leading-[1.5]">
-                {getOfferTypeDisplay(offerType)}
+                {campaignType}
               </span>
-            </div>
-            <div className="text-[13px] leading-[1.5] text-[#757575]">
-              {duration ? `${duration} ${durationUnit?.toLowerCase() ?? ''}` : `${startDate ?? ''} - ${endDate ?? ''}`}
             </div>
           </div>
         </div>

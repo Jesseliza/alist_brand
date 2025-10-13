@@ -33,7 +33,6 @@ export default function CampaignCard({
     offerType,
     duration,
     durationUnit,
-    copyLinkUrl,
     is_dedicated,
   } = campaign;
 
