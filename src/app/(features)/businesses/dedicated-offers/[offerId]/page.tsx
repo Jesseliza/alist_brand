@@ -40,7 +40,7 @@ export default function DedicatedOfferDetailsPage() {
 
   useEffect(() => {
     if (dedicatedOffer && activeTab === "Business Details" && dedicatedOffer.venue) {
-      dispatch(fetchBrandRequest({ brandId: dedicatedOffer.venue.id }));
+      dispatch(fetchBrandRequest({ brandId: String(dedicatedOffer.venue.id) }));
     }
   }, [dispatch, dedicatedOffer, activeTab]);
 
