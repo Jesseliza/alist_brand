@@ -54,5 +54,7 @@ export const adaptDedicatedOfferSummaryToDisplay = (
     rejectReason: offer.rejectReason,
     description: offer.description,
     confirmation_message: offer.confirmation_message,
+    venue: offer.venue,
+    amount: offer.amount,
   };
 };

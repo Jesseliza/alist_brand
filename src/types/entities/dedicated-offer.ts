@@ -153,6 +153,8 @@ export interface DedicatedOfferDisplay {
   rejectReason?: string;
   description: string;
   confirmation_message: string;
+  venue: Venue;
+  amount: string;
 }
 
 export interface DedicatedOffer extends ApiDedicatedOffer {
