@@ -37,7 +37,7 @@ export default function Sidebar({
   const filteredSidebarConfig = sidebarConfig.map((section) => {
     const filteredItems = section.items.filter((item) => {
       if (item.label === "Accounts") {
-        return user?.registration_type === "admin";
+        return user && user.registration_type === "admin";
       }
       return true;
     });
