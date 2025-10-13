@@ -1,4 +1,5 @@
 export type CampaignType = "WalkIn" | "Delivery" | "Online" | "Exclusive";
+export type OfferType = "Barter" | "Paid" | "BarterAndPaid";
 export type TimeUnit = "Days" | "Hours";
 
 export interface Venue {
@@ -136,6 +137,11 @@ export interface DedicatedOfferDisplay {
   category: string;
   offerDate: string;
   is_dedicated: number;
+  offerType?: OfferType;
+  startDate?: string;
+  endDate?: string;
+  duration?: number;
+  durationUnit?: TimeUnit;
 }
 
 export interface DedicatedOffer extends ApiDedicatedOffer {
