@@ -283,11 +283,33 @@ export interface GetDedicatedOfferReviewsPayload {
   per_page?: number;
 }
 
-export interface DedicatedOfferReviewPostsResponse {}
-export interface VoucherCodesApiResponse {}
-export interface DedicatedOfferAvailability {}
-export interface DedicatedOfferAvailabilityApiResponse {}
-export interface DedicatedOfferReviewsResponse {}
+export interface DedicatedOfferReviewPostsResponse {
+  data: any[];
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+}
+export interface VoucherCodesApiResponse {
+  data: any[];
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+}
+export interface DedicatedOfferAvailability {
+  // Define properties for DedicatedOfferAvailability if known
+}
+export interface DedicatedOfferAvailabilityApiResponse {
+  data: any[];
+}
+export interface DedicatedOfferReviewsResponse {
+  data: any[];
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+}
 export interface GetDedicatedOfferReviewPostsAction {
   type: string;
   payload: GetDedicatedOfferReviewPostsPayload;
