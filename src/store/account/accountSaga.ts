@@ -85,7 +85,10 @@ const transformVenueToBrand = (venue: any, industries: Option[]): Brand => {
         files: 0,
         Venue_contact_name: venue.Venue_contact_name || null,
         venue_email: venue.venue_email || null,
-        Venue: { food_offers: venue.food_offers || [] },
+        Venue: {
+            food_offers: venue.food_offers || [],
+            dedicated_offers: venue.dedicated_offers || [],
+        },
         food_offers_count: venue.food_offers_count || 0,
     };
 };
