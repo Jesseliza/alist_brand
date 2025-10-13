@@ -120,5 +120,6 @@ export const adaptFoodOfferToDisplay = (
     duration: daysDuration > 0 ? daysDuration : 0,
     durationUnit: "Days",
     is_dedicated: offer.is_dedicated,
+    offer_status: offer.offer_status,
   };
 };
