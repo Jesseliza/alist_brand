@@ -80,6 +80,7 @@ export const adaptCampaignToDisplay = (campaign: Campaign): CampaignDisplay => {
     duration: duration,
     durationUnit: durationUnit,
     is_dedicated: campaign.is_dedicated ?? 0,
+    offer_status: campaign.offer_status ?? 'Pending',
   };
 };
 
