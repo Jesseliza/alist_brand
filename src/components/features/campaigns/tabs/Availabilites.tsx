@@ -104,12 +104,12 @@ export default function Availabilites({ campaignId }: { campaignId: string }) {
                         <td className="px-6 py-4">
                           <span
                             className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                              voucher.user_id
+                              voucher.user_id && voucher.redem_at
                                 ? "bg-red-100 text-red-800"
                                 : "bg-green-100 text-green-800"
                             }`}
                           >
-                            {voucher.user_id ? "Used" : "Available"}
+                            {voucher.user_id && voucher.redem_at ? "Used" : "Available"}
                           </span>
                         </td>
                       </tr>
