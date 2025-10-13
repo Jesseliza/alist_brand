@@ -9,6 +9,7 @@ import { updateDedicatedOfferStatusStart } from "@/store/dedicated-offers/Dedica
 import RejectReasonModal from "./RejectReasonModal";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
+import { adaptDedicatedOfferSummaryToDisplay } from "@/utils/dedicatedOfferAdapters";
 import { DedicatedOffer } from "@/types/entities/dedicated-offer";
 
 const tabs = ["Overview", "Creators"];
@@ -20,6 +21,7 @@ export default function DedicatedOfferDetails({
   dedicatedOffer: DedicatedOffer;
   dedicatedOfferId: string;
 }) {
+  const displayDedicatedOffer = adaptDedicatedOfferSummaryToDisplay(dedicatedOffer);
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
@@ -105,7 +107,7 @@ export default function DedicatedOfferDetails({
         <TabPanels className="md:px-4">
           {tabs.map((tab) => (
             <TabPanel key={tab}>
-              {tab === "Overview" && <Overview dedicatedOffer={dedicatedOffer} />}
+              {tab === "Overview" && <Overview dedicatedOffer={displayDedicatedOffer} />}
               {tab === "Creators" && <Creators dedicatedOffer={dedicatedOffer} />}
             </TabPanel>
           ))}
