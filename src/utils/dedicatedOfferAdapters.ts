@@ -44,5 +44,8 @@ export const adaptDedicatedOfferSummaryToDisplay = (
     endDate: formatDate(offer.offer_end_time),
     duration: undefined, //  duration and durationUnit are not available in ApiDedicatedOffer
     durationUnit: undefined,
+    minimum_user_count: offer.minimum_user_count ?? 0,
+    offer_usage: offer.offer_usage,
+    offer_users: offer.offer_users,
   };
 };

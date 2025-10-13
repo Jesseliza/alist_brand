@@ -142,6 +142,9 @@ export interface DedicatedOfferDisplay {
   endDate?: string;
   duration?: number;
   durationUnit?: TimeUnit;
+  minimum_user_count?: number;
+  offer_usage: number;
+  offer_users: OfferUser[];
 }
 
 export interface DedicatedOffer extends ApiDedicatedOffer {
