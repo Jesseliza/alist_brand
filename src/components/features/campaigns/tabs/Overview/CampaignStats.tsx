@@ -18,7 +18,7 @@ export default function CampaignStats({ campaign }: { campaign: Campaign }) {
       imgSrc: "/icons/campaign/details/overview/creators.svg",
       imgWidth: 47.27,
       imgHeight: 33.09,
-      title: campaign.dedicated_offer?.offer_users.filter((o) => o.status === 1).length.toString() ?? "0",
+      title: campaign.food_offer_user?.filter((o) => o.status === 1).length.toString() ?? "0",
       subtitle: "Creators",
     },
     {
