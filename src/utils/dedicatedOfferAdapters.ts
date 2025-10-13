@@ -1,4 +1,5 @@
-import { ApiDedicatedOffer, DedicatedOfferDisplay, CampaignType } from "@/types/entities/dedicated-offer";
+import { ApiDedicatedOffer, DedicatedOfferDisplay, CampaignType, OfferType } from "@/types/entities/dedicated-offer";
+import { format, parseISO } from "date-fns";
 
 export const adaptDedicatedOfferSummaryToDisplay = (
   offer: ApiDedicatedOffer,
@@ -7,6 +8,24 @@ export const adaptDedicatedOfferSummaryToDisplay = (
   brandLogo?: string,
   brandCategory?: string
 ): DedicatedOfferDisplay => {
+  let offerType: OfferType = "Barter";
+  if (offer.amount && parseFloat(offer.amount) > 0) {
+    offerType = "Paid";
+  }
+
+  const formatDate = (dateString: string) => {
+    if (!dateString || dateString.startsWith('0000-00-00')) {
+      return "N/A";
+    }
+    try {
+      const date = parseISO(dateString);
+      return format(date, "MMM d, yyyy");
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "Invalid Date";
+    }
+  };
+
   return {
     id: offer.id,
     title: offer.offer_title,
@@ -20,5 +39,10 @@ export const adaptDedicatedOfferSummaryToDisplay = (
     campaignType: "WalkIn" as CampaignType,
     category: offer.venue?.category?.category || brandCategory || "Unknown",
     is_dedicated: 1, // Assuming it's always a dedicated offer in this context
+    offerType,
+    startDate: formatDate(offer.offer_start_time),
+    endDate: formatDate(offer.offer_end_time),
+    duration: undefined, //  duration and durationUnit are not available in ApiDedicatedOffer
+    durationUnit: undefined,
   };
 };
