@@ -307,7 +307,6 @@ export default function DedicatedOffersPage() {
                               onCheckboxChange={() =>
                                 handleCheckboxChange(dedicatedOffer.id.toString())
                               }
-                              onRemove={handleRemove}
                             />
                           </Link>
                         ))
