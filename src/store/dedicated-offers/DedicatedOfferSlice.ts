@@ -143,8 +143,8 @@ const dedicatedOffersSlice = createSlice({
       action: PayloadAction<{ id: string; status: number }>
     ) => {
       state.dedicatedPageStatusLoading = false;
-      if (state.dedicatedOffer && state.dedicatedOffer.dedicated_offer) {
-        const offerUser = state.dedicatedOffer.dedicated_offer.offer_users.find(
+      if (state.dedicatedOffer && state.dedicatedOffer.offer_users) {
+        const offerUser = state.dedicatedOffer.offer_users.find(
           (user) => user.id.toString() === action.payload.id
         );
         if (offerUser) {
