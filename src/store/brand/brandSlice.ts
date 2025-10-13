@@ -133,6 +133,7 @@ const brandSlice = createSlice({
         venue_email: null,
         Venue: {
           food_offers: [],
+          dedicated_offers: [],
         },
         food_offers_count: 0,
       };
