@@ -76,9 +76,9 @@ export default function DedicatedOfferDetailsPage() {
     <div className="py-6">
       <div className="max-w-[1428px] mx-auto">
         <BrandHeader
-          name={dedicatedOffer.venue?.venue_title || dedicatedOffer.brandName}
-          subtitle={dedicatedOffer.title}
-          logo={dedicatedOffer.brandLogo}
+          name={dedicatedOffer.venue?.venue_title || ""}
+          subtitle={dedicatedOffer.offer_title}
+          logo={dedicatedOffer.venue?.venue_logo || ""}
           tabs={["Overview", "Business Details"]}
           activeTab={activeTab}
           onTabChange={handleTabChange}
