@@ -135,7 +135,7 @@ function DashboardContent({
                     className="cursor-pointer"
                   />
                   {isProfileMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[70]">
                       <button
                         onClick={() => {
                           if (user?.accountId) {
@@ -185,7 +185,7 @@ function DashboardContent({
                     className="cursor-pointer"
                   />
                   {isProfileMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[70]">
                       <button
                         onClick={() => {
                           if (user?.accountId) {

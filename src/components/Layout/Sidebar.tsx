@@ -147,6 +147,12 @@ export default function Sidebar({
                 if ((item.label === "Campaigns" && pathname.startsWith("/businesses/campaigns") && from === "brand") || (item.label === "Dedicated Offers" && pathname.startsWith("/businesses/dedicated-offers") && from === "brand")) {
                   isActive = false;
                 }
+                if (item.label === "Accounts" && pathname.startsWith("/businesses/brands") && from === "accounts") {
+                  isActive = true;
+                }
+                if (item.label === "Brands" && pathname.startsWith("/businesses/brands") && from === "accounts") {
+                  isActive = false;
+                }
                 const iconSrc = isActive
                   ? item.icon.src.replace("/sidebar/", "/sidebar/darkmode/")
                   : item.icon.src;

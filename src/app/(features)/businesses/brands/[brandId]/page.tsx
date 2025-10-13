@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { Brand } from "@/types/entities";
 import BrandTabContent from "@/components/features/brands/BrandTabContent";
@@ -27,6 +27,7 @@ export default function BrandPage() {
   const dispatch = useDispatch();
   const { brandId } = params;
   const isCreateMode = brandId === "create";
+  const searchParams = useSearchParams();
 
   const { brand, loading, createLoading, createSuccess, updateLoading, updateSuccess, error } = useSelector(
     (state: RootState) => state.brand
@@ -194,8 +195,8 @@ export default function BrandPage() {
           tabs={["Business Details", "Campaigns", "Dedicated Offers"]}
           activeTab={activeTab}
           onTabChange={setActiveTab}
-          backPath="/businesses/brands"
-          pageFrom={"brand"}
+          backPath={searchParams.get("from") === "accounts" ? `/businesses/accounts/${brand?.accountId}?tab=Brands` : "/businesses/brands"}
+          pageFrom={searchParams.get("from") || "brand"}
           isCreateMode={isCreateMode}
         />
       {/* )} */}
