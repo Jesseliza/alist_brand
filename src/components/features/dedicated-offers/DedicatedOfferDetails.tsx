@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { updateDedicatedOfferStatusStart } from "@/store/dedicated-offers/DedicatedOfferSlice";
+import { updateDedicatedOfferAccStatusStart } from "@/store/dedicated-offers/DedicatedOfferSlice";
 import RejectReasonModal from "./RejectReasonModal";
 import Overview from "./tabs/Overview";
 import Creators from "./tabs/Creators";
@@ -42,7 +42,7 @@ export default function DedicatedOfferDetails({
 
 
   const handleApprove = () => {
-    dispatch(updateDedicatedOfferStatusStart({ id: dedicatedOfferId, status: "Approved" }));
+    dispatch(updateDedicatedOfferAccStatusStart({ id: dedicatedOfferId, status: "Approved" }));
   };
 
   const handleReject = () => {
@@ -51,7 +51,7 @@ export default function DedicatedOfferDetails({
 
   const handleRejectSubmit = (reason: string) => {
     dispatch(
-      updateDedicatedOfferStatusStart({
+      updateDedicatedOfferAccStatusStart({
         id: dedicatedOfferId,
         status: "Rejected",
         rejectReason: reason,

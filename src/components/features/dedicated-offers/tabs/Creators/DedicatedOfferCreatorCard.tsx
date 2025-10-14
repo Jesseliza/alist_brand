@@ -111,7 +111,7 @@ export default function DedicatedOfferCreatorCard({
 
         {/* Action buttons or status text */}
         <div className="flex md:gap-[9px] gap-2 md:pb-[9px] md:pl-[9px] md:pr-[9px] pr-3">
-          {status === 1 ? (
+          {status === 6 ? (
             <div className="flex-1 flex items-center md:justify-center gap-2 text-[#00A4B6] py-[7px] md:rounded-[13px] rounded-[11px] text-[13px] leading-[20px] font-medium h-[38px]">
               <Image
                 src="/icons/campaign/details/creators-and-posts/verified-check.svg"
@@ -121,7 +121,7 @@ export default function DedicatedOfferCreatorCard({
               />
               <p>Approved</p>
             </div>
-          ) : status === 0 ? (
+          ) : status === 7 ? (
             <div className="flex-1 flex items-center md:justify-center gap-2 text-red-500 py-[7px] md:rounded-[13px] rounded-[11px] text-[13px] leading-[20px] font-medium h-[38px]">
               <p>Rejected</p>
             </div>
