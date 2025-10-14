@@ -34,7 +34,6 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
 
   const mappedCreators = useMemo(() => {
     return creators
-      .filter((offerUser) => offerUser.user)
       .map((offerUser) => ({
         id: offerUser.id.toString(),
         image: offerUser.user.profile_picture || "",
