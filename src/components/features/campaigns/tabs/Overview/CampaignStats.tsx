@@ -2,17 +2,6 @@ import Image from "next/image";
 import { Campaign } from "@/types/entities";
 
 export default function CampaignStats({ campaign }: { campaign: Campaign }) {
-  // Format numbers for display
-  const formatNumber = (num: number | string) => {
-    const number = typeof num === "string" ? parseInt(num) : num;
-    if (number >= 1000000) {
-      return `${(number / 1000000).toFixed(1)}M`;
-    } else if (number >= 1000) {
-      return `${(number / 1000).toFixed(0)}K`;
-    }
-    return number.toString();
-  };
-
   const statCards = [
     {
       imgSrc: "/icons/campaign/details/overview/creators.svg",
