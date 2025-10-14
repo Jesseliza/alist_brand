@@ -40,6 +40,15 @@ export default function DedicatedOfferDetails({
     return 1; // Default to Overview
   }, [searchParams]);
 
+
+  const handleApprove = () => {
+    dispatch(updateDedicatedOfferStatusStart({ id: dedicatedOfferId, status: "Approved" }));
+  };
+
+  const handleReject = () => {
+    setIsRejectModalOpen(true);
+  };
+
   const handleRejectSubmit = (reason: string) => {
     dispatch(
       updateDedicatedOfferStatusStart({
@@ -64,7 +73,7 @@ export default function DedicatedOfferDetails({
 
   return (
     <div>
-      {/* {dedicatedOffer.offer_status === "Draft" &&
+      {dedicatedOffer.offer_status === 0 &&
         dedicatedOffer.account_status === "Pending" && (
           <div className="max-w-[966px] mx-auto md:px-4 mt-4">
             <div className="flex justify-end space-x-2 mb-2">
@@ -84,7 +93,7 @@ export default function DedicatedOfferDetails({
               </button>
             </div>
           </div>
-        )} */}
+        )}
       <TabGroup selectedIndex={selectedIndex} onChange={handleTabChange}>
         <div className="max-w-[966px] mx-auto md:px-4 mt-4">
           <TabList className="flex bg-[#F8F8F8] rounded-[13px] p-[5px]">
@@ -107,7 +116,7 @@ export default function DedicatedOfferDetails({
         <TabPanels className="md:px-4">
           {tabs.map((tab) => (
             <TabPanel key={tab}>
-               {tab === "Overview" && <Overview dedicatedOffer={displayDedicatedOffer} />}
+              {tab === "Overview" && <Overview dedicatedOffer={displayDedicatedOffer} />}
               {tab === "Creators" && <Creators dedicatedOffer={displayDedicatedOffer} />}
             </TabPanel>
           ))}

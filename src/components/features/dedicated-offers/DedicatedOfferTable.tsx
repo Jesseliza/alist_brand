@@ -18,6 +18,7 @@ export default function DedicatedOffersTable({
   // checkedRows,
   // onCheckboxChange,
 }: DedicatedOffersTableProps) {
+console.log(dedicatedOffers);
 
 
   return (
@@ -29,7 +30,7 @@ export default function DedicatedOffersTable({
               scope="col"
               className="pl-3 pr-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             > */}
-              {/* <CheckBox checked={isAllSelected} onChange={onSelectAll} /> */}
+            {/* <CheckBox checked={isAllSelected} onChange={onSelectAll} /> */}
             {/* </th> */}
             <th
               scope="col"
@@ -54,6 +55,18 @@ export default function DedicatedOffersTable({
               className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
               Offer Date
+            </th>
+            <th
+              scope="col"
+              className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+            >
+              Status
+            </th>
+            <th
+              scope="col"
+              className="px-6 pt-2.5 pb-4 text-center text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+            >
+              Offer Status
             </th>
 
           </tr>
@@ -96,6 +109,28 @@ export default function DedicatedOffersTable({
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
                 {dedicatedOffer.offerDate ?? "N/A"}
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
+                <div
+                  className={`w-[98px] px-4.25 py-1 rounded-full text-white ${dedicatedOffer.account_status === "Pending"
+                    ? "bg-[#636363]"
+                    : dedicatedOffer.account_status === "Rejected"
+                      ? "bg-red-500"
+                      : "bg-[#00CC86]"
+                    }`}
+                >
+                  {dedicatedOffer.account_status}
+                </div>
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
+                <div
+                  className={`w-[98px] px-4.25 py-1 rounded-full text-white ${dedicatedOffer.offer_status === 0
+                    ? "bg-[#636363]"
+                    : "bg-[#00CC86]"
+                    }`}
+                >
+                  {dedicatedOffer.offer_status === 0 ? "Draft" : "Published"}
+                </div>
               </td>
 
             </tr>

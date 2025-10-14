@@ -5,8 +5,8 @@ import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 import DedicatedOfferStats from "./Overview/DedicatedOfferStats";
 import DedicatedOfferCreators from "./Overview/DedicatedOfferCreators";
 import DedicatedOfferDetails from "./Overview/DedicatedOfferDetails";
-import DedicatedOfferGuidelines from "./Overview/DedicatedOfferGuidelines";
-import DedicatedOfferPlans from "./Overview/DedicatedOfferPlans";
+// import DedicatedOfferGuidelines from "./Overview/DedicatedOfferGuidelines";
+// import DedicatedOfferPlans from "./Overview/DedicatedOfferPlans";
 
 export default function Overview({
   dedicatedOffer,
@@ -74,10 +74,10 @@ export default function Overview({
         <p className="font-medium">Campaign Message:</p>
         <div dangerouslySetInnerHTML={{ __html: dedicatedOffer.confirmation_message ?? "No message available." }} />
       </div>
-      <div className="border-b border-[#E2E2E2]">
+      {/* <div className="border-b border-[#E2E2E2]">
         <DedicatedOfferGuidelines dedicatedOffer={dedicatedOffer} />
-      </div>
-      <DedicatedOfferPlans dedicatedOffer={dedicatedOffer} />
+      </div> */}
+      {/* <DedicatedOfferPlans dedicatedOffer={dedicatedOffer} /> */}
     </div>
   );
 }

@@ -56,7 +56,7 @@ export const sidebarConfig: SidebarSection[] = [
       },  
       {
         icon: {
-          src: "/icons/sidebar/campaigns.svg",
+          src: "/icons/sidebar/dedicated-offer.svg",
           alt: "Dedicated Offers",
           width: 24.14,
           height: 24.12,

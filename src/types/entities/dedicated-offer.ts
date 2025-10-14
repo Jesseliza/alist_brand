@@ -150,6 +150,7 @@ export interface DedicatedOfferDisplay {
   banner_image: string;
   offer_title: string;
   account_status?: string;
+  offer_status: number;
   rejectReason?: string;
   description: string;
   confirmation_message: string;

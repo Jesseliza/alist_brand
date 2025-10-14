@@ -103,13 +103,11 @@ export default function Availabilites({ campaignId }: { campaignId: string }) {
                         <td className="px-6 py-4">{voucher.offer_code}</td>
                         <td className="px-6 py-4">
                           <span
-                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                              voucher.user_id && voucher.redem_at
-                                ? "bg-red-100 text-red-800"
-                                : "bg-green-100 text-green-800"
-                            }`}
+                            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full text-white ${voucher.used_at ? "bg-red-500" : voucher.redem_at ? "bg-yellow-500"
+                              : "bg-green-500"
+                              }`}
                           >
-                            {voucher.user_id && voucher.redem_at ? "Used" : "Available"}
+                            {voucher.used_at ? "Used" : voucher.redem_at ? "Redeemed" : "Issued"}
                           </span>
                         </td>
                       </tr>
