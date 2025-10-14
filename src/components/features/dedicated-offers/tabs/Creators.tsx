@@ -1,7 +1,7 @@
 "use client";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
-import CampaignCreatorCard from "./Creators/DedicatedOfferCreatorCard";
+import DedicatedOfferCreatorCard from "./Creators/DedicatedOfferCreatorCard";
 import Pagination from "@/components/general/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { updateDedicatedPageStatusStart } from "@/store/dedicated-offers/DedicatedOfferSlice";
@@ -100,7 +100,7 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
                 }
               `}</style>
               {paginatedCreators.map((creator) => (
-                <CampaignCreatorCard
+                <DedicatedOfferCreatorCard
                   key={creator.id}
                   {...creator}
                   onApprove={handleApprove}

@@ -6,7 +6,6 @@ import {
   GetCampaignReviewPostsPayload,
   GetVoucherCodesPayload,
   UpdateCampaignStatusPayload,
-  UpdateDedicatedPageStatusPayload,
   GetCampaignAvailabilityPayload,
   CampaignAvailability,
   GetCampaignReviewsPayload,
@@ -20,7 +19,6 @@ const initialState: CampaignsState = {
   pagination: null,
   bulkDeleteLoading: false,
   bulkDeleteError: null,
-  dedicatedPageStatusLoading: false,
   statusUpdateLoading: false,
   reviewPosts: [],
   reviewPostsLoading: false,
@@ -132,29 +130,6 @@ const campaignsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    updateDedicatedPageStatusStart: (
-      state,
-      action: PayloadAction<UpdateDedicatedPageStatusPayload>
-    ) => {
-      state.dedicatedPageStatusLoading = true;
-    },
-    updateDedicatedPageStatusSuccess: (
-      state,
-      action: PayloadAction<{ id: string; status: number }>
-    ) => {
-      state.dedicatedPageStatusLoading = false;
-      if (state.campaign && state.campaign.food_offer_user) {
-        const offerUser = state.campaign.food_offer_user.find(
-          (user) => user.id.toString() === action.payload.id
-        );
-        if (offerUser) {
-          offerUser.status = action.payload.status;
-        }
-      }
-    },
-    updateDedicatedPageStatusFailure: (state, action) => {
-      state.dedicatedPageStatusLoading = false;
-    },
     getReviewPostsStart: (
       state,
       action: PayloadAction<GetCampaignReviewPostsPayload>
@@ -251,9 +226,6 @@ export const {
   getCampaignDetailsStart,
   getCampaignDetailsSuccess,
   getCampaignDetailsFailure,
-  updateDedicatedPageStatusStart,
-  updateDedicatedPageStatusSuccess,
-  updateDedicatedPageStatusFailure,
   bulkDeleteCampaignsStart,
   bulkDeleteCampaignsSuccess,
   bulkDeleteCampaignsFailure,

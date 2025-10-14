@@ -117,6 +117,26 @@ const dedicatedOffersSlice = createSlice({
       state.statusUpdateLoading = false;
       state.error = action.payload;
     },
+    updateDedicatedOfferAccStatusStart: (
+      state,
+      action: PayloadAction<UpdateDedicatedOfferStatusPayload>
+    ) => {
+      state.statusUpdateLoading = true;
+      state.error = null;
+    },
+    updateDedicatedOfferAccStatusSuccess: (
+      state,
+      action: PayloadAction<{ status: string }>
+    ) => {
+      state.statusUpdateLoading = false;
+      if (state.dedicatedOffer) {
+        state.dedicatedOffer.account_status = action.payload.status;
+      }
+    },
+    updateDedicatedOfferAccStatusFailure: (state, action) => {
+      state.statusUpdateLoading = false;
+      state.error = action.payload;
+    },
     getDedicatedOfferDetailsStart: (
       state,
       action: PayloadAction<GetDedicatedOfferDetailsPayload>
@@ -248,6 +268,9 @@ export const {
   updateDedicatedOfferStatusStart,
   updateDedicatedOfferStatusSuccess,
   updateDedicatedOfferStatusFailure,
+  updateDedicatedOfferAccStatusStart,
+  updateDedicatedOfferAccStatusSuccess,
+  updateDedicatedOfferAccStatusFailure,
   getDedicatedOfferDetailsStart,
   getDedicatedOfferDetailsSuccess,
   getDedicatedOfferDetailsFailure,

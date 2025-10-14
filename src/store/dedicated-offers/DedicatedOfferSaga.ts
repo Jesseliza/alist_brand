@@ -11,6 +11,7 @@ import {
   updateDedicatedOfferStatusStart,
   updateDedicatedOfferStatusSuccess,
   updateDedicatedOfferStatusFailure,
+  updateDedicatedOfferAccStatusStart,
   getDedicatedOfferDetailsStart,
   getDedicatedOfferDetailsSuccess,
   getDedicatedOfferDetailsFailure,
@@ -90,6 +91,24 @@ function* updateDedicatedOfferStatusSaga(action: UpdateDedicatedOfferStatusActio
     const errorMessage =
       error.response?.data?.message || "Failed to update dedicated offer status.";
     yield put(updateDedicatedOfferStatusFailure(errorMessage));
+    toast.error(errorMessage);
+  }
+}
+
+function* updateDedicatedOfferAccStatusSaga(action: UpdateDedicatedOfferStatusAction) {
+  try {
+    const { id, status, rejectReason } = action.payload;
+    const payload: { status: string; rejectReason?: string } = { status };
+    if (rejectReason) {
+      payload.rejectReason = rejectReason;
+    }
+    yield call(axiosInstance.post, `/api/dedicated/${id}/acc_status`, payload);
+    yield put(updateDedicatedOfferAccStatusSuccess({ status }));
+    toast.success("Dedicated offer status updated successfully!");
+  } catch (error: any) {
+    const errorMessage =
+      error.response?.data?.message || "Failed to update dedicated offer status.";
+    yield put(updateDedicatedOfferAccStatusFailure(errorMessage));
     toast.error(errorMessage);
   }
 }
@@ -187,6 +206,7 @@ function* watchDedicatedOffers() {
   yield takeLatest(getDedicatedOffersStart.type, getDedicatedOffersSaga);
   yield takeLatest(getMoreDedicatedOffersStart.type, getMoreDedicatedOffersSaga);
   yield takeLatest(updateDedicatedOfferStatusStart.type, updateDedicatedOfferStatusSaga);
+  yield takeLatest(updateDedicatedOfferAccStatusStart.type, updateDedicatedOfferAccStatusSaga);
   yield takeLatest(getDedicatedOfferDetailsStart.type, getDedicatedOfferDetailsSaga);
   yield takeLatest(
     updateDedicatedPageStatusStart.type,
