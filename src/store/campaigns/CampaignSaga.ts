@@ -14,9 +14,6 @@ import {
   getCampaignDetailsStart,
   getCampaignDetailsSuccess,
   getCampaignDetailsFailure,
-  updateDedicatedPageStatusStart,
-  updateDedicatedPageStatusSuccess,
-  updateDedicatedPageStatusFailure,
   bulkDeleteCampaignsStart,
   bulkDeleteCampaignsSuccess,
   bulkDeleteCampaignsFailure,
@@ -41,7 +38,6 @@ import {
   GetCampaignReviewPostsAction,
   UpdateCampaignStatusAction,
   GetCampaignDetailsAction,
-  UpdateDedicatedPageStatusAction,
   GetVoucherCodesAction,
   VoucherCodesApiResponse,
   GetCampaignAvailabilityAction,
@@ -107,26 +103,6 @@ function* getCampaignDetailsSaga(action: GetCampaignDetailsAction) {
   }
 }
 
-function* updateDedicatedPageStatusSaga(
-  action: UpdateDedicatedPageStatusAction
-) {
-  try {
-    const { id, status, rejectReason } = action.payload;
-    const payload: { status: number; rejectReason?: string } = { status };
-    if (rejectReason) {
-      payload.rejectReason = rejectReason;
-    }
-    yield call(axiosInstance.post, `/api/dedicated/${id}/status`, payload);
-    yield put(updateDedicatedPageStatusSuccess({ id, status }));
-    toast.success("Creator status updated successfully!");
-  } catch (error: any) {
-    const errorMessage =
-      error.response?.data?.message || "Failed to update creator status.";
-    yield put(updateDedicatedPageStatusFailure(errorMessage));
-    toast.error(errorMessage);
-  }
-}
-
 function* bulkDeleteCampaignsSaga(action: PayloadAction<{ ids: string[] }>) {
   try {
     const { ids } = action.payload;
@@ -185,10 +161,6 @@ function* watchCampaigns() {
   yield takeLatest(getMoreCampaignsStart.type, getMoreCampaignsSaga);
   yield takeLatest(updateCampaignStatusStart.type, updateCampaignStatusSaga);
   yield takeLatest(getCampaignDetailsStart.type, getCampaignDetailsSaga);
-  yield takeLatest(
-    updateDedicatedPageStatusStart.type,
-    updateDedicatedPageStatusSaga
-  );
   yield takeLatest(bulkDeleteCampaignsStart.type, bulkDeleteCampaignsSaga);
   yield takeLatest(getReviewPostsStart.type, getCampaignReviewPostsSaga);
   yield takeLatest(getVoucherCodesStart.type, getVoucherCodesSaga);

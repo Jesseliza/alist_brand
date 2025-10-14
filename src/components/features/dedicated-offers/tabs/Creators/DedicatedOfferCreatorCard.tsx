@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-interface CampaignCreatorCardProps {
+interface DedicatedOfferCreatorCardProps {
   id: string;
   image: string;
   name:string;
@@ -16,7 +16,7 @@ interface CampaignCreatorCardProps {
   loading?: boolean;
 }
 
-export default function CampaignCreatorCard({
+export default function DedicatedOfferCreatorCard({
   id,
   image,
   name,
@@ -26,7 +26,7 @@ export default function CampaignCreatorCard({
   onApprove,
   onReject,
   loading = false,
-}: CampaignCreatorCardProps) {
+}: DedicatedOfferCreatorCardProps) {
   const handleApprove = () => {
     onApprove(id);
   };

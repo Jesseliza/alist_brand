@@ -48,6 +48,7 @@ export const adaptDedicatedOfferSummaryToDisplay = (
     banner_image: offer.banner_image,
     offer_title: offer.offer_title,
     account_status: offer.account_status,
+    offer_status: offer.offer_status,
     rejectReason: offer.rejectReason,
     description: offer.description,
     confirmation_message: offer.confirmation_message,
