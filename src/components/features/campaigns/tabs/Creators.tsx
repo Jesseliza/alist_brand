@@ -34,6 +34,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
 
   const mappedCreators = useMemo(() => {
     return creators
+      .filter((offerUser) => offerUser.user)
       .map((offerUser) => ({
         id: offerUser.id.toString(),
         image: offerUser.user.profile_picture || "",
@@ -73,14 +74,6 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
   //     })
   //   );
   // };
-
-  if (campaign?.is_dedicated !== 1) {
-    return (
-      <div className="text-center py-10 text-gray-500">
-        Creators Not Found
-      </div>
-    );
-  }
 
   return (
     <div>
