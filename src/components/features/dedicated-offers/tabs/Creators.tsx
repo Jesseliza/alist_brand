@@ -60,7 +60,7 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
     dispatch(
       updateDedicatedPageStatusStart({
         id: id,
-        status: 1,
+        status: 6,
         offerId: dedicatedOffer.id.toString(),
       })
     );
@@ -76,7 +76,7 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
     dispatch(
       updateDedicatedPageStatusStart({
         id: selectedCreatorId,
-        status: 0,
+        status: 7,
         rejectReason: rejectReason,
         offerId: dedicatedOffer.id.toString(),
       })

@@ -7,15 +7,8 @@ export default function DedicatedOfferStats({ dedicatedOffer }: { dedicatedOffer
       imgSrc: "/icons/campaign/details/overview/creators.svg",
       imgWidth: 47.27,
       imgHeight: 33.09,
-      title: dedicatedOffer.offer_users.filter((o) => o.status === 1).length.toString() ?? "0",
+      title: dedicatedOffer.offer_users.filter((o) => o.status === 6).length.toString() ?? "0",
       subtitle: "Creators",
-    },
-    {
-      imgSrc: "/icons/campaign/details/overview/posts.svg",
-      imgWidth: 32,
-      imgHeight: 31.57,
-      title: "0",
-      subtitle: "Posts",
     },
   ];
 
