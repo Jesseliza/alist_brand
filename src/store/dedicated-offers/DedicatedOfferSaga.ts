@@ -12,6 +12,8 @@ import {
   updateDedicatedOfferStatusSuccess,
   updateDedicatedOfferStatusFailure,
   updateDedicatedOfferAccStatusStart,
+  updateDedicatedOfferAccStatusSuccess,
+  updateDedicatedOfferAccStatusFailure,
   getDedicatedOfferDetailsStart,
   getDedicatedOfferDetailsSuccess,
   getDedicatedOfferDetailsFailure,
