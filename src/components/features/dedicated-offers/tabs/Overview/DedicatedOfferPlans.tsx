@@ -16,14 +16,14 @@ export default function DedicatedOfferPlans({ dedicatedOffer }: { dedicatedOffer
       <div className="bg-[#F8F8F8] rounded-[11px] px-[39px] pt-[37px] pb-[27px]">
         <h5 className="text-[32px] leading-[48px] font-medium text-[#787878]">
           <span className="text-[#00A4B6]">
-            {dedicatedOffer.amount}{" "}
+            {dedicatedOffer.amount ? dedicatedOffer.amount.toLocaleString() : "N/A"}{" "}
           </span>
           AED
         </h5>
         <p className="text-[15px] leading-[23px] text-[#4F4F4F]">
           Next bill is for{" "}
           <span className="font-semibold">
-            {dedicatedOffer.amount.toLocaleString()}{" "}
+            {dedicatedOffer.amount ? dedicatedOffer.amount.toLocaleString() : "N/A"}{" "}
             AED
           </span>{" "}
           on{" "}

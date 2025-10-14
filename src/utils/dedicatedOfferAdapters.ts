@@ -1,5 +1,5 @@
 import { ApiDedicatedOffer, DedicatedOfferDisplay, CampaignType, OfferType } from "@/types/entities/dedicated-offer";
-import { format, parseISO } from "date-fns";
+import { format, isValid, parseISO } from "date-fns";
 
 export const adaptDedicatedOfferSummaryToDisplay = (
   offer: ApiDedicatedOffer,
@@ -13,18 +13,15 @@ export const adaptDedicatedOfferSummaryToDisplay = (
     offerType = "Paid";
   }
 
-  const formatDate = (dateString: string)
-: string => {
-    if (!dateString || dateString.startsWith('0000-00-00')) {
+  const formatDate = (dateString: string): string => {
+    if (!dateString || dateString.startsWith("0000-00-00")) {
       return "N/A";
     }
-    try {
-      const date = parseISO(dateString);
-      return format(date, "MMM d, yyyy");
-    } catch (error) {
-      console.error("Error formatting date:", error);
-      return "Invalid Date";
+    const date = parseISO(dateString);
+    if (!isValid(date)) {
+      return "N/A";
     }
+    return format(date, "MMM d, yyyy");
   };
 
   return {
