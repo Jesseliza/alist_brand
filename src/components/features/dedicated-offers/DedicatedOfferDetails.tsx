@@ -108,7 +108,7 @@ export default function DedicatedOfferDetails({
           {tabs.map((tab) => (
             <TabPanel key={tab}>
                {tab === "Overview" && <Overview dedicatedOffer={displayDedicatedOffer} />}
-              {tab === "Creators" && <Creators dedicatedOffer={dedicatedOffer} />}
+              {tab === "Creators" && <Creators dedicatedOffer={displayDedicatedOffer} />}
             </TabPanel>
           ))}
         </TabPanels>
