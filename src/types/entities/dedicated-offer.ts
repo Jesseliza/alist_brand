@@ -181,7 +181,7 @@ export interface GetDedicatedOfferDetailsPayload {
 
 export interface UpdateDedicatedPageStatusPayload {
   id: string;
-  status: 0 | 1;
+  status: 0 | 1 | 6 | 7;
   rejectReason?: string;
   offerId?: string;
 }
