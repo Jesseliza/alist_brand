@@ -19,6 +19,7 @@ const initialState: CampaignsState = {
   pagination: null,
   bulkDeleteLoading: false,
   bulkDeleteError: null,
+  dedicatedPageStatusLoading: false,
   statusUpdateLoading: false,
   reviewPosts: [],
   reviewPostsLoading: false,
