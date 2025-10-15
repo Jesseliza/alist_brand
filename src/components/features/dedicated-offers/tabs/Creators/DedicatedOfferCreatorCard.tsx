@@ -14,7 +14,7 @@ interface DedicatedOfferCreatorCardProps {
   onApprove: (id: string) => void;
   onReject: (id: string) => void;
   loading?: boolean;
-  isApproveDisabled?: boolean;
+  hideCreatorActions?: boolean;
 }
 
 export default function DedicatedOfferCreatorCard({
@@ -27,7 +27,7 @@ export default function DedicatedOfferCreatorCard({
   onApprove,
   onReject,
   loading = false,
-  isApproveDisabled = false,
+  hideCreatorActions = false,
 }: DedicatedOfferCreatorCardProps) {
   const handleApprove = () => {
     onApprove(id);
@@ -127,11 +127,11 @@ export default function DedicatedOfferCreatorCard({
             <div className="flex-1 flex items-center md:justify-center gap-2 text-red-500 py-[7px] md:rounded-[13px] rounded-[11px] text-[13px] leading-[20px] font-medium h-[38px]">
               <p>Rejected</p>
             </div>
-          ) : (
+          ) : !hideCreatorActions ? (
             <>
               <button
                 onClick={handleApprove}
-                disabled={loading || isApproveDisabled}
+                disabled={loading}
                 className="flex-1 bg-[#00A4B6] text-white py-[7px] md:rounded-[13px] rounded-[11px] md:text-[16px] text-[15px] leading-[23px] h-[38px] disabled:bg-gray-400"
               >
                 {loading ? "..." : "Approve"}
@@ -144,7 +144,7 @@ export default function DedicatedOfferCreatorCard({
                 {loading ? "..." : "Reject"}
               </button>
             </>
-          )}
+          ) : null}
         </div>
       </div>
     </article>
