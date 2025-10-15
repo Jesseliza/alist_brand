@@ -55,6 +55,15 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
     return mappedCreators.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [mappedCreators, currentPage]);
 
+  const approvedCreatorsCount = useMemo(() => {
+    return creators.filter((c) => c.status === 6).length;
+  }, [creators]);
+
+  const isApproveDisabled = useMemo(() => {
+    if (dedicatedOffer.offer_usage === null) return true;
+    return approvedCreatorsCount >= dedicatedOffer.offer_usage * 2;
+  }, [approvedCreatorsCount, dedicatedOffer.offer_usage]);
+
   const handleApprove = (id: string) => {
     setSelectedCreatorId(id);
     dispatch(
@@ -108,6 +117,7 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
                   loading={
                     dedicatedPageStatusLoading && selectedCreatorId === creator.id
                   }
+                  isApproveDisabled={isApproveDisabled}
                 />
               ))}
             </div>
