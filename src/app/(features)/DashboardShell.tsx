@@ -33,6 +33,7 @@ function DashboardContent({
   const router = useRouter();
   const { isAuthenticated, user, isAuthLoading } = useSelector((state: RootState) => state.auth);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   const handleIdle = () => {
@@ -47,6 +48,19 @@ function DashboardContent({
       // router.replace('/login');
     }
   }, [isAuthenticated, isAuthLoading, router]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
+        setProfileMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [profileMenuRef]);
   const searchParams = useSearchParams();
   const fullPath = `${pathname}${
     searchParams.toString() ? `?${searchParams.toString()}` : ""
@@ -125,7 +139,7 @@ function DashboardContent({
                   width={29.36}
                   height={29.36}
                 /> */}
-                <div className="relative">
+                <div className="relative" ref={profileMenuRef}>
                   <Image
                     src="/icons/navbar/profile7.png"
                     alt="profile"
@@ -178,7 +192,7 @@ function DashboardContent({
                   width={29.36}
                   height={29.36}
                 /> */}
-                <div className="relative">
+                <div className="relative" ref={profileMenuRef}>
                   <Image
                     src="/icons/navbar/profile7.png"
                     alt="profile"
