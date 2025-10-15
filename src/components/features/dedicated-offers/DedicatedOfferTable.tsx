@@ -125,8 +125,8 @@ console.log(dedicatedOffers);
               <td className="px-6 py-2.5 whitespace-nowrap text-[13px] text-center">
                 <div
                   className={`w-[98px] px-4.25 py-1 rounded-full text-white ${dedicatedOffer.offer_status === 0
-                    ? "bg-gray-500"
-                    : "bg-green-500"
+                    ? "bg-[#636363]"
+                    : "bg-[#00CC86]"
                     }`}
                 >
                   {dedicatedOffer.offer_status === 0 ? "Draft" : "Published"}
