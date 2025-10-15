@@ -59,7 +59,7 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
     return creators.filter((c) => c.status === 6).length;
   }, [creators]);
 
-  const isApproveDisabled = useMemo(() => {
+  const hideCreatorActions = useMemo(() => {
     if (dedicatedOffer.offer_usage === null) return true;
     return approvedCreatorsCount >= dedicatedOffer.offer_usage * 2;
   }, [approvedCreatorsCount, dedicatedOffer.offer_usage]);
@@ -117,7 +117,7 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
                   loading={
                     dedicatedPageStatusLoading && selectedCreatorId === creator.id
                   }
-                  isApproveDisabled={isApproveDisabled}
+                  hideCreatorActions={hideCreatorActions}
                 />
               ))}
             </div>
