@@ -93,9 +93,8 @@ export default function Sidebar({
   // Overlay mode for 1280px > width >= 768px
   const isOverlayMode = windowWidth < 1280 && windowWidth >= 768;
 
-  const sidebarClass = `bg-white border-r border-solid border-[#E2E2E2] h-screen flex flex-col transition-[width] duration-300 overflow-x-hidden ${
-    collapsed ? "w-[102px]" : "w-[280px]"
-  }`;
+  const sidebarClass = `bg-white border-r border-solid border-[#E2E2E2] h-screen flex flex-col transition-[width] duration-300 overflow-x-hidden ${collapsed ? "w-[102px]" : "w-[280px]"
+    }`;
 
   if (isAuthLoading || !isMounted) {
     return (
@@ -122,7 +121,7 @@ export default function Sidebar({
             alist.ae
           </p>
           <p className="text-[13.5px] leading-[1.5] text-[#414141] mt-[-3px] font-[Greycliff]">
-            Administrator
+            {user?.registration_type === "admin" ? "Administrator" : "Account"}
           </p>
         </div>
       </div>
@@ -131,9 +130,8 @@ export default function Sidebar({
           <div key={sectionIndex} className="mb-7.25">
             {section.title && (
               <p
-                className={`px-4 mb-1 text-[15px] text-[#7B7B7B] whitespace-nowrap ${
-                  collapsed ? "invisible" : ""
-                }`}
+                className={`px-4 mb-1 text-[15px] text-[#7B7B7B] whitespace-nowrap ${collapsed ? "invisible" : ""
+                  }`}
               >
                 {section.title}
               </p>
@@ -162,15 +160,13 @@ export default function Sidebar({
                     <Link
                       href={item.href}
                       onClick={() => setIsMobileMenuOpen?.(false)}
-                      className={`${
-                        collapsed
+                      className={`${collapsed
                           ? "flex items-center justify-center w-[52px] aspect-square"
                           : "flex items-center w-[227px] gap-4.5 px-[9.2px] py-[12.5px]"
-                      } rounded-[11px] ${
-                        isActive
+                        } rounded-[11px] ${isActive
                           ? "bg-[#008C9E] text-white"
                           : "text-[#414141] hover:bg-[#F1F1F1]"
-                      }`}
+                        }`}
                     >
                       <IconContainer>
                         <Image
@@ -184,9 +180,8 @@ export default function Sidebar({
                         className={
                           collapsed
                             ? "hidden"
-                            : `text-lg leading-[1.5] ${
-                                isActive ? "text-white" : "text-[#4F4F4F]"
-                              }`
+                            : `text-lg leading-[1.5] ${isActive ? "text-white" : "text-[#4F4F4F]"
+                            }`
                         }
                       >
                         {item.label}

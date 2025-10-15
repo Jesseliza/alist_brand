@@ -50,7 +50,7 @@ const CreatorCard = ({ imgSrc, name, user }: CreatorCardProps) => {
 export default function DedicatedOfferCreators({ dedicatedOffer }: { dedicatedOffer: DedicatedOfferDisplay }) {
   const approvedCreators =
     dedicatedOffer.offer_users.filter(
-      (offerUser) => offerUser.status === 1 && offerUser.user
+      (offerUser) => offerUser.status === 6 && offerUser.user
     ) || [];
 
   const creatorCards = approvedCreators.map((offerUser) => ({
