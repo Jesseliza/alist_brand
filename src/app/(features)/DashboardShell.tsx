@@ -4,7 +4,7 @@ import Sidebar from "@/components/Layout/Sidebar";
 import Nav from "@/components/Layout/Nav";
 import SearchInput from "@/components/general/SearchInput";
 import Image from "next/image";
-import { useState, useEffect, Suspense, useCallback } from "react";
+import { useState, useEffect, Suspense, useCallback, useRef } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/components/general/Loader";
