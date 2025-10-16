@@ -20,18 +20,18 @@ export default function Overview({
         <div className="w-[17.77px] bg-[#00A4B6]" />
 
         {/* main content */}
-        <div className="flex-1 flex items-center justify-between pr-[11px]  py-[11px]">
+        <div className="flex-1 flex flex-col md:flex-row items-center justify-between pr-[11px]  py-[11px]">
           {/* text block */}
           <div className="ml-[35px]">
             <div className="flex items-center gap-6">
-              <h2 className="text-[89px] font-bold text-[#00A4B6] leading-[133px]">
+              <h2 className="text-5xl md:text-[89px] font-bold text-[#00A4B6] leading-tight md:leading-[133px]">
                 {campaign.food_offer_user_count ?? 0}
               </h2>
-              <h2 className="text-[37px] font-medium text-[#4F4F4F] leading-[37px] max-w-[180px]">
+              <h2 className="text-2xl md:text-[37px] font-medium text-[#4F4F4F] leading-tight md:leading-[37px] max-w-[180px]">
                 Total Vouchers
               </h2>
             </div>
-            <p className="-mt-[16px] text-[15px] leading-[23px] text-[#4F4F4F]">
+            <p className="mt-2 md:-mt-[16px] text-sm md:text-[15px] leading-snug md:leading-[23px] text-[#4F4F4F]">
               of which{" "}
               <span className=" text-[#00A4B6]">
                 {campaign.food_offer_user_with_user_count ?? 0}
@@ -41,7 +41,7 @@ export default function Overview({
           </div>
 
           {/* image */}
-          <div className="w-[204] h-[204px] rounded-[11px] aspect-square overflow-hidden">
+          <div className="w-32 h-32 md:w-[204px] md:h-[204px] rounded-[11px] aspect-square overflow-hidden mt-4 md:mt-0">
             <Image
               src={campaign.banner_image ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/assets/uploads/foodoffers/${campaign.banner_image}` : '/images/no_image.png'}
               alt={campaign.title ?? "Campaign thumbnail"}

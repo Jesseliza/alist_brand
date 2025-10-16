@@ -13,12 +13,12 @@ export default function DedicatedOfferStats({ dedicatedOffer }: { dedicatedOffer
   ];
 
   return (
-    <div className="flex items-center mx-auto gap-[14px] mt-[13px] border-b border-[#E2E2E2] pb-[25px]">
+    <div className="flex flex-col md:flex-row items-center mx-auto gap-[14px] mt-[13px] border-b border-[#E2E2E2] pb-[25px]">
       {statCards.map(
         ({ imgSrc, imgWidth, imgHeight, title, subtitle }, idx) => (
           <div
             key={idx}
-            className="bg-[#F8F8F8] flex-1 max-w-[144.18px] aspect-square rounded-xl px-6 py-4 flex flex-col items-center justify-center text-center"
+            className="bg-[#F8F8F8] w-full md:flex-1 max-w-full md:max-w-[144.18px] aspect-video md:aspect-square rounded-xl px-6 py-4 flex flex-col items-center justify-center text-center"
           >
             <Image
               src={imgSrc}

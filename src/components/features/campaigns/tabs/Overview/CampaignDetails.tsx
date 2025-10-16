@@ -66,11 +66,11 @@ export default function CampaignDetails({ campaign }: { campaign: Campaign }) {
           Campaign details
         </h4>
       </div>
-      <div className="flex items-center justify-center gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 items-center justify-center gap-3">
         {campaignCards.map((card, index) => (
           <div
             key={index}
-            className="flex-1 aspect-square max-w-[118.94px] bg-[#FAFAFA] rounded-[11px] "
+            className="flex-1 aspect-square w-full bg-[#FAFAFA] rounded-[11px] "
           >
             <div className="h-[42px] flex items-center justify-center mb-[9px]  mt-6">
               <Image
@@ -81,7 +81,7 @@ export default function CampaignDetails({ campaign }: { campaign: Campaign }) {
                 className="mx-auto"
               />
             </div>
-            <p className="text-center text-[13px] leading-[20px] text-[#4F4F4F]">
+            <p className="text-center text-[13px] leading-[20px] text-[#4F4F4F] p-2">
               {card.text}
             </p>
           </div>
