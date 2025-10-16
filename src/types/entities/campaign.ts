@@ -452,6 +452,7 @@ export interface CampaignsState {
   campaigns: CampaignSummary[];
   campaign: Campaign | null;
   loading: boolean;
+  paginationLoading: boolean;
   error: string | null;
   pagination: {
     current_page: number;

@@ -233,6 +233,7 @@ export interface DedicatedOffersState {
   dedicatedOffers: DedicatedOffer[];
   dedicatedOffer: DedicatedOffer | null;
   loading: boolean;
+  paginationLoading: boolean;
   error: string | null;
   pagination: {
     current_page: number;
