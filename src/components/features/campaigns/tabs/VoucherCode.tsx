@@ -143,6 +143,7 @@ const VoucherCodeTable = () => {
           currentPage={voucherCodesPagination.current_page}
           onPageChange={handlePageChange}
           onItemsPerPageChange={handleItemsPerPageChange}
+          isLoading={voucherCodesLoading}
         />
       )}
     </div>

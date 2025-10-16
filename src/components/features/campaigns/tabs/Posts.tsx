@@ -121,6 +121,7 @@ export default function Posts() {
               onPageChange={handlePageChange}
               onItemsPerPageChange={handleItemsPerPageChange}
               fixed={false}
+              isLoading={reviewPostsLoading}
             />
           </div>
         )}

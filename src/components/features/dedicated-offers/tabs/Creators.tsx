@@ -127,6 +127,7 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
                 itemsPerPage={ITEMS_PER_PAGE}
                 currentPage={currentPage}
                 onPageChange={setCurrentPage}
+                isLoading={dedicatedPageStatusLoading}
               />
             </div>
           </>

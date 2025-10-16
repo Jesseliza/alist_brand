@@ -294,6 +294,7 @@ export default function AccountsPage() {
                     currentPage={pagination.currentPage}
                     onPageChange={handlePageChange}
                     onItemsPerPageChange={handleItemsPerPageChange}
+                    isLoading={loading}
                   />
                 )}
               </div>

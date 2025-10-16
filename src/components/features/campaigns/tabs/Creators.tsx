@@ -109,6 +109,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
                 itemsPerPage={ITEMS_PER_PAGE}
                 currentPage={currentPage}
                 onPageChange={setCurrentPage}
+                isLoading={dedicatedPageStatusLoading}
               />
             </div>
           </>
