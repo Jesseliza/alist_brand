@@ -72,8 +72,20 @@ export default function BrandDedicatedOffers({
           ))}
         </div>
       </div>
-      <div className="md:hidden flex flex-col gap-1.25">
-        {/* Mobile card for dedicated offers can be added here if needed */}
+      <div className="md:hidden flex flex-col gap-4">
+        {displayDedicatedOffers.map((offer, index) => (
+          <div
+            key={`${offer.id}-${index}`}
+            onClick={() => handleDedicatedOfferClick(offer.id)}
+            className="cursor-pointer"
+          >
+            <DedicatedOfferCard
+              dedicatedOffer={offer}
+              checked={false}
+              onCheckboxChange={() => {}}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
