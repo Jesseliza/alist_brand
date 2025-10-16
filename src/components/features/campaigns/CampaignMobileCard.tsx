@@ -80,7 +80,11 @@ export default function CampaignMobileCard({
           <div className="flex items-center justify-between">
             <div className="text-[13px] leading-[1.5] text-[#757575] inline-flex items-center justify-center gap-1.5 ">
               <Image
-                src="/icons/general/barter-1-dark.svg"
+                src={
+                  isCampaignActive()
+                    ? "/icons/campaign/card/barter-approved.svg"
+                    : "/icons/campaign/card/barter-pending-light.svg"
+                }
                 alt="barter"
                 width={10.01}
                 height={10.01}
@@ -94,8 +98,8 @@ export default function CampaignMobileCard({
                 <Image
                   src={
                     isCampaignActive()
-                      ? "/icons/campaign/card/walk-approved-blue.svg"
-                      : "/icons/general/walk-in-1-dark.svg"
+                      ? "/icons/campaign/card/walk-approved.svg"
+                      : "/icons/campaign/card/walk-pending-light.svg"
                   }
                   alt="walk in"
                   width={8.42}
@@ -106,8 +110,8 @@ export default function CampaignMobileCard({
                 <Image
                   src={
                     isCampaignActive()
-                      ? "/icons/campaign/card/delivery-approved-blue.svg"
-                      : "/icons/general/delivery-1-dark.svg"
+                      ? "/icons/campaign/card/delivery-approved.svg"
+                      : "/icons/campaign/card/delivery-pending-light.svg"
                   }
                   alt="delivery"
                   width={12.155}
@@ -118,8 +122,8 @@ export default function CampaignMobileCard({
                 <Image
                   src={
                     isCampaignActive()
-                      ? "/icons/campaign/card/online-approved-blue.svg"
-                      : "/icons/general/online-1-dark.svg"
+                      ? "/icons/campaign/card/delivery-approved.svg"
+                      : "/icons/campaign/card/delivery-pending-light.svg"
                   }
                   alt="online"
                   width={9.412}
@@ -130,8 +134,8 @@ export default function CampaignMobileCard({
                 <Image
                   src={
                     isCampaignActive()
-                      ? "/icons/campaign/card/exclusive-approved-blue.svg"
-                      : "/icons/general/exclusive-1-dark.svg"
+                      ? "/icons/campaign/card/delivery-approved.svg"
+                      : "/icons/campaign/card/delivery-pending-light.svg"
                   }
                   alt="exclusive"
                   width={9.9775}
@@ -139,11 +143,8 @@ export default function CampaignMobileCard({
                 />
               )}
               <span className="text-[13px] leading-[1.5]">
-                {getOfferTypeDisplay(offerType)}
+                {campaign.category}
               </span>
-            </div>
-            <div className="text-[13px] leading-[1.5] text-[#757575]">
-              {campaign.category}
             </div>
             <div className="text-[13px] leading-[1.5] text-[#757575]">
               {duration ? `${duration} ${durationUnit?.toLowerCase() ?? ''}` : `${startDate ?? ''} - ${endDate ?? ''}`}

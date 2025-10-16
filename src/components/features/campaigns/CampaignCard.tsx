@@ -58,11 +58,11 @@ export default function CampaignCard({
     const active = isCampaignActive();
     if (active === "today") {
       if (campaignType === "WalkIn") {
-        return "/icons/campaign/card/walk-approved-blue.svg";
+        return "/icons/campaign/card/walk-approved.svg";
       } else if (campaignType === "Delivery") {
-        return "/icons/campaign/card/delivery-approved-blue.svg";
+        return "/icons/campaign/card/delivery-approved.svg";
       }
-      return "/icons/campaign/card/delivery-approved-blue.svg";
+      return "/icons/campaign/card/delivery-approved.svg";
     }
     if (campaignType === "WalkIn") {
       return active
@@ -162,7 +162,7 @@ export default function CampaignCard({
           </div>
         </div>
         <hr className="border-[#F2F2F2] mb-[15px]" />
-        <div className="grid grid-cols-4 gap-[9px] mb-[13px]">
+        <div className="grid grid-cols-3 gap-[9px] mb-[13px]">
           <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
             <div className="h-[30.65px] flex items-center justify-center">
               <Image
@@ -174,19 +174,6 @@ export default function CampaignCard({
             </div>
             <span className="text-[12px] text-[#414141] leading-[20px]">
               {is_dedicated === 1 ? "Dedicated" : "Normal"}
-            </span>
-          </div>
-          <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
-            <div className="h-[30.65px] flex items-center justify-center">
-              <Image
-                src={getModeIcon()}
-                alt={campaignType || "Campaign"}
-                width={campaignType === "WalkIn" ? 18.04 : 31.87}
-                height={campaignType === "WalkIn" ? 29.65 : 30.65}
-              />
-            </div>
-            <span className="text-[12px] text-[#414141] font-medium">
-              {offerType ?? "N/A"}
             </span>
           </div>
           <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
