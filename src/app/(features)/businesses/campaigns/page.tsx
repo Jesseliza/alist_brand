@@ -237,12 +237,12 @@ export default function CampaignsPage() {
             </button>
           </div> */}
 
-          {loading && displayCampaigns.length === 0 && <Loader />}
+          {loading && <Loader />}
           {error && <p className="text-red-500">Error: {error}</p>}
-          {!error && (
+          {!loading && !error && (
             <>
               <div className="md:hidden">
-                {displayCampaigns.length === 0 && !loading ? (
+                {displayCampaigns.length === 0 ? (
                   <div className="bg-white text-center py-10 text-gray-500">
                     No records found.
                   </div>

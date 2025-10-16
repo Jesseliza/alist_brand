@@ -237,12 +237,12 @@ export default function DedicatedOffersPage() {
             </button>
           </div> */}
 
-          {loading && displayDedicatedOffers.length === 0 && <Loader />}
+          {loading && <Loader />}
           {error && <p className="text-red-500">Error: {error}</p>}
-          {!error && (
+          {!loading && !error && (
             <>
               <div className="md:hidden">
-                {displayDedicatedOffers.length === 0 && !loading ? (
+                {displayDedicatedOffers.length === 0 ? (
                   <div className="bg-white text-center py-10 text-gray-500">
                     No records found.
                   </div>

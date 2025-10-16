@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { CampaignDisplay } from "@/types/entities/campaign";
+import { differenceInDays, parseISO } from "date-fns";
 
 export default function BrandCampaignMobileCard({
   campaign,
@@ -17,7 +18,17 @@ export default function BrandCampaignMobileCard({
     offer_status,
     startDate,
     endDate,
+    is_dedicated,
   } = campaign;
+
+  const getDaysLeft = () => {
+    if (!endDate) return "N/A";
+    const now = new Date();
+    const end = parseISO(endDate);
+    const days = differenceInDays(end, now);
+    if (days < 0) return "Expired";
+    return `${days} days left`;
+  };
 
   return (
     <div className="bg-white rounded-[13px] p-3.5 cursor-pointer">
@@ -38,6 +49,9 @@ export default function BrandCampaignMobileCard({
               <h3 className="text-[15px] font-semibold leading-[1.5] text-[#4F4F4F] mb-1.5">
                 {title ?? "Untitled Campaign"}
               </h3>
+              <div className="text-xs text-gray-500">
+                {is_dedicated ? "Dedicated" : "Normal"}
+              </div>
             </div>
             <button
               onClick={(e) => {
@@ -57,15 +71,19 @@ export default function BrandCampaignMobileCard({
           <div className="flex items-center justify-between">
             <div className="text-[13px] leading-[1.5] text-[#757575] inline-flex items-center justify-center gap-1.5 ">
               <Image
-                src="/icons/campaign/card/delivery-approved.svg"
+                src={
+                  offer_status === "Active"
+                    ? "/icons/campaign/card/delivery-approved.svg"
+                    : "/icons/campaign/card/delivery-pending-light.svg"
+                }
                 alt="category"
                 width={12.155}
                 height={11.8261}
               />
-              <p>{category}</p>
+              <p>{offer_status}</p>
             </div>
             <div className="text-[13px] leading-[1.5] text-[#757575]">
-              {startDate} - {endDate}
+              {getDaysLeft()}
             </div>
           </div>
         </div>

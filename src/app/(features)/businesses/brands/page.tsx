@@ -166,9 +166,9 @@ export default function BrandsPage() {
               />
             </div>
           </div>
-          {loading && brands.length === 0 && <Loader />}
+          {loading && <Loader />}
           {error && <p className="text-red-500">Error: {error}</p>}
-          {!(loading && brands.length === 0) && !error && (
+          {!loading && !error && (
             <>
               <div className="hidden md:block">
                 {view === "table" ? (
