@@ -7,6 +7,7 @@ interface PaginationProps {
   onItemsPerPageChange?: (items: number) => void;
   itemsPerPageOptions?: number[];
   fixed?: boolean;
+  isLoading?: boolean;
 }
 
 const defaultItemsPerPageOptions = [10, 15, 20, 25, 50, 100];
@@ -44,6 +45,8 @@ const calculatePageNumbers = (currentPage: number, totalPages: number) => {
   return uniquePages;
 };
 
+import InlineLoader from "./InlineLoader";
+
 export default function Pagination({
   totalItems,
   itemsPerPage,
@@ -52,6 +55,7 @@ export default function Pagination({
   onItemsPerPageChange = () => {},
   itemsPerPageOptions = defaultItemsPerPageOptions,
   fixed = false,
+  isLoading = false,
 }: PaginationProps) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -109,7 +113,7 @@ export default function Pagination({
       <div className="flex items-center gap-1.5">
         <button
           onClick={handlePrevious}
-          disabled={currentPage === 1}
+          disabled={currentPage === 1 || isLoading}
           className="px-4 py-1.5 text-sm border border-gray-300 rounded-lg bg-white text-gray-700 hover:bg-gray-50 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Previous
@@ -122,7 +126,7 @@ export default function Pagination({
             <button
               key={idx}
               onClick={() => handlePageChange(page)}
-              disabled={isEllipsis}
+              disabled={isEllipsis || isLoading}
               className={`px-4 py-1.5 text-sm border border-gray-300 rounded-lg ${
                 isActive
                   ? "bg-[#00a4b6] text-white border-[#00a4b6]"
@@ -138,11 +142,12 @@ export default function Pagination({
 
         <button
           onClick={handleNext}
-          disabled={currentPage === totalPages}
+          disabled={currentPage === totalPages || isLoading}
           className="px-4 py-1.5 text-sm border border-gray-300 rounded-lg bg-white text-gray-700 hover:bg-gray-50 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Next
         </button>
+        {isLoading && <InlineLoader />}
       </div>
     </div>
   );

@@ -205,6 +205,7 @@ export default function BrandsPage() {
                     currentPage={pagination.currentPage}
                     onPageChange={handlePageChange}
                     onItemsPerPageChange={handleItemsPerPageChange}
+                    isLoading={loading}
                   />
                 )}
               </div>

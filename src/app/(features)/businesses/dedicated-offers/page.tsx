@@ -285,6 +285,7 @@ export default function DedicatedOffersPage() {
                         currentPage={pagination.current_page}
                         onPageChange={handlePageChange}
                         onItemsPerPageChange={handleItemsPerPageChange}
+                        isLoading={loading}
                       />
                     )}
                   </>
@@ -320,6 +321,7 @@ export default function DedicatedOffersPage() {
                         currentPage={pagination.current_page}
                         onPageChange={handlePageChange}
                         onItemsPerPageChange={handleItemsPerPageChange}
+                        isLoading={loading}
                       />
                     )}
                   </>

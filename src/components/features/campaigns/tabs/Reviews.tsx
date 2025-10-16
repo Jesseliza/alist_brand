@@ -94,6 +94,7 @@ export default function Reviews({ campaignId }: ReviewsProps) {
             onPageChange={handlePageChange}
             onItemsPerPageChange={handleItemsPerPageChange}
             fixed={false}
+            isLoading={reviewsLoading}
           />
         </div>
       )}
