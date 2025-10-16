@@ -31,6 +31,7 @@ export default function DedicatedOffersPage() {
     dedicatedOffers,
     pagination,
     loading,
+    paginationLoading,
     error,
     bulkDeleteLoading,
     bulkDeleteError,
@@ -44,7 +45,7 @@ export default function DedicatedOffersPage() {
   const debouncedSearch = useDebounce(searchTerm, 500);
 
   useEffect(() => {
-    dispatch(getDedicatedOffersStart({ page: 1, per_page: 10 }));
+    dispatch(getDedicatedOffersStart({ page: 1, per_page: 10, isPagination: false }));
 
     return () => {
       dispatch(setSearchTerm(""));
@@ -64,6 +65,7 @@ export default function DedicatedOffersPage() {
         search: debouncedSearch,
         per_page: 10,
         page: 1,
+        isPagination: false,
       })
     );
   }, [debouncedSearch, dispatch]);
@@ -81,6 +83,7 @@ export default function DedicatedOffersPage() {
         page,
         search: searchTerm,
         per_page: pagination?.per_page,
+        isPagination: true,
       })
     );
   };
@@ -285,7 +288,7 @@ export default function DedicatedOffersPage() {
                         currentPage={pagination.current_page}
                         onPageChange={handlePageChange}
                         onItemsPerPageChange={handleItemsPerPageChange}
-                        isLoading={loading}
+                        isLoading={paginationLoading}
                       />
                     )}
                   </>
@@ -321,7 +324,7 @@ export default function DedicatedOffersPage() {
                         currentPage={pagination.current_page}
                         onPageChange={handlePageChange}
                         onItemsPerPageChange={handleItemsPerPageChange}
-                        isLoading={loading}
+                        isLoading={paginationLoading}
                       />
                     )}
                   </>

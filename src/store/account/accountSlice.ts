@@ -13,6 +13,7 @@ interface AccountState {
   accounts: Account[];
   selectedAccount: Account | null;
   loading: boolean;
+  paginationLoading: boolean;
   error: string | null;
   pagination: PaginationState;
   updateSuccess: boolean;
@@ -31,6 +32,7 @@ const initialState: AccountState = {
   accounts: [],
   selectedAccount: null,
   loading: false,
+  paginationLoading: false,
   error: null,
   pagination: {
     currentPage: 1,
@@ -55,23 +57,30 @@ const accountSlice = createSlice({
   initialState,
   reducers: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    fetchAccountsRequest(state, _action: PayloadAction<{
+    fetchAccountsRequest(state, action: PayloadAction<{
       search?: string;
       status?: string;
       account_type?: string;
       per_page?: number;
       page?: number;
+      isPagination?: boolean;
     }>) {
-      state.loading = true;
+      if (action.payload.isPagination) {
+        state.paginationLoading = true;
+      } else {
+        state.loading = true;
+      }
       state.error = null;
     },
     fetchAccountsSuccess(state, action: PayloadAction<{ accounts: Account[], pagination: PaginationState }>) {
       state.loading = false;
+      state.paginationLoading = false;
       state.accounts = action.payload.accounts;
       state.pagination = action.payload.pagination;
     },
     fetchAccountsFailure(state, action: PayloadAction<string>) {
       state.loading = false;
+      state.paginationLoading = false;
       state.error = action.payload;
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

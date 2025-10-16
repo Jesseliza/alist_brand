@@ -26,11 +26,12 @@ export default function Posts() {
     reviewPostsLoading,
     reviewPostsError,
     reviewPostsPagination,
+    paginationLoading,
   } = useSelector((state: RootState) => state.campaigns);
 
   useEffect(() => {
     if (campaignId) {
-      dispatch(getReviewPostsStart({ id: campaignId as string }));
+      dispatch(getReviewPostsStart({ id: campaignId as string, isPagination: false }));
     }
   }, [dispatch, campaignId]);
 
@@ -41,6 +42,7 @@ export default function Posts() {
           id: campaignId as string,
           page,
           per_page: reviewPostsPagination?.per_page,
+          isPagination: true,
         })
       );
     }
@@ -121,7 +123,7 @@ export default function Posts() {
               onPageChange={handlePageChange}
               onItemsPerPageChange={handleItemsPerPageChange}
               fixed={false}
-              isLoading={reviewPostsLoading}
+              isLoading={paginationLoading}
             />
           </div>
         )}

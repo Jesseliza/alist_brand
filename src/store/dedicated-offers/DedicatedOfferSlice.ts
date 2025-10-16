@@ -17,6 +17,7 @@ const initialState: DedicatedOffersState = {
   dedicatedOffers: [],
   dedicatedOffer: null,
   loading: false,
+  paginationLoading: false,
   error: null,
   pagination: null,
   bulkDeleteLoading: false,
@@ -46,13 +47,18 @@ const dedicatedOffersSlice = createSlice({
   reducers: {
     getDedicatedOffersStart: (
       state,
-      action: PayloadAction<GetDedicatedOffersPayload>
+      action: PayloadAction<GetDedicatedOffersPayload & { isPagination?: boolean }>
     ) => {
-      state.loading = true;
+      if (action.payload.isPagination) {
+        state.paginationLoading = true;
+      } else {
+        state.loading = true;
+      }
       state.error = null;
     },
     getDedicatedOffersSuccess: (state, action) => {
       state.loading = false;
+      state.paginationLoading = false;
       state.dedicatedOffers = action.payload.data;
       state.pagination = {
         current_page: action.payload.current_page,
@@ -63,6 +69,7 @@ const dedicatedOffersSlice = createSlice({
     },
     getDedicatedOffersFailure: (state, action) => {
       state.loading = false;
+      state.paginationLoading = false;
       state.error = action.payload;
     },
     bulkDeleteDedicatedOffersStart: (
@@ -181,13 +188,18 @@ const dedicatedOffersSlice = createSlice({
     },
     getReviewPostsStart: (
       state,
-      action: PayloadAction<GetDedicatedOfferReviewPostsPayload>
+      action: PayloadAction<GetDedicatedOfferReviewPostsPayload & { isPagination?: boolean }>
     ) => {
-      state.reviewPostsLoading = true;
+      if (action.payload.isPagination) {
+        state.paginationLoading = true;
+      } else {
+        state.reviewPostsLoading = true;
+      }
       state.reviewPostsError = null;
     },
     getReviewPostsSuccess: (state, action) => {
       state.reviewPostsLoading = false;
+      state.paginationLoading = false;
       state.reviewPosts = action.payload.data;
       state.reviewPostsPagination = {
         current_page: action.payload.current_page,
@@ -198,17 +210,23 @@ const dedicatedOffersSlice = createSlice({
     },
     getReviewPostsFailure: (state, action) => {
       state.reviewPostsLoading = false;
+      state.paginationLoading = false;
       state.reviewPostsError = action.payload;
     },
     getVoucherCodesStart: (
       state,
-      action: PayloadAction<GetVoucherCodesPayload>
+      action: PayloadAction<GetVoucherCodesPayload & { isPagination?: boolean }>
     ) => {
-      state.voucherCodesLoading = true;
+      if (action.payload.isPagination) {
+        state.paginationLoading = true;
+      } else {
+        state.voucherCodesLoading = true;
+      }
       state.voucherCodesError = null;
     },
     getVoucherCodesSuccess: (state, action) => {
       state.voucherCodesLoading = false;
+      state.paginationLoading = false;
       state.voucherCodes = action.payload.data;
       state.voucherCodesPagination = {
         current_page: action.payload.current_page,
@@ -219,6 +237,7 @@ const dedicatedOffersSlice = createSlice({
     },
     getVoucherCodesFailure: (state, action) => {
       state.voucherCodesLoading = false;
+      state.paginationLoading = false;
       state.voucherCodesError = action.payload;
     },
     getDedicatedOfferAvailabilityStart: (
@@ -241,13 +260,18 @@ const dedicatedOffersSlice = createSlice({
     },
     getDedicatedOfferReviewsStart: (
       state,
-      action: PayloadAction<GetDedicatedOfferReviewsPayload>
+      action: PayloadAction<GetDedicatedOfferReviewsPayload & { isPagination?: boolean }>
     ) => {
-      state.reviewsLoading = true;
+      if (action.payload.isPagination) {
+        state.paginationLoading = true;
+      } else {
+        state.reviewsLoading = true;
+      }
       state.reviewsError = null;
     },
     getDedicatedOfferReviewsSuccess: (state, action) => {
       state.reviewsLoading = false;
+      state.paginationLoading = false;
       state.reviews = action.payload.data;
       state.reviewsPagination = {
         current_page: action.payload.current_page,
@@ -258,6 +282,7 @@ const dedicatedOffersSlice = createSlice({
     },
     getDedicatedOfferReviewsFailure: (state, action) => {
       state.reviewsLoading = false;
+      state.paginationLoading = false;
       state.reviewsError = action.payload;
     },
   },

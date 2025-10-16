@@ -26,6 +26,7 @@ export default function BrandsPage() {
     brands,
     pagination,
     loading,
+    paginationLoading,
     error,
   } = useSelector((state: RootState) => state.brand);
 
@@ -41,7 +42,7 @@ export default function BrandsPage() {
   const debouncedSearch = useDebounce(searchTerm, 500);
 
   useEffect(() => {
-    dispatch(fetchBrandsRequest({ per_page: 12, page: 1 }));
+    dispatch(fetchBrandsRequest({ per_page: 12, page: 1, isPagination: false }));
     dispatch(fetchIndustries());
 
     return () => {
@@ -60,7 +61,8 @@ export default function BrandsPage() {
     dispatch(fetchBrandsRequest({
       search: debouncedSearch,
       per_page: 12,
-      page: 1
+      page: 1,
+      isPagination: false,
     }));
   }, [debouncedSearch, dispatch]);
 
@@ -68,7 +70,8 @@ export default function BrandsPage() {
     dispatch(fetchBrandsRequest({
       page,
       search: searchTerm,
-      per_page: pagination.perPage
+      per_page: pagination.perPage,
+      isPagination: true,
     }));
   };
 
@@ -204,7 +207,7 @@ export default function BrandsPage() {
                     currentPage={pagination.currentPage}
                     onPageChange={handlePageChange}
                     onItemsPerPageChange={handleItemsPerPageChange}
-                    isLoading={loading}
+                    isLoading={paginationLoading}
                   />
                 )}
               </div>

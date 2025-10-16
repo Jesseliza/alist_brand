@@ -40,11 +40,12 @@ const VoucherCodeTable = () => {
     voucherCodesLoading,
     voucherCodesError,
     voucherCodesPagination,
+    paginationLoading,
   } = useSelector((state: RootState) => state.campaigns);
 
   useEffect(() => {
     if (campaignId) {
-      dispatch(getVoucherCodesStart({ id: campaignId as string }));
+      dispatch(getVoucherCodesStart({ id: campaignId as string, isPagination: false }));
     }
   }, [dispatch, campaignId]);
 
@@ -55,6 +56,7 @@ const VoucherCodeTable = () => {
           id: campaignId as string,
           page,
           per_page: voucherCodesPagination?.per_page,
+          isPagination: true,
         })
       );
     }
@@ -143,7 +145,7 @@ const VoucherCodeTable = () => {
           currentPage={voucherCodesPagination.current_page}
           onPageChange={handlePageChange}
           onItemsPerPageChange={handleItemsPerPageChange}
-          isLoading={voucherCodesLoading}
+          isLoading={paginationLoading}
         />
       )}
     </div>
