@@ -168,7 +168,7 @@ export default function BrandsPage() {
           </div>
           {loading && brands.length === 0 && <Loader />}
           {error && <p className="text-red-500">Error: {error}</p>}
-          {!error && (
+          {!(loading && brands.length === 0) && !error && (
             <>
               <div className="hidden md:block">
                 {view === "table" ? (
@@ -179,7 +179,7 @@ export default function BrandsPage() {
                   />
                 ) : (
                   <>
-                    {brands.length === 0 ? (
+                    {brands.length === 0 && !loading ? (
                       <div className="bg-white rounded-lg shadow-md text-center py-10 text-gray-500">
                         No records found.
                       </div>
@@ -197,7 +197,6 @@ export default function BrandsPage() {
                     )}
                   </>
                 )}
-                {loading && brands.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
                 {pagination && brands.length > 0 && (
                   <Pagination
                     totalItems={pagination.total}
@@ -210,7 +209,7 @@ export default function BrandsPage() {
                 )}
               </div>
               <div className="md:hidden space-y-[7px]">
-                {brands.length === 0 ? (
+                {brands.length === 0 && !loading ? (
                   <div className="text-center py-10 text-gray-500">
                     No records found.
                   </div>
@@ -224,7 +223,6 @@ export default function BrandsPage() {
                     />
                   ))
                 )}
-                {loading && brands.length > 0 && <div className="text-center py-4"><InlineLoader /></div>}
                 {brands.length > 0 && brands.length < pagination.total && !loading && (
                   <div className="text-center font-semibold text-[15px] text-gray-500 my-4 mb-8">
                     <button
