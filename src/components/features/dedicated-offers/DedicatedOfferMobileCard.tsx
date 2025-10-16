@@ -10,42 +10,10 @@ export default function DedicatedOfferMobileCard({
     title,
     vendorName,
     thumbnailUrl,
-    campaignType,
-    offerType,
-    duration,
-    durationUnit,
-    startDate,
-    endDate,
+    category,
+    offerDate,
     is_dedicated,
   } = dedicatedOffer;
-
-  const getCampaignTypeDisplay = (type?: string) => {
-    switch (type) {
-      case "WalkIn":
-        return "Walk in";
-      case "Delivery":
-        return "Delivery";
-      case "Online":
-        return "Online";
-      case "Exclusive":
-        return "Exclusive";
-      default:
-        return type || "N/A";
-    }
-  };
-
-  const getOfferTypeDisplay = (type?: string) => {
-    switch (type) {
-      case "Barter":
-        return "Barter";
-      case "Paid":
-        return "Paid";
-      case "BarterAndPaid":
-        return "Barter & Paid";
-      default:
-        return type || "N/A";
-    }
-  };
 
   return (
     <div className="bg-white rounded-[13px] p-3.5 cursor-pointer">
@@ -72,54 +40,15 @@ export default function DedicatedOfferMobileCard({
           <div className="flex items-center justify-between">
             <div className="text-[13px] leading-[1.5] text-[#757575] inline-flex items-center justify-center gap-1.5 ">
               <Image
-                src="/icons/general/barter-1-dark.svg"
-                alt="barter"
-                width={10.01}
-                height={10.01}
+                src="/icons/campaign/card/delivery-approved.svg"
+                alt="category"
+                width={12.155}
+                height={11.8261}
               />
-              <p>{is_dedicated === 1 ? "Dedicated" : "Normal"}</p>
-            </div>
-            <div
-              className={`text-[#757575] inline-flex items-center justify-center gap-1.5 `}
-            >
-              {campaignType === "WalkIn" && (
-                <Image
-                  src="/icons/general/walk-in-1-dark.svg"
-                  alt="walk in"
-                  width={8.42}
-                  height={13.85}
-                />
-              )}
-              {campaignType === "Delivery" && (
-                <Image
-                  src="/icons/general/delivery-1-dark.svg"
-                  alt="delivery"
-                  width={12.155}
-                  height={11.8261}
-                />
-              )}
-              {campaignType === "Online" && (
-                <Image
-                  src="/icons/general/online-1-dark.svg"
-                  alt="online"
-                  width={9.412}
-                  height={9.412}
-                />
-              )}
-              {campaignType === "Exclusive" && (
-                <Image
-                  src="/icons/general/exclusive-1-dark.svg"
-                  alt="exclusive"
-                  width={9.9775}
-                  height={8.606}
-                />
-              )}
-              <span className="text-[13px] leading-[1.5]">
-                {getOfferTypeDisplay(offerType)}
-              </span>
+              <p>{category}</p>
             </div>
             <div className="text-[13px] leading-[1.5] text-[#757575]">
-              {duration ? `${duration} ${durationUnit?.toLowerCase() ?? ''}` : `${startDate ?? ''} - ${endDate ?? ''}`}
+              {offerDate}
             </div>
           </div>
         </div>
