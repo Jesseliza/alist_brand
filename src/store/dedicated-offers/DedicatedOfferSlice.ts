@@ -10,6 +10,7 @@ import {
   GetDedicatedOfferAvailabilityPayload,
   DedicatedOfferAvailability,
   GetDedicatedOfferReviewsPayload,
+  DedicatedOffer,
 } from '../../types/entities/dedicated-offer';
 
 const initialState: DedicatedOffersState = {
@@ -53,7 +54,7 @@ const dedicatedOffersSlice = createSlice({
     getDedicatedOffersSuccess: (state, action) => {
       state.loading = false;
       const newOffers = action.payload.data.filter(
-        (newOffer) => !state.dedicatedOffers.some((existingOffer) => existingOffer.id === newOffer.id)
+        (newOffer: DedicatedOffer) => !state.dedicatedOffers.some((existingOffer) => existingOffer.id === newOffer.id)
       );
       state.dedicatedOffers = [...state.dedicatedOffers, ...newOffers];
       state.pagination = {
@@ -93,7 +94,7 @@ const dedicatedOffersSlice = createSlice({
     getMoreDedicatedOffersSuccess: (state, action) => {
       state.loading = false;
       const newOffers = action.payload.data.filter(
-        (newOffer) => !state.dedicatedOffers.some((existingOffer) => existingOffer.id === newOffer.id)
+        (newOffer: DedicatedOffer) => !state.dedicatedOffers.some((existingOffer) => existingOffer.id === newOffer.id)
       );
       state.dedicatedOffers = [...state.dedicatedOffers, ...newOffers];
       state.pagination = {
