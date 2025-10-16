@@ -104,7 +104,7 @@ export default function Posts() {
         <div
           className="grid grid-cols-1 gap-[13px] justify-center"
           style={{
-            gridTemplateColumns: "repeat(auto-fit, minmax(360px, 412px))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
           }}
         >
           {mappedPosts.map((post, index) => (

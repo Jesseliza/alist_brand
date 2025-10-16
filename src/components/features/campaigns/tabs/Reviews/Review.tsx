@@ -17,7 +17,7 @@ export default function Review({
     : "/images/google-logo.svg";
 
   return (
-    <article className="max-w-[412px] min-h-[120px] p-6 rounded-[13px] md:shadow-[0_0_4px_rgba(0,0,0,0.16)]">
+    <article className="w-full max-w-[412px] min-h-[120px] p-6 rounded-[13px] md:shadow-[0_0_4px_rgba(0,0,0,0.16)]">
       <div className="flex items-center gap-4">
         <Image
           src={profileImageUrl}

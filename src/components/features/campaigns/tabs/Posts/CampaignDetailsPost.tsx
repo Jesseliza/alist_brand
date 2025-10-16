@@ -53,7 +53,7 @@ export default function CampaignDetailsPost({
 
   return (
     <>
-      <article className="max-w-[412px] rounded-[13px] md:shadow-[0_0_4px_rgba(0,0,0,0.16)] p-4">
+      <article className="w-full max-w-[412px] rounded-[13px] md:shadow-[0_0_4px_rgba(0,0,0,0.16)] p-4">
         <div className="w-[72.64px] h-[72.64px] rounded-full overflow-hidden mx-auto flex items-center justify-center bg-gray-200">
           {authorImage ? (
             <Image
