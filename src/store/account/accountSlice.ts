@@ -87,7 +87,10 @@ const accountSlice = createSlice({
     },
     fetchMoreAccountsSuccess(state, action: PayloadAction<{ accounts: Account[], pagination: PaginationState }>) {
       state.loading = false;
-      state.accounts = [...state.accounts, ...action.payload.accounts];
+      const newAccounts = action.payload.accounts.filter(
+        (newAccount) => !state.accounts.some((existingAccount) => existingAccount.accountId === newAccount.accountId)
+      );
+      state.accounts = [...state.accounts, ...newAccounts];
       state.pagination = action.payload.pagination;
     },
     fetchMoreAccountsFailure(state, action: PayloadAction<string>) {

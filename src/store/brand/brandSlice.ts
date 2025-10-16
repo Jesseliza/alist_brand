@@ -58,7 +58,10 @@ const brandSlice = createSlice({
     },
     fetchMoreBrandsSuccess: (state, action: PayloadAction<{ brands: Brand[]; pagination: PaginationState }>) => {
       state.loading = false;
-      state.brands = [...state.brands, ...action.payload.brands];
+      const newBrands = action.payload.brands.filter(
+        (newBrand) => !state.brands.some((existingBrand) => existingBrand.brandId === newBrand.brandId)
+      );
+      state.brands = [...state.brands, ...newBrands];
       state.pagination = action.payload.pagination;
     },
     fetchMoreBrandsFailure: (state, action: PayloadAction<string>) => {

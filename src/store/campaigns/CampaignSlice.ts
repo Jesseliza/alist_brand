@@ -88,7 +88,10 @@ const campaignsSlice = createSlice({
     },
     getMoreCampaignsSuccess: (state, action) => {
       state.loading = false;
-      state.campaigns = [...state.campaigns, ...action.payload.data];
+      const newCampaigns = action.payload.data.filter(
+        (newCampaign) => !state.campaigns.some((existingCampaign) => existingCampaign.id === newCampaign.id)
+      );
+      state.campaigns = [...state.campaigns, ...newCampaigns];
       state.pagination = {
         current_page: action.payload.current_page,
         last_page: action.payload.last_page,

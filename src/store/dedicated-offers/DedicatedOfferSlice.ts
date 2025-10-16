@@ -52,7 +52,10 @@ const dedicatedOffersSlice = createSlice({
     },
     getDedicatedOffersSuccess: (state, action) => {
       state.loading = false;
-      state.dedicatedOffers = action.payload.data;
+      const newOffers = action.payload.data.filter(
+        (newOffer) => !state.dedicatedOffers.some((existingOffer) => existingOffer.id === newOffer.id)
+      );
+      state.dedicatedOffers = [...state.dedicatedOffers, ...newOffers];
       state.pagination = {
         current_page: action.payload.current_page,
         last_page: action.payload.last_page,
@@ -89,7 +92,10 @@ const dedicatedOffersSlice = createSlice({
     },
     getMoreDedicatedOffersSuccess: (state, action) => {
       state.loading = false;
-      state.dedicatedOffers = [...state.dedicatedOffers, ...action.payload.data];
+      const newOffers = action.payload.data.filter(
+        (newOffer) => !state.dedicatedOffers.some((existingOffer) => existingOffer.id === newOffer.id)
+      );
+      state.dedicatedOffers = [...state.dedicatedOffers, ...newOffers];
       state.pagination = {
         current_page: action.payload.current_page,
         last_page: action.payload.last_page,
