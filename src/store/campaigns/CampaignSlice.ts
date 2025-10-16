@@ -9,6 +9,7 @@ import {
   GetCampaignAvailabilityPayload,
   CampaignAvailability,
   GetCampaignReviewsPayload,
+  CampaignSummary,
 } from '../../types/entities/campaign';
 
 const initialState: CampaignsState = {
@@ -89,7 +90,7 @@ const campaignsSlice = createSlice({
     getMoreCampaignsSuccess: (state, action) => {
       state.loading = false;
       const newCampaigns = action.payload.data.filter(
-        (newCampaign) => !state.campaigns.some((existingCampaign) => existingCampaign.id === newCampaign.id)
+        (newCampaign: CampaignSummary) => !state.campaigns.some((existingCampaign) => existingCampaign.id === newCampaign.id)
       );
       state.campaigns = [...state.campaigns, ...newCampaigns];
       state.pagination = {
