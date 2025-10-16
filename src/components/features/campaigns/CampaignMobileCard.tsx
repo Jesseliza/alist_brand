@@ -19,6 +19,14 @@ export default function CampaignMobileCard({
     is_dedicated,
   } = campaign;
 
+  const isCampaignActive = () => {
+    if (!startDate || !endDate) return false;
+    const now = new Date();
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    return now >= start && now <= end;
+  };
+
   const getCampaignTypeDisplay = (type?: string) => {
     switch (type) {
       case "WalkIn":
@@ -84,7 +92,11 @@ export default function CampaignMobileCard({
             >
               {campaignType === "WalkIn" && (
                 <Image
-                  src="/icons/general/walk-in-1-dark.svg"
+                  src={
+                    isCampaignActive()
+                      ? "/icons/campaign/card/walk-approved-blue.svg"
+                      : "/icons/general/walk-in-1-dark.svg"
+                  }
                   alt="walk in"
                   width={8.42}
                   height={13.85}
@@ -92,7 +104,11 @@ export default function CampaignMobileCard({
               )}
               {campaignType === "Delivery" && (
                 <Image
-                  src="/icons/general/delivery-1-dark.svg"
+                  src={
+                    isCampaignActive()
+                      ? "/icons/campaign/card/delivery-approved-blue.svg"
+                      : "/icons/general/delivery-1-dark.svg"
+                  }
                   alt="delivery"
                   width={12.155}
                   height={11.8261}
@@ -100,7 +116,11 @@ export default function CampaignMobileCard({
               )}
               {campaignType === "Online" && (
                 <Image
-                  src="/icons/general/online-1-dark.svg"
+                  src={
+                    isCampaignActive()
+                      ? "/icons/campaign/card/online-approved-blue.svg"
+                      : "/icons/general/online-1-dark.svg"
+                  }
                   alt="online"
                   width={9.412}
                   height={9.412}
@@ -108,7 +128,11 @@ export default function CampaignMobileCard({
               )}
               {campaignType === "Exclusive" && (
                 <Image
-                  src="/icons/general/exclusive-1-dark.svg"
+                  src={
+                    isCampaignActive()
+                      ? "/icons/campaign/card/exclusive-approved-blue.svg"
+                      : "/icons/general/exclusive-1-dark.svg"
+                  }
                   alt="exclusive"
                   width={9.9775}
                   height={8.606}
