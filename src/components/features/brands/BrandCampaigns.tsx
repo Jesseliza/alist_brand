@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import CampaignCard from "../campaigns/CampaignCard";
-import BrandCampaignMobileCard from "./BrandCampaignMobileCard";
+import CampaignMobileCard from "../campaigns/CampaignMobileCard";
 import { FoodOffer } from "@/types/entities/brand";
 import { adaptFoodOfferToDisplay } from "@/utils/campaignAdapters";
 
@@ -85,12 +85,7 @@ export default function BrandCampaigns({
             onClick={() => handleCampaignClick(campaign.id)}
             className="cursor-pointer"
           >
-            <BrandCampaignMobileCard
-              campaign={campaign}
-              onRemove={() =>
-                onRemoveCampaign && onRemoveCampaign(campaign.id.toString())
-              }
-            />
+            <CampaignMobileCard campaign={campaign} />
           </div>
         ))}
       </div>
