@@ -61,11 +61,11 @@ export default function DashboardStatCards() {
         ];
 
   return (
-    <div className="flex gap-[21px] justify-between">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[21px]">
       {statCards.map((card) => (
         <article
           key={card.title}
-          className="bg-white rounded-[13px] flex-1 max-w-[350px] flex items-center gap-[30px] px-6 pt-7.25 pb-6.25"
+          className="bg-white rounded-[13px] flex-1 flex items-center gap-[30px] p-4 md:p-6"
         >
           <div className="w-[59.23px] flex items-center justify-center">
             <Image
@@ -76,7 +76,7 @@ export default function DashboardStatCards() {
             />
           </div>
           <div>
-            <p className="text-[18px] leading-[27px] font-semibold text-[#4F4F4F]">
+            <p className="text-md md:text-[18px] leading-tight md:leading-[27px] font-semibold text-[#4F4F4F]">
               {card.title}
             </p>
             {loading ? (
@@ -89,7 +89,7 @@ export default function DashboardStatCards() {
                 />
               </div>
             ) : (
-              <p className="text-[24px] font-medium text-[#00A4B6] leading-[35px]">
+              <p className="text-xl md:text-[24px] font-medium text-[#00A4B6] leading-tight md:leading-[35px]">
                 {(card as any).value}
               </p>
             )}
