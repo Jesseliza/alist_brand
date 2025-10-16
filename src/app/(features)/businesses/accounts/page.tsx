@@ -251,9 +251,9 @@ export default function AccountsPage() {
               />
             </div>
           </div>
-          {loading && accounts.length === 0 && <Loader />}
+          {loading && <Loader />}
           {error && <p className="text-red-500">Error: {error}</p>}
-          {!(loading && accounts.length === 0) && !error && (
+          {!loading && !error && (
             <>
               <div className="md:hidden space-y-[7px]">
                 {accounts.length === 0 ? (
