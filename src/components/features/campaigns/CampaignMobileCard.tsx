@@ -115,11 +115,14 @@ export default function CampaignMobileCard({
                 />
               )}
               <span className="text-[13px] leading-[1.5]">
-                {getCampaignTypeDisplay(campaignType)}
+                {getOfferTypeDisplay(offerType)}
               </span>
             </div>
             <div className="text-[13px] leading-[1.5] text-[#757575]">
               {campaign.category}
+            </div>
+            <div className="text-[13px] leading-[1.5] text-[#757575]">
+              {duration ? `${duration} ${durationUnit?.toLowerCase() ?? ''}` : `${startDate ?? ''} - ${endDate ?? ''}`}
             </div>
           </div>
         </div>

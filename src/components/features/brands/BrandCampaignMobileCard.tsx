@@ -71,16 +71,12 @@ export default function BrandCampaignMobileCard({
           <div className="flex items-center justify-between">
             <div className="text-[13px] leading-[1.5] text-[#757575] inline-flex items-center justify-center gap-1.5 ">
               <Image
-                src={
-                  offer_status === "Active"
-                    ? "/icons/campaign/card/delivery-approved.svg"
-                    : "/icons/campaign/card/delivery-pending-light.svg"
-                }
+                src="/icons/campaign/card/delivery-approved.svg"
                 alt="category"
                 width={12.155}
                 height={11.8261}
               />
-              <p>{offer_status}</p>
+              <p>{category}</p>
             </div>
             <div className="text-[13px] leading-[1.5] text-[#757575]">
               {getDaysLeft()}
