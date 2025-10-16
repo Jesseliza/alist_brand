@@ -30,6 +30,7 @@ export default function AccountsPage() {
     accounts,
     pagination,
     loading,
+    paginationLoading,
     error,
     bulkDeleteInProgress,
     bulkDeleteError,
@@ -47,7 +48,7 @@ export default function AccountsPage() {
   const debouncedSearch = useDebounce(searchTerm, 500);
   // Effect for initial load
   useEffect(() => {
-    dispatch(fetchAccountsRequest({ per_page: 10, page: 1 }));
+    dispatch(fetchAccountsRequest({ per_page: 10, page: 1, isPagination: false }));
 
     return () => {
       dispatch(setSearchTerm(""));
@@ -69,6 +70,7 @@ export default function AccountsPage() {
         search: debouncedSearch,
         per_page: 10,
         page: 1,
+        isPagination: false,
       })
     );
   }, [debouncedSearch, dispatch]);
@@ -86,6 +88,7 @@ export default function AccountsPage() {
         page,
         search: searchTerm,
         per_page: pagination.perPage,
+        isPagination: true,
       })
     );
   };
@@ -294,7 +297,7 @@ export default function AccountsPage() {
                     currentPage={pagination.currentPage}
                     onPageChange={handlePageChange}
                     onItemsPerPageChange={handleItemsPerPageChange}
-                    isLoading={loading}
+                    isLoading={paginationLoading}
                   />
                 )}
               </div>

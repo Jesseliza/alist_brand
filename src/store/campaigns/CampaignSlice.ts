@@ -16,6 +16,7 @@ const initialState: CampaignsState = {
   campaigns: [],
   campaign: null,
   loading: false,
+  paginationLoading: false,
   error: null,
   pagination: null,
   bulkDeleteLoading: false,
@@ -45,13 +46,18 @@ const campaignsSlice = createSlice({
   reducers: {
     getCampaignsStart: (
       state,
-      action: PayloadAction<GetCampaignsPayload>
+      action: PayloadAction<GetCampaignsPayload & { isPagination?: boolean }>
     ) => {
-      state.loading = true;
+      if (action.payload.isPagination) {
+        state.paginationLoading = true;
+      } else {
+        state.loading = true;
+      }
       state.error = null;
     },
     getCampaignsSuccess: (state, action) => {
       state.loading = false;
+      state.paginationLoading = false;
       state.campaigns = action.payload.data;
       state.pagination = {
         current_page: action.payload.current_page,
@@ -62,6 +68,7 @@ const campaignsSlice = createSlice({
     },
     getCampaignsFailure: (state, action) => {
       state.loading = false;
+      state.paginationLoading = false;
       state.error = action.payload;
     },
     bulkDeleteCampaignsStart: (
@@ -137,13 +144,18 @@ const campaignsSlice = createSlice({
     },
     getReviewPostsStart: (
       state,
-      action: PayloadAction<GetCampaignReviewPostsPayload>
+      action: PayloadAction<GetCampaignReviewPostsPayload & { isPagination?: boolean }>
     ) => {
-      state.reviewPostsLoading = true;
+      if (action.payload.isPagination) {
+        state.paginationLoading = true;
+      } else {
+        state.reviewPostsLoading = true;
+      }
       state.reviewPostsError = null;
     },
     getReviewPostsSuccess: (state, action) => {
       state.reviewPostsLoading = false;
+      state.paginationLoading = false;
       state.reviewPosts = action.payload.data;
       state.reviewPostsPagination = {
         current_page: action.payload.current_page,
@@ -154,17 +166,23 @@ const campaignsSlice = createSlice({
     },
     getReviewPostsFailure: (state, action) => {
       state.reviewPostsLoading = false;
+      state.paginationLoading = false;
       state.reviewPostsError = action.payload;
     },
     getVoucherCodesStart: (
       state,
-      action: PayloadAction<GetVoucherCodesPayload>
+      action: PayloadAction<GetVoucherCodesPayload & { isPagination?: boolean }>
     ) => {
-      state.voucherCodesLoading = true;
+      if (action.payload.isPagination) {
+        state.paginationLoading = true;
+      } else {
+        state.voucherCodesLoading = true;
+      }
       state.voucherCodesError = null;
     },
     getVoucherCodesSuccess: (state, action) => {
       state.voucherCodesLoading = false;
+      state.paginationLoading = false;
       state.voucherCodes = action.payload.data;
       state.voucherCodesPagination = {
         current_page: action.payload.current_page,
@@ -175,6 +193,7 @@ const campaignsSlice = createSlice({
     },
     getVoucherCodesFailure: (state, action) => {
       state.voucherCodesLoading = false;
+      state.paginationLoading = false;
       state.voucherCodesError = action.payload;
     },
     getCampaignAvailabilityStart: (
@@ -197,13 +216,18 @@ const campaignsSlice = createSlice({
     },
     getCampaignReviewsStart: (
       state,
-      action: PayloadAction<GetCampaignReviewsPayload>
+      action: PayloadAction<GetCampaignReviewsPayload & { isPagination?: boolean }>
     ) => {
-      state.reviewsLoading = true;
+      if (action.payload.isPagination) {
+        state.paginationLoading = true;
+      } else {
+        state.reviewsLoading = true;
+      }
       state.reviewsError = null;
     },
     getCampaignReviewsSuccess: (state, action) => {
       state.reviewsLoading = false;
+      state.paginationLoading = false;
       state.reviews = action.payload.data;
       state.reviewsPagination = {
         current_page: action.payload.current_page,
@@ -214,6 +238,7 @@ const campaignsSlice = createSlice({
     },
     getCampaignReviewsFailure: (state, action) => {
       state.reviewsLoading = false;
+      state.paginationLoading = false;
       state.reviewsError = action.payload;
     },
   },
