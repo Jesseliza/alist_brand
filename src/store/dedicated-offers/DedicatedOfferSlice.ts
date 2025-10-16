@@ -53,10 +53,7 @@ const dedicatedOffersSlice = createSlice({
     },
     getDedicatedOffersSuccess: (state, action) => {
       state.loading = false;
-      const newOffers = action.payload.data.filter(
-        (newOffer: DedicatedOffer) => !state.dedicatedOffers.some((existingOffer) => existingOffer.id === newOffer.id)
-      );
-      state.dedicatedOffers = [...state.dedicatedOffers, ...newOffers];
+      state.dedicatedOffers = action.payload.data;
       state.pagination = {
         current_page: action.payload.current_page,
         last_page: action.payload.last_page,

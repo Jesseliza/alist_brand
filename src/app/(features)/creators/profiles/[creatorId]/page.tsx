@@ -57,6 +57,7 @@ export default function CreatorProfilePage() {
           isApproved={creator.isApproved}
           activeTab={activeTab}
           onTabChange={handleTabChange}
+          showBackButton={false}
         />
         <CreatorTabContent activeTab={activeTab} creator={creator} />
       </div>
