@@ -56,14 +56,16 @@ export default function AccountHeader({
       <div className="max-w-[1428px] mx-auto flex justify-between pt-10 text-[#4F4F4F] relative">
         {/* Header */}
         <div>
-          <button onClick={() => (router.push("/businesses/accounts"))} className="cursor-pointer mb-4">
-            <Image
-              src="/icons/campaign/details/back-arrow.svg"
-              alt="back"
-              width={35}
-              height={35}
-            />
-          </button>
+          {!isProfilePage && (
+            <button onClick={() => (router.push("/businesses/accounts"))} className="cursor-pointer mb-4">
+              <Image
+                src="/icons/campaign/details/back-arrow.svg"
+                alt="back"
+                width={35}
+                height={35}
+              />
+            </button>
+          )}
           <div className="flex items-center md:gap-10 gap-6 ">
             {isCreateMode ? (
               <div>

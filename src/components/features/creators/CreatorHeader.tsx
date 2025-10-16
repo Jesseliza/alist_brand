@@ -4,8 +4,6 @@ import Image from "next/image";
 import UnifiedTabs from "@/components/general/UnifiedTabs";
 const menuIcon = "/icons/common/menu-dots.svg";
 
-import { useRouter } from "next/navigation";
-
 interface CreatorHeaderProps {
   name: string;
   subtitle: string;
@@ -16,7 +14,6 @@ interface CreatorHeaderProps {
   tabs?: string[];
   activeTab?: string;
   onTabChange?: (tab: string) => void;
-  showBackButton?: boolean;
 }
 
 export default function CreatorHeader({
@@ -29,10 +26,7 @@ export default function CreatorHeader({
   tabs = ["Info", "Insights", "History"],
   activeTab,
   onTabChange,
-  showBackButton = true,
 }: CreatorHeaderProps) {
-  const router = useRouter();
-
   return (
     <div className="w-full bg-white px-6 border-b border-[#E2E2E2] relative">
       <div
@@ -42,16 +36,6 @@ export default function CreatorHeader({
       <div className="max-w-[1428px] mx-auto flex justify-between pt-10 text-[#4F4F4F] relative z-10">
         {/* Header */}
         <div>
-          {showBackButton && (
-            <button onClick={() => router.back()} className="cursor-pointer mb-4">
-              <Image
-                src="/icons/campaign/details/back-arrow.svg"
-                alt="back"
-                width={35}
-                height={35}
-              />
-            </button>
-          )}
           <div className="flex items-center md:gap-10 gap-6 ">
             <div className="w-[74px] h-[74px] md:w-[108px] md:h-[108px] rounded-full shrink-0 relative">
               <Image
