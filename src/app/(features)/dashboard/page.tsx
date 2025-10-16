@@ -60,8 +60,8 @@ export default function Dashboard() {
         <div>
           <DashboardStatCards />
         </div>
-        <div className="flex gap-[21px] items-stretch mt-[20px]">
-          <div className="p-1 md:p-7 bg-white rounded-[13px] text-[#4F4F4F] text-[11px] flex-1">
+        <div className="flex flex-col md:flex-row gap-[21px] items-stretch mt-[20px]">
+          <div className="p-4 md:p-7 bg-white rounded-[13px] text-[#4F4F4F] text-[11px] flex-1">
             <h3 className="text-[18px] font-semibold leading-[27px] text-[#4F4F4F] mb-[30px]">
               Campaign Performance
             </h3>
@@ -81,9 +81,9 @@ export default function Dashboard() {
                 xAxisKey="day"
                 barKeys={["active", "completed"]}
                 maxBarWidth={20.67}
-                showYTicks={false}
-                yAxisValues={["0", "2", "4", "6", "8", "10", "12"]} // 8 elements
-                showGridLines={true} // Show default dotted grid lines
+                showYTicks={true}
+                yAxisValues={[]}
+                showGridLines={true}
                 heightPx={280}
               />
             ) : (
@@ -97,46 +97,15 @@ export default function Dashboard() {
               </div>
             )}
           </div>
-
-          {/* <div className="p-1 md:p-7 bg-white rounded-[13px] text-[#4F4F4F] text-[11px] flex-1">
-            <h3 className="text-[18px] font-semibold leading-[27px] text-[#4F4F4F] mb-[30px]">
-              Campaign Performance
-            </h3>
-            <div className="flex items-center justify-center gap-[48px]">
-              <div className="flex items-center gap-1.5">
-                <div className="w-[15.23px] h-[6.53px] rounded-[6px] bg-[#00CDE4]"></div>
-                <p>Impressions</p>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <div className="w-[15.23px] h-[6.53px] rounded-[6px] bg-[#446CCB]"></div>
-                <p>Reach</p>
-              </div>
-            </div>
-            <LineChart
-              chartData={multiSeriesChartData}
-              showYTicks={false}
-              heightPx={280}
-              yAxisValues={[
-                "0",
-                "500",
-                "1000",
-                "1500",
-                "2000",
-                "2500",
-                "3000",
-                "3500",
-              ]}
-            />
-          </div> */}
         </div>
-        <div className="flex gap-[21px] items-stretch mt-[20px] text-[#4F4F4F]">
-          <div className="p-1 md:p-7 bg-white rounded-[13px] flex-1">
+        <div className="flex flex-col md:flex-row gap-[21px] items-stretch mt-[20px] text-[#4F4F4F]">
+          <div className="p-4 md:p-7 bg-white rounded-[13px] flex-1">
             <h3 className="text-[18px] font-semibold leading-[27px]  mb-[30px]">
               Live campaigns
             </h3>
             <LiveCampaigns />
           </div>
-          <div className="p-1 md:p-7 bg-white rounded-[13px] flex-1">
+          <div className="p-4 md:p-7 bg-white rounded-[13px] flex-1">
             <h3 className="text-[18px] font-semibold leading-[27px] mb-[30px]">
               Influencer Activity
             </h3>
