@@ -40,8 +40,17 @@ export default function UnifiedTabs({
 
   return (
     <nav
-      className={`mt-6 text-[15px] md:text-[18px] md:font-medium px-2 ${className}`}
+      className={`mt-6 text-[15px] md:text-[18px] md:font-medium px-2 overflow-x-auto ${className}`}
+      style={{
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+      }}
     >
+      <style jsx>{`
+        nav::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
       <TabGroup
         selectedIndex={tabs.findIndex((tab) => tab === currentActiveTab)}
         onChange={(index) => handleTabChange(tabs[index])}
@@ -51,7 +60,7 @@ export default function UnifiedTabs({
             <Tab
               key={tab}
               className={({ selected }) =>
-                `relative pb-2 font-medium transition-colors focus:outline-none ${
+                `relative pb-2 font-medium transition-colors focus:outline-none whitespace-nowrap ${
                   selected ? "text-[#00A4B6]" : "text-[#7E7E7E] cursor-pointer"
                 }`
               }
