@@ -47,7 +47,7 @@ export default function BrandHeader({
   };
 
   return (
-    <div className="w-full bg-white px-6 border-b border-[#E2E2E2] relative z-50">
+    <div className="w-full bg-white px-6 border-b border-[#E2E2E2] relative z-40">
       <div
         className="absolute inset-0 bg-white z-0"
         style={{ left: "-100vw", right: "-100vw" }}

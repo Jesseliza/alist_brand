@@ -96,7 +96,7 @@ export default function DedicatedOfferDetails({
         )}
       <TabGroup selectedIndex={selectedIndex} onChange={handleTabChange}>
         <div className="max-w-[966px] mx-auto md:px-4 mt-4">
-          <TabList className="flex bg-[#F8F8F8] rounded-[13px] p-[5px]">
+          <TabList className="flex flex-col md:flex-row bg-[#F8F8F8] rounded-[13px] p-[5px] gap-y-2 md:gap-y-0">
             {tabs.map((tab) => (
               <Tab
                 key={tab}

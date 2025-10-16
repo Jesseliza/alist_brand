@@ -46,7 +46,7 @@ export default function UnifiedTabs({
         selectedIndex={tabs.findIndex((tab) => tab === currentActiveTab)}
         onChange={(index) => handleTabChange(tabs[index])}
       >
-        <TabList className="-mb-px flex gap-x-8 md:gap-x-16">
+        <TabList className="-mb-px flex flex-col md:flex-row gap-x-8 md:gap-x-16 gap-y-2 md:gap-y-0">
           {tabs.map((tab) => (
             <Tab
               key={tab}
