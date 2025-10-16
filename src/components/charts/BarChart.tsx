@@ -103,14 +103,11 @@ export default function BarChart({
       startX = (groupWidth - totalBarWidth) / 2;
     }
 
+    const yMax = d3.max(data, (d) => Math.max(...barKeys.map((key) => (d[key] as BarValue).value))) || 0;
+
     const y = d3
       .scaleLinear()
-      .domain([
-        0,
-        d3.max(data, (d) =>
-          Math.max(...barKeys.map((key) => (d[key] as BarValue).value))
-        )! * 1.1,
-      ])
+      .domain([0, yMax > 0 ? yMax * 1.2 : 10])
       .nice()
       .range([innerH, 0]);
 
@@ -119,9 +116,7 @@ export default function BarChart({
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
     // Tick values
-    const yTicks = yAxisValues.map((val) =>
-      typeof val === "string" ? parseFloat(val) : val
-    );
+    const yTicks = y.ticks();
     const xTicks = data.map((d) => d[xAxisKey] as string);
 
     // Y-axis with only inner ticks
