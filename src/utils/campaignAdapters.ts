@@ -114,7 +114,8 @@ export const adaptFoodOfferToDisplay = (
     creatorApprovalType:
       offer.account_status === "Approved" ? "Automated" : "Manual",
     campaignType: "Delivery",
-    offerType: brandCategory ?? "N/A",
+    category: brandCategory ?? "N/A",
+    offerType: offer.is_dedicated === 1 ? "Dedicated" : "Normal",
     startDate: offer.start_date,
     endDate: offer.end_date,
     duration: daysDuration > 0 ? daysDuration : 0,
