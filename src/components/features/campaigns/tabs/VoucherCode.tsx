@@ -72,7 +72,7 @@ const VoucherCodeTable = () => {
     }
   };
 
-  if (voucherCodesLoading) {
+  if (voucherCodesLoading && !voucherCodes.length) {
     return <Loader />;
   }
 

@@ -58,7 +58,7 @@ export default function Posts() {
     }
   };
 
-  if (reviewPostsLoading) {
+  if (reviewPostsLoading && !reviewPosts.length) {
     return <Loader />;
   }
 

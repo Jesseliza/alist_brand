@@ -52,7 +52,7 @@ export default function Reviews({ campaignId }: ReviewsProps) {
     }
   };
 
-  if (reviewsLoading) {
+  if (reviewsLoading && !reviews.length) {
     return <Loader />;
   }
 
