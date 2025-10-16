@@ -39,44 +39,69 @@ export default function UnifiedTabs({
   };
 
   return (
-    <nav
-      className={`mt-6 text-[15px] md:text-[18px] md:font-medium px-2 overflow-x-auto ${className}`}
-      style={{
-        scrollbarWidth: "none",
-        msOverflowStyle: "none",
-      }}
-    >
-      <style jsx>{`
-        nav::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
+    <div className={`mt-6 md:px-2 ${className}`}>
       <TabGroup
         selectedIndex={tabs.findIndex((tab) => tab === currentActiveTab)}
         onChange={(index) => handleTabChange(tabs[index])}
+        vertical
+        className="md:hidden"
       >
-        <TabList className="-mb-px flex gap-x-8 md:gap-x-16">
+        <TabList className="flex flex-col gap-y-2">
           {tabs.map((tab) => (
             <Tab
               key={tab}
               className={({ selected }) =>
-                `relative pb-2 font-medium transition-colors focus:outline-none whitespace-nowrap ${
-                  selected ? "text-[#00A4B6]" : "text-[#7E7E7E] cursor-pointer"
+                `px-4 py-2 text-left text-sm font-medium transition-colors focus:outline-none ${
+                  selected
+                    ? "bg-[#00A4B6] text-white rounded-md"
+                    : "text-[#7E7E7E]"
                 }`
               }
             >
-              {({ selected }) => (
-                <>
-                  {tab}
-                  {selected && (
-                    <span className="absolute left-0 right-0 bottom-0.5 h-1 bg-[#00A4B6] rounded-full" />
-                  )}
-                </>
-              )}
+              {tab}
             </Tab>
           ))}
         </TabList>
       </TabGroup>
-    </nav>
+      <nav
+        className={`hidden md:block text-[15px] md:text-[18px] md:font-medium overflow-x-auto`}
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+      >
+        <style jsx>{`
+          nav::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
+        <TabGroup
+          selectedIndex={tabs.findIndex((tab) => tab === currentActiveTab)}
+          onChange={(index) => handleTabChange(tabs[index])}
+        >
+          <TabList className="-mb-px flex gap-x-8 md:gap-x-16">
+            {tabs.map((tab) => (
+              <Tab
+                key={tab}
+                className={({ selected }) =>
+                  `relative pb-2 font-medium transition-colors focus:outline-none whitespace-nowrap ${
+                    selected ? "text-[#00A4B6]" : "text-[#7E7E7E] cursor-pointer"
+                  }`
+                }
+              >
+                {({ selected }) => (
+                  <>
+                    {tab}
+                    {selected && (
+                      <span className="absolute left-0 right-0 bottom-0.5 h-1 bg-[#00A4B6] rounded-full" />
+                    )}
+                  </>
+                )}
+              </Tab>
+            ))}
+          </TabList>
+        </TabGroup>
+      </nav>
+    </div>
   );
 }
