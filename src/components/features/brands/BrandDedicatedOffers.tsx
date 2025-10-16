@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import DedicatedOfferCard from "../dedicated-offers/DedicatedOfferCard";
+import DedicatedOfferMobileCard from "../dedicated-offers/DedicatedOfferMobileCard";
 import { ApiDedicatedOffer } from "@/types/entities/dedicated-offer";
 import { adaptDedicatedOfferSummaryToDisplay } from "@/utils/dedicatedOfferAdapters";
 
@@ -79,11 +80,7 @@ export default function BrandDedicatedOffers({
             onClick={() => handleDedicatedOfferClick(offer.id)}
             className="cursor-pointer"
           >
-            <DedicatedOfferCard
-              dedicatedOffer={offer}
-              checked={false}
-              onCheckboxChange={() => {}}
-            />
+            <DedicatedOfferMobileCard dedicatedOffer={offer} />
           </div>
         ))}
       </div>
