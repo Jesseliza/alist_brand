@@ -101,7 +101,7 @@ export default function Posts() {
   });
 
   return (
-    <div>
+    <div className="mb-16">
       <div className="max-w-[1272px] mx-auto md:mt-[60px] mt-[14px] ">
         <div
           className="grid grid-cols-1 gap-[13px] justify-center"

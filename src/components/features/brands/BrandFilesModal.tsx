@@ -4,11 +4,11 @@ import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { deleteBrandFileRequest, resetDeleteFileStatus } from "@/store/brand/brandSlice";
-// import { validatePinRequest, resetPinStatus } from "@/store/common/commonSlice";
+import { validatePinRequest, resetPinStatus } from "@/store/common/commonSlice";
 import api from "@/services/apiHelper";
 import InlineLoader from "@/components/general/InlineLoader";
 import toast from "react-hot-toast";
-// import PinModal from "@/components/general/PinModal";
+import PinModal from "@/components/general/PinModal";
 import Image from "next/image";
 
 interface BrandFile {
@@ -32,12 +32,12 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
   const [uploading, setUploading] = useState(false);
   const [loadingFiles, setLoadingFiles] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  // const [isPinModalOpen, setIsPinModalOpen] = useState(false);
-  // const [fileToDownload, setFileToDownload] = useState<string | null>(null);
+  const [isPinModalOpen, setIsPinModalOpen] = useState(false);
+  const [fileToDownload, setFileToDownload] = useState<string | null>(null);
 
   const dispatch = useDispatch();
   const { deleteFileSuccess } = useSelector((state: RootState) => state.brand);
-  // const { pinValidationLoading, pinValidationSuccess, pinValidationError } = useSelector((state: RootState) => state.common);
+  const { pinValidationLoading, pinValidationSuccess, pinValidationError } = useSelector((state: RootState) => state.common);
 
   const fetchBrandFiles = useCallback(async () => {
     if (!brandId) return;
@@ -113,23 +113,23 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
     }
   }, [deleteFileSuccess, fetchBrandFiles, dispatch]);
 
-  // useEffect(() => {
-  //   if (pinValidationSuccess && fileToDownload) {
-  //     window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`, "_blank");
-  //     setFileToDownload(null);
-  //     setIsPinModalOpen(false);
-  //     dispatch(resetPinStatus());
-  //   }
-  // }, [pinValidationSuccess, fileToDownload, dispatch]);
+  useEffect(() => {
+    if (pinValidationSuccess && fileToDownload) {
+      window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`, "_blank");
+      setFileToDownload(null);
+      setIsPinModalOpen(false);
+      dispatch(resetPinStatus());
+    }
+  }, [pinValidationSuccess, fileToDownload, dispatch]);
 
-  // const handleDownloadRequest = (fileUrl: string) => {
-  //   setFileToDownload(fileUrl);
-  //   setIsPinModalOpen(true);
-  // };
+  const handleDownloadRequest = (fileUrl: string) => {
+    setFileToDownload(fileUrl);
+    setIsPinModalOpen(true);
+  };
 
-  // const handlePinSubmit = (pin: string) => {
-  //   dispatch(validatePinRequest({ pin }));
-  // };
+  const handlePinSubmit = (pin: string) => {
+    dispatch(validatePinRequest({ pin }));
+  };
 
   const handleDelete = (venueFileId: number) => {
     toast((t) => (
@@ -271,9 +271,12 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
                   brandFiles.map((file) => (
                     <tr key={file.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
-                        <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/${file.venue_file_url}`} target="_blank" rel="noopener noreferrer" className="text-left hover:underline">
+                        <button
+                          onClick={() => handleDownloadRequest(file.venue_file_url)}
+                          className="text-left hover:underline"
+                        >
                           {`${process.env.NEXT_PUBLIC_API_BASE_URL}/${file.venue_file_url}`}
-                        </a>
+                        </button>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(file.created_at)}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{file.uploaded_by}</td>
@@ -301,6 +304,17 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
           </div>
         </div>
       </div>
+      {isPinModalOpen && (
+        <PinModal
+          onClose={() => {
+            setIsPinModalOpen(false);
+            dispatch(resetPinStatus());
+          }}
+          onSubmit={handlePinSubmit}
+          loading={pinValidationLoading}
+          error={pinValidationError}
+        />
+      )}
     </div>
   );
 };

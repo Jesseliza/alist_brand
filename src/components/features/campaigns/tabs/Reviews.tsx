@@ -75,7 +75,7 @@ export default function Reviews({ campaignId }: ReviewsProps) {
     });
 
   return (
-    <div className="max-w-[1272px] mx-auto md:mt-[60px] mt-[14px]">
+    <div className="max-w-[1272px] mx-auto md:mt-[60px] mt-[14px] mb-16">
       <div
         className="grid grid-cols-1 gap-[13px] justify-center"
         style={{
