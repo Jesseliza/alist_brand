@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "development-admin.alist.ae",
+        hostname: new URL(process.env.NEXT_PUBLIC_IMAGE_URL).hostname,
         port: "",
         pathname: "/**",
       },
