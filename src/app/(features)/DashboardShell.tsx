@@ -33,7 +33,8 @@ function DashboardContent({
   const router = useRouter();
   const { isAuthenticated, user, isAuthLoading } = useSelector((state: RootState) => state.auth);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
-  const profileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileProfileMenuRef = useRef<HTMLDivElement>(null);
+  const desktopProfileMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   const handleIdle = () => {
@@ -51,7 +52,19 @@ function DashboardContent({
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
+      const isMobileClickOutside =
+        mobileProfileMenuRef.current &&
+        !mobileProfileMenuRef.current.contains(event.target as Node);
+
+      const isDesktopClickOutside =
+        desktopProfileMenuRef.current &&
+        !desktopProfileMenuRef.current.contains(event.target as Node);
+
+      if (isMobileClickOutside && isDesktopClickOutside) {
+        setProfileMenuOpen(false);
+      } else if (isMobileClickOutside && !desktopProfileMenuRef.current) {
+        setProfileMenuOpen(false);
+      } else if (isDesktopClickOutside && !mobileProfileMenuRef.current) {
         setProfileMenuOpen(false);
       }
     }
@@ -60,7 +73,7 @@ function DashboardContent({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [profileMenuRef]);
+  }, []);
   const searchParams = useSearchParams();
   const fullPath = `${pathname}${
     searchParams.toString() ? `?${searchParams.toString()}` : ""
@@ -139,7 +152,7 @@ function DashboardContent({
                   width={29.36}
                   height={29.36}
                 /> */}
-                <div className="relative" ref={profileMenuRef}>
+                <div className="relative" ref={mobileProfileMenuRef}>
                   <Image
                     src="/icons/navbar/profile7.png"
                     alt="profile"
@@ -149,7 +162,7 @@ function DashboardContent({
                     className="cursor-pointer"
                   />
                   {isProfileMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[70]">
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[100]">
                       <div className="px-4 py-2 text-sm text-gray-700">
                         {user?.firstName} {user?.lastName}
                       </div>
@@ -192,7 +205,7 @@ function DashboardContent({
                   width={29.36}
                   height={29.36}
                 /> */}
-                <div className="relative" ref={profileMenuRef}>
+                <div className="relative" ref={desktopProfileMenuRef}>
                   <Image
                     src="/icons/navbar/profile7.png"
                     alt="profile"
@@ -202,7 +215,7 @@ function DashboardContent({
                     className="cursor-pointer"
                   />
                   {isProfileMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[70]">
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[100]">
                       <div className="px-4 py-2 text-sm text-gray-700">
                         {user?.firstName} {user?.lastName}
                       </div>
