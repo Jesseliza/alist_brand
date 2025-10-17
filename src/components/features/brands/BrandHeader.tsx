@@ -56,7 +56,7 @@ export default function BrandHeader({
         {/* Header */}
         <div>
           {(pageFrom === "brand" || pageFrom === "accounts") &&
-            <button onClick={() => (backPath ? router.push(backPath) : router.back())} className="cursor-pointer mb-4">
+            <button onClick={() => (backPath ? router.push(backPath) : router.back())} className="cursor-pointer mb-4 p-2">
               <Image
                 src="/icons/campaign/details/back-arrow.svg"
                 alt="back"
