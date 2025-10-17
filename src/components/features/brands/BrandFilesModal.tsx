@@ -99,8 +99,13 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
       });
       resetForm();
       fetchBrandFiles(); // Refresh the list
-    } catch (err: any) {
-      setError(err.response?.data?.message || "An error occurred while uploading files.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        const axiosError = err as any;
+        setError(axiosError.response?.data?.message || "An error occurred while uploading files.");
+      } else {
+        setError("An unexpected error occurred.");
+      }
     } finally {
       setUploading(false);
     }
@@ -113,16 +118,20 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
     }
   }, [deleteFileSuccess, fetchBrandFiles, dispatch]);
 
+  const [newTab, setNewTab] = useState<Window | null>(null);
   useEffect(() => {
-    if (pinValidationSuccess && fileToDownload) {
-      window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`, "_blank");
+    if (pinValidationSuccess && fileToDownload && newTab) {
+      newTab.location.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${fileToDownload}`;
       setFileToDownload(null);
       setIsPinModalOpen(false);
       dispatch(resetPinStatus());
+      setNewTab(null);
     }
-  }, [pinValidationSuccess, fileToDownload, dispatch]);
+  }, [pinValidationSuccess, fileToDownload, dispatch, newTab]);
 
   const handleDownloadRequest = (fileUrl: string) => {
+    const tab = window.open("", "_blank");
+    setNewTab(tab);
     setFileToDownload(fileUrl);
     setIsPinModalOpen(true);
   };
