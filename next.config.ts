@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-const remotePatterns = [
+const remotePatterns: NextConfig['images']['remotePatterns'] = [
   {
     protocol: "https",
     hostname: "picsum.photos",
@@ -12,12 +12,17 @@ const remotePatterns = [
 if (process.env.NEXT_PUBLIC_IMAGE_URL) {
   try {
     const imageUrl = new URL(process.env.NEXT_PUBLIC_IMAGE_URL);
-    remotePatterns.push({
-      protocol: imageUrl.protocol.replace(":", ""),
-      hostname: imageUrl.hostname,
-      port: "",
-      pathname: "/**",
-    });
+    const protocol = imageUrl.protocol.replace(":", "");
+    if (protocol === 'http' || protocol === 'https') {
+      remotePatterns.push({
+        protocol,
+        hostname: imageUrl.hostname,
+        port: "",
+        pathname: "/**",
+      });
+    } else {
+      console.warn(`Invalid protocol "${protocol}" in NEXT_PUBLIC_IMAGE_URL. Only "http" or "https" are allowed.`);
+    }
   } catch (error) {
     console.error("Invalid NEXT_PUBLIC_IMAGE_URL:", error);
   }
