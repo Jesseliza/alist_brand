@@ -30,7 +30,6 @@ export const setAuthToken = (token: string | null) => {
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Exclude the PIN validation endpoint from the global 401 handling
     if (
       error.response &&
       error.response.status === 401 &&

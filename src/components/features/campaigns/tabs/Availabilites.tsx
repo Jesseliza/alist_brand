@@ -32,14 +32,14 @@ export default function Availabilites({ campaignId }: { campaignId: string }) {
   return (
     <div>
       <div className="max-w-[1021px] mx-auto py-[54px]">
-      <div className="border border-[#E2E2E2] rounded-[11px] mb-3 flex flex-col md:flex-row md:items-center p-2 gap-2 md:gap-0 md:h-[55px] md:px-4">
+       <div className="border border-[#E2E2E2] rounded-[11px] mb-3 flex flex-col md:flex-row md:items-center p-2 gap-2 md:gap-0 md:h-[55px] md:px-4">
           <button
             onClick={handleTodayClick}
             className="px-4 py-2 text-sm font-medium text-white bg-[#00A4B6] rounded-md hover:bg-[#0090a6] transition"
           >
             Today
           </button>
-        <div className="md:ml-4 w-full md:w-48">
+           <div className="md:ml-4 w-full md:w-48">
             <YearMonthPicker
               selectedDate={currentDate}
               onChange={handleDateChange}

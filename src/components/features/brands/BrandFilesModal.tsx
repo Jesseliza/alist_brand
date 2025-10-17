@@ -306,6 +306,7 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
       </div>
       {isPinModalOpen && (
         <PinModal
+          isOpen={isPinModalOpen}
           onClose={() => {
             setIsPinModalOpen(false);
             dispatch(resetPinStatus());

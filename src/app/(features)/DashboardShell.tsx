@@ -78,6 +78,13 @@ function DashboardContent({
 
   return (
     <div className="flex min-h-screen w-full font-[Poppins]">
+      {/* Mobile Sidebar Backdrop */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/30 z-40 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
 
       {/* Overlay Backdrop for overlay mode when expanded */}
       {isOverlayMode && !collapsed && isMounted && (
@@ -90,7 +97,7 @@ function DashboardContent({
       {/* Mobile Sidebar */}
       <div
         className={`
-          fixed top-0 left-0 h-full z-[1040] transform transition-transform duration-300 ease-in-out md:hidden
+          fixed top-0 left-0 h-full z-50 transform transition-transform duration-300 ease-in-out md:hidden
           ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
@@ -107,13 +114,13 @@ function DashboardContent({
           isOverlayMode && isMounted ? "ml-[102px]" : ""
         }`}
       >
-        <header className="relative z-[1050]">
+        <header className="relative z-[60]">
           <Nav>
             {/* Mobile Nav */}
             <div className="flex md:hidden items-center justify-between w-full">
               <button
                 className="w-[29px] h-[29px] bg-[#F8F8F8] rounded-[11px] flex items-center justify-center"
-                onClick={() => setIsMobileMenuOpen(true)}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
                 <Image
                   src="/icons/burger.svg"
@@ -142,7 +149,7 @@ function DashboardContent({
                     className="cursor-pointer"
                   />
                   {isProfileMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[1060]">
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[70]">
                       <div className="px-4 py-2 text-sm text-gray-700">
                         {user?.firstName} {user?.lastName}
                       </div>
@@ -195,7 +202,7 @@ function DashboardContent({
                     className="cursor-pointer"
                   />
                   {isProfileMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[1060]">
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[70]">
                       <div className="px-4 py-2 text-sm text-gray-700">
                         {user?.firstName} {user?.lastName}
                       </div>
