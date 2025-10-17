@@ -81,7 +81,7 @@ export default function DashboardStatCards() {
             </p>
             {loading ? (
               <div className="mt-2">
-                <img
+                <Image
                   src="/icons/loader.gif"
                   alt="Loading..."
                   width={35}

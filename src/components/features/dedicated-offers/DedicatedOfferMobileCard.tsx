@@ -12,7 +12,7 @@ export default function DedicatedOfferMobileCard({
     thumbnailUrl,
     category,
     offerDate,
-    is_dedicated,
+    // is_dedicated,
   } = dedicatedOffer;
 
   return (

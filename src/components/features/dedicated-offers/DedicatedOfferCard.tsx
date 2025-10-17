@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import Image from "next/image";
 import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 import { generateColorFromString } from "@/utils/colorGenerator";
@@ -26,7 +26,7 @@ export default function DedicatedOfferCard({
     campaignType,
     category,
     offerDate,
-    is_dedicated,
+    // is_dedicated,
   } = dedicatedOffer;
 
   const isOfferActive = () => {
@@ -52,7 +52,7 @@ export default function DedicatedOfferCard({
       : "/icons/campaign/card/delivery-pending-light.svg";
   };
 
-  const [copied, setCopied] = useState(false);
+  // const [copied, setCopied] = useState(false);
 
   return (
     <article className="w-full bg-white rounded-[13px] overflow-hidden relative">

@@ -26,6 +26,7 @@ export default function BrandMobileCard({
   const { industries } = useSelector((state: RootState) => state.common);
   const industryMap = new Map(industries.map((i) => [i.value, i.label]));
   const industryName = industryMap.get(brand.industry ?? "") || 'N/A';
+  console.log(brand);
 
   const items = [
     {
@@ -68,12 +69,12 @@ export default function BrandMobileCard({
             {/* {brand.logo ? (
               <Image src={brand.logo} alt={brand.name} fill className="object-cover" sizes="100vw" />
             ) : ( */}
-              <div
-                className="w-full h-full flex items-center justify-center"
-                style={{ backgroundColor: generateColorFromString(brand.name) }}
-              >
-                <span className="text-white text-3xl font-semibold">{getInitials(brand.name)}</span>
-              </div>
+            <div
+              className="w-full h-full flex items-center justify-center"
+              style={{ backgroundColor: generateColorFromString(brand.name) }}
+            >
+              <span className="text-white text-3xl font-semibold">{getInitials(brand.name)}</span>
+            </div>
             {/* )} */}
           </div>
           <div className="flex-1 min-w-0">
@@ -88,7 +89,7 @@ export default function BrandMobileCard({
               <div className="h-[33px] w-[40px] flex items-center justify-center">
                 <Image src={item.iconSrc} alt={item.iconAlt} width={item.width} height={item.height} />
               </div>
-              <p className="text-[11px] text-[#4F4F4F] text-center">{item.label}</p>
+              <p className="text-[11px] text-[#4F4F4F] text-center truncate text-ellipsis max-w-[80px]">{item.label}</p>
             </div>
           ))}
         </div>

@@ -32,8 +32,8 @@ export default function AccountsPage() {
     loading,
     paginationLoading,
     error,
-    bulkDeleteInProgress,
-    bulkDeleteError,
+    // bulkDeleteInProgress,
+    // bulkDeleteError,
     bulkUpdateStatusInProgress,
     bulkUpdateStatusError,
   } = useSelector((state: RootState) => state.account);
@@ -43,7 +43,7 @@ export default function AccountsPage() {
   // const [accountType, setAccountType] = useState("");
   const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
   const [mobilePage, setMobilePage] = useState(1);
-  const prevBulkDeleteInProgress = useRef(false);
+  // const prevBulkDeleteInProgress = useRef(false);
 
   const debouncedSearch = useDebounce(searchTerm, 500);
   // Effect for initial load

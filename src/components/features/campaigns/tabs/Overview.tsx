@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Campaign } from "@/types/entities";
 import CampaignStats from "./Overview/CampaignStats";
-import CampaignCreators from "./Overview/CampaignCreators";
+// import CampaignCreators from "./Overview/CampaignCreators";
 import CampaignDetails from "./Overview/CampaignDetails";
 import CampaignGuidlines from "./Overview/CampaignGuidlines";
 // import CampaignPlans from "./Overview/CampaignPlans";

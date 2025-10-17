@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import Image from "next/image";
 import { CampaignDisplay } from "@/types/entities/campaign";
 import { generateColorFromString } from "@/utils/colorGenerator";
@@ -16,7 +16,7 @@ export default function CampaignCard({
   campaign,
   checked,
   onCheckboxChange,
-  onRemove,
+  // onRemove,
 }: CampaignCardProps) {
   const handleWrapperClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -30,13 +30,13 @@ export default function CampaignCard({
     brandLogo,
     brandName,
     campaignType,
-    offerType,
+    // offerType,
     duration,
     durationUnit,
     is_dedicated,
   } = campaign;
 
-  const [copied, setCopied] = useState(false);
+  // const [copied, setCopied] = useState(false);
 
 
   const isCampaignActive = () => {
@@ -89,11 +89,11 @@ export default function CampaignCard({
   };
 
 
-  const handleRemoveClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onRemove(campaign.id.toString());
-  };
+  // const handleRemoveClick = (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   onRemove(campaign.id.toString());
+  // };
 
   return (
     <article className="w-full bg-white rounded-[13px] overflow-hidden relative">

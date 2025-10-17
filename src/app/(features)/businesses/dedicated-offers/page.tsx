@@ -8,24 +8,24 @@ import Pagination from "@/components/general/Pagination";
 import { adaptDedicatedOfferSummaryToDisplay } from "@/utils/dedicatedOfferAdapters";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import { useDebounce } from "@/hooks/useDebounce";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import {
   getDedicatedOffersStart,
   getMoreDedicatedOffersStart,
-  bulkDeleteDedicatedOffersStart,
+  // bulkDeleteDedicatedOffersStart,
 } from "@/store/dedicated-offers/DedicatedOfferSlice";
 import { setSearchTerm } from "@/store/search/searchSlice";
 import { RootState } from "@/store/store";
-import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
+// import ActionDropdown from "@/components/general/dropdowns/ActionDropdown";
 import SearchInputMobile from "@/components/general/SearchInputMobile";
 import Link from "next/link";
 import Loader from "@/components/general/Loader";
 import InlineLoader from "@/components/general/InlineLoader";
 
 export default function DedicatedOffersPage() {
-  const router = useRouter();
+  // const router = useRouter();
   const dispatch = useDispatch();
   const {
     dedicatedOffers,
@@ -33,8 +33,8 @@ export default function DedicatedOffersPage() {
     loading,
     paginationLoading,
     error,
-    bulkDeleteLoading,
-    bulkDeleteError,
+    // bulkDeleteLoading,
+    // bulkDeleteError,
   } = useSelector((state: RootState) => state.dedicatedOffers);
 
   const { searchTerm } = useSelector((state: RootState) => state.search);
@@ -71,11 +71,11 @@ export default function DedicatedOffersPage() {
   }, [debouncedSearch, dispatch]);
 
 
-  const handleAddDedicatedOfferClick = () => {
-    // TODO: Update this route when the create dedicated offer page is available
-    // router.push("/businesses/dedicated-offers/create");
-    console.log("Add Dedicated Offer clicked");
-  };
+  // const handleAddDedicatedOfferClick = () => {
+  //   // TODO: Update this route when the create dedicated offer page is available
+  //   // router.push("/businesses/dedicated-offers/create");
+  //   console.log("Add Dedicated Offer clicked");
+  // };
 
   const handlePageChange = (page: number) => {
     dispatch(
@@ -129,75 +129,75 @@ export default function DedicatedOffersPage() {
     }
   };
 
-  const handleActionSelect = (value: string) => {
-    if (value === "delete") {
-      if (checkedRows.size > 0) {
-        toast(
-          (t) => (
-            <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4">
-              <p className="font-semibold">
-                Are you sure you want to delete the selected dedicated offers?
-              </p>
-              <div className="flex justify-end gap-2">
-                <button
-                  className="px-4 py-2 bg-gray-200 rounded-md"
-                  onClick={() => toast.dismiss(t.id)}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="px-4 py-2 bg-red-500 text-white rounded-md"
-                  onClick={() => {
-                    const ids = Array.from(checkedRows);
-                    dispatch(bulkDeleteDedicatedOffersStart({ ids }));
-                    setCheckedRows(new Set());
-                    toast.dismiss(t.id);
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ),
-          {
-            duration: 6000,
-          }
-        );
-      }
-    }
-  };
+  // const handleActionSelect = (value: string) => {
+  //   if (value === "delete") {
+  //     if (checkedRows.size > 0) {
+  //       toast(
+  //         (t) => (
+  //           <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4">
+  //             <p className="font-semibold">
+  //               Are you sure you want to delete the selected dedicated offers?
+  //             </p>
+  //             <div className="flex justify-end gap-2">
+  //               <button
+  //                 className="px-4 py-2 bg-gray-200 rounded-md"
+  //                 onClick={() => toast.dismiss(t.id)}
+  //               >
+  //                 Cancel
+  //               </button>
+  //               <button
+  //                 className="px-4 py-2 bg-red-500 text-white rounded-md"
+  //                 onClick={() => {
+  //                   const ids = Array.from(checkedRows);
+  //                   dispatch(bulkDeleteDedicatedOffersStart({ ids }));
+  //                   setCheckedRows(new Set());
+  //                   toast.dismiss(t.id);
+  //                 }}
+  //               >
+  //                 Delete
+  //               </button>
+  //             </div>
+  //           </div>
+  //         ),
+  //         {
+  //           duration: 6000,
+  //         }
+  //       );
+  //     }
+  //   }
+  // };
 
-  const handleRemove = (id: string) => {
-    toast(
-      (t) => (
-        <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4">
-          <p className="font-semibold">
-            Are you sure you want to delete this dedicated offer?
-          </p>
-          <div className="flex justify-end gap-2">
-            <button
-              className="px-4 py-2 bg-gray-200 rounded-md"
-              onClick={() => toast.dismiss(t.id)}
-            >
-              Cancel
-            </button>
-            <button
-              className="px-4 py-2 bg-red-500 text-white rounded-md"
-              onClick={() => {
-                dispatch(bulkDeleteDedicatedOffersStart({ ids: [id] }));
-                toast.dismiss(t.id);
-              }}
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      ),
-      {
-        duration: 6000,
-      }
-    );
-  };
+  // const handleRemove = (id: string) => {
+  //   toast(
+  //     (t) => (
+  //       <div className="bg-white p-4 rounded-lg shadow-lg flex flex-col gap-4">
+  //         <p className="font-semibold">
+  //           Are you sure you want to delete this dedicated offer?
+  //         </p>
+  //         <div className="flex justify-end gap-2">
+  //           <button
+  //             className="px-4 py-2 bg-gray-200 rounded-md"
+  //             onClick={() => toast.dismiss(t.id)}
+  //           >
+  //             Cancel
+  //           </button>
+  //           <button
+  //             className="px-4 py-2 bg-red-500 text-white rounded-md"
+  //             onClick={() => {
+  //               dispatch(bulkDeleteDedicatedOffersStart({ ids: [id] }));
+  //               toast.dismiss(t.id);
+  //             }}
+  //           >
+  //             Delete
+  //           </button>
+  //         </div>
+  //       </div>
+  //     ),
+  //     {
+  //       duration: 6000,
+  //     }
+  //   );
+  // };
 
   const displayDedicatedOffers = dedicatedOffers.map((offer) => adaptDedicatedOfferSummaryToDisplay(offer));
 

@@ -4,7 +4,7 @@ import {
   selectDashboardData,
   selectDashboardLoading,
 } from "@/store/dashboard/dashboardSlice";
-import Loader from '@/components/general/Loader';
+// import Loader from '@/components/general/Loader';
 
 export default function InfluencerActivity() {
   const dashboardData = useSelector(selectDashboardData);

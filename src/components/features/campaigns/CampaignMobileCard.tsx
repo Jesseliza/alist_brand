@@ -11,7 +11,7 @@ export default function CampaignMobileCard({
     vendorName,
     thumbnailUrl,
     campaignType,
-    offerType,
+    // offerType,
     duration,
     durationUnit,
     startDate,
@@ -27,33 +27,33 @@ export default function CampaignMobileCard({
     return now >= start && now <= end;
   };
 
-  const getCampaignTypeDisplay = (type?: string) => {
-    switch (type) {
-      case "WalkIn":
-        return "Walk in";
-      case "Delivery":
-        return "Delivery";
-      case "Online":
-        return "Online";
-      case "Exclusive":
-        return "Exclusive";
-      default:
-        return type || "N/A";
-    }
-  };
+  // const getCampaignTypeDisplay = (type?: string) => {
+  //   switch (type) {
+  //     case "WalkIn":
+  //       return "Walk in";
+  //     case "Delivery":
+  //       return "Delivery";
+  //     case "Online":
+  //       return "Online";
+  //     case "Exclusive":
+  //       return "Exclusive";
+  //     default:
+  //       return type || "N/A";
+  //   }
+  // };
 
-  const getOfferTypeDisplay = (type?: string) => {
-    switch (type) {
-      case "Barter":
-        return "Barter";
-      case "Paid":
-        return "Paid";
-      case "BarterAndPaid":
-        return "Barter & Paid";
-      default:
-        return type || "N/A";
-    }
-  };
+  // const getOfferTypeDisplay = (type?: string) => {
+  //   switch (type) {
+  //     case "Barter":
+  //       return "Barter";
+  //     case "Paid":
+  //       return "Paid";
+  //     case "BarterAndPaid":
+  //       return "Barter & Paid";
+  //     default:
+  //       return type || "N/A";
+  //   }
+  // };
 
   return (
     <div className="bg-white rounded-[13px] p-3.5 cursor-pointer">

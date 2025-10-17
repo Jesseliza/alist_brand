@@ -4,11 +4,11 @@ import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { deleteBrandFileRequest, resetDeleteFileStatus } from "@/store/brand/brandSlice";
-import { validatePinRequest, resetPinStatus } from "@/store/common/commonSlice";
+// import { validatePinRequest, resetPinStatus } from "@/store/common/commonSlice";
 import api from "@/services/apiHelper";
 import InlineLoader from "@/components/general/InlineLoader";
 import toast from "react-hot-toast";
-import PinModal from "@/components/general/PinModal";
+// import PinModal from "@/components/general/PinModal";
 import Image from "next/image";
 
 interface BrandFile {
@@ -32,12 +32,12 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
   const [uploading, setUploading] = useState(false);
   const [loadingFiles, setLoadingFiles] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isPinModalOpen, setIsPinModalOpen] = useState(false);
-  const [fileToDownload, setFileToDownload] = useState<string | null>(null);
+  // const [isPinModalOpen, setIsPinModalOpen] = useState(false);
+  // const [fileToDownload, setFileToDownload] = useState<string | null>(null);
 
   const dispatch = useDispatch();
   const { deleteFileSuccess } = useSelector((state: RootState) => state.brand);
-  const { pinValidationLoading, pinValidationSuccess, pinValidationError } = useSelector((state: RootState) => state.common);
+  // const { pinValidationLoading, pinValidationSuccess, pinValidationError } = useSelector((state: RootState) => state.common);
 
   const fetchBrandFiles = useCallback(async () => {
     if (!brandId) return;
@@ -49,6 +49,7 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
         setBrandFiles(response.data.Venue.venue_files);
       }
     } catch (err) {
+      console.log(err);
       setError("Failed to fetch brand files.");
     } finally {
       setLoadingFiles(false);

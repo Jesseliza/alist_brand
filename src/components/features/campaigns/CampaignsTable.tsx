@@ -18,8 +18,8 @@ export default function CampaignsTable({
   campaigns,
   checkedRows,
   onCheckboxChange,
-  onSelectAll,
-  isAllSelected,
+  // onSelectAll,
+  // isAllSelected,
 }: CampaignsTableProps) {
   const [copiedLink, setCopiedLink] = useState<string | null>(null);
 

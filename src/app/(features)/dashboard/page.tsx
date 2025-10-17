@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import BarChart from "@/components/charts/BarChart";
-import DonutChart from "@/components/charts/RingChart";
-import LineChart from "@/components/charts/LineChart";
+// import DonutChart from "@/components/charts/RingChart";
+// import LineChart from "@/components/charts/LineChart";
 import DashboardStatCards from "@/components/features/dashboard/DashboardStatCards";
 import LiveCampaigns from "@/components/features/dashboard/LiveCampaigns";
 import InfluencerActivity from "@/components/features/dashboard/InfluencerAdctivity";
@@ -12,27 +12,27 @@ import { getDashboardData, selectDashboardData } from "@/store/dashboard/dashboa
 import { AppDispatch } from "@/store/store";
 
 // Legend Labels Component
-const LegendLabels = ({
-  segments,
-}: {
-  segments: Array<{ value: number; color: string; label: string }>;
-}) => {
-  return (
-    <div className="flex items-center gap-2 justify-between mt-[45px]">
-      {segments.map((segment, index) => (
-        <div key={index} className="flex items-center gap-[4.5px]">
-          <div
-            className="w-[10px] h-[10px] rounded-[4px]"
-            style={{ backgroundColor: segment.color }}
-          ></div>
-          <p className="text-[9px] leading-[13px] text-[#383838]">
-            {segment.label}: {segment.value}%
-          </p>
-        </div>
-      ))}
-    </div>
-  );
-};
+// const LegendLabels = ({
+//   segments,
+// }: {
+//   segments: Array<{ value: number; color: string; label: string }>;
+// }) => {
+//   return (
+//     <div className="flex items-center gap-2 justify-between mt-[45px]">
+//       {segments.map((segment, index) => (
+//         <div key={index} className="flex items-center gap-[4.5px]">
+//           <div
+//             className="w-[10px] h-[10px] rounded-[4px]"
+//             style={{ backgroundColor: segment.color }}
+//           ></div>
+//           <p className="text-[9px] leading-[13px] text-[#383838]">
+//             {segment.label}: {segment.value}%
+//           </p>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
 
 export default function Dashboard() {
   const dispatch = useDispatch<AppDispatch>();
@@ -88,7 +88,7 @@ export default function Dashboard() {
               />
             ) : (
               <div className="flex justify-center items-center h-[280px]">
-                <img
+                <Image
                   src="/icons/loader.gif"
                   alt="Loading..."
                   width={50}

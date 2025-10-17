@@ -1,9 +1,9 @@
 "use client";
-import { useState, useMemo, useEffect, useRef } from "react";
-import { Campaign, OfferUser } from "@/types/entities/campaign";
+import { useState, useMemo } from "react";
+import { Campaign } from "@/types/entities/campaign";
 import CampaignCreatorCard from "./Creators/CampaignCreatorCard";
 import Pagination from "@/components/general/Pagination";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 // import { updateDedicatedPageStatusStart } from "@/store/campaigns/CampaignSlice";
 import { RootState } from "@/store/store";
 
@@ -20,7 +20,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
   const { dedicatedPageStatusLoading } = useSelector(
     (state: RootState) => state.campaigns
   );
-  const prevLoading = useRef(dedicatedPageStatusLoading);
+  // const prevLoading = useRef(dedicatedPageStatusLoading);
 
   // useEffect(() => {
   //   if (prevLoading.current && !dedicatedPageStatusLoading) {
