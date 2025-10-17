@@ -113,7 +113,7 @@ function DashboardContent({
             <div className="flex md:hidden items-center justify-between w-full">
               <button
                 className="w-[29px] h-[29px] bg-[#F8F8F8] rounded-[11px] flex items-center justify-center"
-                onClick={() => setIsMobileMenuOpen(true)}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
                 <Image
                   src="/icons/burger.svg"
