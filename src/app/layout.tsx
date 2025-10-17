@@ -30,7 +30,7 @@ export default function RootLayout({
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         />
       </head>
-      <body className="flex min-h-screen w-screen overflow-hidden font-[Poppins]">
+      <body className="flex min-h-screen font-[Poppins]">
         <StoreProvider>
           <AuthInitializer />
           <ToastProvider />
