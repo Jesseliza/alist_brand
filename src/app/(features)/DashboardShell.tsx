@@ -52,19 +52,12 @@ function DashboardContent({
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      const isMobileClickOutside =
+      if (
         mobileProfileMenuRef.current &&
-        !mobileProfileMenuRef.current.contains(event.target as Node);
-
-      const isDesktopClickOutside =
+        !mobileProfileMenuRef.current.contains(event.target as Node) &&
         desktopProfileMenuRef.current &&
-        !desktopProfileMenuRef.current.contains(event.target as Node);
-
-      if (isMobileClickOutside && isDesktopClickOutside) {
-        setProfileMenuOpen(false);
-      } else if (isMobileClickOutside && !desktopProfileMenuRef.current) {
-        setProfileMenuOpen(false);
-      } else if (isDesktopClickOutside && !mobileProfileMenuRef.current) {
+        !desktopProfileMenuRef.current.contains(event.target as Node)
+      ) {
         setProfileMenuOpen(false);
       }
     }
