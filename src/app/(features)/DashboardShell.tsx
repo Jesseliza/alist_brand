@@ -107,7 +107,7 @@ function DashboardContent({
           isOverlayMode && isMounted ? "ml-[102px]" : ""
         }`}
       >
-        <header className="relative z-[1030]">
+        <header className="relative z-[1050]">
           <Nav>
             {/* Mobile Nav */}
             <div className="flex md:hidden items-center justify-between w-full">
@@ -142,7 +142,7 @@ function DashboardContent({
                     className="cursor-pointer"
                   />
                   {isProfileMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[70]">
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[1060]">
                       <div className="px-4 py-2 text-sm text-gray-700">
                         {user?.firstName} {user?.lastName}
                       </div>
@@ -195,7 +195,7 @@ function DashboardContent({
                     className="cursor-pointer"
                   />
                   {isProfileMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[70]">
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[1060]">
                       <div className="px-4 py-2 text-sm text-gray-700">
                         {user?.firstName} {user?.lastName}
                       </div>

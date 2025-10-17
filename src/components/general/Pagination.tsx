@@ -110,7 +110,7 @@ export default function Pagination({
         </div>
       )}
 
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center flex-wrap justify-center gap-1.5">
         <button
           onClick={handlePrevious}
           disabled={currentPage === 1 || isLoading}
