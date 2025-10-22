@@ -4,6 +4,7 @@ import {
   selectDashboardData,
   selectDashboardLoading,
 } from "@/store/dashboard/dashboardSlice";
+import { getInitials } from "@/utils/text";
 // import Loader from '@/components/general/Loader';
 
 export default function InfluencerActivity() {
@@ -44,13 +45,19 @@ export default function InfluencerActivity() {
                 <td className="py-2 pl-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
-                      <Image
-                        src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${influencer.profile_picture}`}
-                        alt={influencer.name}
-                        width={40}
-                        height={40}
-                        className="w-full h-full object-cover"
-                      />
+                      {influencer.profile_picture ? (
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${influencer.profile_picture}`}
+                          alt={influencer.name}
+                          width={40}
+                          height={40}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white text-lg font-bold">
+                          {getInitials(influencer.name)}
+                        </div>
+                      )}
                     </div>
                     <span className="font-medium text-gray-900">
                       {influencer.name}
