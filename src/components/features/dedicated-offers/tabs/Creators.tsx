@@ -16,6 +16,9 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
   const [selectedCreatorId, setSelectedCreatorId] = useState<string | null>(
     null
   );
+  const [actionType, setActionType] = useState<"approve" | "reject" | null>(
+    null
+  );
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
   const { dedicatedPageStatusLoading } = useSelector(
@@ -66,6 +69,7 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
 
   const handleApprove = (id: string) => {
     setSelectedCreatorId(id);
+    setActionType("approve");
     dispatch(
       updateDedicatedPageStatusStart({
         id: id,
@@ -77,6 +81,7 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
 
   const handleReject = (id: string) => {
     setSelectedCreatorId(id);
+    setActionType("reject");
     setIsRejectModalOpen(true);
   };
 
@@ -115,7 +120,10 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
                   onApprove={handleApprove}
                   onReject={handleReject}
                   loading={
-                    dedicatedPageStatusLoading && selectedCreatorId === creator.id
+                    dedicatedPageStatusLoading &&
+                    selectedCreatorId === creator.id
+                      ? actionType
+                      : null
                   }
                   hideCreatorActions={hideCreatorActions}
                 />

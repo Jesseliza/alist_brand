@@ -40,6 +40,9 @@ export default function CampaignDetails({
 
   const [selectedIndex, setSelectedIndex] = useState(1); // Default to Overview (index 1)
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
+  const [actionType, setActionType] = useState<"approve" | "reject" | null>(
+    null
+  );
 
   const getTabFromURL = useCallback(() => {
     const tab = searchParams.get("tab");
@@ -50,10 +53,12 @@ export default function CampaignDetails({
   }, [searchParams]);
 
   const handleApprove = () => {
+    setActionType("approve");
     dispatch(updateCampaignStatusStart({ id: campaignId, status: "Approved" }));
   };
 
   const handleReject = () => {
+    setActionType("reject");
     setIsRejectModalOpen(true);
   };
 
@@ -90,14 +95,18 @@ export default function CampaignDetails({
                 disabled={statusUpdateLoading}
                 className="bg-green-500 text-white px-3 py-1 text-sm rounded-md hover:bg-green-600 disabled:bg-gray-400"
               >
-                {statusUpdateLoading ? "Approving..." : "Approve"}
+                {statusUpdateLoading && actionType === "approve"
+                  ? "Approving..."
+                  : "Approve"}
               </button>
               <button
                 onClick={handleReject}
                 disabled={statusUpdateLoading}
                 className="bg-red-500 text-white px-3 py-1 text-sm rounded-md hover:bg-red-600 disabled:bg-gray-400"
               >
-                Reject
+                {statusUpdateLoading && actionType === "reject"
+                  ? "Rejecting..."
+                  : "Reject"}
               </button>
             </div>
           </div>
