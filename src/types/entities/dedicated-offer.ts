@@ -62,6 +62,9 @@ export interface User {
   instagram_url: string;
   credibility: string;
   instagram_followers?: number;
+  instagram_follower_range?: {
+    followers: number;
+  };
 }
 
 export interface OfferUser {
