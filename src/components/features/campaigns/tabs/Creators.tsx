@@ -7,7 +7,8 @@ import { useSelector } from "react-redux";
 // import { updateDedicatedPageStatusStart } from "@/store/campaigns/CampaignSlice";
 import { RootState } from "@/store/store";
 
-export default function Creators({ campaign, searchTerm }: { campaign: Campaign, searchTerm?: string }) {
+export default function Creators({ campaign }: { campaign: Campaign }) {
+  const { searchTerm } = useSelector((state: RootState) => state.search);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
   // const dispatch = useDispatch();
