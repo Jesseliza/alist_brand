@@ -3,7 +3,6 @@
 import Sidebar, { MenuIcon } from "@/components/Layout/Sidebar";
 import Nav from "@/components/Layout/Nav";
 import SearchInput from "@/components/general/SearchInput";
-import Image from "next/image";
 import React, { useState, useEffect, Suspense, useCallback, useRef } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,7 +33,6 @@ function DashboardContent({
   const dispatch = useDispatch();
   const router = useRouter();
   const { isAuthenticated, user, isAuthLoading } = useSelector((state: RootState) => state.auth);
-  const { searchTerm } = useSelector((state: RootState) => state.search);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
   const mobileProfileMenuRef = useRef<HTMLDivElement>(null);
   const desktopProfileMenuRef = useRef<HTMLDivElement>(null);
@@ -92,7 +90,7 @@ function DashboardContent({
     pattern.test(fullPath)
   );
 
-  const showSearchBar = () => {
+  const showSearchBar = useCallback(() => {
     const tab = searchParams.get("tab");
     if (pathname.startsWith("/businesses/dedicated-offers/") || pathname.startsWith("/businesses/campaigns/")) {
       return tab === "Creators";
@@ -101,7 +99,7 @@ function DashboardContent({
       return false;
     }
     return true;
-  };
+  }, [pathname, searchParams]);
 
   return (
     <div className="flex min-h-screen w-full font-[Poppins]">
@@ -284,9 +282,7 @@ function DashboardContent({
               } as React.CSSProperties
             }
           >
-            {React.Children.map(children, (child) =>
-              React.cloneElement(child as React.ReactElement<any>, { searchTerm })
-            )}
+            {children}
           </main>
         </div>
       </div>
@@ -329,10 +325,14 @@ export default function DashboardShell({
 
   // Overlay mode for 1280px > width >= 768px
   const isOverlayMode = windowWidth < 1280 && windowWidth >= 768;
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const key = `${pathname}?${searchParams.toString()}`;
 
   return (
     <Suspense fallback={<Loader />}>
       <DashboardContent
+        key={key}
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
         collapsed={collapsed}
