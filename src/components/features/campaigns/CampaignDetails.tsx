@@ -27,9 +27,11 @@ const tabs = [
 export default function CampaignDetails({
   campaign,
   campaignId,
+  searchTerm,
 }: {
   campaign: Campaign;
   campaignId: string;
+  searchTerm?: string;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -133,7 +135,7 @@ export default function CampaignDetails({
         <TabPanels className="md:px-4">
           {tabs.map((tab) => (
             <TabPanel key={tab}>
-              {tab === "Creators" && <Creators campaign={campaign} />}
+              {tab === "Creators" && <Creators campaign={campaign} searchTerm={searchTerm} />}
               {tab === "Overview" && <Overview campaign={campaign} />}
               {tab === "Availabilites" && (
                 <Availabilites campaignId={campaignId} />

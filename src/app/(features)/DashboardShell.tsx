@@ -4,7 +4,7 @@ import Sidebar, { MenuIcon } from "@/components/Layout/Sidebar";
 import Nav from "@/components/Layout/Nav";
 import SearchInput from "@/components/general/SearchInput";
 import Image from "next/image";
-import { useState, useEffect, Suspense, useCallback, useRef } from "react";
+import React, { useState, useEffect, Suspense, useCallback, useRef } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "@/components/general/Loader";
@@ -34,6 +34,7 @@ function DashboardContent({
   const dispatch = useDispatch();
   const router = useRouter();
   const { isAuthenticated, user, isAuthLoading } = useSelector((state: RootState) => state.auth);
+  const { searchTerm } = useSelector((state: RootState) => state.search);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
   const mobileProfileMenuRef = useRef<HTMLDivElement>(null);
   const desktopProfileMenuRef = useRef<HTMLDivElement>(null);
@@ -205,7 +206,7 @@ function DashboardContent({
 
             {/* Desktop Nav */}
             <div className="hidden md:flex w-full items-center gap-4">
-              <MenuIcon onClick={() => setCollapsed(!collapsed)} />
+              {isOverlayMode && <MenuIcon onClick={() => setCollapsed(!collapsed)} />}
               <div className="flex-1">
                 {showSearchBar() && <SearchInput />}
               </div>
@@ -283,7 +284,9 @@ function DashboardContent({
               } as React.CSSProperties
             }
           >
-            {children}
+            {React.Children.map(children, (child) =>
+              React.cloneElement(child as React.ReactElement<any>, { searchTerm })
+            )}
           </main>
         </div>
       </div>
