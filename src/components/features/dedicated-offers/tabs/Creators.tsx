@@ -8,7 +8,7 @@ import { updateDedicatedPageStatusStart } from "@/store/dedicated-offers/Dedicat
 import { RootState } from "@/store/store";
 import RejectReasonModal from "../RejectReasonModal";
 
-export default function Creators({ dedicatedOffer }: { dedicatedOffer: DedicatedOfferDisplay }) {
+export default function Creators({ dedicatedOffer, searchTerm }: { dedicatedOffer: DedicatedOfferDisplay, searchTerm?: string }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
   const dispatch = useDispatch();
@@ -33,10 +33,16 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
     prevLoading.current = dedicatedPageStatusLoading;
   }, [dedicatedPageStatusLoading]);
 
-  const creators = dedicatedOffer?.offer_users || [];
+  const creators = useMemo(() => dedicatedOffer?.offer_users || [], [dedicatedOffer]);
 
   const mappedCreators = useMemo(() => {
-    return creators
+    const filteredCreators = searchTerm
+      ? creators.filter((offerUser) =>
+          offerUser.user?.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : creators;
+
+    return filteredCreators
       .filter((offerUser: OfferUser) => offerUser.user)
       .map((offerUser: OfferUser) => ({
         id: offerUser.id.toString(),
@@ -52,7 +58,7 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
         },
         status: offerUser.status,
       }));
-  }, [creators]);
+  }, [creators, searchTerm]);
 
   const paginatedCreators = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;

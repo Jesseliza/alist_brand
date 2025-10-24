@@ -17,9 +17,11 @@ const tabs = ["Creators", "Overview"];
 export default function DedicatedOfferDetails({
   dedicatedOffer,
   dedicatedOfferId,
+  searchTerm,
 }: {
   dedicatedOffer: DedicatedOffer;
   dedicatedOfferId: string;
+  searchTerm?: string;
 }) {
   const displayDedicatedOffer = adaptDedicatedOfferSummaryToDisplay(dedicatedOffer);
   const router = useRouter();
@@ -126,7 +128,7 @@ export default function DedicatedOfferDetails({
           {tabs.map((tab) => (
             <TabPanel key={tab}>
               {tab === "Overview" && <Overview dedicatedOffer={displayDedicatedOffer} />}
-              {tab === "Creators" && <Creators dedicatedOffer={displayDedicatedOffer} />}
+              {tab === "Creators" && <Creators dedicatedOffer={displayDedicatedOffer} searchTerm={searchTerm} />}
             </TabPanel>
           ))}
         </TabPanels>

@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 // import { updateDedicatedPageStatusStart } from "@/store/campaigns/CampaignSlice";
 import { RootState } from "@/store/store";
 
-export default function Creators({ campaign }: { campaign: Campaign }) {
+export default function Creators({ campaign, searchTerm }: { campaign: Campaign, searchTerm?: string }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
   // const dispatch = useDispatch();
@@ -29,10 +29,16 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
   //   prevLoading.current = dedicatedPageStatusLoading;
   // }, [dedicatedPageStatusLoading]);
 
-  const creators = campaign?.food_offer_user || [];
+  const creators = useMemo(() => campaign?.food_offer_user || [], [campaign]);
 
   const mappedCreators = useMemo(() => {
-    return creators
+    const filteredCreators = searchTerm
+      ? creators.filter((offerUser) =>
+          offerUser.user?.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : creators;
+
+    return filteredCreators
       .filter((offerUser) => offerUser.user)
       .map((offerUser) => ({
         id: offerUser.id.toString(),
@@ -48,7 +54,7 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
         },
         status: offerUser.status,
       }));
-  }, [creators]);
+  }, [creators, searchTerm]);
 
   const paginatedCreators = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
