@@ -14,6 +14,20 @@ const Logo = () => (
   <Image width={52} height={52} alt="Alist Logo" src="/icons/Logo.svg" />
 );
 
+export const MenuIcon = ({ onClick }: { onClick: () => void }) => (
+  <button
+    className="w-[29px] h-[29px] bg-[#F8F8F8] rounded-[11px] flex items-center justify-center"
+    onClick={onClick}
+  >
+    <Image
+      src="/icons/burger.svg"
+      alt="open sidebar"
+      width={27}
+      height={24}
+    />
+  </button>
+);
+
 interface SidebarProps {
   collapsed?: boolean;
   setCollapsed?: (collapsed: boolean) => void;
@@ -84,10 +98,7 @@ export default function Sidebar({
   }, [stableSetCollapsed]);
 
   const handleLogoClick = () => {
-    // Only allow toggling collapse for 1280px > width >= 768px
-    if (windowWidth < 1280 && windowWidth >= 768) {
-      stableSetCollapsed(!collapsed);
-    }
+    stableSetCollapsed(!collapsed);
   };
 
   // Overlay mode for 1280px > width >= 768px

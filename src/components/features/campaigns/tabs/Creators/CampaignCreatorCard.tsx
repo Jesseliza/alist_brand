@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { formatCredibility } from "@/utils/creatorUtils";
 
 interface CampaignCreatorCardProps {
   // id: string;
@@ -42,14 +43,6 @@ export default function CampaignCreatorCard({
       return words[0].charAt(0) + words[1].charAt(0);
     }
     return name.substring(0, 2);
-  };
-
-  const formatCredibility = (credibility: string) => {
-    const value = parseFloat(credibility);
-    if (isNaN(value)) {
-      return "N/A";
-    }
-    return `${(value * 100).toFixed(2)}%`;
   };
 
   return (
