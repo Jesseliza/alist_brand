@@ -3,7 +3,7 @@ import Image from "next/image";
 interface DedicatedOfferCreatorCardProps {
   id: string;
   image: string;
-  name:string;
+  name: string;
   instagramName: string;
   stats: {
     followers: string;

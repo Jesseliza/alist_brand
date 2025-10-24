@@ -81,7 +81,7 @@ export default function CampaignCard({
   const getBarterIcon = () => {
     const active = isCampaignActive();
     if (active === "today") {
-      return "/icons/campaign/card/barter-approved-blue.svg";
+      return "/icons/campaign/card/barter-approved.svg";
     }
     return active
       ? "/icons/campaign/card/barter-approved.svg"
@@ -191,13 +191,18 @@ export default function CampaignCard({
           </div>
           <div className="aspect-square flex flex-col justify-center items-center gap-2 rounded-[11px] bg-white shadow-[0_0_2px_rgba(0,0,0,0.16)]">
             <div className="h-[30.65px] flex items-center justify-center">
-              <span
-                className={`text-[21px] font-bold leading-[31px] ${
-                  status === "Approved" ? "text-[#00A4B6]" : "text-[#505050]"
-                }`}
-              >
-                {duration ?? "N/A"}
-              </span>
+              {(() => {
+                const active = isCampaignActive();
+                const isActive = active === "today" || active === true;
+                return (
+                  <span
+                    className={`text-[21px] font-bold leading-[31px] ${isActive ? "text-[#00A4B6]" : "text-[#505050]"
+                      }`}
+                  >
+                    {duration ?? "N/A"}
+                  </span>
+                );
+              })()}
             </div>
             <span className="text-[12px] text-[#414141] font-medium">
               {durationUnit ?? ""}

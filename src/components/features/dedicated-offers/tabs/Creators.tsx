@@ -16,10 +16,10 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
   const [selectedCreatorId, setSelectedCreatorId] = useState<string | null>(
     null
   );
+  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
   const [actionType, setActionType] = useState<"approve" | "reject" | null>(
     null
   );
-  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
 
   const { dedicatedPageStatusLoading } = useSelector(
     (state: RootState) => state.dedicatedOffers

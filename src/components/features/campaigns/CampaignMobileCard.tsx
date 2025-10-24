@@ -146,7 +146,7 @@ export default function CampaignMobileCard({
                 {campaign.category}
               </span>
             </div>
-            <div className="text-[13px] leading-[1.5] text-[#757575]">
+            <div className={`text-[13px] leading-[1.5]  ${isCampaignActive() ? "text-[#00A4B6]" : "text-[#757575]" }`}>
               {duration ? `${duration} ${durationUnit?.toLowerCase() ?? ''}` : `${startDate ?? ''} - ${endDate ?? ''}`}
             </div>
           </div>
