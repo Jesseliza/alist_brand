@@ -1,6 +1,6 @@
 "use client";
 
-import Sidebar from "@/components/Layout/Sidebar";
+import Sidebar, { MenuIcon } from "@/components/Layout/Sidebar";
 import Nav from "@/components/Layout/Nav";
 import SearchInput from "@/components/general/SearchInput";
 import Image from "next/image";
@@ -91,6 +91,17 @@ function DashboardContent({
     pattern.test(fullPath)
   );
 
+  const showSearchBar = () => {
+    const tab = searchParams.get("tab");
+    if (pathname.startsWith("/businesses/dedicated-offers/") || pathname.startsWith("/businesses/campaigns/")) {
+      return tab === "Creators";
+    }
+    if (pathname.startsWith("/businesses/accounts/") || pathname.startsWith("/businesses/brands/")) {
+      return false;
+    }
+    return true;
+  };
+
   return (
     <div className="flex min-h-screen w-full font-[Poppins]">
       {/* Mobile Sidebar Backdrop */}
@@ -133,17 +144,7 @@ function DashboardContent({
           <Nav>
             {/* Mobile Nav */}
             <div className="flex md:hidden items-center justify-between w-full">
-              <button
-                className="w-[29px] h-[29px] bg-[#F8F8F8] rounded-[11px] flex items-center justify-center"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                <Image
-                  src="/icons/burger.svg"
-                  alt="open sidebar"
-                  width={27}
-                  height={24}
-                />
-              </button>
+              <MenuIcon onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} />
               <span className="text-[18px] font-semibold text-[#4F4F4F]">
                 Dashboard
               </span>
@@ -203,9 +204,10 @@ function DashboardContent({
             </div>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex w-full">
+            <div className="hidden md:flex w-full items-center gap-4">
+              <MenuIcon onClick={() => setCollapsed(!collapsed)} />
               <div className="flex-1">
-                <SearchInput />
+                {showSearchBar() && <SearchInput />}
               </div>
               <div className="flex items-center space-x-4">
                 {/* <Image
