@@ -8,10 +8,9 @@ import { updateDedicatedPageStatusStart } from "@/store/dedicated-offers/Dedicat
 import { RootState } from "@/store/store";
 import RejectReasonModal from "../RejectReasonModal";
 
-const ITEMS_PER_PAGE = 6;
-
 export default function Creators({ dedicatedOffer }: { dedicatedOffer: DedicatedOfferDisplay }) {
   const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   const dispatch = useDispatch();
   const [selectedCreatorId, setSelectedCreatorId] = useState<string | null>(
     null
@@ -45,7 +44,9 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
         name: offerUser.user.name,
         instagramName: offerUser.user.instagram_url || "N/A",
         stats: {
-          followers: offerUser.user.instagram_followers?.toString() || "N/A",
+          followers:
+            offerUser.user.instagram_follower_range?.followers?.toString() ||
+            "N/A",
           credibility: offerUser.user.credibility || "N/A",
           engagement: "N/A", // As requested
         },
@@ -54,9 +55,9 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
   }, [creators]);
 
   const paginatedCreators = useMemo(() => {
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    return mappedCreators.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  }, [mappedCreators, currentPage]);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return mappedCreators.slice(startIndex, startIndex + itemsPerPage);
+  }, [mappedCreators, currentPage, itemsPerPage]);
 
   const approvedCreatorsCount = useMemo(() => {
     return creators.filter((c) => c.status === 6).length;
@@ -132,9 +133,13 @@ export default function Creators({ dedicatedOffer }: { dedicatedOffer: Dedicated
             <div className="mt-8">
               <Pagination
                 totalItems={mappedCreators.length}
-                itemsPerPage={ITEMS_PER_PAGE}
+                itemsPerPage={itemsPerPage}
                 currentPage={currentPage}
                 onPageChange={setCurrentPage}
+                onItemsPerPageChange={(items) => {
+                  setItemsPerPage(items);
+                  setCurrentPage(1);
+                }}
                 isLoading={dedicatedPageStatusLoading}
               />
             </div>

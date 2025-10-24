@@ -44,6 +44,14 @@ export default function CampaignCreatorCard({
     return name.substring(0, 2);
   };
 
+  const formatCredibility = (credibility: string) => {
+    const value = parseFloat(credibility);
+    if (isNaN(value)) {
+      return "N/A";
+    }
+    return `${(value * 100).toFixed(2)}%`;
+  };
+
   return (
     <article className="min-w-[300px] w-full md:block flex items-center gap-5  md:shadow-[0_0_4px_rgba(0,0,0,0.23)]  rounded-[13px] md:bg-white bg-[#F8F8F8] md:border-none border border-[#E4E4E4]">
       {/* Top gray section with overlapping profile picture */}
@@ -96,7 +104,7 @@ export default function CampaignCreatorCard({
           <div className="w-[1px] h-[36.97px] bg-[#4F4F4F]"></div>
           <div className="flex-1 text-center">
             <p className="text-[18px] font-medium text-[#383838] leading-[33px]">
-              {stats.credibility}
+              {formatCredibility(stats.credibility)}
             </p>
             <p className="text-[11px] text-[#4F4F4F]">Credibility</p>
           </div>
