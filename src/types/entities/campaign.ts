@@ -196,6 +196,9 @@ export type OfferUser = {
     instagram_url: string | null;
     instagram_followers: number | null;
     credibility: string | null;
+    instagram_follower_range?: {
+      followers: number;
+    };
   };
   status: number;
 };

@@ -155,17 +155,21 @@ function DashboardContent({
                   height={29.36}
                 /> */}
                 <div className="relative" ref={mobileProfileMenuRef}>
-                  <div
-                    className="w-[42px] h-[42px] rounded-full flex items-center justify-center text-white text-lg font-bold cursor-pointer"
-                    style={{
-                      backgroundColor: generateColorFromString(
-                        `${user?.firstName} ${user?.lastName}`
-                      ),
-                    }}
-                    onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
-                  >
-                    {getInitials(`${user?.firstName} ${user?.lastName}`)}
-                  </div>
+                  {user?.firstName ? (
+                    <div
+                      className="w-[42px] h-[42px] rounded-full flex items-center justify-center text-white text-lg font-bold cursor-pointer"
+                      style={{
+                        backgroundColor: generateColorFromString(
+                          `${user.firstName} ${user.lastName}`
+                        ),
+                      }}
+                      onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
+                    >
+                      {getInitials(`${user.firstName} ${user.lastName}`)}
+                    </div>
+                  ) : (
+                    <div className="w-[42px] h-[42px] rounded-full bg-gray-300"></div>
+                  )}
                   {isProfileMenuOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[100]">
                       <div className="px-4 py-2 text-sm text-gray-700">
@@ -211,17 +215,21 @@ function DashboardContent({
                   height={29.36}
                 /> */}
                 <div className="relative" ref={desktopProfileMenuRef}>
-                  <div
-                    className="w-[42px] h-[42px] rounded-full flex items-center justify-center text-white text-lg font-bold cursor-pointer"
-                    style={{
-                      backgroundColor: generateColorFromString(
-                        `${user?.firstName} ${user?.lastName}`
-                      ),
-                    }}
-                    onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
-                  >
-                    {getInitials(`${user?.firstName} ${user?.lastName}`)}
-                  </div>
+                  {user?.firstName ? (
+                    <div
+                      className="w-[42px] h-[42px] rounded-full flex items-center justify-center text-white text-lg font-bold cursor-pointer"
+                      style={{
+                        backgroundColor: generateColorFromString(
+                          `${user.firstName} ${user.lastName}`
+                        ),
+                      }}
+                      onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
+                    >
+                      {getInitials(`${user.firstName} ${user.lastName}`)}
+                    </div>
+                  ) : (
+                    <div className="w-[42px] h-[42px] rounded-full bg-gray-300"></div>
+                  )}
                   {isProfileMenuOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-[100]">
                       <div className="px-4 py-2 text-sm text-gray-700">
