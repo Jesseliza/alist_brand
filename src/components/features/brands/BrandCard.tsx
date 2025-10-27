@@ -105,7 +105,6 @@ export default function BrandCard({
             </div>
           ))}
         </div>
-        {(brand.Venue_contact_name || brand.venue_email) && (
         <div className="h-[55px] mt-5">
           {(brand.Venue_contact_name || brand.venue_email) && (
             <div className="flex gap-3">
@@ -135,7 +134,7 @@ export default function BrandCard({
               </div>
             </div>
           )}
-          </div>
+        </div>
       </div>
     </Link>
   );
