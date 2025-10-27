@@ -132,7 +132,10 @@ export default function Sidebar({
             alist.ae
           </p>
           <p className="text-[13.5px] leading-[1.5] text-[#414141] mt-[-3px] font-[Greycliff]">
-            {user?.registration_type === "admin" ? "Administrator" : "Account"}
+            {user?.registration_type
+              ? user.registration_type.charAt(0).toUpperCase() +
+                user.registration_type.slice(1)
+              : "Account"}
           </p>
         </div>
       </div>
