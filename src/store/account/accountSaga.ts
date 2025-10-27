@@ -292,7 +292,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         country_code: country_code,
         account_type: accountType,
         venues: brands?.map(b => b.brandId) || [],
-        registration_type: registration_type || "accounts",
+        registration_type: (registration_type || "accounts").toLowerCase(),
         status: "active", // Static value
       };
 
@@ -362,7 +362,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
         country_code: country_code,
         account_type: accountType,
         venues: brands?.map((b) => Number(b.brandId)),
-        registration_type: registration_type,
+        registration_type: registration_type?.toLowerCase(),
         status: "active",
       };
 
