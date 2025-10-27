@@ -64,18 +64,28 @@ export default function AccountsPage() {
     );
   };
 
+  const isInitialMount = useRef(true);
+
   // Effect for initial load and filter changes
   useEffect(() => {
     handleFetch(1, pagination.perPage);
   }, [dispatch, filters]);
 
-  // Effect for debounced search
+
+  // Effect for debounced search, now including cleanup
   useEffect(() => {
-    if (debouncedSearch) {
-      setMobilePage(1);
-      handleFetch(1, pagination.perPage);
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
     }
-  }, [debouncedSearch]);
+
+    setMobilePage(1);
+    handleFetch(1, pagination.perPage);
+
+    return () => {
+      dispatch(setSearchTerm(""));
+    };
+  }, [debouncedSearch, dispatch]);
 
   useEffect(() => {
     if (!bulkUpdateStatusInProgress && !bulkUpdateStatusError) {
