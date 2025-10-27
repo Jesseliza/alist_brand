@@ -153,14 +153,15 @@ type AccountSuccessResponse = {
 
 function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
     try {
-      const { page, ...bodyPayload } = action.payload;
+      const { page, registration_type, ...bodyPayload } = action.payload;
       let endpoint = '/api/list/accounts';
       if (page) {
         endpoint = `${endpoint}?page=${page}`;
       }
 
+      const apiPayload = { ...bodyPayload, registration_type };
       const industries: Option[] = yield call(ensureIndustriesFetched);
-      const response: FetchAccountsSuccessResponse | ApiError = yield call(postData, endpoint, bodyPayload);
+      const response: FetchAccountsSuccessResponse | ApiError = yield call(postData, endpoint, apiPayload);
 
       if ('accounts' in response && response.accounts) {
         const { data, current_page, last_page, per_page, total } = response.accounts;
@@ -218,9 +219,12 @@ function* handleFetchMoreAccounts(action: ReturnType<typeof fetchMoreAccountsReq
       if (page) {
         endpoint = `${endpoint}?page=${page}`;
       }
+      const { registration_type } = yield select((state: RootState) => state.auth.user || {});
+
+      const apiPayload = { ...bodyPayload, registration_type: registration_type === "subadmin" ? "accounts" : undefined };
 
       const industries: Option[] = yield call(ensureIndustriesFetched);
-      const response: FetchAccountsSuccessResponse | ApiError = yield call(postData, endpoint, bodyPayload);
+      const response: FetchAccountsSuccessResponse | ApiError = yield call(postData, endpoint, apiPayload);
 
       if ('accounts' in response && response.accounts) {
         const { data, current_page, last_page, per_page, total } = response.accounts;
