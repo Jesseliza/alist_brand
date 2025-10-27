@@ -90,19 +90,29 @@ export default function AccountsPage() {
   }, [bulkUpdateStatusInProgress, bulkUpdateStatusError]);
 
   const handlePageChange = (page: number) => {
+    const registration_type =
+      user?.registration_type === "subadmin" ? "accounts" : undefined;
     dispatch(
       fetchAccountsRequest({
         page,
         search: searchTerm,
         per_page: pagination.perPage,
         isPagination: true,
+        registration_type,
       })
     );
   };
 
   const handleItemsPerPageChange = (items: number) => {
+    const registration_type =
+      user?.registration_type === "subadmin" ? "accounts" : undefined;
     dispatch(
-      fetchAccountsRequest({ search: searchTerm, per_page: items, page: 1 })
+      fetchAccountsRequest({
+        search: searchTerm,
+        per_page: items,
+        page: 1,
+        registration_type,
+      })
     );
   };
 
