@@ -64,6 +64,7 @@ const accountSlice = createSlice({
       per_page?: number;
       page?: number;
       isPagination?: boolean;
+      registration_type?: string;
     }>) {
       if (action.payload.isPagination) {
         state.paginationLoading = true;
