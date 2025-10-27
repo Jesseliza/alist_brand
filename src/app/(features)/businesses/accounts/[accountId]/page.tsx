@@ -46,6 +46,7 @@ export default function AccountPage() {
         phoneNumber: "",
         accountType: AccountType.INDIVIDUAL,
         brands: [],
+        registration_type: "accounts",
       });
     } else if (accountId) {
       dispatch(fetchAccountByIdRequest({ accountId }));
