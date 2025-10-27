@@ -56,6 +56,12 @@ export default function AccountsTable({
             >
               Account type
             </th>
+            <th
+              scope="col"
+              className="px-6 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
+            >
+              Registration Type
+            </th>
 
             <th
               scope="col"
@@ -138,6 +144,10 @@ export default function AccountsTable({
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                 {account.accountType}
+              </td>
+              <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
+                {account.registration_type.charAt(0).toUpperCase() +
+                  account.registration_type.slice(1)}
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                 <span

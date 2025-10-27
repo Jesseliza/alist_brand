@@ -54,6 +54,11 @@ export default function AccountMobileCard({
                 {account.country_code} {account.phoneNumber}
               </p>
               <p className="text-[11px] text-[#686868] leading-[1.5] truncate">
+                Registration Type:{" "}
+                {account.registration_type.charAt(0).toUpperCase() +
+                  account.registration_type.slice(1)}
+              </p>
+              <p className="text-[11px] text-[#686868] leading-[1.5] truncate">
                 <span
                   className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                     account.status === 'active'
