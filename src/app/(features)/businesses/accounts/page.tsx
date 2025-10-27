@@ -47,41 +47,35 @@ export default function AccountsPage() {
   // const prevBulkDeleteInProgress = useRef(false);
 
   const debouncedSearch = useDebounce(searchTerm, 500);
-  const handleSearch = (page = 1, isPagination = false) => {
-    const registration_type =
-      user?.registration_type === "subadmin" ? "accounts" : undefined;
+
+  const filters = useMemo(() => ({
+    registration_type: user?.registration_type === "subadmin" ? "accounts" : undefined,
+  }), [user]);
+
+  const handleFetch = (page = 1, perPage = 10, isPagination = false) => {
     dispatch(
       fetchAccountsRequest({
         search: debouncedSearch,
-        per_page: 10,
+        per_page: perPage,
         page,
         isPagination,
-        registration_type,
+        ...filters,
       })
     );
   };
-  // Effect for initial load
-  useEffect(() => {
-    handleSearch(1, false);
 
-    return () => {
-      dispatch(setSearchTerm(""));
-    };
-  }, [dispatch, user]);
-
-  const isInitialSearchMount = useRef(true);
+  // Effect for initial load and filter changes
   useEffect(() => {
-    // Skip the initial mount to prevent a fetch on load
-    if (isInitialSearchMount.current) {
-      isInitialSearchMount.current = false;
-      return;
+    handleFetch(1, pagination.perPage);
+  }, [dispatch, filters]);
+
+  // Effect for debounced search
+  useEffect(() => {
+    if (debouncedSearch) {
+      setMobilePage(1);
+      handleFetch(1, pagination.perPage);
     }
-
-    setMobilePage(1); // Reset page number
-    // Debounced search effect
-    handleSearch(1, false);
-  }, [debouncedSearch, dispatch, user]);
-
+  }, [debouncedSearch]);
 
   useEffect(() => {
     if (!bulkUpdateStatusInProgress && !bulkUpdateStatusError) {
@@ -90,30 +84,11 @@ export default function AccountsPage() {
   }, [bulkUpdateStatusInProgress, bulkUpdateStatusError]);
 
   const handlePageChange = (page: number) => {
-    const registration_type =
-      user?.registration_type === "subadmin" ? "accounts" : undefined;
-    dispatch(
-      fetchAccountsRequest({
-        page,
-        search: searchTerm,
-        per_page: pagination.perPage,
-        isPagination: true,
-        registration_type,
-      })
-    );
+    handleFetch(page, pagination.perPage, true);
   };
 
   const handleItemsPerPageChange = (items: number) => {
-    const registration_type =
-      user?.registration_type === "subadmin" ? "accounts" : undefined;
-    dispatch(
-      fetchAccountsRequest({
-        search: searchTerm,
-        per_page: items,
-        page: 1,
-        registration_type,
-      })
-    );
+    handleFetch(1, items);
   };
 
   // const handleSortSelect = (value: string) => {
@@ -199,6 +174,7 @@ export default function AccountsPage() {
         page: nextPage,
         search: searchTerm,
         per_page: 10,
+        ...filters,
       })
     );
     setMobilePage(nextPage);

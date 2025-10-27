@@ -214,15 +214,13 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
 
 function* handleFetchMoreAccounts(action: ReturnType<typeof fetchMoreAccountsRequest>) {
     try {
-      const { page, ...bodyPayload } = action.payload;
+      const { page, registration_type, ...bodyPayload } = action.payload;
       let endpoint = '/api/list/accounts';
       if (page) {
         endpoint = `${endpoint}?page=${page}`;
       }
-      const { registration_type } = yield select((state: RootState) => state.auth.user || {});
 
-      const apiPayload = { ...bodyPayload, registration_type: registration_type === "subadmin" ? "accounts" : undefined };
-
+      const apiPayload = { ...bodyPayload, registration_type };
       const industries: Option[] = yield call(ensureIndustriesFetched);
       const response: FetchAccountsSuccessResponse | ApiError = yield call(postData, endpoint, apiPayload);
 

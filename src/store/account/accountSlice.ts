@@ -91,6 +91,7 @@ const accountSlice = createSlice({
       account_type?: string;
       per_page?: number;
       page?: number;
+      registration_type?: string;
     }>) {
       state.loading = true;
       state.error = null;
