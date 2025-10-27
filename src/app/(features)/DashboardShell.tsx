@@ -34,6 +34,7 @@ function DashboardContent({
   const router = useRouter();
   const { isAuthenticated, user, isAuthLoading } = useSelector((state: RootState) => state.auth);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [isSearchBarVisible, setIsSearchBarVisible] = useState(true);
   const mobileProfileMenuRef = useRef<HTMLDivElement>(null);
   const desktopProfileMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -90,7 +91,7 @@ function DashboardContent({
     pattern.test(fullPath)
   );
 
-  const showSearchBar = useCallback(() => {
+  const showSearchBar = () => {
     const tab = searchParams.get("tab");
     if (pathname.startsWith("/businesses/dedicated-offers/") || pathname.startsWith("/businesses/campaigns/")) {
       return tab === "Creators";
@@ -99,6 +100,10 @@ function DashboardContent({
       return false;
     }
     return true;
+  };
+
+  useEffect(() => {
+    setIsSearchBarVisible(showSearchBar());
   }, [pathname, searchParams]);
 
   return (
@@ -206,7 +211,7 @@ function DashboardContent({
             <div className="hidden md:flex w-full items-center gap-4">
               {isOverlayMode && <MenuIcon onClick={() => setCollapsed(!collapsed)} />}
               <div className="flex-1">
-                {showSearchBar() && <SearchInput />}
+                {isSearchBarVisible && <SearchInput />}
               </div>
               <div className="flex items-center space-x-4">
                 {/* <Image
@@ -325,14 +330,10 @@ export default function DashboardShell({
 
   // Overlay mode for 1280px > width >= 768px
   const isOverlayMode = windowWidth < 1280 && windowWidth >= 768;
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const key = `${pathname}?${searchParams.toString()}`;
 
   return (
     <Suspense fallback={<Loader />}>
       <DashboardContent
-        key={key}
         isMobileMenuOpen={isMobileMenuOpen}
         setIsMobileMenuOpen={setIsMobileMenuOpen}
         collapsed={collapsed}
