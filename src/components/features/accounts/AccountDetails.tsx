@@ -205,6 +205,26 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
                   <option value={AccountType.ENTERPRISE}>Enterprise</option>
                 </select>
               </div>
+              {loggedInUser?.registration_type === "admin" && (
+                <div className="mb-5 md:mb-7">
+                  <label
+                    htmlFor="registration_type"
+                    className="block text-[#4F4F4F] mb-2.5"
+                  >
+                    Registration Type
+                  </label>
+                  <select
+                    id="registration_type"
+                    name="registration_type"
+                    value={formData.registration_type}
+                    onChange={handleChange}
+                    className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] outline-none"
+                  >
+                    <option value="accounts">Accounts</option>
+                    <option value="subadmin">Subadmin</option>
+                  </select>
+                </div>
+              )}
               <BrandSearchCombobox
                 initialSelectedBrands={formData.brands || []}
                 onChange={handleBrandChange}

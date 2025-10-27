@@ -37,6 +37,7 @@ export default function AccountsPage() {
     bulkUpdateStatusInProgress,
     bulkUpdateStatusError,
   } = useSelector((state: RootState) => state.account);
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const { searchTerm } = useSelector((state: RootState) => state.search);
   // const [status, setStatus] = useState("");
@@ -46,14 +47,27 @@ export default function AccountsPage() {
   // const prevBulkDeleteInProgress = useRef(false);
 
   const debouncedSearch = useDebounce(searchTerm, 500);
+  const handleSearch = (page = 1, isPagination = false) => {
+    const registration_type =
+      user?.registration_type === "subadmin" ? "accounts" : undefined;
+    dispatch(
+      fetchAccountsRequest({
+        search: debouncedSearch,
+        per_page: 10,
+        page,
+        isPagination,
+        registration_type,
+      })
+    );
+  };
   // Effect for initial load
   useEffect(() => {
-    dispatch(fetchAccountsRequest({ per_page: 10, page: 1, isPagination: false }));
+    handleSearch(1, false);
 
     return () => {
       dispatch(setSearchTerm(""));
     };
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   const isInitialSearchMount = useRef(true);
   useEffect(() => {
@@ -65,15 +79,8 @@ export default function AccountsPage() {
 
     setMobilePage(1); // Reset page number
     // Debounced search effect
-    dispatch(
-      fetchAccountsRequest({
-        search: debouncedSearch,
-        per_page: 10,
-        page: 1,
-        isPagination: false,
-      })
-    );
-  }, [debouncedSearch, dispatch]);
+    handleSearch(1, false);
+  }, [debouncedSearch, dispatch, user]);
 
 
   useEffect(() => {
