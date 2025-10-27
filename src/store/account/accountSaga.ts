@@ -122,6 +122,7 @@ interface ApiAccount {
     country_code: string;
     account_type: string;
     status: "active" | "inactive";
+    registration_type: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     venues: any[];
   venues_count: number;
@@ -183,7 +184,7 @@ function* handleFetchAccounts(action: ReturnType<typeof fetchAccountsRequest>) {
             campaignsCount: 0,
             food_offers_count: apiAccount.food_offers_count || 0,
             status: apiAccount.status,
-            registration_type: "accounts",
+            registration_type: apiAccount.registration_type,
           };
         });
 
@@ -243,7 +244,7 @@ function* handleFetchMoreAccounts(action: ReturnType<typeof fetchMoreAccountsReq
             campaignsCount: 0,
             food_offers_count: apiAccount.food_offers_count || 0,
             status: apiAccount.status,
-            registration_type: "accounts",
+            registration_type: apiAccount.registration_type,
           };
         });
 
@@ -280,6 +281,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         country_code,
         accountType,
         brands,
+        registration_type,
       } = action.payload;
 
       const apiPayload = {
@@ -290,7 +292,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
         country_code: country_code,
         account_type: accountType,
         venues: brands?.map(b => b.brandId) || [],
-        registration_type: "accounts", // Static value
+        registration_type: registration_type || "accounts",
         status: "active", // Static value
       };
 
@@ -319,7 +321,7 @@ function* handleCreateAccount(action: ReturnType<typeof createAccountRequest>) {
           campaignsCount: 0,
           food_offers_count: apiAccount.food_offers_count || 0,
           status: apiAccount.status,
-          registration_type: "accounts",
+          registration_type: apiAccount.registration_type,
         };
 
         yield put(createAccountSuccess(feAccount));
@@ -349,6 +351,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
         phoneNumber,
         country_code,
         accountType,
+        registration_type,
       } = action.payload;
 
       const apiPayload = {
@@ -359,7 +362,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
         country_code: country_code,
         account_type: accountType,
         venues: brands?.map((b) => Number(b.brandId)),
-        registration_type: "accounts",
+        registration_type: registration_type,
         status: "active",
       };
 
@@ -395,7 +398,7 @@ function* handleUpdateAccount(action: ReturnType<typeof updateAccountRequest>) {
           campaignsCount: 0,
           food_offers_count: apiAccount.food_offers_count || 0,
           status: apiAccount.status,
-          registration_type: "accounts",
+          registration_type: apiAccount.registration_type,
         };
         yield put(updateAccountSuccess(feAccount));
         toast.success(response.message);
@@ -459,7 +462,7 @@ function* handleFetchAccountById(action: ReturnType<typeof fetchAccountByIdReque
           campaignsCount: 0,
           food_offers_count: apiAccount.food_offers_count || 0,
           status: apiAccount.status,
-          registration_type: "accounts",
+          registration_type: apiAccount.registration_type,
         };
         yield put(fetchAccountByIdSuccess(feAccount));
       } else {
