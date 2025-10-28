@@ -78,18 +78,18 @@ export default function BrandMobileCard({
             </div>
             {/* )} */}
           </div>
-          <div className="flex-1 min-w-0">
+          <div className="flex-1">
             <h3 className="text-[17px] font-medium text-[#4F4F4F] mb-1">
-              <TruncatedText text={brand.name} maxLength={20} />
+              <TruncatedText text={brand.name} maxLength={35} />
             </h3>
             {brand.owner && (
               <p className="text-[15px] text-[#4F4F4F] mb-1">
-                <TruncatedText text={brand.owner} maxLength={20} />
+                <TruncatedText text={brand.owner} maxLength={35} />
               </p>
             )}
             {brand.emailAddress && (
               <p className="text-[15px] text-[#4F4F4F]">
-                <TruncatedText text={brand.emailAddress} maxLength={25} />
+                <TruncatedText text={brand.emailAddress} maxLength={40} />
               </p>
             )}
           </div>

@@ -136,20 +136,20 @@ export default function BrandsTable({
                                 : ""
                             }`}
                           >
-                            <TruncatedText text={brand.name} maxLength={25} />
+                            <TruncatedText text={brand.name} maxLength={40} />
                           </span>
                         </div>
                       </Link>
                     </div>
                   </td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                    <TruncatedText text={brand.owner} maxLength={25} />
+                    <TruncatedText text={brand.owner} maxLength={40} />
                   </td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                     {brand.phoneNumber}
                   </td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                    <TruncatedText text={brand.emailAddress} maxLength={25} />
+                    <TruncatedText text={brand.emailAddress} maxLength={40} />
                   </td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                     {industryMap.get(brand.industry ?? "") || "N/A"}

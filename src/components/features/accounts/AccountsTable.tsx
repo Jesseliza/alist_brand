@@ -127,7 +127,7 @@ export default function AccountsTable({
                             : ""
                         }`}
                       >
-                        <TruncatedText text={getDisplayName(account)} maxLength={25} />
+                        <TruncatedText text={getDisplayName(account)} maxLength={40} />
                       </span>
                     </div>
                   </Link>
@@ -141,7 +141,7 @@ export default function AccountsTable({
 
               {/* EMAIL */}
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                <TruncatedText text={account.emailAddress} maxLength={25} />
+                <TruncatedText text={account.emailAddress} maxLength={40} />
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                 {account.accountType}

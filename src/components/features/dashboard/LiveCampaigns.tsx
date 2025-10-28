@@ -34,10 +34,10 @@ export default function LiveCampaigns() {
             <div className="flex-1 flex items-end justify-between">
               <div>
                 <p className="text-[15px] font-semibold leading-[23px] mb-1 text-[#4F4F4F]">
-                  <TruncatedText text={campaign.offer_title} maxLength={30} />
+                  <TruncatedText text={campaign.offer_title} maxLength={45} />
                 </p>
                 <p className="text-[15px] leading-[23px] text-[#4F4F4F] mb-2">
-                   <TruncatedText text={[campaign.venue?.venue_title, campaign.offer_location].filter(Boolean).join(" - ")} maxLength={40} />
+                   <TruncatedText text={[campaign.venue?.venue_title, campaign.offer_location].filter(Boolean).join(" - ")} maxLength={55} />
                 </p>
                 <div className="flex items-center gap-[15px]">
                   <div className="flex items-center gap-[7.5px]">
