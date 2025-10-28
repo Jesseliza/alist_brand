@@ -75,7 +75,9 @@ export function Dropdown<T>(props: DropdownProps<T>) {
         value={controlled ?? internal ?? null}
         onChange={(val) => {
           if (controlled === undefined) setInternal(val);
-          onSelect(val);
+          if (val !== null) {
+            onSelect(val);
+          }
         }}
         disabled={disabled}
       >
