@@ -27,7 +27,7 @@ export default function AccountMobileCard({
       <div
         className="bg-white rounded-[13px] py-3 px-3.5 flex items-center justify-between"
       >
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex items-center gap-3">
           <div onClick={handleWrapperClick} className="p-2 -ml-2">
             <Checkbox
               checked={checked}
@@ -44,12 +44,12 @@ export default function AccountMobileCard({
                 {account.avatarInitials}
               </span>
             </div>
-            <div className="flex flex-col flex-1 min-w-0">
+            <div className="flex flex-col flex-1">
               <h3 className="text-[15px] text-[#4F4F4F] font-semibold leading-[1.5]">
-                <TruncatedText text={getDisplayName(account)} maxLength={20} />
+                <TruncatedText text={getDisplayName(account)} maxLength={35} />
               </h3>
               <p className="text-[11px] text-[#686868] leading-[1.5]">
-                <TruncatedText text={account.emailAddress} maxLength={25} />
+                <TruncatedText text={account.emailAddress} maxLength={40} />
               </p>
               <p className="text-[11px] text-[#686868] leading-[1.5] truncate">
                 {account.country_code} {account.phoneNumber}

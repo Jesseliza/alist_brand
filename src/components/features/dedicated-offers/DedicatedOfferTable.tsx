@@ -97,13 +97,13 @@ console.log(dedicatedOffers);
                       />
                     </div>
                     <span className={`ml-3 text-[#4F4F4F]`}>
-                      <TruncatedText text={dedicatedOffer.title} maxLength={25} />
+                      <TruncatedText text={dedicatedOffer.title} maxLength={40} />
                     </span>
                   </Link>
                 </div>
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                <TruncatedText text={dedicatedOffer.vendorName} maxLength={25} />
+                <TruncatedText text={dedicatedOffer.vendorName} maxLength={40} />
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
                 {dedicatedOffer.category ?? "N/A"}
