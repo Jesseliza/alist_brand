@@ -70,7 +70,7 @@ export function Dropdown<T>(props: DropdownProps<T>) {
   if (mode === "select") {
     return (
       <Listbox
-        value={controlled ?? internal}
+        value={controlled ?? internal ?? null}
         onChange={(val) => {
           if (controlled === undefined) setInternal(val);
           onSelect(val);

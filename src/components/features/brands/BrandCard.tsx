@@ -40,7 +40,7 @@ export default function BrandCard({
       id: "instagram",
       iconSrc: "/icons/instagram-1-light.svg",
       iconAlt: "Instagram",
-      label: brand.instagramHandle || "N/A",
+      label: brand.instagramHandle?.replace("https://www.instagram.com/", "") || "N/A",
       with: 27.8,
       height: 27.8,
     },
@@ -80,7 +80,7 @@ export default function BrandCard({
         </div>
 
         {/* Brand name */}
-        <h2 className="mt-4 text-center text-[18px] font-medium text-[#4F4F4F]">
+        <h2 className="mt-4 text-center text-[18px] font-medium text-[#4F4F4F] truncate h-7">
           {brand.name}
         </h2>
 
