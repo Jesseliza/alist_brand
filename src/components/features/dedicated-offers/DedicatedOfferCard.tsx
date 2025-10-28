@@ -5,6 +5,7 @@ import { generateColorFromString } from "@/utils/colorGenerator";
 import { getInitials } from "@/utils/text";
 import CheckBox from "@/components/general/CheckBox";
 import { formatDate } from "@/utils/date";
+import TruncatedText from "@/components/general/TruncatedText";
 
 interface DedicatedOfferCardProps {
   dedicatedOffer: DedicatedOfferDisplay;
@@ -96,14 +97,14 @@ export default function DedicatedOfferCard({
         </div>
       </div>
       <div className="pt-[35px] pb-[15px] px-[21px]">
-        <div className="">
+        <div className="h-[46px]">
           <h3 className="text-[15px] font-medium leading-[23px] text-[#4F4F4F]">
-            {title}
+            <TruncatedText text={title} maxLength={50} />
           </h3>
         </div>
         <div className="flex items-center justify-between mb-[15px]">
           <p className="text-[13px] text-[#414141] leading-[20px]">
-            By {vendorName}
+            <TruncatedText text={`By ${vendorName}`} maxLength={30} />
           </p>
           {dedicatedOffer.account_status && (
             <div className="flex gap-[4.5px] items-center">
