@@ -58,7 +58,9 @@ export function Dropdown<T>(props: DropdownProps<T>) {
   } = props;
 
   // uncontrolled state for select mode
-  const [internal, setInternal] = useState<T | undefined>(defaultSelected);
+  const [internal, setInternal] = useState<T | null | undefined>(
+    defaultSelected
+  );
 
   // only relevant in select mode
   const currentValue = mode === "select" ? controlled ?? internal : undefined;
