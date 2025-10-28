@@ -5,6 +5,7 @@ import Image from "next/image";
 import { CampaignDisplay } from "@/types/entities/campaign";
 import Link from "next/link";
 import CheckBox from "@/components/general/CheckBox";
+import TruncatedText from "@/components/general/TruncatedText";
 
 interface CampaignsTableProps {
   campaigns: CampaignDisplay[];
@@ -113,13 +114,13 @@ export default function CampaignsTable({
                       />
                     </div>
                     <span className={`ml-3 text-[#4F4F4F]`}>
-                      {campaign.title}
+                      <TruncatedText text={campaign.title} maxLength={25} />
                     </span>
                   </Link>
                 </div>
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                {campaign.vendorName}
+                <TruncatedText text={campaign.vendorName} maxLength={25} />
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
                 {campaign.offerType}

@@ -10,6 +10,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { RootState } from "@/store/store";
 import BrandFilesModal from "./BrandFilesModal";
+import TruncatedText from "@/components/general/TruncatedText";
 
 interface BrandsTableProps {
   brands: Brand[];
@@ -135,20 +136,20 @@ export default function BrandsTable({
                                 : ""
                             }`}
                           >
-                            {brand.name}
+                            <TruncatedText text={brand.name} maxLength={25} />
                           </span>
                         </div>
                       </Link>
                     </div>
                   </td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                    {brand.owner}
+                    <TruncatedText text={brand.owner} maxLength={25} />
                   </td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                     {brand.phoneNumber}
                   </td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                    {brand.emailAddress}
+                    <TruncatedText text={brand.emailAddress} maxLength={25} />
                   </td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                     {industryMap.get(brand.industry ?? "") || "N/A"}

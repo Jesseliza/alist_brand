@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { DedicatedOfferDisplay } from "@/types/entities/dedicated-offer";
 import Link from "next/link";
+import TruncatedText from "@/components/general/TruncatedText";
 // import CheckBox from "@/components/general/CheckBox";
 
 interface DedicatedOffersTableProps {
@@ -96,13 +97,13 @@ console.log(dedicatedOffers);
                       />
                     </div>
                     <span className={`ml-3 text-[#4F4F4F]`}>
-                      {dedicatedOffer.title}
+                      <TruncatedText text={dedicatedOffer.title} maxLength={25} />
                     </span>
                   </Link>
                 </div>
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                {dedicatedOffer.vendorName}
+                <TruncatedText text={dedicatedOffer.vendorName} maxLength={25} />
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F] text-center">
                 {dedicatedOffer.category ?? "N/A"}

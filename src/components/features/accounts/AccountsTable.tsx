@@ -4,6 +4,7 @@ import Checkbox from "@/components/general/CheckBox";
 import { Account } from "@/types/entities";
 import { getDisplayName } from "@/utils/accountUtils";
 import Link from "next/link";
+import TruncatedText from "@/components/general/TruncatedText";
 
 interface AccountsTableProps {
   accounts: Account[];
@@ -126,7 +127,7 @@ export default function AccountsTable({
                             : ""
                         }`}
                       >
-                        {getDisplayName(account)}
+                        <TruncatedText text={getDisplayName(account)} maxLength={25} />
                       </span>
                     </div>
                   </Link>
@@ -140,7 +141,7 @@ export default function AccountsTable({
 
               {/* EMAIL */}
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
-                {account.emailAddress}
+                <TruncatedText text={account.emailAddress} maxLength={25} />
               </td>
               <td className="px-6 py-2.5 whitespace-nowrap text-[15px] text-[#4F4F4F]">
                 {account.accountType}
