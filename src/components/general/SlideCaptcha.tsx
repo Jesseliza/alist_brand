@@ -23,7 +23,8 @@ export default function SlideCaptcha({ onSuccess }: SlideCaptchaProps) {
   const imageRef = useRef<HTMLDivElement>(null);
 
   const generatePuzzle = useCallback(() => {
-    setImageUrl('/icons/captcha.png');
+    const random = Date.now();
+    setImageUrl(`https://picsum.photos/300/150?random=${random}`);
 
     const imageWidth = 300;
     const imageHeight = 150;

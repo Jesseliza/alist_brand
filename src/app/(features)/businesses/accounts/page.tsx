@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -37,7 +37,6 @@ export default function AccountsPage() {
     bulkUpdateStatusInProgress,
     bulkUpdateStatusError,
   } = useSelector((state: RootState) => state.account);
-  const { user } = useSelector((state: RootState) => state.auth);
 
   const { searchTerm } = useSelector((state: RootState) => state.search);
   // const [status, setStatus] = useState("");
@@ -47,45 +46,35 @@ export default function AccountsPage() {
   // const prevBulkDeleteInProgress = useRef(false);
 
   const debouncedSearch = useDebounce(searchTerm, 500);
-
-  const filters = useMemo(() => ({
-    registration_type: user?.registration_type === "subadmin" ? "accounts" : undefined,
-  }), [user]);
-
-  const handleFetch = (page = 1, perPage = 10, isPagination = false) => {
-    dispatch(
-      fetchAccountsRequest({
-        search: debouncedSearch,
-        per_page: perPage,
-        page,
-        isPagination,
-        ...filters,
-      })
-    );
-  };
-
-  const isInitialMount = useRef(true);
-
-  // Effect for initial load and filter changes
+  // Effect for initial load
   useEffect(() => {
-    handleFetch(1, pagination.perPage);
-  }, [dispatch, filters]);
-
-
-  // Effect for debounced search, now including cleanup
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
-    }
-
-    setMobilePage(1);
-    handleFetch(1, pagination.perPage);
+    dispatch(fetchAccountsRequest({ per_page: 10, page: 1, isPagination: false }));
 
     return () => {
       dispatch(setSearchTerm(""));
     };
+  }, [dispatch]);
+
+  const isInitialSearchMount = useRef(true);
+  useEffect(() => {
+    // Skip the initial mount to prevent a fetch on load
+    if (isInitialSearchMount.current) {
+      isInitialSearchMount.current = false;
+      return;
+    }
+
+    setMobilePage(1); // Reset page number
+    // Debounced search effect
+    dispatch(
+      fetchAccountsRequest({
+        search: debouncedSearch,
+        per_page: 10,
+        page: 1,
+        isPagination: false,
+      })
+    );
   }, [debouncedSearch, dispatch]);
+
 
   useEffect(() => {
     if (!bulkUpdateStatusInProgress && !bulkUpdateStatusError) {
@@ -94,11 +83,20 @@ export default function AccountsPage() {
   }, [bulkUpdateStatusInProgress, bulkUpdateStatusError]);
 
   const handlePageChange = (page: number) => {
-    handleFetch(page, pagination.perPage, true);
+    dispatch(
+      fetchAccountsRequest({
+        page,
+        search: searchTerm,
+        per_page: pagination.perPage,
+        isPagination: true,
+      })
+    );
   };
 
   const handleItemsPerPageChange = (items: number) => {
-    handleFetch(1, items);
+    dispatch(
+      fetchAccountsRequest({ search: searchTerm, per_page: items, page: 1 })
+    );
   };
 
   // const handleSortSelect = (value: string) => {
@@ -184,7 +182,6 @@ export default function AccountsPage() {
         page: nextPage,
         search: searchTerm,
         per_page: 10,
-        ...filters,
       })
     );
     setMobilePage(nextPage);
