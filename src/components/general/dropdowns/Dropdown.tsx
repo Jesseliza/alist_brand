@@ -79,7 +79,7 @@ export function Dropdown<T>(props: DropdownProps<T>) {
       >
         <div className="relative">
           <ListboxButton className={buttonClassName}>
-            <div className="truncate flex-1">{displayLabel}</div>
+            <div className="truncate">{displayLabel}</div>
             <div className="mr-3">
               <Image
                 src={icon}
