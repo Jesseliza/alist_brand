@@ -31,10 +31,10 @@ export default function DedicatedOfferMobileCard({
           <div className="flex items-start justify-between gap-2 mb-2">
             <div>
               <h3 className="text-[15px] font-semibold leading-[1.5] text-[#4F4F4F] mb-1.5">
-                <TruncatedText text={title ?? "Untitled Dedicated Offer"} maxLength={35} />
+                <TruncatedText text={title ?? "Untitled Dedicated Offer"} maxLength={20} />
               </h3>
               <div className="text-[13px] font-medium text-[#414141] leading-[1.5]">
-                By <TruncatedText text={vendorName ?? "Unknown Vendor"} maxLength={35} />
+                <TruncatedText text={`By ${vendorName ?? "Unknown Vendor"}`} maxLength={25} />
               </div>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
