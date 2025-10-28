@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Account, AccountType, Brand } from "@/types/entities";
 import BrandSearchCombobox from "./BrandSearchCombobox";
 import CountryCodeDropdown from "@/components/general/CountryCodeDropdown";
+import { Dropdown } from "@/components/general/dropdowns/Dropdown";
 
 import Image from "next/image";
 
@@ -80,6 +81,12 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
       }
       setFormData({ ...account });
     }
+     else {
+      setFormData((prev) => ({
+        ...prev,
+        registration_type: "accounts",
+      }));
+    }
   }, [account]);
 
   const handleChange = (
@@ -127,10 +134,24 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      onSave({ ...formData, country_code: countryCode });
+      const dataToSave = { ...formData, country_code: countryCode };
+      if (isCreateMode && loggedInUser?.registration_type === "subadmin") {
+        dataToSave.registration_type = "accounts";
+      }
+      onSave(dataToSave);
     }
   };
 
+  const accountTypeOptions = [
+    { value: AccountType.INDIVIDUAL, label: "Individual" },
+    { value: AccountType.AGENCY, label: "Agency" },
+    { value: AccountType.ENTERPRISE, label: "Enterprise" },
+  ];
+
+  const registrationTypeOptions = [
+    { value: "accounts", label: "Accounts" },
+    { value: "subadmin", label: "Subadmin" },
+  ];
   return (
     <form onSubmit={handleSubmit} className="text-[15px] pt-10 md:pt-11">
       <div className="max-w-[559px] mx-auto">
@@ -193,19 +214,16 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
                 >
                   Account Type
                 </label>
-                <select
-                  id="accountType"
-                  name="accountType"
-                  value={formData.accountType}
-                  onChange={handleChange}
-                  className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] outline-none"
-                >
-                  <option value={AccountType.INDIVIDUAL}>Individual</option>
-                  <option value={AccountType.AGENCY}>Agency</option>
-                  <option value={AccountType.ENTERPRISE}>Enterprise</option>
-                </select>
+                <Dropdown
+                  options={accountTypeOptions}
+                  selected={formData.accountType}
+                  onSelect={(value) =>
+                    setFormData((prev) => ({ ...prev, accountType: value }))
+                  }
+                  buttonClassName="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] outline-none flex items-center justify-between"
+                />
               </div>
-              {loggedInUser?.registration_type === "admin" && (
+              {loggedInUser?.registration_type === "admin" && !isProfilePage && (
                 <div className="mb-5 md:mb-7">
                   <label
                     htmlFor="registration_type"
@@ -213,16 +231,17 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
                   >
                     Registration Type
                   </label>
-                  <select
-                    id="registration_type"
-                    name="registration_type"
-                    value={formData.registration_type}
-                    onChange={handleChange}
-                    className="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] outline-none"
-                  >
-                    <option value="accounts">Accounts</option>
-                    <option value="subadmin">Subadmin</option>
-                  </select>
+                  <Dropdown
+                    options={registrationTypeOptions}
+                    selected={formData.registration_type}
+                    onSelect={(value) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        registration_type: value,
+                      }))
+                    }
+                    buttonClassName="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] outline-none flex items-center justify-between"
+                  />
                 </div>
               )}
               <BrandSearchCombobox
