@@ -150,6 +150,8 @@ export default function CampaignCard({
               src={
                 status === "Approved"
                   ? "/icons/campaign/card/active-light.svg"
+                  : status === "Rejected"
+                  ? "/icons/campaign/card/rejected-red.svg"
                   : "/icons/campaign/card/pending-light.svg"
               }
               alt={status}
@@ -158,7 +160,11 @@ export default function CampaignCard({
             />
             <p
               className={`text-[13px] leading-[20px] ${
-                status === "Rejected" ? "text-red-500" : "text-[#787878]"
+                status === "Approved"
+                  ? "text-green-500"
+                  : status === "Rejected"
+                  ? "text-red-500"
+                  : "text-[#787878]"
               }`}
             >
               {status}

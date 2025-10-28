@@ -111,6 +111,8 @@ export default function DedicatedOfferCard({
                 src={
                   dedicatedOffer.account_status === "Approved"
                     ? "/icons/campaign/card/active-light.svg"
+                    : dedicatedOffer.account_status === "Rejected"
+                    ? "/icons/campaign/card/rejected-red.svg"
                     : "/icons/campaign/card/pending-light.svg"
                 }
                 alt={dedicatedOffer.account_status}
