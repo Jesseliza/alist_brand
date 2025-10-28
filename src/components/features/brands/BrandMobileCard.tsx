@@ -83,14 +83,14 @@ export default function BrandMobileCard({
               <TruncatedText text={brand.name} maxLength={35} />
             </h3>
             {brand.owner && (
-              <p className="text-[15px] text-[#4F4F4F] mb-1">
+              <div className="text-[15px] text-[#4F4F4F] mb-1">
                 <TruncatedText text={brand.owner} maxLength={35} />
-              </p>
+              </div>
             )}
             {brand.emailAddress && (
-              <p className="text-[15px] text-[#4F4F4F]">
+              <div className="text-[15px] text-[#4F4F4F]">
                 <TruncatedText text={brand.emailAddress} maxLength={40} />
-              </p>
+              </div>
             )}
           </div>
         </div>

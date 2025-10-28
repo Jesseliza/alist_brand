@@ -48,9 +48,9 @@ export default function AccountMobileCard({
               <h3 className="text-[15px] text-[#4F4F4F] font-semibold leading-[1.5]">
                 <TruncatedText text={getDisplayName(account)} maxLength={35} />
               </h3>
-              <p className="text-[11px] text-[#686868] leading-[1.5]">
+              <div className="text-[11px] text-[#686868] leading-[1.5]">
                 <TruncatedText text={account.emailAddress} maxLength={40} />
-              </p>
+              </div>
               <p className="text-[11px] text-[#686868] leading-[1.5] truncate">
                 {account.country_code} {account.phoneNumber}
               </p>
