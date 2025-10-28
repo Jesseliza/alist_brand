@@ -105,6 +105,31 @@ export default function DedicatedOfferCard({
           <p className="text-[13px] text-[#414141] leading-[20px]">
             By {vendorName}
           </p>
+          {dedicatedOffer.account_status && (
+            <div className="flex gap-[4.5px] items-center">
+              <Image
+                src={
+                  dedicatedOffer.account_status === "Approved"
+                    ? "/icons/campaign/card/active-light.svg"
+                    : "/icons/campaign/card/pending-light.svg"
+                }
+                alt={dedicatedOffer.account_status}
+                width={11.6}
+                height={11.6}
+              />
+              <p
+                className={`text-[13px] leading-[20px] ${
+                  dedicatedOffer.account_status === "Approved"
+                    ? "text-green-500"
+                    : dedicatedOffer.account_status === "Rejected"
+                    ? "text-red-500"
+                    : "text-[#787878]"
+                }`}
+              >
+                {dedicatedOffer.account_status}
+              </p>
+            </div>
+          )}
         </div>
         <hr className="border-[#F2F2F2] mb-[15px]" />
         <div className="grid grid-cols-2 gap-[9px] mb-[13px]">

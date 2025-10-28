@@ -156,7 +156,11 @@ export default function CampaignCard({
               width={11.6}
               height={11.6}
             />
-            <p className="text-[13px] text-[#787878] leading-[20px]">
+            <p
+              className={`text-[13px] leading-[20px] ${
+                status === "Rejected" ? "text-red-500" : "text-[#787878]"
+              }`}
+            >
               {status}
             </p>
           </div>
