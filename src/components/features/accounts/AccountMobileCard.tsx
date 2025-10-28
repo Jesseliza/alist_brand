@@ -2,6 +2,7 @@ import { Account } from "@/types/entities";
 import { getDisplayName } from "@/utils/accountUtils";
 import Link from "next/link";
 import Checkbox from "@/components/general/CheckBox";
+import TruncatedText from "@/components/general/TruncatedText";
 
 interface AccountMobileCardProps {
   account: Account;
@@ -44,11 +45,11 @@ export default function AccountMobileCard({
               </span>
             </div>
             <div className="flex flex-col flex-1 min-w-0">
-              <h3 className="text-[15px] text-[#4F4F4F] font-semibold leading-[1.5] truncate">
-                {getDisplayName(account)}
+              <h3 className="text-[15px] text-[#4F4F4F] font-semibold leading-[1.5]">
+                <TruncatedText text={getDisplayName(account)} maxLength={20} />
               </h3>
-              <p className="text-[11px] text-[#686868] leading-[1.5] truncate">
-                {account.emailAddress}
+              <p className="text-[11px] text-[#686868] leading-[1.5]">
+                <TruncatedText text={account.emailAddress} maxLength={25} />
               </p>
               <p className="text-[11px] text-[#686868] leading-[1.5] truncate">
                 {account.country_code} {account.phoneNumber}

@@ -6,6 +6,7 @@ import { getInitials } from "@/utils/text";
 import { generateColorFromString } from "@/utils/colorGenerator";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import TruncatedText from "@/components/general/TruncatedText";
 
 interface BrandMobileCardProps {
   brand: Brand;
@@ -78,9 +79,19 @@ export default function BrandMobileCard({
             {/* )} */}
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="text-[17px] font-medium text-[#4F4F4F] mb-1">{brand.name}</h3>
-            {brand.owner && <p className="text-[15px] text-[#4F4F4F] mb-1">{brand.owner}</p>}
-            {brand.emailAddress && <p className="text-[15px] text-[#4F4F4F] overflow-hidden text-ellipsis whitespace-nowrap">{brand.emailAddress}</p>}
+            <h3 className="text-[17px] font-medium text-[#4F4F4F] mb-1">
+              <TruncatedText text={brand.name} maxLength={20} />
+            </h3>
+            {brand.owner && (
+              <p className="text-[15px] text-[#4F4F4F] mb-1">
+                <TruncatedText text={brand.owner} maxLength={20} />
+              </p>
+            )}
+            {brand.emailAddress && (
+              <p className="text-[15px] text-[#4F4F4F]">
+                <TruncatedText text={brand.emailAddress} maxLength={25} />
+              </p>
+            )}
           </div>
         </div>
         <div className="grid grid-cols-3 gap-5 mt-6">
