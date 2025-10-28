@@ -68,6 +68,7 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
       phoneNumber: "",
       accountType: AccountType.INDIVIDUAL,
       brands: [],
+      registration_type: "accounts",
     }
   );
   const [countryCode, setCountryCode] = useState("+971");
@@ -80,12 +81,6 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
         setCountryCode(account.country_code);
       }
       setFormData({ ...account });
-    }
-     else {
-      setFormData((prev) => ({
-        ...prev,
-        registration_type: "accounts",
-      }));
     }
   }, [account]);
 

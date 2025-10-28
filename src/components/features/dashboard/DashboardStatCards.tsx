@@ -11,28 +11,24 @@ const statCardIcons = {
     iconWidth: 44.43,
     iconHeight: 39.55,
     title: "Total campaigns",
-    value: 0,
   },
   dedicatedOffersCount: {
     icon: "/icons/dashboard/influencers.svg",
     iconWidth: 59.23,
     iconHeight: 41.46,
     title: "Dedicated Offers",
-    value: 0,
   },
   brandsCount: {
     icon: "/icons/dashboard/brands.svg",
     iconWidth: 52.89,
     iconHeight: 51.87,
     title: "Brands",
-    value: 0,
   },
   pendingCount: {
     icon: "/icons/dashboard/approvals.svg",
     iconWidth: 48.84,
     iconHeight: 39.07,
     title: "Pending Approvals",
-    value: 0,
   },
 };
 
@@ -94,7 +90,7 @@ export default function DashboardStatCards() {
               </div>
             ) : (
               <p className="text-xl md:text-[24px] font-medium text-[#00A4B6] leading-tight md:leading-[35px]">
-                {card.value}
+                {(card as any).value}
               </p>
             )}
           </div>
