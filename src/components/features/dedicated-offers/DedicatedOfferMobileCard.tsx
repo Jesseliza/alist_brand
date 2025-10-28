@@ -38,6 +38,31 @@ export default function DedicatedOfferMobileCard({
             </div>
           </div>
           <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Image
+                src={
+                  dedicatedOffer.account_status === "Approved"
+                    ? "/icons/campaign/card/active-light.svg"
+                    : dedicatedOffer.account_status === "Rejected"
+                    ? "/icons/campaign/card/rejected-red.svg"
+                    : "/icons/campaign/card/pending-light.svg"
+                }
+                alt="status"
+                width={11.6}
+                height={11.6}
+              />
+              <p
+                className={`text-[13px] font-medium ${
+                  dedicatedOffer.account_status === "Approved"
+                    ? "text-green-500"
+                    : dedicatedOffer.account_status === "Rejected"
+                    ? "text-red-500"
+                    : "text-[#757575]"
+                }`}
+              >
+                {dedicatedOffer.account_status}
+              </p>
+            </div>
             <div className="text-[13px] leading-[1.5] text-[#757575] inline-flex items-center justify-center gap-1.5 ">
               <Image
                 src="/icons/campaign/card/delivery-approved.svg"
