@@ -34,8 +34,14 @@ export default function Creators({ campaign }: { campaign: Campaign }) {
 
   const mappedCreators = useMemo(() => {
     const filteredCreators = searchTerm
-      ? creators.filter((offerUser) =>
-          offerUser.user?.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ? creators.filter(
+          (offerUser) =>
+            offerUser.user?.name
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase()) ||
+            offerUser.user?.instagram_url
+              ?.toLowerCase()
+              .includes(searchTerm.toLowerCase())
         )
       : creators;
 
