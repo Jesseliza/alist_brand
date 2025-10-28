@@ -78,6 +78,31 @@ export default function CampaignMobileCard({
             </div>
           </div>
           <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Image
+                src={
+                  campaign.status === "Approved"
+                    ? "/icons/campaign/card/active-light.svg"
+                    : campaign.status === "Rejected"
+                    ? "/icons/campaign/card/rejected-red.svg"
+                    : "/icons/campaign/card/pending-light.svg"
+                }
+                alt="status"
+                width={11.6}
+                height={11.6}
+              />
+              <p
+                className={`text-[13px] font-medium ${
+                  campaign.status === "Approved"
+                    ? "text-green-500"
+                    : campaign.status === "Rejected"
+                    ? "text-red-500"
+                    : "text-[#757575]"
+                }`}
+              >
+                {campaign.status}
+              </p>
+            </div>
             <div className="text-[13px] leading-[1.5] text-[#757575] inline-flex items-center justify-center gap-1.5 ">
               <Image
                 src={
