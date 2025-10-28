@@ -67,7 +67,7 @@ export default function CampaignMobileCard({
           />
         </div>
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-start justify-between gap-2 mb-2">
             <div>
               <h3 className="text-[15px] font-semibold leading-[1.5] text-[#4F4F4F] mb-1.5">
                 {title ?? "Untitled Campaign"}
@@ -76,9 +76,7 @@ export default function CampaignMobileCard({
                 By {vendorName ?? "Unknown Vendor"}
               </p>
             </div>
-          </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-shrink-0">
               <Image
                 src={
                   campaign.status === "Approved"
@@ -103,6 +101,8 @@ export default function CampaignMobileCard({
                 {campaign.status}
               </p>
             </div>
+          </div>
+          <div className="flex items-center justify-between">
             <div className="text-[13px] leading-[1.5] text-[#757575] inline-flex items-center justify-center gap-1.5 ">
               <Image
                 src={
