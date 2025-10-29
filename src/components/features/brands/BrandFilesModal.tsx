@@ -189,7 +189,7 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
                   multiple
                   accept=".jpeg,.png,.jpg,.gif,.svg,.mp4,.mov,.ogg,.qt,.pdf,.docx,.doc"
                   onChange={handleFileChange}
-                  className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-[#00A4B6] hover:file:bg-blue-100"
                 />
               </div>
               <div className="mb-4">
@@ -204,7 +204,7 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
                   type="text"
                   value={createdBy}
                   onChange={(e) => setCreatedBy(e.target.value)}
-                  className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#00A4B6] focus:border-[#00A4B6] sm:text-sm"
                 />
               </div>
               <div className="flex justify-end gap-2 items-center">
@@ -255,7 +255,7 @@ const BrandFilesModal = ({ isOpen, onClose, brandId }: BrandFilesModalProps) => 
                 ) : (
                   brandFiles.map((file) => (
                     <tr key={file.id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-500">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-[#00A4B6]">
                         <button
                           onClick={() => handleDownloadRequest(file.venue_file_url)}
                           className="text-left hover:underline"

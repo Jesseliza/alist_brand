@@ -52,7 +52,7 @@ export default function PinModal({ isOpen, onClose, onSubmit, loading, error }: 
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md disabled:bg-gray-400"
+              className="px-4 py-2 bg-[#00A4B6] text-white rounded-md disabled:bg-gray-400"
             >
               {loading ? "Validating..." : "Validate"}
             </button>

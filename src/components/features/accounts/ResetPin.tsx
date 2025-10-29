@@ -28,7 +28,7 @@ export default function ResetPin() {
               Cancel
             </button>
             <button
-              className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+              className="px-6 py-2 bg-[#00A4B6] text-white rounded-md hover:bg-[#00A4B6] transition-colors"
               onClick={() => {
                 dispatch(resetPinRequest());
                 toast.dismiss(t.id);

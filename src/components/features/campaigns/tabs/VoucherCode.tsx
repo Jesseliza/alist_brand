@@ -11,12 +11,12 @@ import { VoucherCode } from '@/types/entities';
 
 const getStatus = (voucher: VoucherCode) => {
   if (voucher.used_at) {
-    return { text: 'Used', color: 'bg-red-500' };
+    return { text: 'Claimed ', color: 'bg-[#00A4B6]' };
   }
   if (voucher.redem_at) {
-    return { text: 'Redeemed', color: 'bg-yellow-500' };
+    return { text: 'Verified', color: 'bg-green-500' };
   }
-  return { text: 'Issued', color: 'bg-green-500' };
+  return { text: 'Not Claimed', color: 'bg-yellow-500' };
 };
 
 const formatDate = (dateString: string | null) => {

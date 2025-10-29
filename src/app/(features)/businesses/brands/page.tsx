@@ -148,7 +148,7 @@ export default function BrandsPage() {
             <TableCardsToggler view={view} setView={setView} />
             <button
               onClick={handleAddBrandClick}
-              className="bg-blue-500 text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
+              className="bg-[#00A4B6] text-white rounded-[11px] text-[18px] leading-[27px] pt-1.25 pb-1.75 px-6"
             >
               Add Brand
             </button>
@@ -165,7 +165,7 @@ export default function BrandsPage() {
             <div className="relative">
               <button
                 onClick={handleAddBrandClick}
-                className="bg-blue-500 text-white rounded-[11px] text-sm px-4 py-2"
+                className="bg-[#00A4B6] text-white rounded-[11px] text-sm px-4 py-2"
               >
                 Add Brand
               </button>

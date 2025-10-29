@@ -164,9 +164,7 @@ function DashboardContent({
                     <div
                       className="w-[42px] h-[42px] rounded-full flex items-center justify-center text-white text-lg font-bold cursor-pointer"
                       style={{
-                        backgroundColor: generateColorFromString(
-                          `${user.firstName} ${user.lastName}`
-                        ),
+                        backgroundColor: "#00A4B6",
                       }}
                       onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
                     >
@@ -225,9 +223,7 @@ function DashboardContent({
                     <div
                       className="w-[42px] h-[42px] rounded-full flex items-center justify-center text-white text-lg font-bold cursor-pointer"
                       style={{
-                        backgroundColor: generateColorFromString(
-                          `${user.firstName} ${user.lastName}`
-                        ),
+                        backgroundColor: "#00A4B6",
                       }}
                       onClick={() => setProfileMenuOpen(!isProfileMenuOpen)}
                     >

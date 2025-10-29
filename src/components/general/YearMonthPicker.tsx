@@ -77,7 +77,7 @@ const YearMonthPicker = ({ selectedDate, onChange }: YearMonthPickerProps) => {
               ? "text-gray-400 cursor-not-allowed"
               : "cursor-pointer hover:bg-gray-200"
           } ${
-            selectedDate.getFullYear() === yearToDisplay ? "bg-blue-500 text-white" : ""
+            selectedDate.getFullYear() === yearToDisplay ? "bg-[#00A4B6] text-white" : ""
           }`}
         >
           {yearToDisplay}
@@ -123,7 +123,7 @@ const YearMonthPicker = ({ selectedDate, onChange }: YearMonthPickerProps) => {
                     onClick={() => handleMonthSelect(index)}
                     className={`p-2 text-center rounded-md cursor-pointer hover:bg-gray-200 ${
                       selectedDate.getMonth() === index && selectedDate.getFullYear() === currentYear
-                        ? "bg-blue-500 text-white"
+                        ? "bg-[#00A4B6] text-white"
                         : ""
                     }`}
                   >

@@ -53,7 +53,7 @@ export default function BrandsTable({
                 className="px-4.75 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
               >
                 <div className="flex items-center">
-                  <Checkbox checked={isAllSelected} onChange={onSelectAllChange} />
+                  {/* <Checkbox checked={isAllSelected} onChange={onSelectAllChange} /> */}
                   <span className="ml-2">Brand</span>
                 </div>
               </th>

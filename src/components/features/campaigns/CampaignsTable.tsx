@@ -38,12 +38,12 @@ export default function CampaignsTable({
       <table className="min-w-full divide-y divide-gray-200 bg-white shadow rounded-[13px]">
         <thead>
           <tr>
-            <th
+            {/* <th
               scope="col"
               className="pl-3 pr-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
-            >
+            > */}
               {/* <CheckBox checked={isAllSelected} onChange={onSelectAll} /> */}
-            </th>
+            {/* </th> */}
             <th
               scope="col"
               className="px-2 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
@@ -93,12 +93,12 @@ export default function CampaignsTable({
           {campaigns.map((campaign) => (
             
             <tr key={campaign.id} className="odd:bg-[#F8F8F8]">
-              <td className="pl-3 pr-2 py-2.5 whitespace-nowrap">
+              {/* <td className="pl-3 pr-2 py-2.5 whitespace-nowrap">
                 <CheckBox
                   checked={checkedRows.has(campaign.id.toString())}
                   onChange={() => onCheckboxChange(campaign.id.toString())}
                 />
-              </td>
+              </td> */}
               <td className="px-2 py-2.5 whitespace-nowrap">
                 <div className="flex items-center">
                   <Link
