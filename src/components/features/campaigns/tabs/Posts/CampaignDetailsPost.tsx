@@ -80,9 +80,14 @@ export default function CampaignDetailsPost({
               width={8.83}
               height={8.83}
             />
-            <p className="text-[11px] leading-[17px] text-[#4F4F4F]">
+            <a
+              href={`https://www.instagram.com/${instagramUsername}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] leading-[17px] text-[#4F4F4F] hover:underline"
+            >
               {instagramUsername}
-            </p>
+            </a>
           </div>
         </div>
         <div className="flex items-center justify-center mt-[7.7px] mb-[14.6px]">

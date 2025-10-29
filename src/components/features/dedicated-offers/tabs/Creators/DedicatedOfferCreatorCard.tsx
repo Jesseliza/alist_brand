@@ -82,9 +82,14 @@ export default function DedicatedOfferCreatorCard({
               width={8.83}
               height={8.83}
             />
-            <span className="text-[11px] text-[#4F4F4F] leading-[17px] ">
+            <a
+              href={`https://www.instagram.com/${instagramName}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] text-[#4F4F4F] leading-[17px] hover:underline"
+            >
               {instagramName}
-            </span>
+            </a>
           </div>
         </div>
 
