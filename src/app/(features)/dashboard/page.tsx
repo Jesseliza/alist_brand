@@ -11,6 +11,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDashboardData, selectDashboardData } from "@/store/dashboard/dashboardSlice";
 import { AppDispatch } from "@/store/store";
 
+interface CampaignPerformanceData {
+  day: string;
+  active_count: number;
+  completed_count: number;
+}
+
 // Legend Labels Component
 // const LegendLabels = ({
 //   segments,
@@ -42,10 +48,10 @@ export default function Dashboard() {
     dispatch(getDashboardData());
   }, [dispatch]);
 
-  const weeklyData = dashboardData?.campaignPerformance?.map((item: any) => ({
+  const weeklyData = dashboardData?.campaignPerformance?.map((item: CampaignPerformanceData) => ({
     day: item.day.slice(0, 3),
     active: { value: item.active_count, color: "#00CDE4" },
-    completed: { value: item.completed_count, color: "#446CCB" },
+    // completed: { value: item.completed_count, color: "#446CCB" },
   })) || [];
 
   return (
@@ -70,16 +76,16 @@ export default function Dashboard() {
                 <div className="w-[15.23px] h-[6.53px] rounded-[6px] bg-[#00CDE4]"></div>
                 <p>Active campaigns</p>
               </div>
-              <div className="flex items-center gap-1.5">
+              {/* <div className="flex items-center gap-1.5">
                 <div className="w-[15.23px] h-[6.53px] rounded-[6px] bg-[#446CCB]"></div>
                 <p>Completed campaigns</p>
-              </div>
+              </div> */}
             </div>
             {dashboardData?.campaignPerformance ? (
               <BarChart
                 data={weeklyData}
                 xAxisKey="day"
-                barKeys={["active", "completed"]}
+                barKeys={["active"]}
                 maxBarWidth={20.67}
                 showYTicks={true}
                 yAxisValues={[]}
