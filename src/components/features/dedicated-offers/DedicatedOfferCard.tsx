@@ -57,14 +57,6 @@ export default function DedicatedOfferCard({
 
   return (
     <article className="w-full bg-white rounded-[13px] overflow-hidden relative">
-      <div className="absolute top-2 right-2 z-10">
-        <div onClick={(e) => e.stopPropagation()}>
-          <CheckBox
-            checked={checked}
-            onChange={onCheckboxChange}
-          />
-        </div>
-      </div>
       <div className="h-[90px] w-full relative bg-[#E1E1E1]">
         <Image
           src={thumbnailUrl || "/images/no_image.png"}
@@ -165,8 +157,8 @@ export default function DedicatedOfferCard({
           </div>
         </div>
         <div className="flex gap-[9px]">
-          <button className="flex-1 bg-[#787878] text-[15px]  text-white py-[9px] rounded-[11px] font-medium leading-[23px]">
-            Edit
+          <button className="flex-1 bg-[#00A4B6] text-[15px]  text-white py-[9px] rounded-[11px] font-medium leading-[23px]">
+            View
           </button>
         </div>
       </div>
