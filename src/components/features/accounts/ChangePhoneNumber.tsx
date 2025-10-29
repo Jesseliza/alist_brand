@@ -81,7 +81,7 @@ export const ChangePhoneNumber: React.FC<ChangePhoneNumberProps> = ({
           />
         </div>
       </div>
-      <button onClick={handleSendOtp} disabled={phoneUpdateInProgress} className="px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50">
+      <button onClick={handleSendOtp} disabled={phoneUpdateInProgress} className="px-6 py-2 text-sm font-semibold text-white bg-[#00A4B6] rounded-lg hover:bg-[#00A4B6] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00A4B6] disabled:opacity-50">
         {phoneUpdateInProgress ? 'Sending...' : 'Send OTP'}
       </button>
 
@@ -114,7 +114,7 @@ export const ChangePhoneNumber: React.FC<ChangePhoneNumberProps> = ({
               <button onClick={handleCancelOtp} className="px-6 py-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                 Cancel
               </button>
-              <button onClick={handleVerifyOtp} disabled={phoneUpdateInProgress} className="px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50">
+              <button onClick={handleVerifyOtp} disabled={phoneUpdateInProgress} className="px-6 py-2 text-sm font-semibold text-white bg-[#00A4B6] rounded-lg hover:bg-[#00A4B6] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00A4B6] disabled:opacity-50">
                 {phoneUpdateInProgress ? 'Verifying...' : 'Verify'}
               </button>
             </div>

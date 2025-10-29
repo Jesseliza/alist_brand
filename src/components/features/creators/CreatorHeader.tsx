@@ -97,15 +97,6 @@ export default function CreatorHeader({
             onTabChange={onTabChange}
           />
         </div>
-        <div>
-          <Image
-            src={menuIcon}
-            alt="MENU"
-            width={21.48}
-            height={4.67}
-            className="w-[21.48px] h-[4.67px] md:w-[21.48px] md:h-[4.67px]"
-          />
-        </div>
       </div>
     </div>
   );

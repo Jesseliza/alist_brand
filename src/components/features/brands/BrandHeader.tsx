@@ -110,9 +110,6 @@ export default function BrandHeader({
             onTabChange={handleTabChange}
           />
         </div>
-        <div>
-          <Image src={menuIcon} alt="MENU" width={21.48} height={4.67} />
-        </div>
       </div>
     </div>
   );

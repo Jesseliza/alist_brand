@@ -260,7 +260,7 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
             </button>
             <button
               type="submit"
-              className="px-6 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="px-6 py-2 text-sm font-semibold text-white bg-[#00A4B6] rounded-lg hover:bg-[#00A4B6] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00A4B6]"
             >
               {isCreateMode ? "Save" : "Save Changes"}
             </button>
