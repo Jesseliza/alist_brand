@@ -160,7 +160,7 @@ function DashboardContent({
                   height={29.36}
                 /> */}
                 <div className="relative" ref={mobileProfileMenuRef}>
-                  {user?.firstName ? (
+                  {isMounted && user?.firstName ? (
                     <div
                       className="w-[42px] h-[42px] rounded-full flex items-center justify-center text-white text-lg font-bold cursor-pointer"
                       style={{
@@ -221,7 +221,7 @@ function DashboardContent({
                   height={29.36}
                 /> */}
                 <div className="relative" ref={desktopProfileMenuRef}>
-                  {user?.firstName ? (
+                  {isMounted && user?.firstName ? (
                     <div
                       className="w-[42px] h-[42px] rounded-full flex items-center justify-center text-white text-lg font-bold cursor-pointer"
                       style={{
