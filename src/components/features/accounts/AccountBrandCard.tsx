@@ -1,8 +1,15 @@
 // components/AccountBrandCard.tsx
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Brand } from "@/types/entities";
 
 export default function AccountBrandCard({ brand }: { brand: Brand }) {
+  const router = useRouter();
+
+  const handleCardClick = () => {
+    router.push(`/businesses/brands/${brand.brandId}?from=accounts`);
+  };
+
   const items = [
     {
       id: "industry",
@@ -29,8 +36,12 @@ export default function AccountBrandCard({ brand }: { brand: Brand }) {
       height: 25.36,
     },
   ];
+
   return (
-    <div className="bg-white rounded-[13px] px-[21px] pt-[19px] pb-[22px] max-w-md">
+    <div
+      onClick={handleCardClick}
+      className="bg-white rounded-[13px] px-[21px] pt-[19px] pb-[22px] max-w-md cursor-pointer"
+    >
       {/* Profile circle */}
       <div className="w-[90px] h-[90px] mx-auto overflow-hidden bg-white rounded-full border-5 border-[#E1E1E1] flex items-center justify-center">
         {brand.logo ? (

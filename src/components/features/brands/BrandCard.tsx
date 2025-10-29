@@ -1,6 +1,6 @@
 // components/BrandCard.tsx
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Brand } from "@/types/entities";
 import Checkbox from "@/components/general/CheckBox";
 import { generateColorFromString } from "@/utils/colorGenerator";
@@ -20,13 +20,19 @@ export default function BrandCard({
   checked,
   onCheckboxChange,
 }: BrandCardProps) {
+  const router = useRouter();
+
   const handleWrapperClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
 
+  const handleCardClick = () => {
+    router.push(`/businesses/brands/${brand.brandId}`);
+  };
+
   const { industries } = useSelector((state: RootState) => state.common);
-  const industryMap = new Map(industries.map(i => [i.value, i.label]));
-  const industryName = industryMap.get(brand.industry  ?? "") || 'N/A';
+  const industryMap = new Map(industries.map((i) => [i.value, i.label]));
+  const industryName = industryMap.get(brand.industry ?? "") || "N/A";
 
   const items = [
     {
@@ -41,7 +47,9 @@ export default function BrandCard({
       id: "instagram",
       iconSrc: "/icons/instagram-1-light.svg",
       iconAlt: "Instagram",
-      label: brand.instagramHandle?.replace("https://www.instagram.com/", "") || "N/A",
+      label:
+        brand.instagramHandle?.replace("https://www.instagram.com/", "") ||
+        "N/A",
       with: 27.8,
       height: 27.8,
     },
@@ -54,104 +62,109 @@ export default function BrandCard({
       height: 25.36,
     },
   ];
+
   return (
-    <Link href={`/businesses/brands/${brand.brandId}`} className="block cursor-pointer">
-      <div className="bg-white rounded-[13px] px-[21px] pt-[19px] pb-[22px] max-w-[400px] mx-auto relative">
-        <div onClick={handleWrapperClick} className="absolute top-2 right-2">
-          <Checkbox
-            checked={checked}
-            onChange={onCheckboxChange}
-            onClick={(e) => e.stopPropagation()}
-          />
+    <div
+      onClick={handleCardClick}
+      className="bg-white rounded-[13px] px-[21px] pt-[19px] pb-[22px] max-w-[400px] mx-auto relative cursor-pointer"
+    >
+      <div onClick={handleWrapperClick} className="absolute top-2 right-2">
+        <Checkbox
+          checked={checked}
+          onChange={onCheckboxChange}
+          onClick={(e) => e.stopPropagation()}
+        />
+      </div>
+      {/* Profile circle */}
+      <div className="w-[90px] h-[90px] mx-auto overflow-hidden bg-white rounded-full border-5 border-[#E1E1E1] flex items-center justify-center">
+        {/* {brand.logo ? (
+          <Image src={brand.logo} alt={brand.name} width={80} height={80} />
+        ) : ( */}
+        <div
+          className="h-full w-full flex items-center justify-center"
+          style={{ backgroundColor: generateColorFromString(brand.name) }}
+        >
+          <span className="text-white text-3xl font-semibold">
+            {getInitials(brand.name)}
+          </span>
         </div>
-        {/* Profile circle */}
-        <div className="w-[90px] h-[90px] mx-auto overflow-hidden bg-white rounded-full border-5 border-[#E1E1E1] flex items-center justify-center">
-          {/* {brand.logo ? (
-            <Image src={brand.logo} alt={brand.name} width={80} height={80} />
-          ) : ( */}
-            <div
-              className="h-full w-full flex items-center justify-center"
-              style={{ backgroundColor: generateColorFromString(brand.name) }}
-            >
-              <span className="text-white text-3xl font-semibold">
-                {getInitials(brand.name)}
-              </span>
+        {/* )} */}
+      </div>
+
+      {/* Brand name */}
+      <h2 className="mt-4 text-center text-[18px] font-medium text-[#4F4F4F] h-7">
+        <TruncatedText text={brand.name} maxLength={25} />
+      </h2>
+
+      {/* Info items */}
+      <div className="mt-5 grid grid-cols-3 gap-2.5">
+        {items.map((item) => (
+          <div
+            key={item.id}
+            className="flex flex-col items-center bg-white rounded-[11px] shadow-[0_0_2px_rgba(0,0,0,0.16)] py-[18px] aspect-square"
+          >
+            <div className="h-[29px] flex items-center justify-center mb-3">
+              <Image
+                src={item.iconSrc}
+                alt={item.iconAlt}
+                width={item.with}
+                height={item.height}
+              />
             </div>
-          {/* )} */}
-        </div>
-
-        {/* Brand name */}
-        <h2 className="mt-4 text-center text-[18px] font-medium text-[#4F4F4F] h-7">
-          <TruncatedText text={brand.name} maxLength={25} />
-        </h2>
-
-        {/* Info items */}
-        <div className="mt-5 grid grid-cols-3 gap-2.5">
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className="flex flex-col items-center bg-white rounded-[11px] shadow-[0_0_2px_rgba(0,0,0,0.16)] py-[18px] aspect-square"
-            >
-              <div className="h-[29px] flex items-center justify-center mb-3">
-                <Image
-                  src={item.iconSrc}
-                  alt={item.iconAlt}
-                  width={item.with}
-                  height={item.height}
+            {item.id === "instagram" && brand.instagramHandle ? (
+              <a
+                href={brand.instagramHandle}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="text-[11px] text-[#414141] text-center hover:underline"
+              >
+                <TruncatedText
+                  text={item.label.replace("https://www.instagram.com/", "")}
+                  maxLength={15}
                 />
-              </div>
-              {item.id === "instagram" && brand.instagramHandle ? (
-                <a
-                  href={brand.instagramHandle}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="text-[11px] text-[#414141] text-center hover:underline"
-                >
+              </a>
+            ) : (
+              <span className="text-[11px] text-[#414141] text-center">
+                <TruncatedText text={item.label} maxLength={15} />
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className="h-[55px] mt-5">
+        {(brand.Venue_contact_name || brand.venue_email) && (
+          <div className="flex gap-3">
+            <div
+              className="h-[35px] w-[35px] aspect-square rounded-full flex items-center justify-center text-[14px] text-white font-semibold flex-shrink-0"
+              style={{
+                backgroundColor: brand.Venue_contact_name
+                  ? generateColorFromString(brand.Venue_contact_name)
+                  : "#CCCCCC",
+              }}
+            >
+              {brand.Venue_contact_name
+                ? brand.Venue_contact_name.substring(0, 2).toUpperCase()
+                : ""}
+            </div>
+            <div className="text-[#414141] text-[14px]">
+              {brand.Venue_contact_name && (
+                <p className="font-medium text-[13px] leading-[20px]">
                   <TruncatedText
-                    text={item.label.replace("https://www.instagram.com/", "")}
-                    maxLength={15}
+                    text={brand.Venue_contact_name}
+                    maxLength={25}
                   />
-                </a>
-              ) : (
-                <span className="text-[11px] text-[#414141] text-center">
-                  <TruncatedText text={item.label} maxLength={15} />
-                </span>
+                </p>
+              )}
+              {brand.venue_email && (
+                <p className="text-[11px] leading-[17px]">
+                  <TruncatedText text={brand.venue_email} maxLength={30} />
+                </p>
               )}
             </div>
-          ))}
-        </div>
-        <div className="h-[55px] mt-5">
-          {(brand.Venue_contact_name || brand.venue_email) && (
-            <div className="flex gap-3">
-              <div
-                className="h-[35px] w-[35px] aspect-square rounded-full flex items-center justify-center text-[14px] text-white font-semibold flex-shrink-0"
-                style={{
-                  backgroundColor: brand.Venue_contact_name
-                    ? generateColorFromString(brand.Venue_contact_name)
-                    : "#CCCCCC",
-                }}
-              >
-                {brand.Venue_contact_name
-                  ? brand.Venue_contact_name.substring(0, 2).toUpperCase()
-                  : ""}
-              </div>
-              <div className="text-[#414141] text-[14px]">
-                {brand.Venue_contact_name && (
-                  <p className="font-medium text-[13px] leading-[20px]">
-                    <TruncatedText text={brand.Venue_contact_name} maxLength={25} />
-                  </p>
-                )}
-                {brand.venue_email && (
-                  <p className="text-[11px] leading-[17px]">
-                    <TruncatedText text={brand.venue_email} maxLength={30} />
-                  </p>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-    </Link>
+    </div>
   );
 }
