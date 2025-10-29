@@ -74,7 +74,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-center gap-[48px]">
               <div className="flex items-center gap-1.5">
                 <div className="w-[15.23px] h-[6.53px] rounded-[6px] bg-[#00CDE4]"></div>
-                <p>Active campaigns</p>
+                <p>Published campaigns</p>
               </div>
               {/* <div className="flex items-center gap-1.5">
                 <div className="w-[15.23px] h-[6.53px] rounded-[6px] bg-[#446CCB]"></div>
