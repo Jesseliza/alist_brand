@@ -106,6 +106,7 @@ export default function BrandCard({
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[11px] text-[#414141] text-center hover:underline"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <TruncatedText text={item.label} maxLength={15} />
                 </a>
