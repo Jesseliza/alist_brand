@@ -63,6 +63,15 @@ export default function BrandCard({
     },
   ];
 
+  const isUrl = (string: string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
   return (
     <div
       onClick={handleCardClick}
@@ -113,7 +122,11 @@ export default function BrandCard({
             </div>
             {item.id === "instagram" && brand.instagramHandle ? (
               <a
-                href={brand.instagramHandle}
+                href={
+                  isUrl(brand.instagramHandle)
+                    ? brand.instagramHandle
+                    : `https://www.instagram.com/${brand.instagramHandle}`
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}

@@ -10,8 +10,10 @@ import DedicatedOfferDetails from "./Overview/DedicatedOfferDetails";
 
 export default function Overview({
   dedicatedOffer,
+  onTabChange,
 }: {
   dedicatedOffer: DedicatedOfferDisplay;
+  onTabChange: (index: number) => void;
 }) {
   return (
     <div className="max-w-[774px] mx-auto mt-[13px] pb-[100px]">
@@ -58,7 +60,9 @@ export default function Overview({
       </div>
 
       <DedicatedOfferStats dedicatedOffer={dedicatedOffer} />
-      <DedicatedOfferCreators dedicatedOffer={dedicatedOffer} />
+      <div onClick={() => onTabChange(0)} className="cursor-pointer">
+        <DedicatedOfferCreators dedicatedOffer={dedicatedOffer} />
+      </div>
       <DedicatedOfferDetails dedicatedOffer={dedicatedOffer} />
       {dedicatedOffer?.account_status === "Rejected" &&
         <div className="mt-[11px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
