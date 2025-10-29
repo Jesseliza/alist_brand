@@ -59,7 +59,7 @@ export default function Overview({
         </div>
       </div>
 
-      <DedicatedOfferStats dedicatedOffer={dedicatedOffer} />
+      <DedicatedOfferStats dedicatedOffer={dedicatedOffer} onTabChange={onTabChange} />
       <div onClick={() => onTabChange(0)} className="cursor-pointer">
         <DedicatedOfferCreators dedicatedOffer={dedicatedOffer} />
       </div>

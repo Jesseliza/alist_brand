@@ -55,7 +55,7 @@ export default function Overview({
         </div>
       </div>
 
-      <CampaignStats campaign={campaign} />
+      <CampaignStats campaign={campaign} onTabChange={onTabChange} />
       <div onClick={() => onTabChange(0)} className="cursor-pointer">
         <CampaignCreators campaign={campaign} />
       </div>
