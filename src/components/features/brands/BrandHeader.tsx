@@ -90,7 +90,7 @@ export default function BrandHeader({
                   )}
                 </div>
                 <div>
-                  <h1 className="text-[18px] md:text-[25px] font-semibold truncate">
+                  <h1 className="text-[18px] md:text-[25px] font-semibold ">
                     {name}
                   </h1>
                   {subtitle && (

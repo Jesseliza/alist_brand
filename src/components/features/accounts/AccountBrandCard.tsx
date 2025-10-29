@@ -71,20 +71,9 @@ export default function AccountBrandCard({ brand }: { brand: Brand }) {
                 height={item.height}
               />
             </div>
-            {item.id === "instagram" && item.label ? (
-              <a
-                href={item.label}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[11px] text-[#414141] text-center truncate max-w-[86px] hover:underline"
-              >
-                {item.label.replace("https://www.instagram.com/", "")}
-              </a>
-            ) : (
-              <span className="text-[11px] text-[#414141] text-center truncate max-w-[86px] ">
-                {item.label}
-              </span>
-            )}
+            <span className="text-[11px] text-[#414141] text-center truncate max-w-[86px] ">
+              {item.label}
+            </span>
           </div>
         ))}
       </div>
