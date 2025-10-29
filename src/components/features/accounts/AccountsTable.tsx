@@ -10,13 +10,16 @@ interface AccountsTableProps {
   accounts: Account[];
   checkedRows: Set<string>;
   onCheckboxChange: (accountId: string) => void;
+  onSelectAllChange: () => void;
 }
 
 export default function AccountsTable({
   accounts,
   checkedRows,
   onCheckboxChange,
+  onSelectAllChange,
 }: AccountsTableProps) {
+  const isAllSelected = accounts.length > 0 && checkedRows.size === accounts.length;
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-GB", {
@@ -35,7 +38,10 @@ export default function AccountsTable({
               scope="col"
               className="px-4.75 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
             >
-              Account
+              <div className="flex items-center">
+                <Checkbox checked={isAllSelected} onChange={onSelectAllChange} />
+                <span className="ml-2">Account</span>
+              </div>
             </th>
 
             <th

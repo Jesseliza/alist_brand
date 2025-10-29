@@ -175,6 +175,16 @@ export default function AccountsPage() {
     });
   };
 
+  const handleSelectAllChange = () => {
+    setCheckedRows((prevCheckedRows) => {
+      if (prevCheckedRows.size === accounts.length) {
+        return new Set<string>();
+      } else {
+        return new Set(accounts.map((account) => account.accountId));
+      }
+    });
+  };
+
   const handleSeeMore = () => {
     const nextPage = mobilePage + 1;
     dispatch(
@@ -289,6 +299,7 @@ export default function AccountsPage() {
                   accounts={accounts}
                   checkedRows={checkedRows}
                   onCheckboxChange={handleCheckboxChange}
+                  onSelectAllChange={handleSelectAllChange}
                 />
                 {accounts.length > 0 && (
                   <Pagination
