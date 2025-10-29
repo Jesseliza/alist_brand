@@ -134,7 +134,7 @@ export default function CampaignDetails({
           {tabs.map((tab) => (
             <TabPanel key={tab}>
               {tab === "Creators" && <Creators campaign={campaign} />}
-              {tab === "Overview" && <Overview campaign={campaign} />}
+              {tab === "Overview" && <Overview campaign={campaign} onTabChange={handleTabChange} />}
               {tab === "Availabilites" && (
                 <Availabilites campaignId={campaignId} />
               )}

@@ -49,7 +49,12 @@ export default function BrandCampaigns({
       <div className="py-6">
         <div className="max-w-[1428px] mx-auto">
           <div className="bg-white rounded-lg shadow-md flex items-center justify-center min-h-[200px]">
-            <p className="text-gray-500">No campaigns found for this brand.</p>
+            <button
+              onClick={() => router.push("/businesses/campaign-request")}
+              className="bg-primary text-white py-2 px-4 rounded-lg"
+            >
+              Request Campaign
+            </button>
           </div>
         </div>
       </div>

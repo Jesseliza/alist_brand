@@ -3,15 +3,17 @@
 import Image from "next/image";
 import { Campaign } from "@/types/entities";
 import CampaignStats from "./Overview/CampaignStats";
-// import CampaignCreators from "./Overview/CampaignCreators";
+import CampaignCreators from "./Overview/CampaignCreators";
 import CampaignDetails from "./Overview/CampaignDetails";
 import CampaignGuidlines from "./Overview/CampaignGuidlines";
 // import CampaignPlans from "./Overview/CampaignPlans";
 
 export default function Overview({
   campaign,
+  onTabChange,
 }: {
   campaign: Campaign;
+  onTabChange: (index: number) => void;
 }) {
   return (
     <div className="max-w-[774px] mx-auto mt-[13px] pb-[100px]">
@@ -54,7 +56,9 @@ export default function Overview({
       </div>
 
       <CampaignStats campaign={campaign} />
-      {/* <CampaignCreators campaign={campaign} /> */}
+      <div onClick={() => onTabChange(0)} className="cursor-pointer">
+        <CampaignCreators campaign={campaign} />
+      </div>
       <CampaignDetails campaign={campaign} />
       {campaign?.account_status === "Rejected" &&
         <div className="mt-[11px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">
