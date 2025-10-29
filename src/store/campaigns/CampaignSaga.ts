@@ -116,7 +116,7 @@ function* bulkDeleteCampaignsSaga(action: PayloadAction<{ ids: string[] }>) {
 
 function* getCampaignReviewPostsSaga(action: GetCampaignReviewPostsAction) {
   try {
-    const { id, page = 1, per_page = 10 } = action.payload;
+    const { id, page = 1, per_page = 12 } = action.payload;
     const response: { data: CampaignReviewPostsResponse } = yield call(
       axiosInstance.post,
       `/api/campaign/review-posts/${id}`,
@@ -130,7 +130,7 @@ function* getCampaignReviewPostsSaga(action: GetCampaignReviewPostsAction) {
 
 function* getVoucherCodesSaga(action: GetVoucherCodesAction) {
   try {
-    const { id, page = 1, per_page = 10 } = action.payload;
+    const { id, page = 1, per_page = 12 } = action.payload;
     const response: { data: VoucherCodesApiResponse } = yield call(
       axiosInstance.post,
       `/api/campaign/voucher-code/${id}`,
@@ -144,7 +144,7 @@ function* getVoucherCodesSaga(action: GetVoucherCodesAction) {
 
 function* getCampaignReviewsSaga(action: GetCampaignReviewsAction) {
   try {
-    const { id, page = 1, per_page = 10 } = action.payload;
+    const { id, page = 1, per_page = 12 } = action.payload;
     const response: { data: CampaignReviewsResponse } = yield call(
       axiosInstance.post,
       `/api/campaign/reviews/${id}`,

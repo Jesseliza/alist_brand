@@ -10,7 +10,7 @@ interface PaginationProps {
   isLoading?: boolean;
 }
 
-const defaultItemsPerPageOptions = [10, 15, 20, 25, 50, 100];
+const defaultItemsPerPageOptions = [12, 15, 20, 25, 50, 100];
 
 const calculatePageNumbers = (currentPage: number, totalPages: number) => {
   if (totalPages <= 7) {

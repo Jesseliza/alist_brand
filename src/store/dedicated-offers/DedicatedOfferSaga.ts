@@ -164,7 +164,7 @@ function* bulkDeleteDedicatedOffersSaga(action: PayloadAction<{ ids: string[] }>
 
 function* getDedicatedOfferReviewPostsSaga(action: GetDedicatedOfferReviewPostsAction) {
   try {
-    const { id, page = 1, per_page = 10 } = action.payload;
+    const { id, page = 1, per_page = 12 } = action.payload;
     const response: { data: DedicatedOfferReviewPostsResponse } = yield call(
       axiosInstance.post,
       `/api/dedicated/review-posts/${id}`,
@@ -178,7 +178,7 @@ function* getDedicatedOfferReviewPostsSaga(action: GetDedicatedOfferReviewPostsA
 
 function* getVoucherCodesSaga(action: GetVoucherCodesAction) {
   try {
-    const { id, page = 1, per_page = 10 } = action.payload;
+    const { id, page = 1, per_page = 12 } = action.payload;
     const response: { data: VoucherCodesApiResponse } = yield call(
       axiosInstance.post,
       `/api/dedicated/voucher-code/${id}`,
@@ -192,7 +192,7 @@ function* getVoucherCodesSaga(action: GetVoucherCodesAction) {
 
 function* getDedicatedOfferReviewsSaga(action: GetDedicatedOfferReviewsAction) {
   try {
-    const { id, page = 1, per_page = 10 } = action.payload;
+    const { id, page = 1, per_page = 12 } = action.payload;
     const response: { data: DedicatedOfferReviewsResponse } = yield call(
       axiosInstance.post,
       `/api/dedicated/reviews/${id}`,

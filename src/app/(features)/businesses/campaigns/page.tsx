@@ -45,7 +45,7 @@ export default function CampaignsPage() {
   const debouncedSearch = useDebounce(searchTerm, 500);
 
   useEffect(() => {
-    dispatch(getCampaignsStart({ page: 1, per_page: 10, isPagination: false }));
+    dispatch(getCampaignsStart({ page: 1, per_page: 12, isPagination: false }));
 
     return () => {
       dispatch(setSearchTerm(""));
@@ -63,7 +63,7 @@ export default function CampaignsPage() {
     dispatch(
       getCampaignsStart({
         search: debouncedSearch,
-        per_page: 10,
+        per_page: 12,
         page: 1,
         isPagination: false,
       })
@@ -100,7 +100,7 @@ export default function CampaignsPage() {
       getMoreCampaignsStart({
         page: nextPage,
         search: debouncedSearch,
-        per_page: 10,
+        per_page: 12,
       })
     );
     setMobilePage(nextPage);

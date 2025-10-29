@@ -490,7 +490,7 @@ function* handleBulkDeleteAccounts(action: ReturnType<typeof bulkDeleteAccountsR
         yield put(bulkDeleteAccountsSuccess({ updated_ids: response.updated_ids }));
         toast.success(response.message);
         // Refresh the accounts list
-        yield put(fetchAccountsRequest({ per_page: 10, page: 1 }));
+        yield put(fetchAccountsRequest({ per_page: 12, page: 1 }));
       } else {
         const errorResponse = response as ApiError;
         const errorMessage = errorResponse.response || 'Failed to delete accounts';
@@ -514,7 +514,7 @@ function* handleBulkUpdateStatus(action: ReturnType<typeof bulkUpdateStatusReque
         yield put(bulkUpdateStatusSuccess({ updated_ids: response.updated_ids, status: response.status }));
         toast.success(response.message);
         // Refresh the accounts list
-        yield put(fetchAccountsRequest({ per_page: 10, page: 1 }));
+        yield put(fetchAccountsRequest({ per_page: 12, page: 1 }));
       } else {
         const errorResponse = response as ApiError;
         const errorMessage = errorResponse.response || 'Failed to update accounts status';

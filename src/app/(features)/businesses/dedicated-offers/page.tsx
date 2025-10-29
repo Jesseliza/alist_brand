@@ -45,7 +45,7 @@ export default function DedicatedOffersPage() {
   const debouncedSearch = useDebounce(searchTerm, 500);
 
   useEffect(() => {
-    dispatch(getDedicatedOffersStart({ page: 1, per_page: 10, isPagination: false }));
+    dispatch(getDedicatedOffersStart({ page: 1, per_page: 12, isPagination: false }));
 
     return () => {
       dispatch(setSearchTerm(""));
@@ -63,7 +63,7 @@ export default function DedicatedOffersPage() {
     dispatch(
       getDedicatedOffersStart({
         search: debouncedSearch,
-        per_page: 10,
+        per_page: 12,
         page: 1,
         isPagination: false,
       })
@@ -100,7 +100,7 @@ export default function DedicatedOffersPage() {
       getMoreDedicatedOffersStart({
         page: nextPage,
         search: debouncedSearch,
-        per_page: 10,
+        per_page: 12,
       })
     );
     setMobilePage(nextPage);

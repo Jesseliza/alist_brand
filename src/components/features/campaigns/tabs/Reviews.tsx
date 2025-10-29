@@ -25,7 +25,7 @@ export default function Reviews({ campaignId }: ReviewsProps) {
 
   useEffect(() => {
     if (campaignId) {
-      dispatch(getCampaignReviewsStart({ id: campaignId as string, per_page: 10, isPagination: false }));
+      dispatch(getCampaignReviewsStart({ id: campaignId as string, per_page: 12, isPagination: false }));
     }
   }, [dispatch, campaignId]);
 
@@ -91,7 +91,7 @@ export default function Reviews({ campaignId }: ReviewsProps) {
         <div className="mt-8">
           <Pagination
             totalItems={reviewsPagination.total}
-            itemsPerPage={reviewsPagination.per_page || 10}
+            itemsPerPage={reviewsPagination.per_page || 12}
             currentPage={reviewsPagination.current_page}
             onPageChange={handlePageChange}
             onItemsPerPageChange={handleItemsPerPageChange}

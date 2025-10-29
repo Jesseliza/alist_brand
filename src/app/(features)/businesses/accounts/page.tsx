@@ -48,7 +48,7 @@ export default function AccountsPage() {
   const debouncedSearch = useDebounce(searchTerm, 500);
   // Effect for initial load
   useEffect(() => {
-    dispatch(fetchAccountsRequest({ per_page: 10, page: 1, isPagination: false }));
+    dispatch(fetchAccountsRequest({ per_page: 12, page: 1, isPagination: false }));
 
     return () => {
       dispatch(setSearchTerm(""));
@@ -68,7 +68,7 @@ export default function AccountsPage() {
     dispatch(
       fetchAccountsRequest({
         search: debouncedSearch,
-        per_page: 10,
+        per_page: 12,
         page: 1,
         isPagination: false,
       })
@@ -181,7 +181,7 @@ export default function AccountsPage() {
       fetchMoreAccountsRequest({
         page: nextPage,
         search: searchTerm,
-        per_page: 10,
+        per_page: 12,
       })
     );
     setMobilePage(nextPage);

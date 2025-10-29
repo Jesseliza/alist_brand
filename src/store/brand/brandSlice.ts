@@ -23,7 +23,7 @@ const initialState: BrandState = {
   pagination: {
     currentPage: 1,
     lastPage: 1,
-    perPage: 10,
+    perPage: 12,
     total: 0,
   },
   loading: false,
