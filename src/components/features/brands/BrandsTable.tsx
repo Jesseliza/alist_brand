@@ -16,13 +16,16 @@ interface BrandsTableProps {
   brands: Brand[];
   checkedRows: Set<string>;
   onCheckboxChange: (brandId: string) => void;
+  onSelectAllChange: () => void;
 }
 
 export default function BrandsTable({
   brands,
   checkedRows,
   onCheckboxChange,
+  onSelectAllChange,
 }: BrandsTableProps) {
+  const isAllSelected = brands.length > 0 && checkedRows.size === brands.length;
   const { industries } = useSelector((state: RootState) => state.common);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBrandId, setSelectedBrandId] = useState<string | null>(null);
@@ -49,7 +52,10 @@ export default function BrandsTable({
                 scope="col"
                 className="px-4.75 pt-2.5 pb-4 text-left text-lg font-medium text-[#4F4F4F] whitespace-nowrap"
               >
-                Brand
+                <div className="flex items-center">
+                  <Checkbox checked={isAllSelected} onChange={onSelectAllChange} />
+                  <span className="ml-2">Brand</span>
+                </div>
               </th>
               <th
                 scope="col"

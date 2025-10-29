@@ -100,6 +100,16 @@ export default function BrandsPage() {
     });
   };
 
+  const handleSelectAllChange = () => {
+    setCheckedRows((prevCheckedRows) => {
+      if (prevCheckedRows.size === brands.length) {
+        return new Set<string>();
+      } else {
+        return new Set(brands.map((brand) => brand.brandId));
+      }
+    });
+  };
+
   const handleSeeMore = () => {
     const nextPage = mobilePage + 1;
     dispatch(fetchMoreBrandsRequest({
@@ -179,6 +189,7 @@ export default function BrandsPage() {
                     brands={brands}
                     checkedRows={checkedRows}
                     onCheckboxChange={handleCheckboxChange}
+                    onSelectAllChange={handleSelectAllChange}
                   />
                 ) : (
                   <>
