@@ -100,9 +100,24 @@ export default function BrandCard({
                   height={item.height}
                 />
               </div>
-              <span className="text-[11px] text-[#414141] text-center">
-                <TruncatedText text={item.label} maxLength={15} />
-              </span>
+              {item.id === "instagram" && brand.instagramHandle ? (
+                <a
+                  href={brand.instagramHandle}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-[11px] text-[#414141] text-center hover:underline"
+                >
+                  <TruncatedText
+                    text={item.label.replace("https://www.instagram.com/", "")}
+                    maxLength={15}
+                  />
+                </a>
+              ) : (
+                <span className="text-[11px] text-[#414141] text-center">
+                  <TruncatedText text={item.label} maxLength={15} />
+                </span>
+              )}
             </div>
           ))}
         </div>
