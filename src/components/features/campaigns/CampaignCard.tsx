@@ -139,7 +139,7 @@ export default function CampaignCard({
       <div className="pt-[35px] pb-[15px] px-[21px]">
         <div className="h-[46px]">
           <h3 className="text-[15px] font-medium leading-[23px] text-[#4F4F4F]">
-            <TruncatedText text={title} maxLength={50} />
+            <TruncatedText text={title} maxLength={36} />
           </h3>
         </div>
         <div className="flex items-center justify-between mb-[15px]">
