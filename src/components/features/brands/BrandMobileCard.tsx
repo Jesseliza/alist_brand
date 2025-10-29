@@ -6,7 +6,6 @@ import { getInitials } from "@/utils/text";
 import { generateColorFromString } from "@/utils/colorGenerator";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import TruncatedText from "@/components/general/TruncatedText";
 
 interface BrandMobileCardProps {
   brand: Brand;
@@ -78,18 +77,27 @@ export default function BrandMobileCard({
             </div>
             {/* )} */}
           </div>
-          <div className="flex-1">
-            <h3 className="text-[17px] font-medium text-[#4F4F4F] mb-1">
-              <TruncatedText text={brand.name} maxLength={20} />
+          <div className="flex-1 min-w-0">
+            <h3
+              className="text-[17px] font-medium text-[#4F4F4F] mb-1 truncate"
+              title={brand.name}
+            >
+              {brand.name}
             </h3>
             {brand.owner && (
-              <div className="text-[15px] text-[#4F4F4F] mb-1">
-                <TruncatedText text={brand.owner} maxLength={25} />
+              <div
+                className="text-[15px] text-[#4F4F4F] mb-1 truncate"
+                title={brand.owner}
+              >
+                {brand.owner}
               </div>
             )}
             {brand.emailAddress && (
-              <div className="text-[15px] text-[#4F4F4F]">
-                <TruncatedText text={brand.emailAddress} maxLength={30} />
+              <div
+                className="text-[15px] text-[#4F4F4F] truncate"
+                title={brand.emailAddress ?? ""}
+              >
+                {brand.emailAddress}
               </div>
             )}
           </div>
@@ -100,8 +108,11 @@ export default function BrandMobileCard({
               <div className="h-[33px] w-[40px] flex items-center justify-center">
                 <Image src={item.iconSrc} alt={item.iconAlt} width={item.width} height={item.height} />
               </div>
-              <p className="text-[11px] text-[#4F4F4F] text-center">
-                <TruncatedText text={item.label} maxLength={15} />
+              <p
+                className="text-[11px] text-[#4F4F4F] text-center truncate"
+                title={item.label}
+              >
+                {item.label}
               </p>
             </div>
           ))}

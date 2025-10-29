@@ -1,7 +1,5 @@
 import Image from "next/image";
 import { CampaignDisplay } from "@/types/entities/campaign";
-import TruncatedText from "@/components/general/TruncatedText";
-
 export default function CampaignMobileCard({
   campaign,
 }: {
@@ -67,14 +65,20 @@ export default function CampaignMobileCard({
             className="object-cover"
           />
         </div>
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-2">
-            <div>
-              <h3 className="text-[15px] font-semibold leading-[1.5] text-[#4F4F4F] mb-1.5">
-                <TruncatedText text={title ?? "Untitled Campaign"} maxLength={20} />
+            <div className="flex-1 min-w-0">
+              <h3
+                className="text-[15px] font-semibold leading-[1.5] text-[#4F4F4F] mb-1.5 line-clamp-2 h-[45px]"
+                title={title ?? "Untitled Campaign"}
+              >
+                {title ?? "Untitled Campaign"}
               </h3>
-              <div className="text-[13px] font-medium text-[#414141] leading-[1.5]">
-                <TruncatedText text={`By ${vendorName ?? "Unknown Vendor"}`} maxLength={25} />
+              <div
+                className="text-[13px] font-medium text-[#414141] leading-[1.5] truncate"
+                title={vendorName ?? "Unknown Vendor"}
+              >
+                By {vendorName ?? "Unknown Vendor"}
               </div>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">

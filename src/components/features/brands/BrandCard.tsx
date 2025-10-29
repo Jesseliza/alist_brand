@@ -6,7 +6,6 @@ import Checkbox from "@/components/general/CheckBox";
 import { generateColorFromString } from "@/utils/colorGenerator";
 import { getInitials } from "@/utils/text";
 import { useSelector } from "react-redux";
-import TruncatedText from "@/components/general/TruncatedText";
 import { RootState } from "@/store/store";
 
 interface BrandCardProps {
@@ -81,8 +80,11 @@ export default function BrandCard({
         </div>
 
         {/* Brand name */}
-        <h2 className="mt-4 text-center text-[18px] font-medium text-[#4F4F4F] h-7">
-          <TruncatedText text={brand.name} maxLength={25} />
+        <h2
+          className="mt-4 text-center text-[18px] font-medium text-[#4F4F4F] h-7 truncate"
+          title={brand.name}
+        >
+          {brand.name}
         </h2>
 
         {/* Info items */}
@@ -100,8 +102,11 @@ export default function BrandCard({
                   height={item.height}
                 />
               </div>
-              <span className="text-[11px] text-[#414141] text-center">
-                <TruncatedText text={item.label} maxLength={15} />
+              <span
+                className="text-[11px] text-[#414141] text-center truncate"
+                title={item.label}
+              >
+                {item.label}
               </span>
             </div>
           ))}
@@ -123,13 +128,19 @@ export default function BrandCard({
               </div>
               <div className="text-[#414141] text-[14px]">
                 {brand.Venue_contact_name && (
-                  <p className="font-medium text-[13px] leading-[20px]">
-                    <TruncatedText text={brand.Venue_contact_name} maxLength={25} />
+                  <p
+                    className="font-medium text-[13px] leading-[20px] truncate"
+                    title={brand.Venue_contact_name}
+                  >
+                    {brand.Venue_contact_name}
                   </p>
                 )}
                 {brand.venue_email && (
-                  <p className="text-[11px] leading-[17px]">
-                    <TruncatedText text={brand.venue_email} maxLength={30} />
+                  <p
+                    className="text-[11px] leading-[17px] truncate"
+                    title={brand.venue_email ?? ""}
+                  >
+                    {brand.venue_email}
                   </p>
                 )}
               </div>
