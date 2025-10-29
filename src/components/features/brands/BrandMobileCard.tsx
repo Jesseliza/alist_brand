@@ -42,7 +42,7 @@ export default function BrandMobileCard({
       id: "instagram",
       iconSrc: "/icons/instagram.svg",
       iconAlt: "Social",
-      label: brand.instagramHandle ? brand.instagramHandle.replace("https://www.instagram.com/", "") : "N/A",
+      label: brand.instagramHandle || "N/A",
       width: 32.71,
       height: 32.71,
     },
@@ -100,21 +100,9 @@ export default function BrandMobileCard({
               <div className="h-[33px] w-[40px] flex items-center justify-center">
                 <Image src={item.iconSrc} alt={item.iconAlt} width={item.width} height={item.height} />
               </div>
-              {item.id === "instagram" && brand.instagramHandle ? (
-                <a
-                  href={brand.instagramHandle}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[11px] text-[#4F4F4F] text-center hover:underline"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <TruncatedText text={item.label} maxLength={15} />
-                </a>
-              ) : (
-                <p className="text-[11px] text-[#4F4F4F] text-center">
-                  <TruncatedText text={item.label} maxLength={15} />
-                </p>
-              )}
+              <p className="text-[11px] text-[#4F4F4F] text-center">
+                <TruncatedText text={item.label} maxLength={15} />
+              </p>
             </div>
           ))}
         </div>
