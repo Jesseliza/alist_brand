@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Brand } from "@/types/entities";
+import TruncatedText from "@/components/general/TruncatedText";
 
 export default function AccountBrandCard({ brand }: { brand: Brand }) {
   const router = useRouter();
@@ -37,6 +38,15 @@ export default function AccountBrandCard({ brand }: { brand: Brand }) {
     },
   ];
 
+  const isUrl = (string: string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+  
   return (
     <div
       onClick={handleCardClick}
@@ -68,11 +78,11 @@ export default function AccountBrandCard({ brand }: { brand: Brand }) {
       </h2>
 
       {/* Info items */}
-      <div className="mt-5 flex gap-[9px] justify-between ">
+      <div className="mt-5 grid grid-cols-3 gap-2.5">
         {items.map((item) => (
           <div
             key={item.id}
-            className="flex-1 w-[94px] flex flex-col items-center bg-white rounded-[11px] shadow-[0_0_2px_rgba(0,0,0,0.16)] py-[18px] aspect-square px-1 text-ellipsis"
+            className="flex flex-col items-center bg-white rounded-[11px] shadow-[0_0_2px_rgba(0,0,0,0.16)] py-[18px] aspect-square"
           >
             <div className="h-[29px] flex items-center justify-center mb-3">
               <Image
@@ -84,17 +94,24 @@ export default function AccountBrandCard({ brand }: { brand: Brand }) {
             </div>
             {item.id === "instagram" && brand.instagramHandle ? (
               <a
-                href={brand.instagramHandle}
+                href={
+                  isUrl(brand.instagramHandle)
+                    ? brand.instagramHandle
+                    : `https://www.instagram.com/${brand.instagramHandle}`
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="text-[11px] text-[#414141] text-center truncate max-w-[86px] hover:underline"
+                className="text-[11px] text-[#414141] text-center hover:underline"
               >
-                {item.label?.replace("https://www.instagram.com/", "")}
+                <TruncatedText
+                  text={(item.label ?? "").replace("https://www.instagram.com/", "")}
+                  maxLength={15}
+                />
               </a>
             ) : (
-              <span className="text-[11px] text-[#414141] text-center truncate max-w-[86px] ">
-                {item.label}
+              <span className="text-[11px] text-[#414141] text-center">
+                <TruncatedText text={item.label} maxLength={15} />
               </span>
             )}
           </div>

@@ -32,8 +32,8 @@ export default function AccountHeader({
 
     const tabs = ["Details"];
 
-    const isAdminProfile = isProfilePage && loggedInUser?.registration_type === 'admin';
-    if (!isAdminProfile) {
+    const isAccountProfile = isProfilePage && loggedInUser?.registration_type === 'accounts';
+    if (isAccountProfile) {
       tabs.push("Brands");
     }
 

@@ -28,6 +28,18 @@ const formatDate = (dateString: string | null) => {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
+  })}`;
+};
+
+const formatDateTime = (dateString: string | null) => {
+  if (!dateString) {
+    return '-';
+  }
+  const date = new Date(dateString);
+  return `${date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
   })} ${date.toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
@@ -133,8 +145,8 @@ const VoucherCodeTable = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{voucher.user?.name || 'N/A'}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(voucher.offer_date)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(voucher.redem_at)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(voucher.used_at)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDateTime(voucher.redem_at)}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDateTime(voucher.used_at)}</td>
                   </tr>
                 );
               })}

@@ -51,7 +51,7 @@ export default function BrandCampaigns({
           <div className="bg-white rounded-lg shadow-md flex items-center justify-center min-h-[200px]">
             <button
               onClick={() => router.push("/businesses/campaign-request")}
-              className="bg-blue-500 text-white px-3 py-1 text-sm rounded-md hover:bg-blue-600 disabled:bg-gray-400"
+              className="bg-[#00A4B6] text-white px-3 py-1 text-sm rounded-md hover:bg-[#00A4B6] disabled:bg-gray-400"
             >
               Request Campaign
             </button>

@@ -56,9 +56,9 @@ export default function Overview({
       </div>
 
       <CampaignStats campaign={campaign} onTabChange={onTabChange} />
-      <div onClick={() => onTabChange(0)} className="cursor-pointer">
+      {/* <div onClick={() => onTabChange(0)} className="cursor-pointer">
         <CampaignCreators campaign={campaign} />
-      </div>
+      </div> */}
       <CampaignOverviewDetails campaign={campaign} />
       {campaign?.account_status === "Rejected" &&
         <div className="mt-[11px] rounded-[11px] bg-[#F8F8F8] px-[35px] py-[30px] text-[15px] leading-[23px] text-[#4F4F4F]">

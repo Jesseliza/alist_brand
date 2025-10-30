@@ -42,7 +42,7 @@ export default function DedicatedOfferDetails({ dedicatedOffer }: { dedicatedOff
         {offerDetails.map((card, index) => (
           <div
             key={index}
-            className="flex-1 aspect-square w-full bg-[#FAFAFA] rounded-[11px] "
+            className="flex-1 aspect-square-dedicated w-full bg-[#FAFAFA] rounded-[11px] "
           >
             <div className="h-[42px] flex items-center justify-center mb-[9px]  mt-6">
               <Image

@@ -68,6 +68,7 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
       phoneNumber: "",
       accountType: AccountType.INDIVIDUAL,
       brands: [],
+      registration_type: "accounts",
     }
   );
   const [countryCode, setCountryCode] = useState("+971");
@@ -152,6 +153,7 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
     { value: "accounts", label: "Accounts" },
     { value: "subadmin", label: "Subadmin" },
   ];
+  
   return (
     <form onSubmit={handleSubmit} className="text-[15px] pt-10 md:pt-11">
       <div className="max-w-[559px] mx-auto">
