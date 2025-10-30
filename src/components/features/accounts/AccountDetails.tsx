@@ -81,14 +81,13 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
         setCountryCode(account.country_code);
       }
       setFormData({ ...account });
-    }
-     else {
+    } else if (isCreateMode) {
       setFormData((prev) => ({
         ...prev,
         registration_type: "accounts",
       }));
     }
-  }, [account]);
+  }, [account, isCreateMode]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -207,7 +206,11 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
               {errors.phoneNumber && <p className="text-red-500 text-xs mt-1">{errors.phoneNumber}</p>}
             </div>
           )}
-          {!(isProfilePage && loggedInUser?.registration_type === 'admin') && (
+          {!(
+            isProfilePage &&
+            (loggedInUser?.registration_type === "admin" ||
+              loggedInUser?.registration_type === "subadmin")
+          ) && (
             <>
               <div className="mb-5 md:mb-7">
                 <label
@@ -246,10 +249,12 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
                   />
                 </div>
               )}
-              <BrandSearchCombobox
-                initialSelectedBrands={formData.brands || []}
-                onChange={handleBrandChange}
-              />
+              {formData.registration_type === "accounts" && (
+                <BrandSearchCombobox
+                  initialSelectedBrands={formData.brands || []}
+                  onChange={handleBrandChange}
+                />
+              )}
             </>
           )}
           <div className="flex justify-end gap-4 mt-6 px-4 pb-6">
