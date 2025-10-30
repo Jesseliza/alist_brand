@@ -212,22 +212,6 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
               loggedInUser?.registration_type === "subadmin")
           ) && (
             <>
-              <div className="mb-5 md:mb-7">
-                <label
-                  htmlFor="accountType"
-                  className="block text-[#4F4F4F] mb-2.5"
-                >
-                  Account Type
-                </label>
-                <Dropdown
-                  options={accountTypeOptions}
-                  selected={formData.accountType}
-                  onSelect={(value) =>
-                    setFormData((prev) => ({ ...prev, accountType: value }))
-                  }
-                  buttonClassName="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] outline-none flex items-center justify-between px-4"
-                />
-              </div>
               {loggedInUser?.registration_type === "admin" && !isProfilePage && (
                 <div className="mb-5 md:mb-7">
                   <label
@@ -249,11 +233,30 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
                   />
                 </div>
               )}
-              {formData.registration_type === "accounts" && (
-                <BrandSearchCombobox
-                  initialSelectedBrands={formData.brands || []}
-                  onChange={handleBrandChange}
-                />
+              {(formData.registration_type === "accounts" ||
+                loggedInUser?.registration_type === "subadmin") && (
+                <>
+                  <div className="mb-5 md:mb-7">
+                    <label
+                      htmlFor="accountType"
+                      className="block text-[#4F4F4F] mb-2.5"
+                    >
+                      Account Type
+                    </label>
+                    <Dropdown
+                      options={accountTypeOptions}
+                      selected={formData.accountType}
+                      onSelect={(value) =>
+                        setFormData((prev) => ({ ...prev, accountType: value }))
+                      }
+                      buttonClassName="w-full bg-[#F8F8F8] md:bg-[#F3F3F3] border md:border-0 border-[#E4E4E4] rounded-[11px] px-4 py-3 text-[#6E6E6E] outline-none flex items-center justify-between px-4"
+                    />
+                  </div>
+                  <BrandSearchCombobox
+                    initialSelectedBrands={formData.brands || []}
+                    onChange={handleBrandChange}
+                  />
+                </>
               )}
             </>
           )}
