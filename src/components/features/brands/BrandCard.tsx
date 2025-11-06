@@ -133,8 +133,15 @@ export default function BrandCard({
                 className="text-[11px] text-[#414141] text-center hover:underline"
               >
                 <TruncatedText
-                  text={item.label.replace("https://www.instagram.com/", "")}
-                  maxLength={15}
+                  // text={item.label.replace("https://www.instagram.com/", "")}
+                  text={
+                    (item.label ?? "")
+                      .replace(/\/+$/, "")
+                      .split("/")
+                      .pop()
+                    || ""
+                  }
+                  maxLength={8}
                 />
               </a>
             ) : (

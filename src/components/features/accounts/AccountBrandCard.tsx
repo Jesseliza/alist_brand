@@ -46,7 +46,7 @@ export default function AccountBrandCard({ brand }: { brand: Brand }) {
       return false;
     }
   };
-  
+
   return (
     <div
       onClick={handleCardClick}
@@ -105,7 +105,14 @@ export default function AccountBrandCard({ brand }: { brand: Brand }) {
                 className="text-[11px] text-[#414141] text-center hover:underline"
               >
                 <TruncatedText
-                  text={(item.label ?? "").replace("https://www.instagram.com/", "")}
+                  // text={(item.label ?? "").replace("https://www.instagram.com/", "")}
+                  text={
+                    (item.label ?? "")
+                      .replace(/\/+$/, "")
+                      .split("/")
+                      .pop()
+                    || ""
+                  }
                   maxLength={15}
                 />
               </a>

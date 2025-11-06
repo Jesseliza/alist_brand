@@ -91,6 +91,11 @@ button {
 .aspect-square-offer{
   aspect-ratio: 1 / 0.75;
 }
+
 .aspect-square-dedicated{
   aspect-ratio: 1 / 0.5;
+}
+
+.z-9999 {
+  z-index: 9999 !important;
 }

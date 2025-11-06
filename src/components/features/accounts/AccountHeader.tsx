@@ -23,7 +23,7 @@ export default function AccountHeader({
   isCreateMode = false,
   isProfilePage = false,
 }: AccountHeaderProps) {
-  const router = useRouter(); 
+  const router = useRouter();
 
   const getDisplayTabs = () => {
     if (isCreateMode) {

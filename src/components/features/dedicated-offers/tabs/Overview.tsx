@@ -27,18 +27,20 @@ export default function Overview({
           <div className="ml-[35px]">
             <div className="flex items-center gap-6">
               <h2 className="text-5xl md:text-[89px] font-bold text-[#00A4B6] leading-tight md:leading-[133px]">
-                0
+                {dedicatedOffer?.offer_users?.length ?? 0}
               </h2>
               <h2 className="text-2xl md:text-[37px] font-medium text-[#4F4F4F] leading-tight md:leading-[37px] max-w-[180px]">
-                Total Vouchers
+                Applied Users,
               </h2>
             </div>
             <p className="mt-2 md:-mt-[16px] text-sm md:text-[15px] leading-snug md:leading-[23px] text-[#4F4F4F]">
               of which{" "}
               <span className=" text-[#00A4B6]">
-                0
+                {dedicatedOffer?.offer_users
+                  ? dedicatedOffer.offer_users.filter((o) => o.status === 6).length
+                  : 0}
               </span>{" "}
-              vouchers have been redeemed
+              users have been approved
             </p>
           </div>
 
@@ -59,7 +61,7 @@ export default function Overview({
         </div>
       </div>
 
-      <DedicatedOfferStats dedicatedOffer={dedicatedOffer} onTabChange={onTabChange} />
+      {/* <DedicatedOfferStats dedicatedOffer={dedicatedOffer} onTabChange={onTabChange} /> */}
       <div onClick={() => onTabChange(0)} className="cursor-pointer">
         <DedicatedOfferCreators dedicatedOffer={dedicatedOffer} />
       </div>

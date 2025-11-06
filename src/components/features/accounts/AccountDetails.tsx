@@ -233,7 +233,7 @@ export default function AccountDetails({ account, onSave, isCreateMode, isProfil
                   />
                 </div>
               )}
-              {(formData.registration_type === "accounts" ||
+              {(formData.registration_type === "accounts" || formData.registration_type === undefined ||
                 loggedInUser?.registration_type === "subadmin") && (
                 <>
                   <div className="mb-5 md:mb-7">

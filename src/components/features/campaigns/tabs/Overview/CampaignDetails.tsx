@@ -5,7 +5,7 @@ import { Campaign } from "@/types/entities";
 //   campaign: Campaign;
 // }
 
-export default function CampaignOverviewDetails({ campaign }: { campaign: Campaign }) {
+export default function CampaignDetails({ campaign }: { campaign: Campaign }) {
   const campaignCards = [
     {
       imgSource: "/icons/campaign/details/overview/walkin-1-light.svg",
